@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { ChevronRight, Download, Phone, Award, Leaf, Shield, Zap } from "lucide-react";
-import { BrowserRouter as Router, Routes, Route, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 /* Text Animation Component - Letter by Letter Reveal */
 function AnimatedText({ text, className = "", delay = 0 }) {
@@ -737,15 +737,5 @@ function ProductDetails() {
   );
 }
 
-/* ---------------- MAIN APP ---------------- */
-
-export default function BricksApp() {
-  return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<ProductsPage />} />
-        <Route path="/products/:id" element={<ProductDetails />} />
-      </Routes>
-    </Router>
-  );
-}
+export { ProductsPage, ProductDetails };
+export default ProductsPage;
