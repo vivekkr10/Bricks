@@ -1,12 +1,12 @@
 
 import './App.css'
-
+import Services from './pages/services'
 function App() {
 
 
   return (
     <>
-     <h1>Bricks </h1>
+  <Services></Services>
     </>
   )
 }
