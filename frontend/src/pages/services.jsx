@@ -1,6 +1,8 @@
+
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, Hammer, Palette, BrickWall, Mail, Phone, ChevronRight } from 'lucide-react';
+import { Link } from 'react-router-dom'; // Added Link for faster navigation
 
 // --- COMPONENTS ---
 
@@ -13,11 +15,11 @@ const ServiceHero = () => {
       />
       <div className="absolute inset-0 bg-black/50" />
       <div className="relative z-10 text-center px-4">
-         <motion.h1 
-          initial={{ y: 20, opacity: 0 }} // Reduced movement slightly
+        <motion.h1 
+          initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.6 }}
-          className="text-3xl md:text-5xl font-serif text-white mb-3" // Slightly smaller font
+          className="text-3xl md:text-5xl font-serif text-white mb-3"
         >
           Expertise Beyond Manufacturing
         </motion.h1>
@@ -36,7 +38,7 @@ const ServiceHero = () => {
 
 const ServiceSection = ({ id, title, content, image, icon: Icon }) => {
   return (
-    <div id={id} className="scroll-mt-24 mb-20"> {/* scroll-mt-24 ensures the title isn't hidden behind the sticky header */}
+    <div id={id} className="scroll-mt-24 mb-20"> 
       <div className="h-[300px] md:h-[400px] overflow-hidden rounded-sm shadow-md mb-6">
         <img src={image} alt={title} className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
       </div>
@@ -117,13 +119,13 @@ export default function Services() {
             ))}
           </nav>
 
-          {/* Call to Action in Sidebar */}
+          {/* Sidebar CTA */}
           <div className="mt-12 p-6 bg-white border border-gray-100 rounded-sm shadow-sm">
-            <h4 className="font-serif text-lg mb-2">Need advice?</h4>
-            <p className="text-sm text-gray-500 mb-4">Our experts can help you choose the right blend.</p>
-            <a href="/contact" className="text-xs font-bold text-[#C2410C] uppercase tracking-wider flex items-center gap-2">
+            <h4 className="font-serif text-lg mb-2 text-[#222]">Need advice?</h4>
+            <p className="text-sm text-gray-500 mb-4">Our experts can help you choose the right blend for your project.</p>
+            <Link to="/services" className="text-xs font-bold text-[#C2410C] uppercase tracking-wider flex items-center gap-2 hover:gap-3 transition-all">
               Contact Us <ArrowRight className="w-3 h-3" />
-            </a>
+            </Link>
           </div>
         </aside>
 
@@ -163,12 +165,45 @@ export default function Services() {
         </main>
       </div>
 
-      {/* Mobile-Only Contact Footer (Since sidebar is hidden on mobile) */}
-      <div className="lg:hidden bg-[#1D1D1D] py-12 px-6 text-center">
-        <h2 className="text-2xl font-serif text-white mb-4">Let's Explore It Together</h2>
-        <a href="mailto:sales@jjb.co.in" className="inline-flex items-center gap-2 px-6 py-3 bg-[#C2410C] text-white rounded-sm text-sm">
-          <Mail className="w-4 h-4" /> Write to sales@jjb.co.in
-        </a>
+      {/* --- NEW SECTION: CROSS NAVIGATION --- */}
+      <div className="bg-white py-20 border-t border-gray-100">
+        <div className="max-w-7xl mx-auto px-6 text-center">
+          <h3 className="text-2xl font-serif mb-6 text-[#222]">Curious about our process?</h3>
+          <div className="flex justify-center gap-8">
+            <Link to="/services" className="text-[#C2410C] border-b border-[#C2410C] pb-1 hover:text-black hover:border-black transition-all">
+              Read Our History
+            </Link>
+            <Link to="/services" className="text-[#C2410C] border-b border-[#C2410C] pb-1 hover:text-black hover:border-black transition-all">
+              View the Collection
+            </Link>
+          </div>
+        </div>
+      </div>
+
+      {/* --- FOOTER CTA --- */}
+      <div className="bg-[#1D1D1D] py-16 px-6 text-center">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="max-w-3xl mx-auto space-y-6"
+        >
+          <h2 className="text-2xl md:text-3xl font-serif text-white">Let's Explore It Together</h2>
+          <p className="text-gray-400 text-base md:text-lg">
+            Connect with our team to discuss the countless blends and weathering possibilities we are capable of.
+          </p>
+          
+          <div className="flex flex-col md:flex-row items-center justify-center gap-4 mt-6">
+            <a href="mailto:sales@jjb.co.in" className="flex items-center gap-2 px-6 py-3 bg-[#C2410C] hover:bg-[#a0360a] text-white transition-colors rounded-sm text-sm">
+              <Mail className="w-4 h-4" />
+              Write to sales@jjb.co.in
+            </a>
+            <button className="flex items-center gap-2 px-6 py-3 border border-white/20 text-white hover:bg-white hover:text-black transition-colors rounded-sm text-sm">
+              <Phone className="w-4 h-4" />
+              Request a Callback
+            </button>
+          </div>
+        </motion.div>
       </div>
     </div>
   );
