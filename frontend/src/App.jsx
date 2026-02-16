@@ -13,6 +13,9 @@ import Home from "./Home/home.jsx";
 // 3. The Temporary Fix
 import ComingSoon from "./Components/commingsoon.jsx";
 import { ProductsPage, ProductDetails } from './pages/Product'
+import BlogSection from "./pages/blog/BlogSection.jsx";
+import Contact from "./pages/contactPage/Contact.jsx";
+import BlogDetails from "./pages/blog/BlogDetails.jsx";
 
 function App() {
   return (
@@ -30,8 +33,9 @@ function App() {
 
             <Route path="/about" element={<ComingSoon />} />
             <Route path="/projects" element={<ComingSoon />} />
-            <Route path="/blog" element={<ComingSoon />} />
-            <Route path="/contact" element={<ComingSoon />} />
+            <Route path="/blog" element={<BlogSection />} />
+            <Route path="/blog/:id" element={<BlogDetails />} />
+            <Route path="/contact" element={<Contact />} />
             {/* Fallback for 404 (optional) */}
             <Route path="*" element={<ComingSoon />} />
 
