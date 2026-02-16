@@ -1,10 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, CheckCircle2, Star, ShieldCheck, Building2, ChevronDown } from 'lucide-react';
+import { ArrowRight, Star, ShieldCheck, Building2 } from 'lucide-react';
 import { Helmet } from 'react-helmet';
 import Header from '../Components/header';
 import Footer from '../Components/footer';
-// --- HOOK: SCROLL REVEAL (Triggers fade-in) ---
+
+// --- HOOK: SCROLL REVEAL ---
 const useScrollReveal = (threshold = 0.1) => {
   const [isVisible, setIsVisible] = useState(false);
   const ref = useRef(null);
@@ -26,7 +27,7 @@ const useScrollReveal = (threshold = 0.1) => {
   return { ref, isVisible };
 };
 
-// --- HOOK: ANIMATED COUNTER (Counts numbers up) ---
+// --- HOOK: ANIMATED COUNTER ---
 const useCounter = (end, duration = 2000) => {
   const [count, setCount] = useState(0);
   const { ref, isVisible } = useScrollReveal();
@@ -58,21 +59,21 @@ const useCounter = (end, duration = 2000) => {
 // --- 1. HERO SECTION ---
 const Hero = () => {
   return (
-    <section className="relative h-[85vh] min-h-[500px] flex items-center justify-center overflow-hidden bg-slate-900 group">
+    <section className="relative h-[90vh] min-h-[600px] flex items-center justify-center overflow-hidden bg-slate-900 group">
       
       {/* Background Image */}
-      <div className="absolute inset-0">
+      <div className="absolute inset-0 z-0">
         <img 
           src="https://media.istockphoto.com/id/157525371/photo/postmodern-library.webp?a=1&b=1&s=612x612&w=0&k=20&c=41IAqRyEvneEXMF3elwJkH8hlabc1iDBgOb4kyb3UpU=" 
           alt="Professional Brick Stack" 
           className="w-full h-full object-cover opacity-60 scale-105 animate-slow-zoom"
         />
         {/* Gradient for text readability */}
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/50 to-slate-900/30"></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/60 to-slate-900/30"></div>
       </div>
 
       {/* Centered Content */}
-      <div className="relative z-10 text-center px-4 max-w-4xl mx-auto flex flex-col items-center">
+      <div className="relative z-10 text-center px-4 max-w-5xl mx-auto flex flex-col items-center">
         
         {/* Badge */}
         <div className="animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
@@ -82,8 +83,8 @@ const Hero = () => {
         </div>
 
         {/* Heading */}
-        <h1 className="text-5xl md:text-6xl lg:text-7xl font-black text-white tracking-tight leading-tight mb-6 animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
-          Delivering <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-orange-600">Premium Quality</span> <br/>
+        <h1 className="text-4xl md:text-6xl lg:text-7xl font-black text-white tracking-tight leading-tight mb-6 animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
+          Delivering <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-orange-600">Premium Quality</span> <br className="hidden md:block"/>
           Bricks Since 1986
         </h1>
 
@@ -103,7 +104,6 @@ const Hero = () => {
         </div>
       </div>
 
-     
       <style>{`
         @keyframes slow-zoom { 0% { transform: scale(1); } 100% { transform: scale(1.1); } }
         .animate-slow-zoom { animation: slow-zoom 20s infinite alternate linear; }
@@ -114,39 +114,51 @@ const Hero = () => {
   );
 };
 
-// --- 2. COUNTDOWN STATS ---
+// --- 2. STATS SECTION (Now below Hero with descriptive text) ---
 const Stats = () => {
   const { count: projects, ref: projRef } = useCounter(312, 2500); 
-  const { count: sat, ref: satRef } = useCounter(93, 2000);      
-  const { count: exp, ref: expRef } = useCounter(40, 1500);      
+  const { count: sat, ref: satRef } = useCounter(93, 2000);       
+  const { count: exp, ref: expRef } = useCounter(40, 1500);       
 
   return (
-    <section className="py-16 bg-white relative z-20 -mt-10 rounded-t-[2.5rem] shadow-[0_-10px_30px_rgba(0,0,0,0.05)]">
+    <section className="py-20 bg-white border-b border-slate-100">
       <div className="container mx-auto px-6">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center divide-y md:divide-y-0 md:divide-x divide-slate-100">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
           
-          <div ref={projRef} className="p-4 group">
-            <div className="inline-flex p-3 bg-orange-50 rounded-full text-orange-600 mb-4 group-hover:scale-110 transition-transform">
-              <Building2 className="w-8 h-8" />
+          {/* Stat 1 */}
+          <div ref={projRef} className="flex flex-col items-center group">
+            <div className="inline-flex p-4 bg-orange-50 rounded-full text-orange-600 mb-6 group-hover:scale-110 transition-transform duration-300">
+              <Building2 className="w-10 h-10" />
             </div>
-            <h3 className="text-5xl font-black text-slate-900 mb-1 tabular-nums">{projects}+</h3>
-            <p className="text-slate-500 font-bold uppercase tracking-wider text-xs">Projects Served</p>
+            <h3 className="text-5xl font-black text-slate-900 mb-2 tabular-nums">{projects}+</h3>
+            <p className="text-slate-900 font-bold uppercase tracking-wider text-sm mb-4">Projects Served</p>
+            <p className="text-slate-500 leading-relaxed max-w-xs mx-auto">
+              From sprawling residential complexes to high-tech commercial parks, we have supplied the foundation for landmarks across the state.
+            </p>
           </div>
 
-          <div ref={satRef} className="p-4 group">
-            <div className="inline-flex p-3 bg-orange-50 rounded-full text-orange-600 mb-4 group-hover:scale-110 transition-transform">
-              <Star className="w-8 h-8" />
+          {/* Stat 2 */}
+          <div ref={satRef} className="flex flex-col items-center group">
+            <div className="inline-flex p-4 bg-orange-50 rounded-full text-orange-600 mb-6 group-hover:scale-110 transition-transform duration-300">
+              <Star className="w-10 h-10" />
             </div>
-            <h3 className="text-5xl font-black text-slate-900 mb-1 tabular-nums">{sat}%</h3>
-            <p className="text-slate-500 font-bold uppercase tracking-wider text-xs">Customer Satisfaction</p>
+            <h3 className="text-5xl font-black text-slate-900 mb-2 tabular-nums">{sat}%</h3>
+            <p className="text-slate-900 font-bold uppercase tracking-wider text-sm mb-4">Customer Satisfaction</p>
+            <p className="text-slate-500 leading-relaxed max-w-xs mx-auto">
+              Rated highly by top architects and engineers for our consistent shape, vibrant color, and superior compressive strength.
+            </p>
           </div>
 
-          <div ref={expRef} className="p-4 group">
-            <div className="inline-flex p-3 bg-orange-50 rounded-full text-orange-600 mb-4 group-hover:scale-110 transition-transform">
-              <ShieldCheck className="w-8 h-8" />
+          {/* Stat 3 */}
+          <div ref={expRef} className="flex flex-col items-center group">
+            <div className="inline-flex p-4 bg-orange-50 rounded-full text-orange-600 mb-6 group-hover:scale-110 transition-transform duration-300">
+              <ShieldCheck className="w-10 h-10" />
             </div>
-            <h3 className="text-5xl font-black text-slate-900 mb-1 tabular-nums">{exp}+</h3>
-            <p className="text-slate-500 font-bold uppercase tracking-wider text-xs">Years Experience</p>
+            <h3 className="text-5xl font-black text-slate-900 mb-2 tabular-nums">{exp}+</h3>
+            <p className="text-slate-900 font-bold uppercase tracking-wider text-sm mb-4">Years Experience</p>
+            <p className="text-slate-500 leading-relaxed max-w-xs mx-auto">
+              Three decades of mastery in clay mixing and firing, passing down heritage craftsmanship while embracing modern technology.
+            </p>
           </div>
 
         </div>
@@ -155,56 +167,73 @@ const Stats = () => {
   );
 };
 
-// --- 3. BRICK IMPRESSIONS (3 Columns: Up / Down / Up) ---
+// --- 3. BRICK IMPRESSIONS (Split Layout: Text Left, Images Right) ---
 const BrickImpressions = () => {
   const { ref, isVisible } = useScrollReveal();
-  // Ensure we have 4+ photos per column for smooth scrolling
+  
   const col1 = ["https://images.unsplash.com/photo-1584464491033-06628f3a6b7b?auto=format&fit=crop&q=80", "https://images.unsplash.com/photo-1590074169657-36e71958b456?auto=format&fit=crop&q=80", "https://images.unsplash.com/photo-1628131378345-42345592c303?auto=format&fit=crop&q=80", "https://images.unsplash.com/photo-1518709414768-a88981a4515d?auto=format&fit=crop&q=80"];
   const col2 = ["https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&q=80", "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80", "https://images.unsplash.com/photo-1558440388-75c1c0800844?auto=format&fit=crop&q=80", "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80"];
   const col3 = ["https://images.unsplash.com/photo-1534237710431-e2fc698436d0?auto=format&fit=crop&q=80", "https://images.unsplash.com/photo-1520697830682-bbb6e85e2b0b?auto=format&fit=crop&q=80", "https://images.unsplash.com/photo-1605218427368-35b81a3dd64c?auto=format&fit=crop&q=80", "https://images.unsplash.com/photo-1623298317883-6b70254edf31?auto=format&fit=crop&q=80"];
 
   return (
-    <section ref={ref} className={`py-24 bg-slate-50 overflow-hidden relative transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}>
-      <div className="container mx-auto px-6 mb-16 text-center relative z-10">
-        <h2 className="text-4xl md:text-5xl font-extrabold text-slate-900 mb-6">Brick Impressions</h2>
-        <p className="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
-          Step into the world of timeless craftsmanship with <span className="text-orange-600 font-bold">VR & Sons Bricks</span>, where every brick is more than just a construction material - it is a statement of strength, sophistication, and architectural excellence.
-        </p>
-      </div>
+    <section ref={ref} className={`py-12 md:py-24 bg-slate-50 overflow-hidden relative transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}>
+      
+      <div className="container mx-auto px-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+          
+          {/* Text Content (Left) */}
+          <div className="relative z-10 text-center lg:text-left order-2 lg:order-1">
+            <span className="text-orange-600 font-bold uppercase tracking-wider text-sm">Esthetics & Strength</span>
+            <h2 className="text-4xl md:text-5xl font-extrabold text-slate-900 mb-6 mt-2">Brick Impressions</h2>
+            <p className="text-lg md:text-xl text-slate-600 leading-relaxed mb-8">
+              Step into the world of timeless craftsmanship with <span className="text-orange-600 font-bold">VR & Sons Bricks</span>. Every brick is more than just a construction material—it is a statement of strength, sophistication, and architectural excellence.
+            </p>
+            <p className="text-slate-600 mb-8 leading-relaxed">
+              We combine traditional firing techniques with modern quality control to produce bricks that define skylines.
+            </p>
+            <Link to="/gallery" className="inline-flex items-center text-slate-900 font-bold border-b-2 border-orange-600 pb-1 hover:text-orange-600 transition-colors">
+              Explore Gallery <ArrowRight className="w-4 h-4 ml-2"/>
+            </Link>
+          </div>
 
-      <div className="h-[600px] overflow-hidden relative flex justify-center gap-6 opacity-100 rotate-2 scale-105">
-        <div className="flex flex-col gap-6 w-72 animate-scroll-up">
-          {[...col1, ...col1].map((src, i) => (
-            <img key={`c1-${i}`} src={src} className="w-full h-96 object-cover rounded-lg shadow-lg" alt="Impression" />
-          ))}
-        </div>
-        <div className="flex flex-col gap-6 w-72 animate-scroll-down mt-[-200px]">
-          {[...col2, ...col2].map((src, i) => (
-            <img key={`c2-${i}`} src={src} className="w-full h-96 object-cover rounded-lg shadow-lg" alt="Impression" />
-          ))}
-        </div>
-        <div className="flex flex-col gap-6 w-72 animate-scroll-up">
-          {[...col3, ...col3].map((src, i) => (
-            <img key={`c3-${i}`} src={src} className="w-full h-96 object-cover rounded-lg shadow-lg" alt="Impression" />
-          ))}
+          {/* Scrolling Images (Right - Full Width in container) */}
+          <div className="h-[500px] md:h-[600px] overflow-hidden relative flex justify-center gap-4 md:gap-6 order-1 lg:order-2 mask-gradient-y">
+            <div className="flex flex-col gap-4 md:gap-6 w-full md:w-64 animate-scroll-up opacity-90 hover:opacity-100 transition-opacity">
+              {[...col1, ...col1].map((src, i) => (
+                <img key={`c1-${i}`} src={src} className="w-full h-64 md:h-80 object-cover rounded-2xl shadow-lg" alt="Impression" />
+              ))}
+            </div>
+            <div className="flex flex-col gap-4 md:gap-6 w-full md:w-64 animate-scroll-down mt-[-100px] opacity-90 hover:opacity-100 transition-opacity hidden sm:flex">
+              {[...col2, ...col2].map((src, i) => (
+                <img key={`c2-${i}`} src={src} className="w-full h-64 md:h-80 object-cover rounded-2xl shadow-lg" alt="Impression" />
+              ))}
+            </div>
+            <div className="flex flex-col gap-4 md:gap-6 w-full md:w-64 animate-scroll-up opacity-90 hover:opacity-100 transition-opacity hidden md:flex">
+              {[...col3, ...col3].map((src, i) => (
+                <img key={`c3-${i}`} src={src} className="w-full h-64 md:h-80 object-cover rounded-2xl shadow-lg" alt="Impression" />
+              ))}
+            </div>
+          </div>
+
         </div>
       </div>
       
-      {/* Fade Overlay */}
-      <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-slate-50 to-transparent z-10"></div>
-      <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-slate-50 to-transparent z-10"></div>
+      {/* Fade Overlay for the images section */}
+      <div className="absolute top-0 right-0 w-1/2 h-32 bg-gradient-to-b from-slate-50 to-transparent z-10 hidden lg:block"></div>
+      <div className="absolute bottom-0 right-0 w-1/2 h-32 bg-gradient-to-t from-slate-50 to-transparent z-10 hidden lg:block"></div>
 
       <style>{`
         @keyframes scroll-up { 0% { transform: translateY(0); } 100% { transform: translateY(-50%); } }
         @keyframes scroll-down { 0% { transform: translateY(-50%); } 100% { transform: translateY(0); } }
         .animate-scroll-up { animation: scroll-up 45s linear infinite; }
         .animate-scroll-down { animation: scroll-down 45s linear infinite; }
+        .mask-gradient-y { mask-image: linear-gradient(to bottom, transparent, black 10%, black 90%, transparent); }
       `}</style>
     </section>
   );
 };
 
-// --- 4. PRODUCTS OVERVIEW (Marquee Right-to-Left) ---
+// --- 4. PRODUCTS OVERVIEW (Marquee) ---
 const ProductOverview = () => {
   const { ref, isVisible } = useScrollReveal();
   const products = [
@@ -216,21 +245,20 @@ const ProductOverview = () => {
   ];
 
   return (
-    <section ref={ref} className={`py-24 bg-white overflow-hidden transition-all duration-1000 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
-      <div className="container mx-auto px-6 mb-12 flex justify-between items-end">
+    <section ref={ref} className={`py-16 md:py-24 bg-white overflow-hidden transition-all duration-1000 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
+      <div className="container mx-auto px-6 mb-12 flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
         <div>
           <h2 className="text-3xl font-black text-slate-900 border-l-8 border-orange-600 pl-6">Our Products</h2>
           <p className="text-slate-500 mt-2 pl-8">High-grade materials for every need</p>
         </div>
-        <Link to="/products" className="text-orange-600 font-bold hover:text-orange-800 transition-colors flex items-center">See All <ArrowRight className="w-4 h-4 ml-1"/></Link>
+        <Link to="/products" className="text-orange-600 font-bold hover:text-orange-800 transition-colors flex items-center pl-8 md:pl-0">See All <ArrowRight className="w-4 h-4 ml-1"/></Link>
       </div>
       
       <div className="relative flex w-full">
-        {/* 'animate-marquee' moves content from 0 to -50% (Right to Left) */}
-        <div className="flex animate-marquee gap-8 whitespace-nowrap py-4">
+        <div className="flex animate-marquee gap-8 whitespace-nowrap py-4 pl-4">
           {[...products, ...products, ...products].map((p, i) => (
-            <div key={i} className="w-72 flex-shrink-0 group cursor-pointer">
-              <div className="h-56 overflow-hidden rounded-2xl mb-4 relative shadow-md border border-slate-100">
+            <div key={i} className="w-64 md:w-72 flex-shrink-0 group cursor-pointer">
+              <div className="h-48 md:h-56 overflow-hidden rounded-2xl mb-4 relative shadow-md border border-slate-100">
                 <img src={p.img} alt={p.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
               </div>
               <h3 className="text-lg font-bold text-slate-900 group-hover:text-orange-600 transition-colors pl-2">{p.title}</h3>
@@ -248,23 +276,34 @@ const ProductOverview = () => {
   );
 };
 
-// --- 5. ABOUT SHORT SECTION ---
+// --- 5. ABOUT SHORT SECTION (Full Width Style) ---
 const AboutShort = () => {
   const { ref, isVisible } = useScrollReveal();
   return (
-    <section ref={ref} className={`py-24 bg-orange-50/30 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}>
-      <div className="container mx-auto px-6 max-w-4xl text-center">
-        <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-8">Who We Are</h2>
-        <p className="text-xl text-slate-600 leading-relaxed font-light mb-8">
-          We are a leading brick manufacturer committed to delivering <strong className="text-slate-900">durable</strong>, <strong className="text-slate-900">eco-friendly</strong>, and <strong className="text-slate-900">high-performance</strong> bricks for modern construction needs. With years of industry experience, we supply bricks to builders, contractors, and construction companies across the region.
-        </p>
-        <div className="w-24 h-1 bg-orange-600 mx-auto rounded-full"></div>
+    <section ref={ref} className={`py-20 md:py-32 bg-orange-50 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}>
+      <div className="container mx-auto px-6">
+        <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            
+            {/* Left Title Area */}
+            <div className="lg:col-span-4 text-center lg:text-left">
+                <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-4">Who We Are</h2>
+                <div className="w-24 h-1 bg-orange-600 mx-auto lg:mx-0 rounded-full mb-6"></div>
+            </div>
+
+            {/* Right Content Area */}
+            <div className="lg:col-span-8">
+                <p className="text-lg md:text-2xl text-slate-700 leading-relaxed font-light text-center lg:text-left">
+                  We are a leading brick manufacturer committed to delivering <strong className="text-orange-700 font-semibold">durable</strong>, <strong className="text-orange-700 font-semibold">eco-friendly</strong>, and <strong className="text-orange-700 font-semibold">high-performance</strong> bricks. With over 30 years of industry experience, we supply the foundation for builders, contractors, and visionaries.
+                </p>
+            </div>
+
+        </div>
       </div>
     </section>
   );
 };
 
-// --- 6. OUR PROJECTS (Inner Cards Scroll Right-to-Left) ---
+// --- 6. OUR PROJECTS ---
 const Projects = () => {
   const { ref, isVisible } = useScrollReveal();
   
@@ -299,10 +338,10 @@ const Projects = () => {
   ];
 
   return (
-    <section ref={ref} className={`py-24 bg-white transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}>
+    <section ref={ref} className={`py-16 md:py-24 bg-white transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}>
       <div className="container mx-auto px-6">
-        <div className="flex justify-between items-end mb-12">
-          <h2 className="text-4xl font-black text-slate-900">Featured Projects</h2>
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-4">
+          <h2 className="text-3xl md:text-4xl font-black text-slate-900">Featured Projects</h2>
           <Link to="/projects" className="text-orange-600 font-bold hover:text-orange-800 transition-colors">View All →</Link>
         </div>
 
@@ -310,8 +349,8 @@ const Projects = () => {
           {projects.map((p, i) => (
             <div key={i} className="group relative overflow-hidden rounded-2xl bg-white shadow-xl hover:shadow-2xl transition-all duration-300 border border-slate-100">
               
-              {/* Inner Scrolling Image Container (Right to Left) */}
-              <div className="h-64 w-full overflow-hidden relative">
+              {/* Inner Scrolling Image Container */}
+              <div className="h-56 md:h-64 w-full overflow-hidden relative">
                 <div className="absolute inset-0 flex w-[300%] animate-slide-left hover:animation-play-state-paused">
                   {[...p.images, ...p.images].map((img, idx) => (
                     <div key={idx} className="w-full h-full flex-shrink-0">
@@ -324,8 +363,8 @@ const Projects = () => {
               </div>
 
               {/* Card Content */}
-              <div className="p-8">
-                <h3 className="text-2xl font-bold text-slate-900 mb-3 group-hover:text-orange-600 transition-colors">{p.title}</h3>
+              <div className="p-6 md:p-8">
+                <h3 className="text-xl md:text-2xl font-bold text-slate-900 mb-3 group-hover:text-orange-600 transition-colors">{p.title}</h3>
                 <p className="text-slate-600 text-sm leading-relaxed mb-6 line-clamp-3">
                   {p.desc}
                 </p>

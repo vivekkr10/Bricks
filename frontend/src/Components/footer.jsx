@@ -43,11 +43,12 @@ const Footer = () => {
           <div>
             <h4 className="text-white font-bold mb-6 text-sm uppercase tracking-widest border-b border-orange-600/30 inline-block pb-2">Quick Links</h4>
             <ul className="space-y-3 text-sm">
-              <li><Link to="/" className="hover:text-orange-500 transition-colors flex items-center gap-2"><span className="w-1 h-1 bg-orange-600 rounded-full"></span>Home</Link></li>
-              <li><Link to="/about" className="hover:text-orange-500 transition-colors flex items-center gap-2"><span className="w-1 h-1 bg-orange-600 rounded-full"></span>About Us</Link></li>
-              <li><Link to="/products" className="hover:text-orange-500 transition-colors flex items-center gap-2"><span className="w-1 h-1 bg-orange-600 rounded-full"></span>Products</Link></li>
-              <li><Link to="/blog" className="hover:text-orange-500 transition-colors flex items-center gap-2"><span className="w-1 h-1 bg-orange-600 rounded-full"></span>Blog</Link></li>
-              <li><Link to="/contact" className="hover:text-orange-500 transition-colors flex items-center gap-2"><span className="w-1 h-1 bg-orange-600 rounded-full"></span>Contact Us</Link></li>
+              <li><Link to="/" className="hover:text-orange-500 transition-colors flex items-center gap-2">Home</Link></li>
+              <li><Link to="/about" className="hover:text-orange-500 transition-colors flex items-center gap-2">About Us</Link></li>
+              <li><Link to="/products" className="hover:text-orange-500 transition-colors flex items-center gap-2">Products</Link></li>
+              <li><Link to="/projects" className="hover:text-orange-500 transition-colors flex items-center gap-2">Projects</Link></li>
+              <li><Link to="/blog" className="hover:text-orange-500 transition-colors flex items-center gap-2">Blog</Link></li>
+              <li><Link to="/contact" className="hover:text-orange-500 transition-colors flex items-center gap-2">Contact Us</Link></li>
             </ul>
           </div>
 
@@ -57,8 +58,6 @@ const Footer = () => {
             <ul className="space-y-3 text-sm">
               <li><Link to="/terms" className="hover:text-orange-500 transition-colors">Terms & Conditions</Link></li>
               <li><Link to="/privacy" className="hover:text-orange-500 transition-colors">Privacy Policy</Link></li>
-              <li><Link to="/disclaimer" className="hover:text-orange-500 transition-colors">Disclaimer</Link></li>
-              <li><Link to="/sitemap" className="hover:text-orange-500 transition-colors">Sitemap</Link></li>
             </ul>
           </div>
 

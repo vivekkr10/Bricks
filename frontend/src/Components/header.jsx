@@ -45,10 +45,10 @@ const Header = () => {
               <Building2 className="w-6 h-6" />
             </div>
             <div className="flex flex-col">
-              <span className="text-xl font-black text-stone-900 leading-none tracking-tight group-hover:text-orange-600 transition-colors">
+              <span className="text-2xl font-black text-stone-900 leading-none tracking-tight group-hover:text-orange-600 transition-colors">
                 VR & SONS
               </span>
-              <span className="text-[10px] font-bold text-stone-500 tracking-[0.2em] uppercase">
+              <span className="text-[12px] font-bold text-stone-500 tracking-[0.2em] uppercase">
                 Est. 1986
               </span>
             </div>
@@ -60,7 +60,7 @@ const Header = () => {
               <Link 
                 key={link.name}
                 to={link.path} 
-                className={`text-sm font-bold uppercase tracking-wide transition-colors duration-300 ${
+                className={`text-xl font-bold  tracking-wide transition-colors duration-300 ${
                   location.pathname === link.path 
                     ? 'text-orange-600' 
                     : 'text-stone-600 hover:text-orange-600'
