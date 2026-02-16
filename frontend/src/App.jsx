@@ -12,10 +12,9 @@ import Home from "./Home/home.jsx";
 
 // 3. The Temporary Fix
 import ComingSoon from "./Components/commingsoon.jsx";
+import { ProductsPage, ProductDetails } from './pages/Product'
 
 function App() {
-
-
   return (
     <BrowserRouter>
       <ScrollToTop />
@@ -26,9 +25,10 @@ function App() {
          <Route path="/admin-register" element={< AdminRegister/>} />
          <Route path="/login" element={< Login/>} />
          {/* <Route path="/signup" element={< Signup/>} /> */}
+        <Route path="/products" element={<ProductsPage />} />
+        <Route path="/products/:id" element={<ProductDetails />} />
 
             <Route path="/about" element={<ComingSoon />} />
-            <Route path="/products" element={<ComingSoon />} />
             <Route path="/projects" element={<ComingSoon />} />
             <Route path="/blog" element={<ComingSoon />} />
             <Route path="/contact" element={<ComingSoon />} />
@@ -39,6 +39,9 @@ function App() {
          <Route path="/terms" element={< Terms/>} />
          <Route path="/privacy" element={< Privacy/>} />         
      </Routes>
+
+
+      </Routes>
     </BrowserRouter>
   );
 }
