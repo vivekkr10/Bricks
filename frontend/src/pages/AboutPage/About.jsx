@@ -495,7 +495,7 @@ export default function AboutPage() {
 
       <Navbar />
 
-      {/* ══════════ HERO ══════════ */}
+      {/* Hero */}
       <section
         ref={heroRef}
         className="mt-10 min-h-screen relative flex items-center overflow-hidden bg-gradient-to-br from-stone-50 via-orange-50/40 to-stone-100 pt-20"
@@ -599,7 +599,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* ══════════ MARQUEE ══════════ */}
+      {/* Marque */}
       <div className="bg-orange-600 py-3.5 overflow-hidden">
         <div className="marquee-track">
           {[...Array(3)]
@@ -615,7 +615,7 @@ export default function AboutPage() {
         </div>
       </div>
 
-      {/* ══════════ STATS ══════════ */}
+      {/* stats */}
       <section ref={statsRef} className="py-24 px-8 bg-stone-50">
         <div className="max-w-6xl mx-auto grid grid-cols-2 lg:grid-cols-4 gap-5">
           {statsInView &&
@@ -652,7 +652,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* ══════════ STORY ══════════ */}
+      {/* Story */}
       <section
         ref={storyRef}
         className="py-28 px-8 bg-white relative overflow-hidden"
@@ -793,7 +793,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* ══════════ INNOVATION ══════════ */}
+      {/* Innovation */}
       <section
         ref={innovRef}
         className="py-28 px-8 bg-stone-50 relative overflow-hidden"
@@ -913,8 +913,7 @@ export default function AboutPage() {
           </div>
         </div>
       </section>
-
-      {/* ══════════ PRODUCTS (TABBED) ══════════ */}
+      {/* Product Tabbb */}
       <section ref={productRef} className="py-28 px-8 bg-white">
         <div className="max-w-6xl mx-auto">
           <div
@@ -1060,7 +1059,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* ══════════ TIMELINE ══════════ */}
+      {/* Time Line */}
       <section
         ref={histRef}
         className="py-28 px-8 bg-stone-50 relative overflow-hidden"
@@ -1109,7 +1108,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* ══════════ INTERNATIONAL ══════════ */}
+      {/* International */}
       <section className="py-28 px-8 bg-stone-900 relative overflow-hidden">
         {/* Brick pattern bg */}
         <div className="absolute inset-0 opacity-10 pointer-events-none">
@@ -1179,7 +1178,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* ══════════ TEAM ══════════ */}
+      {/* Team */}
       <section ref={teamRef} className="py-28 px-8 bg-white">
         <BrickWall opacity={0.05} color="#8B4513" />
         <div className="max-w-6xl mx-auto">
@@ -1229,7 +1228,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* ══════════ BRICK STORE ══════════ */}
+      {/*  BRICK STORE */}
       <section
         ref={storeRef}
         className="py-28 px-8 bg-orange-50 relative overflow-hidden"

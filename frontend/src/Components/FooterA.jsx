@@ -300,4 +300,4 @@ const BrickWall = ({ opacity = 0.06, color = "#8B4513" }) => (
 );
 
 
-<BrickWall opacity={0.07} color="#8B4513" />
+{/* <BrickWall opacity={0.07} color="#8B4513" /> */}
