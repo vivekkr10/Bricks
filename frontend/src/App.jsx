@@ -2,9 +2,8 @@ import ScrollToTop from "./components/ScrollToTop.jsx";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
 import Services from "./pages/services";
-import AdminRegister from "./pages/auth/adminRegister.jsx";
-import Login from "./pages/auth/login.jsx";
-// import Signup from "./pages/auth/signup.jsx";
+// import AdminRegister from "./pages/auth/adminRegister.jsx";
+
 import Terms from "./pages/terms.jsx";
 import Privacy from "./pages/privacy.jsx";
 import Home from "./Home/home.jsx";
@@ -26,9 +25,9 @@ function App() {
         <Route path="/" element={<Home />} />
 
         <Route path="/services" element={<Services />} />
-        <Route path="/admin-register" element={<AdminRegister />} />
-        <Route path="/login" element={<Login />} />
-        {/* <Route path="/signup" element={< Signup/>} /> */}
+        {/* <Route path="/admin-register" element={<AdminRegister />} /> */}
+      
+       
 
         <Route path="/products" element={<ProductsPage />} />
         <Route path="/products/:id" element={<ProductDetails />} />
