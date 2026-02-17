@@ -34,7 +34,8 @@ function App() {
 
         {/* <Route path="/about" element={<ComingSoon />} /> */}
         <Route path="/projects" element={<ComingSoon />} />
-
+        <Route path="/about" element={<AboutPage />} />
+        
         <Route path="/blog" element={<BlogSection />} />
         <Route path="/blog/:id" element={<BlogDetails />} />
         <Route path="/contact" element={<Contact />} />
@@ -45,7 +46,7 @@ function App() {
         <Route path="/terms" element={<Terms />} />
         <Route path="/privacy" element={<Privacy />} />
         {/* About Page */}
-        <Route path="/about" element={<AboutPage />} />
+
       </Routes>
     </BrowserRouter>
   );
