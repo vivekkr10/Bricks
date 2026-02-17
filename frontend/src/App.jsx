@@ -10,7 +10,7 @@ import Home from "./Home/home.jsx";
 
 // 3. The Temporary Fix
 import ComingSoon from "./Components/commingsoon.jsx";
-import { ProductsPage, ProductDetails } from "./pages/Product";
+import { ProductsPage, ProductDetails } from "./pages/Products";
 import BlogSection from "./pages/blog/BlogSection.jsx";
 import Contact from "./pages/contactPage/Contact.jsx";
 import BlogDetails from "./pages/blog/BlogDetails.jsx";
