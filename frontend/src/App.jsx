@@ -15,7 +15,9 @@ import BlogSection from "./pages/blog/BlogSection.jsx";
 import Contact from "./pages/contactPage/Contact.jsx";
 import BlogDetails from "./pages/blog/BlogDetails.jsx";
 import AboutPage from "./pages/AboutPage/About.jsx";
+// Projects Page 
 import ProjectPage from "./pages/Project/Project.jsx";
+import ProjectDetailsPage from "./pages/Project/ProjectDetailPage.jsx";
 
 function App() {
   return (
@@ -47,6 +49,7 @@ function App() {
         {/* Projects  */}
 
         <Route path="/projects" element={<ProjectPage />} />
+        <Route path="/projects/:id" element={<ProjectDetailsPage />} />
       </Routes>
     </BrowserRouter>
   );
