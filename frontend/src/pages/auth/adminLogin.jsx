@@ -107,7 +107,7 @@ const AdminLogin = () => {
       <div className="auth-brand-section">
         <div className="brand-content">
           <div className="brand-logo">
-            <h1 style={{ color: 'white', fontSize: '48px' }}>JR & SONS</h1>
+            <h1 style={{ color: 'white', fontSize: '48px' }}></h1>
           </div>
           <h1 className="brand-title">JR & SONS</h1>
           <div className="brand-divider"></div>
