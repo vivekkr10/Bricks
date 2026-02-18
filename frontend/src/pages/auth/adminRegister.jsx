@@ -147,7 +147,7 @@ const AdminRegister = () => {
           <div className="brand-logo">
             <h1 style={{ color: 'white', fontSize: '48px' }}></h1>
           </div>
-          <h1 className="brand-title">JR & SONS</h1>
+          <h1 className="brand-title">VR & SONS</h1>
           <div className="brand-divider"></div>
           <p className="brand-subtitle">Admin Registration</p>
           <div className="brand-info-box">

@@ -109,9 +109,9 @@ const AdminLogin = () => {
           <div className="brand-logo">
             <h1 style={{ color: 'white', fontSize: '48px' }}></h1>
           </div>
-          <h1 className="brand-title">JR & SONS</h1>
+          <h1 className="brand-title">VR & SONS</h1>
           <div className="brand-divider"></div>
-          <p className="brand-subtitle">Est. 1995</p>
+          <p className="brand-subtitle">Est. </p>
           <p className="brand-description">
             Crafting excellence in every endeavor, building trust across generations.
           </p>
@@ -157,7 +157,7 @@ const AdminLogin = () => {
               <input
                 type="email"
                 name="email"
-                placeholder="admin@jrandsons.com"
+                placeholder="admin@vrandsons.com"
                 value={formData.email}
                 onChange={handleChange}
                 className={errors.email ? 'error' : ''}
@@ -216,7 +216,7 @@ const AdminLogin = () => {
             </button>
 
             <div className="auth-divider">
-              <span>New to JR & SONS?</span>
+              <span>New to VR & SONS?</span>
             </div>
 
             <button
