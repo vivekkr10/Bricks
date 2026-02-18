@@ -22,7 +22,7 @@ app.use(cors({
 app.use('/api/auth', authRoutes);
 
 app.get('/', (req, res) => {
-  res.json({ message: 'Welcome to JR & SONS' });
+  res.json({ message: 'Welcome to VR & SONS' });
 });
 
 // Error handling
