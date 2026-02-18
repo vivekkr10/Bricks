@@ -7,6 +7,10 @@ import Services from "./pages/services";
 import Terms from "./pages/terms.jsx";
 import Privacy from "./pages/privacy.jsx";
 import Home from "./Home/home.jsx";
+import Dashboard from "./pages/AdminDashboard/DashboardMain.jsx";
+import ProductForm from "./pages/AdminDashboard/ProductForm.jsx"
+import Profile from "./pages/AdminDashboard/profile.jsx"
+
 
 // 3. The Temporary Fix
 import ComingSoon from "./Components/commingsoon.jsx";
@@ -19,6 +23,7 @@ import AboutPage from "./pages/AboutPage/About.jsx";
 import ProjectPage from "./pages/Project/Project.jsx";
 import ProjectDetailsPage from "./pages/Project/ProjectDetailPage.jsx";
 
+
 function App() {
   return (
     <BrowserRouter>
@@ -28,8 +33,12 @@ function App() {
 
         <Route path="/services" element={<Services />} />
         {/* <Route path="/admin-register" element={<AdminRegister />} /> */}
-      
-       
+
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/add" element={<ProductForm />} />
+       <Route path="/edit/:id" element={<ProductForm />} />
+       <Route path="/profile" element={<Profile />} />
+     
 
         <Route path="/products" element={<ProductsPage />} />
         <Route path="/products/:id" element={<ProductDetails />} />
