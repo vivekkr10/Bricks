@@ -33,6 +33,9 @@ function App() {
         <Route path="/" element={<Home />} />
 
         {/* Admin Auth Routes */}
+        <Route path="/dashboard" element={<Dashboard/>} /> 
+         <Route path="/profile" element={<Profile/>} /> 
+        <Route path="/ ProductForm" element={<ProductForm/>} />
         <Route path="/admin-login" element={<AdminLogin />} />
         <Route path="/admin-register" element={<AdminRegister />} />
 
@@ -47,6 +50,7 @@ function App() {
         <Route path="/privacy" element={<Privacy />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/projects" element={<ProjectPage />} />
+        <Route path="/projects/:id" element={<ProjectDetailsPage />} />
 
         {/* 404 Fallback - Keep this at the end */}
         <Route path="*" element={<ComingSoon />} />

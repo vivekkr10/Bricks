@@ -89,14 +89,27 @@ const BrickWall = ({ opacity = 0.06, color = "#8B4513" }) => (
 
 const Hero = () => {
   const containerRef = useRef(null);
-  
+
+  // 1. Mouse tracking setup
   const x = useMotionValue(0);
   const y = useMotionValue(0);
-  const mouseXSpring = useSpring(x);
-  const mouseYSpring = useSpring(y);
+
+  // Smooth out the mouse values
+  const mouseXSpring = useSpring(x, { stiffness: 100, damping: 30 });
+  const mouseYSpring = useSpring(y, { stiffness: 100, damping: 30 });
+
+  // 2. Multi-layer Parallax & 3D Tilt Transforms
+  // Background moves slightly opposite to create depth
+  const bgMoveX = useTransform(mouseXSpring, [-0.5, 0.5], ["30px", "-30px"]);
+  const bgMoveY = useTransform(mouseYSpring, [-0.5, 0.5], ["30px", "-30px"]);
   
-  const bgMoveX = useTransform(mouseXSpring, [-0.5, 0.5], ["20px", "-20px"]);
-  const bgMoveY = useTransform(mouseYSpring, [-0.5, 0.5], ["20px", "-20px"]);
+  // Foreground glow moves with the mouse
+  const glowMoveX = useTransform(mouseXSpring, [-0.5, 0.5], ["-50px", "50px"]);
+  const glowMoveY = useTransform(mouseYSpring, [-0.5, 0.5], ["-50px", "50px"]);
+
+  // 3D tilt for the main content block
+  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["4deg", "-4deg"]);
+  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-4deg", "4deg"]);
 
   const handleMouseMove = (e) => {
     const rect = containerRef.current?.getBoundingClientRect();
@@ -112,84 +125,163 @@ const Hero = () => {
     }
   };
 
-  const textVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: (i) => ({
-      opacity: 1,
-      y: 0,
-      transition: { delay: i * 0.15, duration: 0.8, ease: [0.2, 0.65, 0.3, 0.9] }
-    })
+  const handleMouseLeave = () => {
+    // Reset to center smoothly when mouse leaves
+    x.set(0);
+    y.set(0);
   };
 
+  // 3. Advanced Animation Variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.15, // Delay between each child animating in
+        delayChildren: 0.2,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 40, filter: "blur(10px)" },
+    visible: {
+      opacity: 1,
+      y: 0,
+      filter: "blur(0px)",
+      transition: { duration: 1, ease: [0.16, 1, 0.3, 1] }, // Custom Apple-like easing
+    },
+  };
+
+  // Generate random particles for the cinematic dust effect
+  const particles = Array.from({ length: 20 });
+
   return (
-    <section 
+    <section
       ref={containerRef}
       onMouseMove={handleMouseMove}
-      className="relative flex items-center overflow-hidden bg-stone-950 pt-32 pb-32 md:min-h-[700px]"
+      onMouseLeave={handleMouseLeave}
+      className="relative flex items-center overflow-hidden bg-stone-950 pt-32 pb-32 md:min-h-[700px] perspective-[1200px]"
     >
+      {/* BACKGROUND LAYER */}
       <div className="absolute inset-0 overflow-hidden z-0 bg-stone-950">
-        <motion.div 
-          initial={{ scale: 1.05 }}
-          animate={{ scale: 1 }}
+        <motion.div
+          style={{ x: bgMoveX, y: bgMoveY, scale: 1.1 }}
           transition={{ duration: 10, ease: "easeOut" }}
           className="absolute inset-0"
         >
-          <img src={heroImg} alt="Bricks Background" className="w-full h-full object-cover object-right opacity-100" />
+          {/* Note: Ensure heroImg is passed/imported correctly */}
+          <img
+            src={heroImg}
+            alt="Bricks Background"
+            className="w-full h-full object-cover object-right opacity-100 mix-blend-luminosity"
+          />
         </motion.div>
-        
+
+        {/* Gradient Overlays */}
         <div className="absolute inset-0 bg-gradient-to-r from-stone-950/100 via-stone-950/80 via-40% to-transparent to-70%"></div>
         <div className="absolute inset-0 opacity-[0.03] pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/stardust.png')]"></div>
+        
+        {/* Animated Dust Particles */}
+        {particles.map((_, i) => (
+          <motion.div
+            key={i}
+            className="absolute w-1 h-1 bg-orange-500/30 rounded-full"
+            initial={{
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+            }}
+            animate={{
+              y: [0, -100],
+              opacity: [0, 0.8, 0],
+              scale: [0, 1.5, 0],
+            }}
+            transition={{
+              duration: Math.random() * 5 + 5,
+              repeat: Infinity,
+              ease: "linear",
+              delay: Math.random() * 5,
+            }}
+          />
+        ))}
       </div>
 
-      <motion.div style={{ x: bgMoveX, y: bgMoveY }} className="absolute inset-0 pointer-events-none z-0 flex justify-center items-center">
-        <div className="absolute w-[600px] h-[600px] bg-orange-600/10 rounded-full blur-[120px]" />
+      {/* GLOW LAYER */}
+      <motion.div
+        style={{ x: glowMoveX, y: glowMoveY }}
+        className="absolute inset-0 pointer-events-none z-0 flex justify-center items-center"
+      >
+        <div className="absolute w-[600px] h-[600px] bg-orange-600/15 rounded-full blur-[140px]" />
       </motion.div>
 
-      <div className="container mx-auto px-6 relative z-10 w-full flex flex-col items-start text-left">
-        
-        <motion.div 
-          custom={0} initial="hidden" animate="visible" variants={textVariants}
-          className="inline-flex items-center gap-2 px-5 py-2 rounded-full border border-orange-500/40 bg-orange-900/50 backdrop-blur-md mb-8 shadow-lg shadow-orange-900/30"
+      {/* FOREGROUND CONTENT LAYER (with 3D Tilt) */}
+      <motion.div
+        style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
+        className="container mx-auto px-6 relative z-10 w-full flex flex-col items-start text-left"
+      >
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+          className="max-w-4xl"
         >
-          <span className="w-2 h-2 rounded-full bg-orange-400 animate-pulse shadow-[0_0_8px_#fb923c]"></span>
-          <span className="text-orange-100 text-xs font-bold tracking-[0.2em] uppercase font-sans">Crafting Excellence Since 1986</span>
-        </motion.div>
-
-        <motion.h1 
-          custom={1} initial="hidden" animate="visible" variants={textVariants}
-          className="text-5xl md:text-7xl lg:text-8xl font-serif font-semibold leading-[1.1] text-white tracking-tight mb-6 drop-shadow-2xl max-w-4xl"
-        >
-          Foundations of <br className="hidden md:block" />
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-amber-200 to-orange-400 bg-[length:200%_auto] animate-gradient italic">
-            Timeless Quality
-          </span>
-        </motion.h1>
-
-        <motion.p 
-          custom={2} initial="hidden" animate="visible" variants={textVariants}
-          className="text-lg md:text-xl text-stone-100 max-w-2xl leading-relaxed mb-10 font-sans font-light drop-shadow-lg"
-        >
-          Trusted brick manufacturer supplying high-strength construction
-          materials for residential, commercial, and industrial projects.
-          Building the future, brick by brick.
-        </motion.p>
-
-        <motion.div 
-          custom={3} initial="hidden" animate="visible" variants={textVariants}
-          className="flex flex-wrap justify-start gap-5"
-        >
-          <Link to="/products" className="group relative px-10 py-4 bg-orange-600 text-white font-bold font-sans tracking-wider text-xs uppercase rounded-lg overflow-hidden shadow-[0_0_20px_rgba(234,88,12,0.4)] transition-all hover:scale-105 hover:shadow-[0_0_30px_rgba(234,88,12,0.6)]">
-            <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-orange-500 to-orange-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
-            <span className="relative flex items-center gap-2 drop-shadow-md">
-              View Products <ArrowRight className="w-4 h-4" />
+          {/* Badge */}
+          <motion.div
+            variants={itemVariants}
+            className="inline-flex items-center gap-2 px-5 py-2 rounded-full border border-orange-500/40 bg-orange-900/30 backdrop-blur-md mb-8 shadow-lg shadow-orange-900/20"
+          >
+            <span className="w-2 h-2 rounded-full bg-orange-400 animate-pulse shadow-[0_0_8px_#fb923c]"></span>
+            <span className="text-orange-100 text-xs font-bold tracking-[0.2em] uppercase font-sans">
+              Crafting Excellence Since 1986
             </span>
-          </Link>
-          
-          <Link to="/contact" className="px-10 py-4 bg-white/5 border border-white/40 text-white font-semibold font-sans tracking-wider text-xs uppercase rounded-lg hover:bg-white hover:text-stone-950 transition-all duration-300 backdrop-blur-sm flex items-center shadow-lg">
-            Contact Sales
-          </Link>
+          </motion.div>
+
+          {/* Headline */}
+          <motion.h1
+            variants={itemVariants}
+            className="text-5xl md:text-7xl lg:text-8xl font-serif font-semibold leading-[1.1] text-white tracking-tight mb-6 drop-shadow-2xl"
+          >
+            Foundations of <br className="hidden md:block" />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-amber-200 to-orange-400 bg-[length:200%_auto] animate-gradient">
+              Timeless Quality
+            </span>
+          </motion.h1>
+
+          {/* Paragraph */}
+          <motion.p
+            variants={itemVariants}
+            className="text-lg md:text-xl text-stone-300 max-w-2xl leading-relaxed mb-10 font-sans font-light drop-shadow-lg"
+          >
+            Trusted brick manufacturer supplying high-strength construction
+            materials for residential, commercial, and industrial projects.
+            Building the future, brick by brick.
+          </motion.p>
+
+          {/* Buttons */}
+          <motion.div
+            variants={itemVariants}
+            className="flex flex-wrap justify-start gap-5"
+          >
+            <Link
+              to="/products"
+              className="group relative px-10 py-4 bg-orange-600 text-white font-bold font-sans tracking-wider text-xs uppercase rounded-lg overflow-hidden shadow-[0_0_20px_rgba(234,88,12,0.3)] transition-all hover:-translate-y-1 hover:shadow-[0_10px_40px_rgba(234,88,12,0.5)]"
+            >
+              <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-orange-500 to-orange-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+              <span className="relative flex items-center gap-2 drop-shadow-md">
+                View Products{" "}
+                <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+              </span>
+            </Link>
+
+            <Link
+              to="/contact"
+              className="px-10 py-4 bg-white/5 border border-white/20 text-white font-semibold font-sans tracking-wider text-xs uppercase rounded-lg hover:bg-white hover:text-stone-950 transition-all duration-300 backdrop-blur-sm flex items-center shadow-lg hover:-translate-y-1"
+            >
+              Contact Sales
+            </Link>
+          </motion.div>
         </motion.div>
-      </div>
+      </motion.div>
 
       <style>{`
         @keyframes gradient {
@@ -201,7 +293,7 @@ const Hero = () => {
       `}</style>
     </section>
   );
-}
+};
 
 const FloatingStatsBar = () => {
   const { count: projects, ref: projRef } = useCounter(312, 2500);
@@ -210,8 +302,8 @@ const FloatingStatsBar = () => {
 
   return (
     // Increased max-w-5xl to max-w-6xl so it perfectly matches the grid width below it
-    <div className="relative z-30 max-w-6xl mx-auto px-6 -mt-12 mb-10">
-      <div className="bg-white/95 backdrop-blur-xl border border-stone-200 shadow-2xl rounded-2xl p-8 flex flex-col md:flex-row items-center justify-around gap-8">
+    <div className="relative z-30  mx-36 px-4 -mt-16 mb-10">
+      <div className="bg-white/95 backdrop-blur-xl border border-stone-200 shadow-2xl rounded-2xl p-4 flex flex-col md:flex-row items-center justify-around gap-8">
          
          <div ref={projRef} className="group flex flex-col items-center text-center w-full md:w-1/3 cursor-default">
             <Building2 className="w-8 h-8 text-orange-600 mb-3 opacity-90 transition-transform duration-700 ease-in-out group-hover:rotate-[360deg]" />

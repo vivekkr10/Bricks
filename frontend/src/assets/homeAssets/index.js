@@ -1,6 +1,6 @@
 // assets/homeAssets/index.js
 
-export { default as heroImg } from "./hero2.png";
+export { default as heroImg } from "./hero.png";
 export { default as brick1 } from "./classicRed.webp";
 export { default as brick2 } from "./multies.webp";
 export { default as brick3 } from "./darks.webp";
