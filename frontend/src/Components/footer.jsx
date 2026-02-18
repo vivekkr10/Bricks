@@ -6,38 +6,40 @@ const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-[#1F1F1F] text-[#A0A0A0] font-sans border-t border-[#333333]">
+    <footer className="bg-stone-950 text-stone-400 font-sans border-t border-white/5 relative z-10">
       
       {/* Upper Footer: Main Content */}
-      <div className="container mx-auto px-14 py-16">
+      <div className="container mx-auto px-6 lg:px-14 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12">
           
           {/* 1. Brand & Intro */}
           <div className="space-y-6 col-span-2">
             <Link to="/" className="flex items-center gap-3 group">
-              <div className="p-2 bg-[#8C3A2E] rounded text-white transition-colors group-hover:bg-[#B24A2F]">
+              <div className="p-2 bg-orange-600 rounded-md text-white transition-all duration-300 group-hover:bg-orange-500 shadow-lg shadow-orange-900/30">
                 <Building2 className="w-6 h-6" />
               </div>
               <div className="flex flex-col">
-                <span className="text-xl font-black text-white leading-none tracking-tight group-hover:text-[#B24A2F] transition-colors">
+                <span className="text-xl font-serif font-black text-white leading-none tracking-tight group-hover:text-orange-500 transition-colors">
                   VR & SONS
                 </span>
-                <span className="text-[10px] font-bold text-[#A0A0A0] tracking-[0.2em] uppercase">
+                <span className="text-[10px] font-bold text-stone-500 tracking-[0.2em] uppercase mt-1">
                   Est. 1986
                 </span>
               </div>
             </Link>
-            <p className="text-sm leading-relaxed text-[#D1D1D1]">
+            
+            <p className="text-sm leading-relaxed text-stone-300 font-light">
               Trusted brick manufacturer supplying high-strength construction materials.
-               <br />Building the foundations of Gujarat with precision and <br /> passion since 1986.
+              Building the foundations of Gujarat with precision and passion since 1986.
             </p>
+            
             {/* Social Icons */}
             <div className="flex gap-4 pt-2">
               {[Facebook, Twitter, Instagram, Linkedin].map((Icon, index) => (
                 <a 
                   key={index} 
                   href="#" 
-                  className="p-2.5 bg-[#333333] text-[#D1D1D1] rounded-full hover:bg-[#B24A2F] hover:text-white transition-all duration-300"
+                  className="p-2.5 bg-white/5 border border-white/10 text-stone-300 rounded-full hover:bg-orange-600 hover:border-orange-600 hover:text-white transition-all duration-300 shadow-sm"
                 >
                   <Icon className="w-4 h-4" />
                 </a>
@@ -47,7 +49,7 @@ const Footer = () => {
 
           {/* 2. Quick Links */}
           <div>
-            <h4 className="text-white font-bold mb-6 text-xs uppercase tracking-[0.2em] border-l-4 border-[#8C3A2E] pl-3">
+            <h4 className="text-white font-bold mb-6 text-xs uppercase tracking-[0.2em] border-l-2 border-orange-600 pl-3">
               Quick Links
             </h4>
             <ul className="space-y-3 text-sm">
@@ -55,9 +57,9 @@ const Footer = () => {
                 <li key={item}>
                   <Link 
                     to={item === 'Home' ? '/' : `/${item.toLowerCase().replace(' ', '')}`} 
-                    className="text-[#D1D1D1] hover:text-[#B24A2F] transition-colors flex items-center gap-2 group"
+                    className="text-stone-300 hover:text-orange-500 transition-colors flex items-center gap-2 group font-light"
                   >
-                    <span className="h-[1px] w-0 bg-[#B24A2F] transition-all group-hover:w-3"></span>
+                    <span className="h-[1px] w-0 bg-orange-500 transition-all duration-300 group-hover:w-3"></span>
                     {item}
                   </Link>
                 </li>
@@ -67,54 +69,60 @@ const Footer = () => {
 
           {/* 3. Legal */}
           <div>
-            <h4 className="text-white font-bold mb-6 text-xs uppercase tracking-[0.2em] border-l-4 border-[#8C3A2E] pl-3">
+            <h4 className="text-white font-bold mb-6 text-xs uppercase tracking-[0.2em] border-l-2 border-orange-600 pl-3">
               Legal
             </h4>
             <ul className="space-y-3 text-sm">
-              <li><Link to="/terms" className="text-[#D1D1D1] hover:text-[#B24A2F] transition-colors">Terms & Conditions</Link></li>
-              <li><Link to="/privacy" className="text-[#D1D1D1] hover:text-[#B24A2F] transition-colors">Privacy Policy</Link></li>
+              <li>
+                <Link to="/terms" className="text-stone-300 hover:text-orange-500 transition-colors font-light">
+                  Terms & Conditions
+                </Link>
+              </li>
+              <li>
+                <Link to="/privacy" className="text-stone-300 hover:text-orange-500 transition-colors font-light">
+                  Privacy Policy
+                </Link>
+              </li>
             </ul>
           </div>
 
           {/* 4. Contact Details */}
-        {/* 4. Contact Details */}
-<div>
-  <h4 className="text-white font-bold mb-6 text-xs uppercase tracking-[0.2em] border-l-4 border-[#8C3A2E] pl-3">
-    Get in Touch
-  </h4>
-  <ul className="space-y-5 text-sm">
-    <li className="flex items-start gap-3">
-      <MapPin className="w-5 h-5 text-[#8C3A2E] flex-shrink-0 mt-0.5" />
-      <span className="leading-relaxed text-[#D1D1D1]">
-        7XF5+3WX, Kamrej Char Rasta,<br/>
-        Kamrej, Gujarat 394185
-      </span>
-    </li>
-    
-    {/* FIXED AREA START */}
-    <li className="flex items-start gap-3">
-      <Phone className="w-5 h-5 text-[#8C3A2E] flex-shrink-0 mt-0.5" />
-      <div className="flex flex-col gap-1 font-medium text-[#D1D1D1]">
-        <a href="tel:9825474047" className="hover:text-[#B24A2F] transition-colors">+91 98254 74047</a>
-        <a href="tel:9825266811" className="hover:text-[#B24A2F] transition-colors">+91 98252 66811</a>
-      </div>
-    </li> 
-    {/* FIXED AREA END */}
+          <div>
+            <h4 className="text-white font-bold mb-6 text-xs uppercase tracking-[0.2em] border-l-2 border-orange-600 pl-3">
+              Get in Touch
+            </h4>
+            <ul className="space-y-5 text-sm">
+              <li className="flex items-start gap-3">
+                <MapPin className="w-5 h-5 text-orange-600 flex-shrink-0 mt-0.5" />
+                <span className="leading-relaxed text-stone-300 font-light">
+                  7XF5+3WX, Kamrej Char Rasta,<br/>
+                  Kamrej, Gujarat 394185
+                </span>
+              </li>
+              
+              <li className="flex items-start gap-3">
+                <Phone className="w-5 h-5 text-orange-600 flex-shrink-0 mt-0.5" />
+                <div className="flex flex-col gap-1 font-medium text-stone-300">
+                  <a href="tel:9825474047" className="hover:text-orange-500 transition-colors">+91 98254 74047</a>
+                  <a href="tel:9825266811" className="hover:text-orange-500 transition-colors">+91 98252 66811</a>
+                </div>
+              </li> 
 
-    <li className="flex items-center gap-3">
-      <Mail className="w-5 h-5 text-[#8C3A2E] flex-shrink-0" />
-      <a href="mailto:support@vrandsons.com" className="text-[#D1D1D1] hover:text-[#B24A2F] transition-colors">
-        support@vrandsons.com
-      </a>
-    </li>
-  </ul>
-</div>
+              <li className="flex items-center gap-3">
+                <Mail className="w-5 h-5 text-orange-600 flex-shrink-0" />
+                <a href="mailto:support@vrandsons.com" className="text-stone-300 hover:text-orange-500 transition-colors font-light">
+                  support@vrandsons.com
+                </a>
+              </li>
+            </ul>
+          </div>
+          
         </div>
       </div>
 
       {/* Lower Footer: Copyright */}
-      <div className="border-t border-[#333333] bg-black/10">
-        <div className="container mx-auto px-6 py-8 flex flex-col md:flex-row justify-center items-center gap-4 text-[10px] text-[#A0A0A0] font-bold uppercase tracking-[0.15em]">
+      <div className="border-t border-white/5 bg-black/20">
+        <div className="container mx-auto px-6 py-6 flex flex-col justify-center items-center text-[10px] text-stone-500 font-bold uppercase tracking-[0.15em]">
           <p>&copy; {currentYear} VR & Sons Bricks. All rights reserved.</p>
         </div>
       </div>
