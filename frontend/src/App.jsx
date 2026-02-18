@@ -7,6 +7,10 @@ import AdminRegister from "./pages/auth/adminRegister.jsx";
 import Terms from "./pages/terms.jsx";
 import Privacy from "./pages/privacy.jsx";
 import Home from "./Home/home.jsx";
+import Dashboard from "./pages/AdminDashboard/DashboardMain.jsx";
+import ProductForm from "./pages/AdminDashboard/ProductForm.jsx"
+import Profile from "./pages/AdminDashboard/profile.jsx"
+
 
 // 3. The Temporary Fix
 import ComingSoon from "./Components/commingsoon.jsx";
@@ -15,7 +19,10 @@ import BlogSection from "./pages/blog/BlogSection.jsx";
 import Contact from "./pages/contactPage/Contact.jsx";
 import BlogDetails from "./pages/blog/BlogDetails.jsx";
 import AboutPage from "./pages/AboutPage/About.jsx";
+// Projects Page 
 import ProjectPage from "./pages/Project/Project.jsx";
+import ProjectDetailsPage from "./pages/Project/ProjectDetailPage.jsx";
+
 
 function App() {
   return (
