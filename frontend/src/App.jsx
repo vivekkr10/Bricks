@@ -2,8 +2,8 @@ import ScrollToTop from "./components/ScrollToTop.jsx";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
 import Services from "./pages/services";
-// import AdminRegister from "./pages/auth/adminRegister.jsx";
-
+import AdminLogin from "./pages/auth/adminLogin.jsx";
+import AdminRegister from "./pages/auth/adminRegister.jsx";
 import Terms from "./pages/terms.jsx";
 import Privacy from "./pages/privacy.jsx";
 import Home from "./Home/home.jsx";
@@ -29,36 +29,27 @@ function App() {
     <BrowserRouter>
       <ScrollToTop />
       <Routes>
+        {/* Home Route */}
         <Route path="/" element={<Home />} />
 
+        {/* Admin Auth Routes */}
+        <Route path="/admin-login" element={<AdminLogin />} />
+        <Route path="/admin-register" element={<AdminRegister />} />
+
+        {/* Other Routes */}
         <Route path="/services" element={<Services />} />
-        {/* <Route path="/admin-register" element={<AdminRegister />} /> */}
-
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/add" element={<ProductForm />} />
-       <Route path="/edit/:id" element={<ProductForm />} />
-       <Route path="/profile" element={<Profile />} />
-     
-
         <Route path="/products" element={<ProductsPage />} />
         <Route path="/products/:id" element={<ProductDetails />} />
-        
         <Route path="/blog" element={<BlogSection />} />
         <Route path="/blog/:id" element={<BlogDetails />} />
         <Route path="/contact" element={<Contact />} />
-        {/* Fallback for 404 (optional) */}
-
-        <Route path="*" element={<ComingSoon />} />
-
         <Route path="/terms" element={<Terms />} />
         <Route path="/privacy" element={<Privacy />} />
-        {/* About Page */}
         <Route path="/about" element={<AboutPage />} />
-
-        {/* Projects  */}
-
         <Route path="/projects" element={<ProjectPage />} />
-        <Route path="/projects/:id" element={<ProjectDetailsPage />} />
+
+        {/* 404 Fallback - Keep this at the end */}
+        <Route path="*" element={<ComingSoon />} />
       </Routes>
     </BrowserRouter>
   );
