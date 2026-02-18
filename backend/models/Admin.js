@@ -32,7 +32,7 @@ const AdminSchema = new mongoose.Schema({
   },
   company: {
     type: String,
-    default: 'JR & SONS'
+    default: 'VR & SONS'
   },
   createdAt: {
     type: Date,
@@ -40,7 +40,10 @@ const AdminSchema = new mongoose.Schema({
   },
   lastLogin: {
     type: Date
-  }
+  },
+  // OTP fields for password reset
+  resetPasswordOTP: String,
+  resetPasswordExpire: Date
 }, {
   timestamps: true
 });

@@ -21,7 +21,15 @@ import BlogDetails from "./pages/blog/BlogDetails.jsx";
 import AboutPage from "./pages/AboutPage/About.jsx";
 // Projects Page 
 import ProjectPage from "./pages/Project/Project.jsx";
+
 import ProjectDetailsPage from "./pages/Project/ProjectDetailPage.jsx";
+
+import ForgotPasswordOTP from "./pages/auth/ForgotPasswordOTP";
+import ForgotPassword from "./pages/auth/ForgotPassword";
+
+
+
+
 
 
 function App() {
@@ -38,7 +46,8 @@ function App() {
         <Route path="/ ProductForm" element={<ProductForm/>} />
         <Route path="/admin-login" element={<AdminLogin />} />
         <Route path="/admin-register" element={<AdminRegister />} />
-
+        {/* <Route path="/forgot-password" element={<ForgotPassword />} /> */}
+        <Route path="/forgot-password" element={<ForgotPasswordOTP />} />
         {/* Other Routes */}
         <Route path="/services" element={<Services />} />
         <Route path="/products" element={<ProductsPage />} />
