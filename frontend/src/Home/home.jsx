@@ -323,12 +323,12 @@ const ProductOverview = () => {
         <div className="inline-flex items-center gap-2 mb-3">
             <span className="w-8 h-[2px] bg-orange-600"></span>
             <span className="text-orange-700 font-bold uppercase tracking-widest text-xs font-sans">
-              Our Materials
+              Our Products
             </span>
             <span className="w-8 h-[2px] bg-orange-600"></span>
         </div>
         <h2 className="text-4xl md:text-5xl font-serif font-medium text-stone-900 mb-4">
-          Premium Selection
+         Top-tier Bricks
         </h2>
         <p className="text-stone-600 font-sans font-light text-lg">
           High-grade clay crafted for modern architectural needs.
@@ -436,11 +436,14 @@ const col3 = [G9, G10, G11, G12];
             
             {/* Text colors adjusted for dark background */}
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif font-medium text-white mt-2 mb-8 leading-tight">
-              Impressions in <br /> <span className="italic text-orange-500">Red Clay.</span>
+             Building Dreams with Quality and Strength <br /> <span className="italic text-orange-500">Brick Impressions.</span>
             </h2>
             
             <p className="text-lg text-stone-400 leading-relaxed mb-10 max-w-xl font-sans font-light mx-auto lg:mx-0">
-              Observe the rhythm of colors and textures. From deep rumbled browns to classic vibrant reds, our clay is fired to tell a story of strength.
+              Step into the world of timeless craftsmanship with
+VR & Sons Bricks, where every brick is more than just a construction
+material - it is a statement of strength, sophistication, and
+architectural excellence.
             </p>
             
             <Link
