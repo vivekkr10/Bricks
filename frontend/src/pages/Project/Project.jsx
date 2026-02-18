@@ -1,18 +1,76 @@
 import React, { useState } from "react";
 import Navbar from "../../components/header.jsx";
+import { useNavigate } from "react-router-dom";
 
 export default function ProjectPage() {
   const [activeFilter, setActiveFilter] = useState("All");
   const [selectedProject, setSelectedProject] = useState(null);
+  const navigate = useNavigate();
 
-  const filters = [
-    "All",
-    "Interior",
-    "Institutional",
-    "Restaurant",
-    "Commercial",
-    "Residential",
-  ];
+  const filters = ["All", "Industrial", "Commercial", "Residential"];
+
+  const BrickWall = ({ opacity = 0.06, color = "#8B4513" }) => (
+  <svg
+    style={{
+      position: "absolute",
+      inset: 0,
+      width: "100%",
+      height: "100%",
+      pointerEvents: "none",
+    }}
+  >
+    <defs>
+      <pattern
+        id={`bwall-${color.replace("#", "")}`}
+        x="0"
+        y="0"
+        width="88"
+        height="44"
+        patternUnits="userSpaceOnUse"
+      >
+        <rect
+          x="2"
+          y="2"
+          width="84"
+          height="20"
+          fill="none"
+          stroke={color}
+          strokeWidth="1"
+          rx="2"
+          opacity={opacity * 12}
+        />
+        <rect
+          x="46"
+          y="24"
+          width="42"
+          height="18"
+          fill="none"
+          stroke={color}
+          strokeWidth="1"
+          rx="2"
+          opacity={opacity * 12}
+        />
+        <rect
+          x="2"
+          y="24"
+          width="42"
+          height="18"
+          fill="none"
+          stroke={color}
+          strokeWidth="1"
+          rx="2"
+          opacity={opacity * 12}
+        />
+      </pattern>
+    </defs>
+    <rect
+      width="100%"
+      height="100%"
+      fill={`url(#bwall-${color.replace("#", "")})`}
+      opacity={opacity}
+    />
+  </svg>
+);
 
   const projects = [
     {
@@ -39,38 +97,7 @@ export default function ProjectPage() {
         "Luxury villa community with modern architecture and landscaped gardens.",
       details: { area: "45,000 sq ft", year: "2023", client: "Private Client" },
     },
-    {
-      id: 3,
-      title: "Riverside School",
-      category: "Educational",
-      location: "Ahmedabad",
-      architect: "Modi Srivastava & Associates",
-      image:
-        "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=800&q=80",
-      description:
-        "Modern educational facility with open learning spaces and sustainable design.",
-      details: {
-        area: "65,000 sq ft",
-        year: "2023",
-        client: "Education Trust",
-      },
-    },
-    {
-      id: 4,
-      title: "Green Valley Hospital",
-      category: "Healthcare",
-      location: "Bangalore",
-      architect: "Modi Srivastava & Associates",
-      image:
-        "https://images.unsplash.com/photo-1587351021759-3772687fe598?w=800&q=80",
-      description:
-        "State-of-the-art healthcare facility with patient-centric design.",
-      details: {
-        area: "120,000 sq ft",
-        year: "2022",
-        client: "Healthcare Corp",
-      },
-    },
+
     {
       id: 5,
       title: "Sunset Residences",
@@ -103,22 +130,7 @@ export default function ProjectPage() {
         client: "Tech Parks Ltd",
       },
     },
-    {
-      id: 7,
-      title: "Heritage Museum",
-      category: "Cultural",
-      location: "Jaipur",
-      architect: "Modi Srivastava & Associates",
-      image:
-        "https://images.unsplash.com/photo-1566125881251-f265414e5b60?w=800&q=80",
-      description:
-        "Cultural museum blending traditional Rajasthani architecture with modern design.",
-      details: {
-        area: "40,000 sq ft",
-        year: "2022",
-        client: "Heritage Foundation",
-      },
-    },
+
     {
       id: 8,
       title: "Lotus Valley Apartments",
@@ -131,18 +143,7 @@ export default function ProjectPage() {
         "High-rise residential tower with premium amenities and sky gardens.",
       details: { area: "150,000 sq ft", year: "2024", client: "Urban Living" },
     },
-    {
-      id: 9,
-      title: "Grand Hyatt Convention",
-      category: "Hospitality",
-      location: "Chennai",
-      architect: "Modi Srivastava & Associates",
-      image:
-        "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&q=80",
-      description:
-        "Luxury convention center with grand ballroom and executive facilities.",
-      details: { area: "95,000 sq ft", year: "2023", client: "Hyatt Hotels" },
-    },
+
     {
       id: 10,
       title: "Innovation Hub",
@@ -202,22 +203,7 @@ export default function ProjectPage() {
         client: "Business Bay Corp",
       },
     },
-    {
-      id: 14,
-      title: "Sanskriti Cultural Center",
-      category: "Cultural",
-      location: "Varanasi",
-      architect: "Modi Srivastava & Associates",
-      image:
-        "https://images.unsplash.com/photo-1566140967404-b8b3932483f5?w=800&q=80",
-      description:
-        "Cultural center promoting traditional arts and performances.",
-      details: {
-        area: "25,000 sq ft",
-        year: "2022",
-        client: "Cultural Society",
-      },
-    },
+
     {
       id: 15,
       title: "Orchid Residency",
@@ -234,38 +220,7 @@ export default function ProjectPage() {
         client: "Urban Developers",
       },
     },
-    {
-      id: 16,
-      title: "Marriott Executive Hotel",
-      category: "Hospitality",
-      location: "Kolkata",
-      architect: "Modi Srivastava & Associates",
-      image:
-        "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?w=800&q=80",
-      description:
-        "Business hotel with premium accommodations and conference facilities.",
-      details: {
-        area: "110,000 sq ft",
-        year: "2024",
-        client: "Marriott International",
-      },
-    },
-    {
-      id: 17,
-      title: "Knowledge Park Campus",
-      category: "Educational",
-      location: "Noida",
-      architect: "Modi Srivastava & Associates",
-      image:
-        "https://images.unsplash.com/photo-1541829070764-84a7d30dd3f3?w=800&q=80",
-      description:
-        "Modern university campus with academic blocks and research centers.",
-      details: {
-        area: "250,000 sq ft",
-        year: "2023",
-        client: "Education Trust",
-      },
-    },
+
     {
       id: 18,
       title: "Vertex Plaza",
@@ -289,33 +244,7 @@ export default function ProjectPage() {
         "Mixed-use commercial complex with efficient circulation planning.",
       details: { area: "30,000 sq ft", year: "2022", client: "Developer" },
     },
-    {
-      id: 20,
-      title: "Himalayan Retreat",
-      category: "Hospitality",
-      location: "Manali",
-      architect: "Modi Srivastava & Associates",
-      image:
-        "https://images.unsplash.com/photo-1625244724120-1fd1d34d00f6?w=800&q=80",
-      description:
-        "Mountain resort with traditional architecture and modern comforts.",
-      details: { area: "22,000 sq ft", year: "2024", client: "Resort Chain" },
-    },
-    {
-      id: 21,
-      title: "Medicity Hospital",
-      category: "Healthcare",
-      location: "Kochi",
-      architect: "Modi Srivastava & Associates",
-      image:
-        "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800&q=80",
-      description: "Multi-specialty hospital with advanced medical facilities.",
-      details: {
-        area: "140,000 sq ft",
-        year: "2023",
-        client: "Medicity Group",
-      },
-    },
+
     {
       id: 22,
       title: "Cypress Court",
@@ -342,21 +271,7 @@ export default function ProjectPage() {
         client: "Industrial Corp",
       },
     },
-    {
-      id: 24,
-      title: "Pearl Academy",
-      category: "Educational",
-      location: "Coimbatore",
-      architect: "Modi Srivastava & Associates",
-      image:
-        "https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=800&q=80",
-      description: "Design academy with creative learning spaces and studios.",
-      details: {
-        area: "42,000 sq ft",
-        year: "2023",
-        client: "Education Foundation",
-      },
-    },
+
     {
       id: 25,
       title: "Lakeview Club",
@@ -396,37 +311,7 @@ export default function ProjectPage() {
         "Urban shopping center with entertainment and dining options.",
       details: { area: "150,000 sq ft", year: "2024", client: "Retail Corp" },
     },
-    {
-      id: 28,
-      title: "Sunrise School",
-      category: "Educational",
-      location: "Mysore",
-      architect: "Modi Srivastava & Associates",
-      image:
-        "https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=800&q=80",
-      description:
-        "Progressive school campus with innovative learning environments.",
-      details: {
-        area: "38,000 sq ft",
-        year: "2022",
-        client: "Education Society",
-      },
-    },
-    {
-      id: 29,
-      title: "Palm Grove Resort",
-      category: "Hospitality",
-      location: "Kovalam",
-      architect: "Modi Srivastava & Associates",
-      image:
-        "https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=800&q=80",
-      description: "Beachfront resort with traditional Kerala architecture.",
-      details: {
-        area: "32,000 sq ft",
-        year: "2024",
-        client: "Hospitality Group",
-      },
-    },
+
     {
       id: 30,
       title: "Spectrum Business Park",
@@ -453,22 +338,7 @@ export default function ProjectPage() {
       description: "Luxury apartments with panoramic city views.",
       details: { area: "48,000 sq ft", year: "2023", client: "Realty Group" },
     },
-    {
-      id: 32,
-      title: "Heritage Inn",
-      category: "Hospitality",
-      location: "Jodhpur",
-      architect: "Modi Srivastava & Associates",
-      image:
-        "https://images.unsplash.com/photo-1564501049412-61c2a3083791?w=800&q=80",
-      description:
-        "Boutique hotel blending heritage architecture with modern luxury.",
-      details: {
-        area: "18,000 sq ft",
-        year: "2022",
-        client: "Heritage Hotels",
-      },
-    },
+
     {
       id: 33,
       title: "Tech Valley Campus",
@@ -480,22 +350,7 @@ export default function ProjectPage() {
       description: "IT campus with collaborative workspaces and amenities.",
       details: { area: "175,000 sq ft", year: "2024", client: "Tech Parks" },
     },
-    {
-      id: 34,
-      title: "Rainbow Children's Hospital",
-      category: "Healthcare",
-      location: "Visakhapatnam",
-      architect: "Modi Srivastava & Associates",
-      image:
-        "https://images.unsplash.com/photo-1587351021759-3772687fe598?w=800&q=80",
-      description:
-        "Pediatric hospital with child-friendly design and facilities.",
-      details: {
-        area: "55,000 sq ft",
-        year: "2023",
-        client: "Healthcare Group",
-      },
-    },
+
     {
       id: 35,
       title: "Royal Meadows",
@@ -506,17 +361,6 @@ export default function ProjectPage() {
         "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80",
       description: "Premium township with modern villas and apartments.",
       details: { area: "280,000 sq ft", year: "2024", client: "Township Ltd" },
-    },
-    {
-      id: 36,
-      title: "Central Library",
-      category: "Cultural",
-      location: "Bhubaneswar",
-      architect: "Modi Srivastava & Associates",
-      image:
-        "https://images.unsplash.com/photo-1566125881251-f265414e5b60?w=800&q=80",
-      description: "Modern library with digital resources and reading spaces.",
-      details: { area: "35,000 sq ft", year: "2022", client: "Municipal Corp" },
     },
     {
       id: 37,
@@ -563,44 +407,7 @@ export default function ProjectPage() {
         client: "Convention Bureau",
       },
     },
-    {
-      id: 40,
-      title: "International School",
-      category: "Educational",
-      location: "Amritsar",
-      architect: "Modi Srivastava & Associates",
-      image:
-        "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=800&q=80",
-      description:
-        "World-class educational facility with international curriculum.",
-      details: {
-        area: "72,000 sq ft",
-        year: "2024",
-        client: "Education Trust",
-      },
-    },
-    {
-      id: 41,
-      title: "Wellness Center",
-      category: "Healthcare",
-      location: "Pondicherry",
-      architect: "Modi Srivastava & Associates",
-      image:
-        "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800&q=80",
-      description: "Holistic wellness center with spa and medical facilities.",
-      details: { area: "22,000 sq ft", year: "2022", client: "Wellness Corp" },
-    },
-    {
-      id: 42,
-      title: "Coral Cove Resort",
-      category: "Hospitality",
-      location: "Andaman",
-      architect: "Modi Srivastava & Associates",
-      image:
-        "https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=800&q=80",
-      description: "Island resort with beachfront villas and water activities.",
-      details: { area: "38,000 sq ft", year: "2024", client: "Island Resorts" },
-    },
+
     {
       id: 43,
       title: "Metro Square",
@@ -631,21 +438,7 @@ export default function ProjectPage() {
         client: "Villa Developers",
       },
     },
-    {
-      id: 45,
-      title: "Performing Arts Center",
-      category: "Cultural",
-      location: "Mysore",
-      architect: "Modi Srivastava & Associates",
-      image:
-        "https://images.unsplash.com/photo-1566140967404-b8b3932483f5?w=800&q=80",
-      description: "Cultural venue for music and dance performances.",
-      details: {
-        area: "28,000 sq ft",
-        year: "2022",
-        client: "Arts Foundation",
-      },
-    },
+
     {
       id: 46,
       title: "Trade Tower",
@@ -656,17 +449,6 @@ export default function ProjectPage() {
         "https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=800&q=80",
       description: "Commercial tower with modern office spaces.",
       details: { area: "62,000 sq ft", year: "2023", client: "Trade Corp" },
-    },
-    {
-      id: 47,
-      title: "Medical College",
-      category: "Educational",
-      location: "Madurai",
-      architect: "Modi Srivastava & Associates",
-      image:
-        "https://images.unsplash.com/photo-1541829070764-84a7d30dd3f3?w=800&q=80",
-      description: "Medical education facility with teaching hospital.",
-      details: { area: "220,000 sq ft", year: "2024", client: "Medical Trust" },
     },
     {
       id: 48,
@@ -706,17 +488,6 @@ export default function ProjectPage() {
       details: { area: "25,000 sq ft", year: "2022", client: "Business Hub" },
     },
     {
-      id: 51,
-      title: "Desert Resort",
-      category: "Hospitality",
-      location: "Jaisalmer",
-      architect: "Modi Srivastava & Associates",
-      image:
-        "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&q=80",
-      description: "Luxury resort with desert safari experiences.",
-      details: { area: "30,000 sq ft", year: "2024", client: "Desert Hotels" },
-    },
-    {
       id: 52,
       title: "Tech Hub",
       category: "Commercial",
@@ -730,43 +501,6 @@ export default function ProjectPage() {
         year: "2023",
         client: "Tech Foundation",
       },
-    },
-    {
-      id: 53,
-      title: "Greenfield School",
-      category: "Educational",
-      location: "Dehradun",
-      architect: "Modi Srivastava & Associates",
-      image:
-        "https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=800&q=80",
-      description: "Boarding school with extensive campus facilities.",
-      details: {
-        area: "95,000 sq ft",
-        year: "2024",
-        client: "Education Society",
-      },
-    },
-    {
-      id: 54,
-      title: "City Hospital",
-      category: "Healthcare",
-      location: "Ranchi",
-      architect: "Modi Srivastava & Associates",
-      image:
-        "https://images.unsplash.com/photo-1587351021759-3772687fe598?w=800&q=80",
-      description: "Multi-specialty hospital with modern equipment.",
-      details: { area: "88,000 sq ft", year: "2023", client: "Healthcare Ltd" },
-    },
-    {
-      id: 55,
-      title: "Lake Resort",
-      category: "Hospitality",
-      location: "Nainital",
-      architect: "Modi Srivastava & Associates",
-      image:
-        "https://images.unsplash.com/photo-1625244724120-1fd1d34d00f6?w=800&q=80",
-      description: "Lakefront resort with mountain views.",
-      details: { area: "28,000 sq ft", year: "2022", client: "Resort Group" },
     },
     {
       id: 56,
@@ -794,17 +528,7 @@ export default function ProjectPage() {
         client: "Hill Developers",
       },
     },
-    {
-      id: 58,
-      title: "Art Gallery",
-      category: "Cultural",
-      location: "Kochi",
-      architect: "Modi Srivastava & Associates",
-      image:
-        "https://images.unsplash.com/photo-1566125881251-f265414e5b60?w=800&q=80",
-      description: "Modern art gallery with exhibition spaces.",
-      details: { area: "18,000 sq ft", year: "2022", client: "Art Foundation" },
-    },
+
     {
       id: 59,
       title: "Business Park",
@@ -835,21 +559,7 @@ export default function ProjectPage() {
         client: "Sports Authority",
       },
     },
-    {
-      id: 61,
-      title: "Heritage Hotel",
-      category: "Hospitality",
-      location: "Udaipur",
-      architect: "Modi Srivastava & Associates",
-      image:
-        "https://images.unsplash.com/photo-1564501049412-61c2a3083791?w=800&q=80",
-      description: "Palace hotel with traditional architecture.",
-      details: {
-        area: "35,000 sq ft",
-        year: "2024",
-        client: "Heritage Hotels",
-      },
-    },
+
     {
       id: 62,
       title: "Tech Park",
@@ -876,21 +586,7 @@ export default function ProjectPage() {
       description: "Luxury apartments overlooking golf course.",
       details: { area: "68,000 sq ft", year: "2024", client: "Realty Corp" },
     },
-    {
-      id: 64,
-      title: "University Campus",
-      category: "Educational",
-      location: "Patna",
-      architect: "Modi Srivastava & Associates",
-      image:
-        "https://images.unsplash.com/photo-1541829070764-84a7d30dd3f3?w=800&q=80",
-      description: "Modern university with academic buildings.",
-      details: {
-        area: "280,000 sq ft",
-        year: "2023",
-        client: "University Trust",
-      },
-    },
+
     {
       id: 65,
       title: "Retail Plaza",
@@ -901,17 +597,6 @@ export default function ProjectPage() {
         "https://images.unsplash.com/photo-1519567241046-7f570eee3ce6?w=800&q=80",
       description: "Shopping plaza with branded stores.",
       details: { area: "52,000 sq ft", year: "2024", client: "Retail Corp" },
-    },
-    {
-      id: 66,
-      title: "Ayurvedic Retreat",
-      category: "Healthcare",
-      location: "Kerala",
-      architect: "Modi Srivastava & Associates",
-      image:
-        "https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=800&q=80",
-      description: "Wellness retreat with Ayurvedic treatments.",
-      details: { area: "25,000 sq ft", year: "2022", client: "Wellness Group" },
     },
     {
       id: 67,
@@ -928,329 +613,6 @@ export default function ProjectPage() {
         client: "Urban Developers",
       },
     },
-
-    // Restaurant Projects
-
-    {
-      id: 68,
-      title: "Spice Route Bistro",
-      category: "Restaurant",
-      location: "Vadodara",
-      architect: "Modi Srivastava & Associates",
-      image:
-        "https://images.unsplash.com/photo-1555992336-03a23c8f9e8b?w=800&q=80",
-      description:
-        "Modern bistro design inspired by Indian spices and warm interiors.",
-      details: {
-        area: "4,500 sq ft",
-        year: "2024",
-        client: "Hospitality",
-      },
-    },
-    {
-      id: 69,
-      title: "Urban Tandoor",
-      category: "Restaurant",
-      location: "Ahmedabad",
-      architect: "Modi Srivastava & Associates",
-      image:
-        "https://images.unsplash.com/photo-1559339352-11d035aa65de?w=800&q=80",
-      description: "Contemporary Indian restaurant with open kitchen concept.",
-      details: {
-        area: "3,800 sq ft",
-        year: "2023",
-        client: "Hospitality",
-      },
-    },
-    {
-      id: 70,
-      title: "Olive & Thyme",
-      category: "Restaurant",
-      location: "Surat",
-      architect: "Modi Srivastava & Associates",
-      image:
-        "https://images.unsplash.com/photo-1544148103-0773bf10d330?w=800&q=80",
-      description:
-        "Mediterranean-inspired restaurant with earthy tones and natural light.",
-      details: {
-        area: "4,200 sq ft",
-        year: "2024",
-        client: "Hospitality",
-      },
-    },
-    {
-      id: 71,
-      title: "Midnight Café",
-      category: "Restaurant",
-      location: "Rajkot",
-      architect: "Modi Srivastava & Associates",
-      image:
-        "https://images.unsplash.com/photo-1552566626-52f8b828add9?w=800&q=80",
-      description:
-        "Late-night café designed for cozy ambience and social interaction.",
-      details: {
-        area: "2,600 sq ft",
-        year: "2022",
-        client: "Hospitality",
-      },
-    },
-    {
-      id: 72,
-      title: "Coastal Catch",
-      category: "Restaurant",
-      location: "Daman",
-      architect: "Modi Srivastava & Associates",
-      image:
-        "https://images.unsplash.com/photo-1559339355-6b5a51f55a55?w=800&q=80",
-      description:
-        "Seafood restaurant with coastal theme and relaxed dining experience.",
-      details: {
-        area: "5,000 sq ft",
-        year: "2023",
-        client: "Hospitality",
-      },
-    },
-    {
-      id: 73,
-      title: "Firewood Grill",
-      category: "Restaurant",
-      location: "Vadodara",
-      architect: "Modi Srivastava & Associates",
-      image:
-        "https://images.unsplash.com/photo-1541544741938-0af808871cc0?w=800&q=80",
-      description:
-        "Rustic grill restaurant emphasizing firewood cooking and raw textures.",
-      details: {
-        area: "4,700 sq ft",
-        year: "2024",
-        client: "Hospitality",
-      },
-    },
-    {
-      id: 74,
-      title: "Lotus Fine Dine",
-      category: "Restaurant",
-      location: "Gandhinagar",
-      architect: "Modi Srivastava & Associates",
-      image:
-        "https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0a?w=800&q=80",
-      description:
-        "Luxury fine-dining restaurant with elegant Asian-inspired interiors.",
-      details: {
-        area: "6,200 sq ft",
-        year: "2025",
-        client: "Hospitality",
-      },
-    },
-    {
-      id: 75,
-      title: "Brew & Bean",
-      category: "Restaurant",
-      location: "Ahmedabad",
-      architect: "Modi Srivastava & Associates",
-      image:
-        "https://images.unsplash.com/photo-1521017432531-fbd92d768814?w=800&q=80",
-      description:
-        "Specialty café designed for coffee culture and remote working.",
-      details: {
-        area: "2,400 sq ft",
-        year: "2023",
-        client: "Hospitality",
-      },
-    },
-    {
-      id: 76,
-      title: "Royal Thali",
-      category: "Restaurant",
-      location: "Udaipur",
-      architect: "Modi Srivastava & Associates",
-      image:
-        "https://images.unsplash.com/photo-1604908554166-59f0a1d65c0d?w=800&q=80",
-      description:
-        "Traditional Rajasthani restaurant with royal architectural elements.",
-      details: {
-        area: "5,800 sq ft",
-        year: "2022",
-        client: "Hospitality",
-      },
-    },
-    {
-      id: 77,
-      title: "Skyline Rooftop",
-      category: "Restaurant",
-      location: "Surat",
-      architect: "Modi Srivastava & Associates",
-      image:
-        "https://images.unsplash.com/photo-1528605248644-14dd04022da1?w=800&q=80",
-      description: "Rooftop dining restaurant offering panoramic city views.",
-      details: {
-        area: "7,000 sq ft",
-        year: "2025",
-        client: "Hospitality",
-      },
-    },
-
-    // institutional projects
-
-    {
-      id: 111,
-      title: "Global Knowledge School",
-      category: "Institutional",
-      location: "Ahmedabad",
-      architect: "Modi Srivastava & Associates",
-      image:
-        "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=800&q=80",
-      description:
-        "Modern school campus designed to encourage collaborative learning.",
-      details: {
-        area: "38,000 sq ft",
-        year: "2024",
-        client: "Educational Trust",
-      },
-    },
-    {
-      id: 112,
-      title: "City Medical Institute",
-      category: "Institutional",
-      location: "Vadodara",
-      architect: "Modi Srivastava & Associates",
-      image:
-        "https://images.unsplash.com/photo-1586773860418-d37222d8fce3?w=800&q=80",
-      description:
-        "Healthcare training institute with patient-focused design principles.",
-      details: {
-        area: "42,500 sq ft",
-        year: "2023",
-        client: "Healthcare Group",
-      },
-    },
-    {
-      id: 113,
-      title: "Innovation Research Center",
-      category: "Institutional",
-      location: "Gandhinagar",
-      architect: "Modi Srivastava & Associates",
-      image:
-        "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=800&q=80",
-      description:
-        "Research facility supporting innovation, labs, and collaborative spaces.",
-      details: {
-        area: "50,000 sq ft",
-        year: "2025",
-        client: "Government",
-      },
-    },
-    {
-      id: 114,
-      title: "Green Valley College",
-      category: "Institutional",
-      location: "Rajkot",
-      architect: "Modi Srivastava & Associates",
-      image:
-        "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=800&q=80",
-      description:
-        "Eco-friendly college campus with courtyards and shaded walkways.",
-      details: {
-        area: "60,000 sq ft",
-        year: "2022",
-        client: "Educational Trust",
-      },
-    },
-    {
-      id: 115,
-      title: "Future Minds Academy",
-      category: "Institutional",
-      location: "Surat",
-      architect: "Modi Srivastava & Associates",
-      image:
-        "https://images.unsplash.com/photo-1596495577886-d920f1fb7238?w=800&q=80",
-      description: "Academy designed for digital learning and modern pedagogy.",
-      details: {
-        area: "32,000 sq ft",
-        year: "2023",
-        client: "Private Organization",
-      },
-    },
-    {
-      id: 116,
-      title: "Civic Training Center",
-      category: "Institutional",
-      location: "Bhavnagar",
-      architect: "Modi Srivastava & Associates",
-      image:
-        "https://images.unsplash.com/photo-1509062522246-3755977927d7?w=800&q=80",
-      description:
-        "Government training center with functional and durable architecture.",
-      details: {
-        area: "45,000 sq ft",
-        year: "2024",
-        client: "Government",
-      },
-    },
-    {
-      id: 117,
-      title: "Harmony Arts Institute",
-      category: "Institutional",
-      location: "Udaipur",
-      architect: "Modi Srivastava & Associates",
-      image:
-        "https://images.unsplash.com/photo-1491841550275-ad7854e35ca6?w=800&q=80",
-      description:
-        "Fine arts institute designed to nurture creativity and expression.",
-      details: {
-        area: "28,500 sq ft",
-        year: "2022",
-        client: "Cultural Trust",
-      },
-    },
-    {
-      id: 118,
-      title: "Advanced Skill Development Center",
-      category: "Institutional",
-      location: "Vadodara",
-      architect: "Modi Srivastava & Associates",
-      image:
-        "https://images.unsplash.com/photo-1535909339361-9b31e8f6f40c?w=800&q=80",
-      description:
-        "Skill development institute focused on vocational and technical training.",
-      details: {
-        area: "36,000 sq ft",
-        year: "2024",
-        client: "NGO",
-      },
-    },
-    {
-      id: 119,
-      title: "Wellness & Rehabilitation Institute",
-      category: "Institutional",
-      location: "Ahmedabad",
-      architect: "Modi Srivastava & Associates",
-      image:
-        "https://images.unsplash.com/photo-1580281657527-47d4f5e7c4a4?w=800&q=80",
-      description:
-        "Rehabilitation and wellness institute with calming spatial design.",
-      details: {
-        area: "40,000 sq ft",
-        year: "2025",
-        client: "Healthcare Trust",
-      },
-    },
-    {
-      id: 120,
-      title: "National Sports Academy",
-      category: "Institutional",
-      location: "Gandhinagar",
-      architect: "Modi Srivastava & Associates",
-      image:
-        "https://images.unsplash.com/photo-1521412644187-c49fa049e84d?w=800&q=80",
-      description:
-        "Sports training academy with integrated indoor and outdoor facilities.",
-      details: {
-        area: "70,000 sq ft",
-        year: "2025",
-        client: "Government",
-      },
-    },
   ];
 
   const filteredProjects =
@@ -1261,7 +623,8 @@ export default function ProjectPage() {
   return (
     <div>
       <Navbar />
-      <div className="mt-20 min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50">
+      <div className="mt-17 min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50">
+        <BrickWall opacity={0.07} color="#8B4513" />
         {/* Hero Section */}
         <div className="relative h-[60vh] overflow-hidden">
           <div
@@ -1286,22 +649,39 @@ export default function ProjectPage() {
         </div>
 
         {/* Filter Section */}
-        <div className="sticky top-15 z-40 bg-white/80 backdrop-blur-md shadow-md border-b border-slate-200">
-          <div className="container mx-auto px-4 py-6">
+        <div className=" z-40 bg-white/75 backdrop-blur-sm border-b border-slate-200">
+          <div className="container mx-auto px-4 py-5">
             <div className="flex flex-wrap justify-center gap-3">
-              {filters.map((filter) => (
-                <button
-                  key={filter}
-                  onClick={() => setActiveFilter(filter)}
-                  className={`px-6 py-2.5 rounded-full font-medium transition-all duration-300 transform hover:scale-105 ${
-                    activeFilter === filter
-                      ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg shadow-blue-500/50"
-                      : "bg-white text-slate-700 hover:bg-slate-100 border border-slate-200 hover:border-blue-300"
-                  }`}
-                >
-                  {filter}
-                </button>
-              ))}
+              {filters.map((filter) => {
+                const isActive = activeFilter === filter;
+
+                return (
+                  <button
+                    key={filter}
+                    onClick={() => setActiveFilter(filter)}
+                    className={`
+                    relative px-6 py-2.5 rounded-full text-sm font-medium
+                    transition-all duration-200 cursor-pointer
+              ${
+                isActive
+                  ? `
+                    bg-orange-50 text-orange-700
+                    border border-orange-300
+                    shadow-sm
+                  `
+                  : `
+                    bg-white text-slate-700
+                    border border-slate-200
+                    hover:bg-orange-50
+                    hover:border-orange-200
+                  `
+              }
+            `}
+                  >
+                    {filter}
+                  </button>
+                );
+              })}
             </div>
           </div>
         </div>
@@ -1313,7 +693,9 @@ export default function ProjectPage() {
               <div
                 key={project.id}
                 className="group relative bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 cursor-pointer"
-                onClick={() => setSelectedProject(project)}
+                onClick={() =>
+                  navigate(`/projects/${project.id}`, { state: project })
+                }
                 style={{
                   animationDelay: `${index * 100}ms`,
                   animation: "fadeInUp 0.6s ease-out forwards",
@@ -1430,195 +812,7 @@ export default function ProjectPage() {
           </div>
         </div>
 
-        {/* Project Modal */}
-        {selectedProject && (
-          <div
-            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm"
-            onClick={() => setSelectedProject(null)}
-          >
-            <div
-              className="bg-white rounded-3xl max-w-4xl w-full max-h-[90vh] overflow-y-auto shadow-2xl transform transition-all duration-500 scale-100"
-              onClick={(e) => e.stopPropagation()}
-            >
-              {/* Modal Header Image */}
-              <div className="relative h-96">
-                <img
-                  src={selectedProject.image}
-                  alt={selectedProject.title}
-                  className="w-full h-full object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                <button
-                  onClick={() => setSelectedProject(null)}
-                  className="absolute top-6 right-6 w-12 h-12 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white transition-colors shadow-lg"
-                >
-                  <svg
-                    className="w-6 h-6 text-slate-800"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M6 18L18 6M6 6l12 12"
-                    />
-                  </svg>
-                </button>
-                <div className="absolute bottom-8 left-8 text-white">
-                  <span className="px-4 py-1.5 bg-white/20 backdrop-blur-md rounded-full text-sm font-semibold mb-3 inline-block">
-                    {selectedProject.category}
-                  </span>
-                  <h2 className="text-4xl font-bold mb-2">
-                    {selectedProject.title}
-                  </h2>
-                  <p className="text-white/90 text-lg">
-                    {selectedProject.location}
-                  </p>
-                </div>
-              </div>
-
-              {/* Modal Content */}
-              <div className="p-8 md:p-12">
-                <div className="grid md:grid-cols-3 gap-6 mb-8">
-                  <div className="bg-gradient-to-br from-blue-50 to-indigo-50 p-6 rounded-2xl">
-                    <div className="text-blue-600 mb-2">
-                      <svg
-                        className="w-8 h-8"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
-                        />
-                      </svg>
-                    </div>
-                    <p className="text-slate-600 text-sm font-medium mb-1">
-                      Project Area
-                    </p>
-                    <p className="text-2xl font-bold text-slate-900">
-                      {selectedProject.details.area}
-                    </p>
-                  </div>
-                  <div className="bg-gradient-to-br from-purple-50 to-pink-50 p-6 rounded-2xl">
-                    <div className="text-purple-600 mb-2">
-                      <svg
-                        className="w-8 h-8"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                        />
-                      </svg>
-                    </div>
-                    <p className="text-slate-600 text-sm font-medium mb-1">
-                      Completion Year
-                    </p>
-                    <p className="text-2xl font-bold text-slate-900">
-                      {selectedProject.details.year}
-                    </p>
-                  </div>
-                  <div className="bg-gradient-to-br from-green-50 to-emerald-50 p-6 rounded-2xl">
-                    <div className="text-green-600 mb-2">
-                      <svg
-                        className="w-8 h-8"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                        />
-                      </svg>
-                    </div>
-                    <p className="text-slate-600 text-sm font-medium mb-1">
-                      Client Type
-                    </p>
-                    <p className="text-2xl font-bold text-slate-900">
-                      {selectedProject.details.client}
-                    </p>
-                  </div>
-                </div>
-
-                <div className="space-y-6">
-                  <div>
-                    <h3 className="text-2xl font-bold text-slate-900 mb-3">
-                      About Project
-                    </h3>
-                    <p className="text-slate-600 leading-relaxed text-lg">
-                      {selectedProject.description}
-                    </p>
-                  </div>
-
-                  <div>
-                    <h3 className="text-xl font-bold text-slate-900 mb-3">
-                      Architect
-                    </h3>
-                    <p className="text-slate-600 text-lg flex items-center gap-2">
-                      <svg
-                        className="w-5 h-5 text-blue-600"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                        />
-                      </svg>
-                      {selectedProject.architect}
-                    </p>
-                  </div>
-
-                  <div>
-                    <h3 className="text-xl font-bold text-slate-900 mb-3">
-                      Location
-                    </h3>
-                    <p className="text-slate-600 text-lg flex items-center gap-2">
-                      <svg
-                        className="w-5 h-5 text-blue-600"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-                        />
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-                        />
-                      </svg>
-                      {selectedProject.location}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-
-        <style jsx>{`
+        <style>{`
           @keyframes fadeInUp {
             from {
               opacity: 0;
