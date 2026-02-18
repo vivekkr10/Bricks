@@ -77,10 +77,10 @@ const AdminRegister = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Form submitted'); // Debug log
+    console.log('Form submitted'); 
     
     if (!validateForm()) {
-      console.log('Form validation failed', errors); // Debug log
+      console.log('Form validation failed', errors); 
       return;
     }
 
@@ -90,7 +90,7 @@ const AdminRegister = () => {
       email: formData.email,
       secretKey: formData.secretKey,
       password: '[HIDDEN]'
-    }); // Debug log
+    }); 
     
     try {
       // Send registration request to backend
@@ -103,7 +103,7 @@ const AdminRegister = () => {
         role: 'admin'
       });
 
-      console.log('Registration response:', response.data); // Debug log
+      console.log('Registration response:', response.data); 
 
       if (response.data.success) {
         // Store token in localStorage
@@ -115,27 +115,27 @@ const AdminRegister = () => {
         
         toast.success('Registration successful!');
         
-        console.log('Redirecting to home page...'); // Debug log
-        // Redirect to HOME PAGE
-        navigate('/');
+        console.log('Redirecting to home page...'); 
+        // Redirect to DASHBOARD PAGE
+        navigate('/dashboard');
       } else {
-        console.log('Registration failed:', response.data.message); // Debug log
+        console.log('Registration failed:', response.data.message); 
         toast.error(response.data.message || 'Registration failed');
       }
     } catch (error) {
-      console.error('Registration error details:', error); // Debug log
-      console.log('Error response:', error.response?.data); // Debug log
+      console.error('Registration error details:', error); 
+      console.log('Error response:', error.response?.data); 
       
       const errorMessage = error.response?.data?.message || 'Registration failed. Please try again.';
       toast.error(errorMessage);
     } finally {
       setLoading(false);
-      console.log('Loading set to false'); // Debug log
+      console.log('Loading set to false'); 
     }
   };
 
   const handleLoginClick = () => {
-    console.log('Navigating to login page'); // Debug log
+    console.log('Navigating to login page'); 
     navigate('/admin-login');
   };
 
