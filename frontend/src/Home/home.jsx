@@ -420,7 +420,7 @@ const ProductOverview = () => {
             <span className="w-8 h-[2px] bg-orange-600"></span>
         </div>
         <h2 className="text-4xl md:text-5xl font-serif font-medium text-stone-900 mb-4">
-         Top-tier Bricks
+         Top<span className="mx-0.5 font-sans">-</span>tier Bricks
         </h2>
         <p className="text-stone-600 font-sans font-light text-lg">
           High-grade clay crafted for modern architectural needs.
@@ -429,8 +429,8 @@ const ProductOverview = () => {
 
       {/* Marquee Wrapper */}
       <div className="relative w-full overflow-hidden z-10 pb-6">
-        <div className="absolute left-0 top-0 h-full w-24 md:w-48 bg-gradient-to-r from-stone-50 to-transparent z-10 pointer-events-none"></div>
-        <div className="absolute right-0 top-0 h-full w-24 md:w-48 bg-gradient-to-l from-stone-50 to-transparent z-10 pointer-events-none"></div>
+        <div className="absolute left-0 top-0 h-full w-24 md:w-48 bg-gradient-to-r from-stone-50 to-transparent z-10 pointer-events-none opacity-60"></div>
+        <div className="absolute right-0 top-0 h-full w-24 md:w-48 bg-gradient-to-l from-stone-50 to-transparent z-10 pointer-events-none opacity-60"></div>
 
         <div className="flex animate-marquee-horizontal gap-6">
           {[...products, ...products, ...products].map((p, i) => (
@@ -439,7 +439,7 @@ const ProductOverview = () => {
                 <img
                   src={p.img}
                   alt={p.title}
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 grayscale-[15%] group-hover:grayscale-0"
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-800 grayscale-[10%] group-hover:grayscale-0"
                 />
               </div>
               <h3 className="text-xl font-serif font-medium text-stone-900 group-hover:text-orange-700 transition-colors text-center">
@@ -562,6 +562,7 @@ architectural excellence.
           </div>
         </div>
       </div>
+      
 
       <style>{`
         @keyframes marquee-up { 0% { transform: translateY(0); } 100% { transform: translateY(-50%); } }
@@ -579,19 +580,22 @@ const Projects = () => {
 
   const projects = [
     {
-      title: "Skyline Residency",
+      title: "Crystal Heights Tower",
       desc: "A luxury residential complex built for longevity using our Red Clay Bricks.",
-      images: [P1,P1]
+      images: ["https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80",
+        "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80"],
     },
     {
       title: "Tech Park One",
       desc: "Commercial hub utilizing Fly Ash Blocks for superior thermal insulation.",
-      images:[P2,P2]
+      images:["https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80",
+        "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80"],
     },
     {
       title: "Green Valley Villas",
       desc: "Sustainable housing project featuring our premium exposed brickwork.",
-      images: [P3,P3]
+      images: ["https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&q=80",
+        "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&q=80"]
     }
   ];
 
@@ -603,7 +607,7 @@ const Projects = () => {
       }`}
     >
       <div className="container mx-auto px-6 relative z-10">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-10 gap-4">
+        {/* <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-10 gap-4">
           <div>
              <span className="text-orange-700 font-bold uppercase tracking-widest text-xs font-sans mb-2 block">Experiences</span>
              <h2 className="text-4xl md:text-5xl font-serif font-medium text-stone-900">
@@ -616,7 +620,23 @@ const Projects = () => {
           >
             View All Projects →
           </Link>
+        </div> */}
+
+         <div className="container mx-auto px-6 mb-10 relative z-10 flex flex-col items-center text-center">
+        <div className="inline-flex items-center gap-2 mb-3">
+            <span className="w-8 h-[2px] bg-orange-600"></span>
+            <span className="text-orange-700 font-bold uppercase tracking-widest text-xs font-sans">
+              Our Experiences
+            </span>
+            <span className="w-8 h-[2px] bg-orange-600"></span>
         </div>
+        <h2 className="text-4xl md:text-5xl font-serif font-medium text-stone-900 mb-4">Featured Projects
+         
+        </h2>
+        <p className="text-stone-600 font-sans font-light text-lg">
+        Engineering strength and timeless design into every structure we build.
+        </p>
+      </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {projects.map((p, i) => (
@@ -628,7 +648,7 @@ const Projects = () => {
                 <div className="absolute inset-0 flex w-[200%] animate-slide-project">
                   {[...p.images, ...p.images].map((img, idx) => (
                     <div key={idx} className="w-full h-full flex-shrink-0">
-                      <img src={img} alt={p.title} className="w-full h-full object-cover grayscale-[15%] group-hover:grayscale-0 transition-all duration-500" />
+                      <img src={img} alt={p.title} className="w-full h-full object-cover grayscale-[10%] group-hover:grayscale-0 transition-all duration-500" />
                     </div>
                   ))}
                 </div>
@@ -648,7 +668,19 @@ const Projects = () => {
             </div>
           ))}
         </div>
+ {/* side nav */}
+            <div className="container mx-auto px-6 mt-8 flex justify-end relative z-10">
+        <Link
+          to="/projects"
+          className="inline-flex items-center text-orange-700 font-bold font-sans uppercase tracking-widest text-xs hover:text-orange-900 transition-colors group border-b-2 border-orange-200 pb-1 hover:border-orange-700"
+        >
+          View All Projects
+          <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+        </Link>
       </div>
+
+      </div>
+          
 
       <style>{`
         @keyframes slide-proj { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }

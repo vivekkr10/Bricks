@@ -49,7 +49,7 @@ function App() {
          
         <Route path="/admin-login" element={<AdminLogin />} />
         <Route path="/admin-register" element={<AdminRegister />} />
-        {/* <Route path="/forgot-password" element={<ForgotPassword />} /> */}
+        <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/forgot-password" element={<ForgotPasswordOTP />} />
         {/* Other Routes */}
         <Route path="/services" element={<Services />} />

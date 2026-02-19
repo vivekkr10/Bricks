@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Navbar from "../../components/header.jsx";
 import { useNavigate } from "react-router-dom";
+import Footer from "../../Components/footer.jsx";
 
 export default function ProjectPage() {
   const [activeFilter, setActiveFilter] = useState("All");
@@ -840,6 +841,7 @@ export default function ProjectPage() {
           }
         `}</style>
       </div>
+      <Footer/>
     </div>
   );
 }
