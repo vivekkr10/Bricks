@@ -1,54 +1,43 @@
-import ScrollToTop from "./components/ScrollToTop.jsx";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
+import ScrollToTop from "./Components/ScrollToTop.jsx";
 import "./App.css";
-import Services from "./pages/services";
-// import AdminRegister from "./pages/auth/adminRegister.jsx";
 
+import Home from "./Home/home.jsx";
+import Services from "./pages/services.jsx";
 import Terms from "./pages/terms.jsx";
 import Privacy from "./pages/privacy.jsx";
-import Home from "./Home/home.jsx";
-
-// 3. The Temporary Fix
-import ComingSoon from "./Components/commingsoon.jsx";
-import { ProductsPage, ProductDetails } from "./pages/Product";
-import BlogSection from "./pages/blog/BlogSection.jsx";
-import Contact from "./pages/contactPage/Contact.jsx";
-import BlogDetails from "./pages/blog/BlogDetails.jsx";
 import AboutPage from "./pages/AboutPage/About.jsx";
 import ProjectPage from "./pages/Project/Project.jsx";
+import ComingSoon from "./Components/commingsoon.jsx";
+import { ProductsPage, ProductDetails } from "./pages/Product";
+
+import FeaturedArticle from "./pages/blog/FeaturedArticle.jsx";
+import ContactSection from "./pages/contactPage/ContactSection";
+import Inquiry from "./pages/contactPage/Inquiry";
 
 function App() {
   return (
-    <BrowserRouter>
+    <>
       <ScrollToTop />
       <Routes>
         <Route path="/" element={<Home />} />
-
         <Route path="/services" element={<Services />} />
-        {/* <Route path="/admin-register" element={<AdminRegister />} /> */}
-      
-       
+
+        <Route path="/blog" element={<FeaturedArticle />} />
 
         <Route path="/products" element={<ProductsPage />} />
         <Route path="/products/:id" element={<ProductDetails />} />
-        
-        <Route path="/blog" element={<BlogSection />} />
-        <Route path="/blog/:id" element={<BlogDetails />} />
-        <Route path="/contact" element={<Contact />} />
-        {/* Fallback for 404 (optional) */}
 
-        <Route path="*" element={<ComingSoon />} />
-
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/projects" element={<ProjectPage />} />
         <Route path="/terms" element={<Terms />} />
         <Route path="/privacy" element={<Privacy />} />
-        {/* About Page */}
-        <Route path="/about" element={<AboutPage />} />
+        <Route path="/contact" element={<ContactSection />} />
+        <Route path="/inquiry" element={<Inquiry />} />
 
-        {/* Projects  */}
-
-        <Route path="/projects" element={<ProjectPage />} />
+        <Route path="*" element={<ComingSoon />} />
       </Routes>
-    </BrowserRouter>
+    </>
   );
 }
 
