@@ -264,7 +264,7 @@ const Hero = () => {
           >
             <Link
               to="/products"
-              className="group relative px-10 py-4 bg-orange-600 text-white font-bold font-sans tracking-wider text-xs uppercase rounded-lg overflow-hidden shadow-[0_0_20px_rgba(234,88,12,0.3)] transition-all hover:-translate-y-1 hover:shadow-[0_10px_40px_rgba(234,88,12,0.5)]"
+              className="group relative px-10 py-4 bg-red-800 text-white font-bold font-sans tracking-wider text-xs uppercase rounded-lg overflow-hidden shadow-[0_0_20px_rgba(234,88,12,0.3)] transition-all hover:-translate-y-1 hover:shadow-[0_10px_40px_rgba(234,88,12,0.5)]"
             >
               <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-orange-500 to-orange-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
               <span className="relative flex items-center gap-2 drop-shadow-md">
@@ -385,7 +385,7 @@ const AboutShort = () => {
             <div className="text-center lg:right-left">
               <Link
                 to="/about"
-                className="inline-flex items-center px-8 py-4 border border-stone-300 text-stone-800 font-bold font-sans text-xs uppercase tracking-widest rounded-lg hover:bg-orange-600 hover:text-white hover:border-orange-600 hover:shadow-lg transition-all duration-300"
+                className="inline-flex items-center px-8 py-4 border border-stone-300 text-stone-800 font-bold font-sans text-xs uppercase tracking-widest rounded-lg hover:bg-orange-600 hover:text-white hover:border-orange-600 hover:-translate-y-1 transition-all duration-300"
               >
                 Discover Our Story <ArrowRight className="w-4 h-4 ml-2" />
               </Link>
@@ -436,11 +436,11 @@ const ProductOverview = () => {
       </div>
 
       {/* Marquee Wrapper */}
-      <div className="relative w-full overflow-hidden z-10 pb-6">
+      <div className="relative w-full overflow-hidden z-10 pb-6 ml-5  ">
         <div className="absolute left-0 top-0 h-full w-24 md:w-48 bg-gradient-to-r from-stone-50 to-transparent z-10 pointer-events-none opacity-50"></div>
         <div className="absolute right-0 top-0 h-full w-24 md:w-48 bg-gradient-to-l from-stone-50 to-transparent z-10 pointer-events-none opacity-50"></div>
 
-        <div className="flex animate-marquee-horizontal gap-6">
+        <div className="flex animate-marquee-horizontal gap-6 ">
           {[...products, ...products, ...products].map((p, i) => (
             <div key={i} className="w-64 md:w-72 flex-shrink-0 group cursor-pointer">
               <div className="h-56 overflow-hidden rounded-2xl mb-4 shadow-sm border border-stone-300 bg-white group-hover:shadow-xl group-hover:border-orange-300 transition-all duration-500">
@@ -720,7 +720,7 @@ const CtaSection = () => {
         </p>
         <Link 
           to="/contact" 
-          className="inline-flex items-center px-10 py-4 bg-orange-600 text-white font-bold font-sans text-xs uppercase tracking-widest rounded-xl hover:bg-stone-900 transition-all duration-300  hover:-translate-y-1"
+          className="inline-flex items-center px-10 py-4 bg-red-800 text-white font-bold font-sans text-xs uppercase tracking-widest rounded-xl hover:bg-red-700 transition-all duration-300  hover:-translate-y-1"
         >
           Inquire Now <ArrowRight className="w-4 h-4 ml-3" />
         </Link>

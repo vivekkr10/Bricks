@@ -93,7 +93,7 @@ const Header = () => {
             
             <Link 
               to="/contact" 
-              className="bg-orange-600 hover:bg-orange-700 text-white px-7 py-2.5 rounded-lg text-sm font-bold uppercase tracking-widest transition-all shadow-md shadow-orange-600/20 active:scale-95"
+              className="bg-red-800 hover:bg-orange-700 text-white px-7 py-2.5 rounded-lg text-sm font-bold uppercase tracking-widest transition-all shadow-md shadow-orange-600/20 active:scale-95"
             >
               Contact Us
             </Link>
@@ -129,7 +129,7 @@ const Header = () => {
               {link.name}
             </Link>
           ))}
-          <Link to="/contact" className="text-lg font-bold text-orange-600 uppercase flex items-center justify-between border-t border-stone-200 pt-6 group">
+          <Link to="/contact" className="text-lg font-bold text-red-800 uppercase flex items-center justify-between border-t border-stone-200 pt-6 group">
             Contact Us <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
           </Link>
         </div>
