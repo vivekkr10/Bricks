@@ -3,7 +3,8 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Helmet } from 'react-helmet';
 import productsData from './productsData';
-
+import Header from '../../Components/header';
+import Footer from '../../Components/footer';
 // BrickWall pattern
 const BrickWall = ({ opacity = 0.06, color = "#8B4513" }) => (
   <svg style={{ position: "absolute", inset: 0, width: "100%", height: "100%", pointerEvents: "none" }}>
@@ -212,6 +213,8 @@ const ProductDetailPage = () => {
   }
 
   return (
+    <>
+    <Header/>
     <div className="min-h-screen bg-stone-50 text-stone-800" style={{ fontFamily: "'Jost', sans-serif" }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600;1,700&family=Jost:wght@300;400;500;600;700&display=swap');
@@ -949,6 +952,8 @@ const ProductDetailPage = () => {
         </AnimatePresence>
       </div>
     </div>
+    <Footer />
+    </>
   );
 };
 

@@ -6,7 +6,8 @@ import ProductCard from './ProductCard';
 import ProductFilters from './ProductFilters';
 import ProductSkeleton from './ProductSkeleton';
 import productsData from './productsData';
-import { AlignCenter } from 'lucide-react';
+import Header from '../../Components/header';
+import Footer from '../../Components/footer';
 
 // BrickWall pattern background
 const BrickWall = ({ opacity = 0.06, color = "#8B4513" }) => (
@@ -319,6 +320,7 @@ const ProductsPage = () => {
   ];
 
   return (
+    <><Header />
     <div className="min-h-screen bg-stone-50 text-stone-800" style={{ fontFamily: "'Jost', sans-serif" }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600;1,700&family=Jost:wght@300;400;500;600;700&display=swap');
@@ -905,6 +907,8 @@ const ProductsPage = () => {
         </div>
       </section>
     </div>
+    <Footer/>
+    </>
   );
 };
 
