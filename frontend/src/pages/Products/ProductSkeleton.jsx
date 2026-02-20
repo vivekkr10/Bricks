@@ -17,7 +17,7 @@ const ProductSkeleton = ({ viewMode = 'grid', count = 6 }) => {
 
   // Grid view skeleton
   const GridSkeleton = () => (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    <div className="grid grid-cols-1 sm:grid-cols-2 2xl:grid-cols-3 gap-10 xl:gap-12">
       {[...Array(count)].map((_, index) => (
         <motion.div
           key={index}

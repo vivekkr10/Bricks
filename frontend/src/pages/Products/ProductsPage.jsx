@@ -6,6 +6,7 @@ import ProductCard from './ProductCard';
 import ProductFilters from './ProductFilters';
 import ProductSkeleton from './ProductSkeleton';
 import productsData from './productsData';
+import { AlignCenter } from 'lucide-react';
 
 // BrickWall pattern background
 const BrickWall = ({ opacity = 0.06, color = "#8B4513" }) => (
@@ -256,6 +257,66 @@ const ProductsPage = () => {
       transition: { duration: 0.4, ease: "easeOut" }
     }
   };
+  const heroEase = [0.22, 1, 0.36, 1];
+
+  const brickCategoryCards = [
+    {
+      title: "Classic Reds",
+      subtitle: "Warm & Timeless",
+      image: "https://imgs.search.brave.com/AzPQ__YBQbMVOokRYNfsvMwDjBflQcFa0NJSI0KztKc/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/bGF3c29ucy5jby51/ay9tZWRpYS9jYXRh/bG9nL3Byb2R1Y3Qv/dy9hL3dhcm5oYW1f/MjB0ZXJyYWNvdHRh/XzIwYnJpY2tzLTI3/ODY1LWV4dHJhLWxh/cmdlXzEuanBnP29w/dGltaXplPW1lZGl1/bSZiZy1jb2xvcj0y/NTUsMjU1LDI1NSZm/aXQ9Ym91bmRzJmhl/aWdodD0zMjAmd2lk/dGg9MzIwJmNhbnZh/cz0zMjA6MzIw",
+      overlay: "bg-black/40",
+      titleClass: "text-white",
+      subtitleClass: "text-red-100"
+    },
+    {
+      title: "Multis",
+      subtitle: "Dynamic Blend",
+      image: "https://imgs.search.brave.com/Yw5epWUYQtzziGgnxX0Mbp5NAw6eEWHGj3IN7K1GldU/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jZG4t/aWxjYW5mai5uaXRy/b2Nkbi5jb20vTGxy/VW1DaENYc2xETmt0/cHNDcFNXaW1Kd1Rh/bFJ2TFQvYXNzZXRzL2ltYWdlcy9vcHRp/bWl6ZWQvcmV2LWY4/MTYxZDYvYnJpY2tt/eXdhbGxzLmNvbS93/cC1jb250ZW50L3Vw/bG9hZHMvMjAyMS8w/Ny9ibGVuZDF4LmpwZw",
+      overlay: "bg-black/40",
+      titleClass: "text-white",
+      subtitleClass: "text-amber-100"
+    },
+    {
+      title: "Darks",
+      subtitle: "Modern Elegance",
+      image: "https://imgs.search.brave.com/pIqMbuUAsDaBuO864_xPnoBMnQ5b9s0CcKNKakO0VGE/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/ZGRicy5jb20uYXUv/d3AtY29udGVudC91/cGxvYWRzLzIwMjEv/MDgvZGFyay1zaWx2/ZXItZ3JleS1ob21l/c3RlYWQtc29saWQt/YnJpY2tzLmpwZw",
+      overlay: "bg-black/40",
+      titleClass: "text-white",
+      subtitleClass: "text-slate-200"
+    },
+    {
+      title: "Hamptons",
+      subtitle: "Coastal Refined",
+      image: "https://imgs.search.brave.com/cVKg0qRTU0NxldwO6Cj0GEndkVFr0J7T3AesG249Plo/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9saXJw/LmNkbi13ZWJzaXRl/LmNvbS9kNjI0MTM3/Ny9kbXMzcmVwL211/bHRpL29wdC9wZ2gt/YnJpY2tzXy1zaG9y/ZWxpbmVfZWxraG9y/bl8yMzB4MTEweDc2/LTE5MjB3LmpwZw",
+      overlay: "bg-black/30",
+      titleClass: "text-stone-900",
+      subtitleClass: "text-stone-700"
+    },
+    {
+      title: "Yellows",
+      subtitle: "Warm Glow",
+      image: "https://imgs.search.brave.com/uZoo23saM2XVZkOG7JgFf9eAfS5eTJBW4ndwsABIfxc/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly90aHVt/YnMuZHJlYW1zdGlt/ZS5jb20vYi90ZXh0/dXJlLW1hZGUteWVs/bG93LW9sZC1icmlj/a3MtMTkxMzk2NDYz/LmpwZw",
+      overlay: "bg-black/40",
+      titleClass: "text-white",
+      subtitleClass: "text-yellow-100"
+    },
+    {
+      title: "Rumbled",
+      subtitle: "Rustic Touch",
+      image: "https://imgs.search.brave.com/5W55riRd3XbMGIZNmVld0Q-Pj89pE9dT98PDn1W1D3E/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9icmlj/ay5jb20vd3AtY29u/dGVudC91cGxvYWRz/LzIwMjUvMDEvMjAx/OTA3MTVfRUNfTGVh/Y3JvZnQuanBn",
+      overlay: "bg-black/40",
+      titleClass: "text-white",
+      subtitleClass: "text-amber-100"
+    },
+    {
+      title: "Reclaimed",
+      subtitle: "Heritage Appeal",
+      image: "https://imgs.search.brave.com/N4Fq89jX423mKZQKCvj7UbvFfDhfG2OSEaO18Q4GrOg/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9pLmV0/c3lzdGF0aWMuY29t/LzgyNzQwOTQvci9p/bC83Yzc0NTgvMTcw/NDIzOTMzMS9pbF82/MDB4NjAwLjE3MDQy/MzkzMzFfYWdtMy5q/cGc",
+      overlay: "bg-black/35",
+      titleClass: "text-white",
+      subtitleClass: "text-stone-200"
+    }
+  ];
 
   return (
     <div className="min-h-screen bg-stone-50 text-stone-800" style={{ fontFamily: "'Jost', sans-serif" }}>
@@ -284,6 +345,77 @@ const ProductsPage = () => {
         .section-reveal { opacity:0; transform:translateY(40px); transition: opacity 0.8s cubic-bezier(0.22,1,0.36,1), transform 0.8s cubic-bezier(0.22,1,0.36,1); }
         .section-reveal.visible { opacity:1; transform:translateY(0); }
         .pulse-dot { animation: pulse 2s ease-in-out infinite; }
+        @keyframes floatCard3D {
+          0%,100% {
+            transform: translateY(0) rotateX(var(--tilt-x, 4deg)) rotateY(var(--tilt-y, 6deg));
+          }
+          50% {
+            transform: translateY(-8px) rotateX(var(--tilt-x-mid, 3deg)) rotateY(var(--tilt-y-mid, 5deg));
+          }
+        }
+        @keyframes floatCard3DMobile {
+          0%,100% { transform: translateY(0) rotateX(2deg) rotateY(3deg); }
+          50% { transform: translateY(-4px) rotateX(1deg) rotateY(2deg); }
+        }
+        .brick-float-scene {
+          perspective: 1320px;
+          transform-style: preserve-3d;
+        }
+        .brick-float-card {
+          transform-style: preserve-3d;
+          backface-visibility: hidden;
+          will-change: transform;
+          animation-name: floatCard3D;
+          animation-duration: var(--float-duration, 5s);
+          animation-delay: var(--float-delay, 0s);
+          animation-iteration-count: infinite;
+          animation-timing-function: cubic-bezier(0.42, 0, 0.2, 1);
+          animation-fill-mode: both;
+          border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+        .brick-float-card:hover {
+          animation-play-state: paused;
+        }
+        .brick-float-card::after {
+          content: "";
+          position: absolute;
+          inset: 0;
+          border-radius: inherit;
+          box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.16);
+          opacity: 0;
+          transition: opacity 0.35s ease-in-out;
+          pointer-events: none;
+        }
+        .brick-float-card:hover::after {
+          opacity: 1;
+        }
+        @keyframes heroGradientShift {
+          0% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+          100% { background-position: 0% 50%; }
+        }
+        @keyframes heroTextShimmer {
+          0%, 100% { text-shadow: 0 0 0 rgba(251, 146, 60, 0); }
+          50% { text-shadow: 0 0 14px rgba(251, 146, 60, 0.28); }
+        }
+        .hero-gradient-shimmer {
+          background-image: linear-gradient(90deg, #f97316, #ea580c, #c2410c, #ea580c, #f97316);
+          background-size: 220% 220%;
+          animation: heroGradientShift 8s ease-in-out infinite;
+        }
+        .hero-text-shimmer {
+          animation: heroTextShimmer 7.5s ease-in-out infinite;
+        }
+        @media (max-width: 768px) {
+          .brick-float-scene {
+            perspective: 1000px;
+          }
+          .brick-float-card {
+            animation-name: floatCard3DMobile;
+            animation-duration: 6s;
+            border-color: rgba(255, 255, 255, 0.12);
+          }
+        }
         @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.4;transform:scale(1.6)} }
       `}</style>
 
@@ -299,19 +431,19 @@ const ProductsPage = () => {
         {/* Background overlay for readability */}
         <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/40 to-black/30 pointer-events-none" />
         
-        <div className="max-w-7xl mx-auto px-8 lg:px-16 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-20 items-center">
+        <div className="max-w-[1500px] mx-auto px-6 sm:px-8 lg:px-10 xl:px-12 lg:pl-14 xl:pl-16 2xl:pl-20 relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-20 items-center lg:items-start">
             {/* Left Content */}
             <motion.div
-              initial={{ opacity: 0, x: -40 }}
+              initial={{ opacity: 0, x: -28 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
+              transition={{ duration: 0.75, ease: heroEase }}
             >
               {/* Premium Badge */}
               <motion.div
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2, duration: 0.6 }}
+                transition={{ delay: 0.1, duration: 0.7, ease: "easeOut" }}
                 className="inline-block mb-8"
               >
                 <div className="flex items-center gap-3 bg-gradient-to-r from-orange-50 to-transparent border border-orange-200/60 rounded-full px-6 py-3">
@@ -320,7 +452,7 @@ const ProductsPage = () => {
                     className="text-xs font-bold tracking-widest text-orange-700 uppercase inline-block"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    transition={{ duration: 0.8, delay: 0.2 }}
+                    transition={{ duration: 0.65, delay: 0.2, ease: heroEase }}
                   >
                     Premium Selection | 40+ Years of Excellence
                   </motion.span>
@@ -331,14 +463,14 @@ const ProductsPage = () => {
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 0.3, duration: 0.6 }}
+                transition={{ delay: 0.35, duration: 0.75, ease: "easeOut" }}
               >
                 <motion.h1
                   className="font-serif text-5xl lg:text-7xl font-bold text-white mb-6 leading-tight"
                   style={{ fontFamily: "'Cormorant Garamond', serif" }}
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.3, duration: 0.8 }}
+                  initial={{ opacity: 0, y: 30, scale: 0.95 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  transition={{ delay: 0.35, duration: 0.9, ease: "easeOut" }}
                 >
                   <motion.span
                     className="block"
@@ -349,10 +481,10 @@ const ProductsPage = () => {
                     Exceptional Bricks
                   </motion.span>
                   <motion.span
-                    className="block text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-orange-700"
+                    className="hero-gradient-shimmer hero-text-shimmer block text-transparent bg-clip-text"
                     initial={{ opacity: 0, x: 30 }}
                     animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.45, duration: 0.7 }}
+                    transition={{ delay: 0.56, duration: 0.75, ease: "easeOut" }}
                   >
                     Engineered for Excellence
                   </motion.span>
@@ -361,9 +493,9 @@ const ProductsPage = () => {
 
               {/* Subheading */}
               <motion.p
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.55, duration: 0.8 }}
+                initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}
+                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                transition={{ delay: 0.65, duration: 0.8, ease: "easeOut" }}
                 className="text-lg lg:text-xl text-white/90 font-light leading-relaxed max-w-xl mb-8 line-animation"
               >
                 Discover our premium collection of 7 distinctive brick types, each crafted for strength, durability, and timeless architectural beauty.
@@ -373,7 +505,7 @@ const ProductsPage = () => {
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.65, duration: 0.8 }}
+                transition={{ delay: 0.86, duration: 0.75, ease: "easeOut" }}
                 className="flex flex-col sm:flex-row gap-8 mb-10"
               >
                 <div className="flex items-start gap-3">
@@ -405,7 +537,7 @@ const ProductsPage = () => {
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.75, duration: 0.8 }}
+                transition={{ delay: 1.05, duration: 0.75, ease: "easeOut" }}
                 className="flex flex-wrap gap-4"
               >
                 <button 
@@ -435,170 +567,67 @@ const ProductsPage = () => {
               initial={{ opacity: 0, x: 40 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}
-              className="relative h-[500px] lg:h-[600px] hidden lg:flex flex-col gap-4"
+              className="relative mt-10 lg:mt-0 w-full lg:max-w-[620px] lg:ml-auto flex flex-col"
             >
+              <div className="absolute inset-8 bg-gradient-to-br from-orange-200/25 via-amber-100/15 to-transparent rounded-[36px] blur-3xl pointer-events-none" />
               {/* Brick Color Preview Grid */}
               <motion.div
-              className="grid grid-cols-3 gap-4 h-full"
-              variants={staggerContainerVariants}
-              initial="hidden"
-              animate="visible"
-            >
-                {/* Classic Reds */}
-                <motion.div
-                  variants={staggerItemVariants}
-                  animate={{ y: [0, -12, 0] }}
-                  transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                  whileHover={{ scale: 1.05, y: -8 }}
-                  className="relative group rounded-2xl overflow-hidden shadow-xl flex flex-col items-center justify-center p-6 cursor-pointer hover:shadow-2xl transition-all"
-                  style={{
-                    backgroundImage: 'url(https://imgs.search.brave.com/AzPQ__YBQbMVOokRYNfsvMwDjBflQcFa0NJSI0KztKc/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/bGF3c29ucy5jby51/ay9tZWRpYS9jYXRh/bG9nL3Byb2R1Y3Qv/dy9hL3dhcm5oYW1f/MjB0ZXJyYWNvdHRh/XzIwYnJpY2tzLTI3/ODY1LWV4dHJhLWxh/cmdlXzEuanBnP29w/dGltaXplPW1lZGl1/bSZiZy1jb2xvcj0y/NTUsMjU1LDI1NSZm/aXQ9Ym91bmRzJmhl/aWdodD0zMjAmd2lk/dGg9MzIwJmNhbnZh/cz0zMjA6MzIw)',
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center'
-                  }}
-                >
-                  <div className="absolute inset-0 bg-black/40" />
+                className="brick-float-scene relative z-10 grid grid-cols-2 lg:grid-cols-3 gap-x-7 lg:gap-x-8 gap-y-8 lg:gap-y-9 place-items-center content-start pr-2 lg:pr-8 xl:pr-10"
+                variants={staggerContainerVariants}
+                initial="hidden"
+                animate="visible"
+              >
+                {brickCategoryCards.slice(0, 6).map((card, index) => {
+                  return (
                   <motion.div
-                    className="relative z-10 text-center"
-                    whileHover={{ scale: 1.05 }}
+                    key={`${card.title}-shell`}
+                    initial={{ opacity: 0, y: 24 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.65, ease: "easeOut", delay: 0.1 + index * 0.08 }}
+                    className={`w-full flex justify-center ${index >= 3 ? 'lg:mt-8' : ''} ${index === 1 ? 'lg:-mt-3 lg:z-10' : ''}`}
                   >
-                    <motion.div
-                      className="text-white font-serif text-2xl font-bold mb-2"
-                      initial={{ opacity: 0, y: 5 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.2 }}
-                    >
-                      Classic Reds
-                    </motion.div>
-                    <motion.div
-                      className="text-red-100 text-xs font-semibold"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ delay: 0.3 }}
-                    >
-                      Warm & Timeless
-                    </motion.div>
-                  </motion.div>
-                </motion.div>
-
-                {/* Multis */}
-                <motion.div
-                  variants={staggerItemVariants}
-                  animate={{ y: [0, -14, 0] }}
-                  transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut", delay: 0.2 }}
-                  whileHover={{ scale: 1.05, y: -8 }}
-                  className="relative group rounded-2xl overflow-hidden shadow-xl flex flex-col items-center justify-center p-6 cursor-pointer hover:shadow-2xl transition-all"
-                  style={{
-                    backgroundImage: 'url(https://imgs.search.brave.com/Yw5epWUYQtzziGgnxX0Mbp5NAw6eEWHGj3IN7K1GldU/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jZG4t/aWxjYW5mai5uaXRy/b2Nkbi5jb20vTGxy/VW1DaENYc2xETmt0/cHNDcFNXaW1Kd1Rh/bFJ2TFQvYXNzZXRz/L2ltYWdlcy9vcHRp/bWl6ZWQvcmV2LWY4/MTYxZDYvYnJpY2tt/eXdhbGxzLmNvbS93/cC1jb250ZW50L3Vw/bG9hZHMvMjAyMS8w/Ny9ibGVuZDF4Lmpw/Zw)',
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center'
-                  }}
-                >
-                  <div className="absolute inset-0 bg-black/40" />
-                  <motion.div className="relative z-10 text-center" whileHover={{ scale: 1.05 }}>
-                    <motion.div className="text-white font-serif text-2xl font-bold mb-2" initial={{ opacity: 0, y: 5 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25 }}>Multis</motion.div>
-                    <motion.div className="text-amber-100 text-xs font-semibold" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.35 }}>Dynamic Blend</motion.div>
-                  </motion.div>
-                </motion.div>
-
-                {/* Darks */}
-                <motion.div
-                  variants={staggerItemVariants}
-                  animate={{ y: [0, -10, 0] }}
-                  transition={{ duration: 4.2, repeat: Infinity, ease: "easeInOut", delay: 0.4 }}
-                  whileHover={{ scale: 1.05, y: -8 }}
-                  className="relative group rounded-2xl overflow-hidden shadow-xl flex flex-col items-center justify-center p-6 cursor-pointer hover:shadow-2xl transition-all"
-                  style={{
-                    backgroundImage: 'url(https://imgs.search.brave.com/pIqMbuUAsDaBuO864_xPnoBMnQ5b9s0CcKNKakO0VGE/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/ZGRicy5jb20uYXUv/d3AtY29udGVudC91/cGxvYWRzLzIwMjEv/MDgvZGFyay1zaWx2/ZXItZ3JleS1ob21l/c3RlYWQtc29saWQt/YnJpY2tzLmpwZw)',
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center'
-                  }}
-                >
-                  <div className="absolute inset-0 bg-black/40" />
-                  <motion.div className="relative z-10 text-center" whileHover={{ scale: 1.05 }}>
-                    <motion.div className="text-white font-serif text-2xl font-bold mb-2" initial={{ opacity: 0, y: 5 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>Darks</motion.div>
-                    <motion.div className="text-slate-200 text-xs font-semibold" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.4 }}>Modern Elegance</motion.div>
-                  </motion.div>
-                </motion.div>
-
-                {/* Hamptons */}
-                <motion.div
-                  variants={staggerItemVariants}
-                  animate={{ y: [0, -15, 0] }}
-                  transition={{ duration: 4.3, repeat: Infinity, ease: "easeInOut", delay: 0.1 }}
-                  whileHover={{ scale: 1.05, y: -8 }}
-                  className="relative group rounded-2xl overflow-hidden shadow-xl flex flex-col items-center justify-center p-6 cursor-pointer hover:shadow-2xl transition-all"
-                  style={{
-                    backgroundImage: 'url(https://imgs.search.brave.com/cVKg0qRTU0NxldwO6Cj0GEndkVFr0J7T3AesG249Plo/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9saXJw/LmNkbi13ZWJzaXRl/LmNvbS9kNjI0MTM3/Ny9kbXMzcmVwL211/bHRpL29wdC9wZ2gt/YnJpY2tzXy1zaG9y/ZWxpbmVfZWxraG9y/bl8yMzB4MTEweDc2/LTE5MjB3LmpwZw)',
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center'
-                  }}
-                >
-                  <div className="absolute inset-0 bg-black/30" />
-                  <motion.div className="relative z-10 text-center" whileHover={{ scale: 1.05 }}>
-                    <motion.div className="text-stone-900 font-serif text-2xl font-bold mb-2" initial={{ opacity: 0, y: 5 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35 }}>Hamptons</motion.div>
-                    <motion.div className="text-stone-700 text-xs font-semibold" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.45 }}>Coastal Refined</motion.div>
-                  </motion.div>
-                </motion.div>
-
-                {/* Yellows */}
-                <motion.div
-                  variants={staggerItemVariants}
-                  animate={{ y: [0, -11, 0] }}
-                  transition={{ duration: 4.4, repeat: Infinity, ease: "easeInOut", delay: 0.3 }}
-                  whileHover={{ scale: 1.05, y: -8 }}
-                  className="relative group rounded-2xl overflow-hidden shadow-xl flex flex-col items-center justify-center p-6 cursor-pointer hover:shadow-2xl transition-all"
-                  style={{
-                    backgroundImage: 'url(https://imgs.search.brave.com/uZoo23saM2XVZkOG7JgFf9eAfS5eTJBW4ndwsABIfxc/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly90aHVt/YnMuZHJlYW1zdGlt/ZS5jb20vYi90ZXh0/dXJlLW1hZGUteWVs/bG93LW9sZC1icmlj/a3MtMTkxMzk2NDYz/LmpwZw)',
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center'
-                  }}
-                >
-                  <div className="absolute inset-0 bg-black/40" />
-                  <motion.div className="relative z-10 text-center" whileHover={{ scale: 1.05 }}>
-                    <motion.div className="text-white font-serif text-2xl font-bold mb-2" initial={{ opacity: 0, y: 5 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}>Yellows</motion.div>
-                    <motion.div className="text-yellow-100 text-xs font-semibold" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }}>Warm Glow</motion.div>
-                  </motion.div>
-                </motion.div>
-
-                {/* Rumbled & Reclaimed (stacked) */}
-                <motion.div variants={staggerItemVariants} className="flex flex-col gap-4">
                   <motion.div
-                    animate={{ y: [0, -13, 0] }}
-                    transition={{ duration: 4.1, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
-                    whileHover={{ scale: 1.05, y: -8 }}
-                    className="relative group rounded-2xl overflow-hidden shadow-xl flex flex-col items-center justify-center p-4 cursor-pointer hover:shadow-2xl transition-all flex-1"
+                    key={card.title}
+                    whileHover={{
+                      scale: 1.045,
+                      y: -6,
+                      rotateX: 1.2,
+                      rotateY: 1.6,
+                      boxShadow: "0 30px 52px rgba(15, 23, 42, 0.36), 0 0 24px rgba(251, 146, 60, 0.2)"
+                    }}
+                    transition={{ duration: 0.35, ease: "easeInOut" }}
+                    className="brick-float-card relative group overflow-hidden cursor-pointer"
                     style={{
-                      backgroundImage: 'url(https://imgs.search.brave.com/5W55riRd3XbMGIZNmVld0Q-Pj89pE9dT98PDn1W1D3E/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9icmlj/ay5jb20vd3AtY29u/dGVudC91cGxvYWRz/LzIwMjUvMDEvMjAx/OTA3MTVfRUNfTGVh/Y3JvZnQuanBn)',
-                      backgroundSize: 'cover',
-                      backgroundPosition: 'center'
+                      "--tilt-x": `${3 + (index % 4)}deg`,
+                      "--tilt-y": `${4 + ((index + 1) % 5)}deg`,
+                      "--tilt-x-mid": `${2 + (index % 3)}deg`,
+                      "--tilt-y-mid": `${3 + (index % 4)}deg`,
+                      "--float-delay": `${(index % 4) * 0.5}s`,
+                      "--float-duration": `${4.2 + (index % 3) * 0.6}s`,
+                      width: "100%",
+                      maxWidth: "160px",
+                      aspectRatio: "1 / 1",
+                      borderRadius: "18px",
+                      backgroundImage: `url(${card.image})`,
+                      backgroundSize: "cover",
+                      backgroundPosition: "center",
+                      boxShadow: "0 12px 24px rgba(15, 23, 42, 0.2), 0 4px 18px rgba(15, 23, 42, 0.12)",
+                      transition: "box-shadow 0.35s ease-in-out, transform 0.35s ease-in-out"
                     }}
                   >
-                    <div className="absolute inset-0 bg-black/40" />
-                    <motion.div className="relative z-10 text-center" whileHover={{ scale: 1.05 }}>
-                      <motion.div className="text-white font-serif text-lg font-bold mb-1" initial={{ opacity: 0, y: 5 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.45 }}>Rumbled</motion.div>
-                      <motion.div className="text-amber-100 text-xs font-semibold" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.55 }}>Rustic Touch</motion.div>
-                    </motion.div>
+                    <div className={`absolute inset-0 ${card.overlay}`} />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-black/10 to-white/10 pointer-events-none" />
+                    <div className="relative z-10 h-full w-full flex flex-col items-center justify-center text-center px-3">
+                      <div className={`font-serif text-xl font-bold ${card.titleClass}`}>
+                        {card.title}
+                      </div>
+                      <div className={`text-xs font-semibold mt-1 ${card.subtitleClass}`}>
+                        {card.subtitle}
+                      </div>
+                    </div>
                   </motion.div>
-
-                  <motion.div
-                    animate={{ y: [0, -12, 0] }}
-                    transition={{ duration: 4.2, repeat: Infinity, ease: "easeInOut", delay: 0.6 }}
-                    whileHover={{ scale: 1.05, y: -8 }}
-                    className="relative group rounded-2xl overflow-hidden shadow-xl flex flex-col items-center justify-center p-4 cursor-pointer hover:shadow-2xl transition-all flex-1"
-                    style={{
-                      backgroundImage: 'url(https://imgs.search.brave.com/N4Fq89jX423mKZQKCvj7UbvFfDhfG2OSEaO18Q4GrOg/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9pLmV0/c3lzdGF0aWMuY29t/LzgyNzQwOTQvci9p/bC83Yzc0NTgvMTcw/NDIzOTMzMS9pbF82/MDB4NjAwLjE3MDQy/MzkzMzFfYWdtMy5q/cGc)',
-                      backgroundSize: 'cover',
-                      backgroundPosition: 'center'
-                    }}
-                  >
-                    <div className="absolute inset-0 bg-black/35" />
-                    <motion.div className="relative z-10 text-center" whileHover={{ scale: 1.05 }}>
-                      <motion.div className="text-white font-serif text-lg font-bold mb-1" initial={{ opacity: 0, y: 5 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}>Reclaimed</motion.div>
-                      <motion.div className="text-stone-200 text-xs font-semibold" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.6 }}>Heritage Appeal</motion.div>
-                    </motion.div>
                   </motion.div>
-                </motion.div>
+                )})}
               </motion.div>
 
               {/* Floating accent box */}
@@ -610,7 +639,6 @@ const ProductsPage = () => {
             </motion.div>
           </div>
         </div>
-
         {/* Bottom divider */}
         <div className="absolute bottom-0 left-0 right-0 translate-y-1">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 120" className="w-full h-auto">
@@ -622,11 +650,11 @@ const ProductsPage = () => {
       {/* Products Section - Sidebar + Grid Layout */}
       <section ref={productsRef} className="py-20 relative scroll-smooth">
         <BrickWall opacity={0.05} color="#8B4513" />
-        <div className="max-w-7xl mx-auto px-8 lg:px-16 relative z-10">
+        <div className="max-w-[1500px] mx-auto px-6 sm:px-8 lg:px-10 xl:px-12 relative z-10">
           {loading ? (
             <ProductSkeleton viewMode={viewMode} />
           ) : (
-            <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
+            <div className="grid grid-cols-1 lg:grid-cols-4 gap-10 xl:gap-12">
               {/* Left Sidebar - Filters */}
               <motion.div
                 initial={{ opacity: 0, x: -30 }}
@@ -653,7 +681,7 @@ const ProductsPage = () => {
               </motion.div>
 
               {/* Right Content - Products Grid */}
-              <div className="lg:col-span-3">
+              <div className="lg:col-span-3 lg:pl-6 xl:pl-10 2xl:pl-12">
                 {/* Results Summary */}
                 <motion.div 
                   initial={{ opacity: 0, y: 20 }}
@@ -717,7 +745,7 @@ const ProductsPage = () => {
                       exit={{ opacity: 0, y: 20 }}
                       className={
                         viewMode === 'grid' 
-                          ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'
+                          ? 'grid grid-cols-1 sm:grid-cols-2 2xl:grid-cols-3 gap-10 xl:gap-12'
                           : 'flex flex-col gap-6'
                       }
                     >
@@ -764,7 +792,7 @@ const ProductsPage = () => {
         <BrickWall opacity={0.07} color="#8B4513" />
         <div className="absolute top-0 right-0 w-2/5 h-full bg-gradient-to-l from-orange-50 to-transparent hidden lg:block" />
         
-        <div className="container mx-auto px-4 relative z-10">
+        <div className="container mx-auto px-6 sm:px-8 lg:px-10 relative z-10">
           <motion.div
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
@@ -829,7 +857,7 @@ const ProductsPage = () => {
                     <path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z" />
                   </svg>
                 ),
-                title: "Eco-Friendly",
+               title:<AlignCenter>"Eco-Friendly"</AlignCenter>,
                 description: "Sustainable manufacturing processes",
                 color: "bg-red-50"
               }
@@ -841,7 +869,7 @@ const ProductsPage = () => {
                 viewport={{ once: true }}
                 transition={{ delay: 0.5 + index * 0.15, duration: 0.6 }}
                 whileHover={{ y: -8 }}
-                className={`${feature.color} p-8 rounded-2xl border border-orange-100 hover:shadow-xl hover:border-orange-300 transition-all cursor-default`}
+                className={`${feature.color} p-8 rounded-2xl border border-orange-100 hover:shadow-xl hover:border-orange-300 transition-all cursor-default h-full flex flex-col items-center justify-center text-center`}
               >
                 <motion.div 
                   className="mb-4"
@@ -854,7 +882,7 @@ const ProductsPage = () => {
                   {feature.icon}
                 </motion.div>
                 <motion.h3 
-                  className="font-serif text-2xl font-bold text-stone-900 mb-2"
+                  className="font-serif text-2xl font-bold text-stone-900 mb-2 text-center"
                   initial={{ opacity: 0, y: 10 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
@@ -863,7 +891,7 @@ const ProductsPage = () => {
                   {feature.title}
                 </motion.h3>
                 <motion.p 
-                  className="text-stone-600 font-light"
+                  className="text-stone-600 font-light text-center"
                   initial={{ opacity: 0, y: 10 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
