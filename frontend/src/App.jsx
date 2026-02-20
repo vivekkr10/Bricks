@@ -1,5 +1,5 @@
-import ScrollToTop from "./components/ScrollToTop.jsx";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
+import ScrollToTop from "./Components/ScrollToTop.jsx";
 import "./App.css";
 import Services from "./pages/services";
 import AdminLogin from "./pages/auth/adminLogin.jsx";
@@ -16,26 +16,28 @@ import Profile from "./pages/AdminDashboard/profile.jsx"
 // 3. The Temporary Fix
 import ComingSoon from "./Components/commingsoon.jsx";
 import { ProductsPage, ProductDetails } from "./pages/Products";
-import BlogSection from "./pages/blog/BlogSection.jsx";
-import Contact from "./pages/contactPage/Contact.jsx";
-import BlogDetails from "./pages/blog/BlogDetails.jsx";
+import Contact from "./pages/contactPage/ContactSection.jsx";
 import AboutPage from "./pages/AboutPage/About.jsx";
-// Projects Page 
+// Projects Page
 import ProjectPage from "./pages/Project/Project.jsx";
+
+import FeaturedArticle from "./pages/blog/FeaturedArticle.jsx";
+import ContactSection from "./pages/contactPage/ContactSection";
+import Inquiry from "./pages/contactPage/Inquiry";
 
 import ProjectDetailsPage from "./pages/Project/ProjectDetailPage.jsx";
 
 import ForgotPasswordOTP from "./pages/auth/ForgotPasswordOTP";
 import ForgotPassword from "./pages/auth/ForgotPassword";
 
-
+  
 
 
 
 
 function App() {
   return (
-    <BrowserRouter>
+    <>
       <ScrollToTop />
       <Routes>
         {/* Home Route */}
@@ -47,25 +49,31 @@ function App() {
         <Route path="/ProductForm" element={<ProductForm/>} />
         <Route path="/admin-login" element={<AdminLogin />} />
         <Route path="/admin-register" element={<AdminRegister />} />
-        {/* <Route path="/forgot-password" element={<ForgotPassword />} /> */}
+        <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/forgot-password" element={<ForgotPasswordOTP />} />
         {/* Other Routes */}
         <Route path="/services" element={<Services />} />
+        {/* <Route path="/admin-register" element={<AdminRegister />} /> */}
+
         <Route path="/products" element={<ProductsPage />} />
         <Route path="/products/:id" element={<ProductDetails />} />
-        <Route path="/blog" element={<BlogSection />} />
-        <Route path="/blog/:id" element={<BlogDetails />} />
+        <Route path="/blog" element={<FeaturedArticle />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/inquiry" element={<Inquiry />} />
         <Route path="/terms" element={<Terms />} />
         <Route path="/privacy" element={<Privacy />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/projects" element={<ProjectPage />} />
         <Route path="/projects/:id" element={<ProjectDetailsPage />} />
+        <Route path="/contact" element={<ContactSection />} />
+
+
+        
 
         {/* 404 Fallback - Keep this at the end */}
         <Route path="*" element={<ComingSoon />} />
       </Routes>
-    </BrowserRouter>
+    </>
   );
 }
 

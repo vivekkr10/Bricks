@@ -1,6 +1,7 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import Navbar from "../../components/header";
 import { useState, useEffect, useRef } from "react";
+import Footer from "../../Components/footer";
 
 /* ─────────────────────────────────────────
    Hook: fires true once element enters view
@@ -725,38 +726,9 @@ export default function ProjectDetails() {
         </main>
 
         {/* footer Stripe */}
-
-        <footer style={{ borderTop: "1px solid #ede9e5", marginTop: "2rem" }}>
-          <div className="max-w-6xl mx-auto px-6 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div className="flex items-center gap-3">
-              <div
-                className="w-6 h-6 rounded-full"
-                style={{
-                  background: "linear-gradient(135deg, #f07030, #f7a060)",
-                }}
-              />
-              <span className="text-sm" style={{ color: "#a09080" }}>
-                {project.title}
-              </span>
-            </div>
-            <p
-              className="text-xs tracking-[0.25em] uppercase"
-              style={{ color: "#c0b0a4" }}
-            >
-              {project.category} · {project.location}
-            </p>
-            <button
-              onClick={() => navigate(-1)}
-              className="text-sm tracking-wide transition-colors"
-              style={{ color: "#a09080" }}
-              onMouseEnter={(e) => (e.target.style.color = "#f07030")}
-              onMouseLeave={(e) => (e.target.style.color = "#a09080")}
-            >
-              ← All Projects
-            </button>
-          </div>
-        </footer>
-      </div>
+</div>
+        <Footer/>
+      
     </>
   );
 }
