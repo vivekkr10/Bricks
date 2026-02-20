@@ -12,6 +12,7 @@ import ProductForm from "./pages/AdminDashboard/ProductForm.jsx"
 import Profile from "./pages/AdminDashboard/profile.jsx"
 
 
+
 // 3. The Temporary Fix
 import ComingSoon from "./Components/commingsoon.jsx";
 import { ProductsPage, ProductDetails } from "./pages/Products";
@@ -45,8 +46,7 @@ function App() {
         {/* Admin Auth Routes */}
         <Route path="/dashboard" element={<Dashboard/>} /> 
          <Route path="/profile" element={<Profile/>} /> 
-        <Route path="/product-form" element={<ProductForm/>} />
-         
+        <Route path="/ProductForm" element={<ProductForm/>} />
         <Route path="/admin-login" element={<AdminLogin />} />
         <Route path="/admin-register" element={<AdminRegister />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />

@@ -1,47 +1,88 @@
-// src/App.js
+// src/pages/AdminDashboard/MainDashboard.jsx
 import React, { useState } from 'react';
-import Sidebar from './Sidebar'; // Sidebar import karein
-import Navbar from './Nav';   // Navbar import karein
-import Dashboard from './Dashboard';   // Dashboard page import karein
+import Sidebar from './Sidebar'; 
+import Navbar from './Nav';   
+import Dashboard from './Dashboard';   
+import ProductForm from './ProductForm'; 
+import ProfileSettings from './profile'; 
+import ProductDetails from './View'; 
 
-
-function App() {
-
-    
-
+function MainDashboard() {
   const [activePage, setActivePage] = useState('dashboard');
+  const [editId, setEditId] = useState(null);
+  const [selectedProduct, setSelectedProduct] = useState(null); // Product data store karne ke liye
 
   const handleLogout = () => {
-    // Logout logic yahan aayegi
-    alert("Logged out!");
+    if(window.confirm("Are you sure you want to logout?")) {
+      alert("Logged out!");
+    }
   };
 
   return (
-    // 'flex' class use karke dono ko side-by-side layenge
-    <div className="flex min-h-screen bg-slate-50">
+    <div className="flex min-h-screen">
       
-      {/* SIDEBAR: Iska width fixed rahega (w-72) */}
+      <style>{`
+        .font-serif { font-family: 'Cormorant Garamond', serif; }
+        .font-sans { font-family: 'Jost', sans-serif; }
+      `}</style>
+
+      {/* 1. Sidebar hamesha rahega */}
       <Sidebar 
         activePage={activePage} 
         setActivePage={setActivePage} 
         handleLogout={handleLogout} 
       />
 
-      {/* MAIN CONTENT AREA: Ye flex-1 lega aur sidebar ke baad shuru hoga */}
       <div className="flex-1 ml-72 flex flex-col">
-        
-        {/* TOP NAVBAR */}
-        <Navbar />
+        {/* 2. Navbar hamesha rahega */}
+        <Navbar onProfileClick={() => setActivePage('profile')} />
 
-        {/* PAGE CONTENT: Yahan dashboard dikhega */}
-        <main className="p-4">
-          {activePage === 'dashboard' && <Dashboard />}
+        <main className="p-4 flex-1">
+          {/* Dashboard View */}
+          {activePage === 'dashboard' && (
+            <Dashboard 
+              onAddClick={() => setActivePage('add')} 
+              onEditClick={(id) => { 
+                setEditId(id); 
+                setActivePage('edit'); 
+              }} 
+              onViewClick={(product) => {
+                setSelectedProduct(product); // Product object save kiya
+                setActivePage('view');        // Page change kiya
+              }}
+            />
+          )}
 
+          {/* Product Form View (Add/Edit) */}
+          {(activePage === 'add' || activePage === 'edit') && (
+            <ProductForm 
+              editId={activePage === 'edit' ? editId : null} 
+              onCancel={() => { 
+                setActivePage('dashboard'); 
+                setEditId(null); 
+              }} 
+            />
+          )}
+
+          {/* 3. Profile Settings View */}
+          {activePage === 'profile' && (
+            <ProfileSettings onCancel={() => setActivePage('dashboard')} />
+          )}
+
+          {/* 4. Product Details View (Jo aapne manga tha) */}
+          {activePage === 'view' && (
+            <ProductDetails 
+              product={selectedProduct} 
+              onBack={() => {
+                setActivePage('dashboard');
+                setSelectedProduct(null);
+              }} 
+            />
+          )}
         </main>
-
       </div>
     </div>
   );
 }
 
-export default App;
+export default MainDashboard;
