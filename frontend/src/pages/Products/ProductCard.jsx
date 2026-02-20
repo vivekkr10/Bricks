@@ -6,6 +6,13 @@ const ProductCard = ({ product, viewMode }) => {
   const navigate = useNavigate();
   const [isHovered, setIsHovered] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
+  const productDetailPath = `/products/${product.id}`;
+
+  const handleCardNavigate = (e) => {
+    // Allow inner buttons/links to handle their own actions.
+    if (e.target.closest('a, button')) return;
+    navigate(productDetailPath);
+  };
 
   // Star rating
   const StarRating = ({ rating, reviews }) => (
@@ -27,7 +34,8 @@ const ProductCard = ({ product, viewMode }) => {
         whileHover={{ y: -4 }}
         onHoverStart={() => setIsHovered(true)}
         onHoverEnd={() => setIsHovered(false)}
-        className="group bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl hover:shadow-orange-200/50 transition-all duration-300 border border-orange-100"
+        onClick={handleCardNavigate}
+        className="group bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl hover:shadow-orange-200/50 transition-all duration-300 border border-orange-100 cursor-pointer"
       >
         <div className="flex flex-col md:flex-row h-72">
           {/* Image Container - Fixed Height */}
@@ -66,7 +74,7 @@ const ProductCard = ({ product, viewMode }) => {
           {/* Content Container - Fixed Height */}
           <div className="flex-1 p-5 flex flex-col justify-between h-72 overflow-hidden">
             <div className="overflow-y-auto">
-              <Link to={`/product/${product.id}`}>
+              <Link to={productDetailPath}>
                 <h3 className="font-serif text-lg font-bold text-stone-900 mb-1 group-hover:text-orange-600 transition-colors line-clamp-2">
                   {product.name}
                 </h3>
@@ -108,7 +116,7 @@ const ProductCard = ({ product, viewMode }) => {
             {/* Action Buttons */}
             <div className="flex items-center gap-2 pt-3 border-t border-stone-200 mt-auto">
               <Link
-                to={`/product/${product.id}`}
+                to={productDetailPath}
                 className="flex-1 px-3 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors text-center font-bold text-xs whitespace-nowrap"
               >
                 Explore
@@ -134,7 +142,8 @@ const ProductCard = ({ product, viewMode }) => {
       whileHover={{ y: -12 }}
       onHoverStart={() => setIsHovered(true)}
       onHoverEnd={() => setIsHovered(false)}
-      className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl hover:shadow-orange-200/50 transition-all duration-300 border border-orange-100 flex flex-col h-full overflow-hidden"
+      onClick={handleCardNavigate}
+      className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl hover:shadow-orange-200/50 transition-all duration-300 border border-orange-100 flex flex-col h-full overflow-hidden cursor-pointer"
     >
       {/* Image Container - Fixed Height */}
       <div className="relative h-64 overflow-hidden bg-stone-200 flex-shrink-0 rounded-t-2xl">
@@ -172,7 +181,7 @@ const ProductCard = ({ product, viewMode }) => {
       {/* Content Container - Flexible grow */}
       <div className="p-4 flex flex-col justify-between flex-grow overflow-hidden">
         <div className="overflow-y-auto">
-          <Link to={`/product/${product.id}`}>
+          <Link to={productDetailPath}>
             <h3 className="font-serif text-xl font-bold text-stone-900 mb-1 group-hover:text-orange-600 transition-colors line-clamp-2">
               {product.name}
             </h3>
@@ -205,7 +214,7 @@ const ProductCard = ({ product, viewMode }) => {
         {/* Action Button */}
         <div className="flex items-center gap-2 pt-2">
           <Link
-            to={`/product/${product.id}`}
+            to={productDetailPath}
             className="flex-1 px-3 py-2.5 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors text-center font-bold text-xs whitespace-nowrap"
           >
             Explore

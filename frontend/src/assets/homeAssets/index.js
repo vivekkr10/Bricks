@@ -1,13 +1,13 @@
 // assets/homeAssets/index.js
 
-export { default as heroImg } from "./hero2.png";
-export { default as brick1 } from "./classicRed.webp";
-export { default as brick2 } from "./multies.webp";
-export { default as brick3 } from "./darks.webp";
-export { default as brick4 } from "./hampton.webp";
-export { default as brick5 } from "./yellow.webp";
-export { default as brick6 } from "./rumbled.webp";
-export { default as brick7 } from "./reclaimed.webp";
+export { default as heroImg } from "./hero.png";
+export { default as brick1 } from "./B1.webp";
+export { default as brick2 } from "./A2.webp";
+export { default as brick3 } from "./A3.webp";
+export { default as brick4 } from "./A4.webp";
+export { default as brick5 } from "./A5.webp";
+export { default as brick6 } from "./A6.webp";
+export { default as brick7 } from "./A7.webp";
 export { default as G1 } from "./G1.webp";
 export { default as G2 } from "./G2.webp";
 export { default as G3 } from "./G3.webp";

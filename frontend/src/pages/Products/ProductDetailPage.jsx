@@ -3,7 +3,8 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Helmet } from 'react-helmet';
 import productsData from './productsData';
-
+import Header from '../../Components/header';
+import Footer from '../../Components/footer';
 // BrickWall pattern
 const BrickWall = ({ opacity = 0.06, color = "#8B4513" }) => (
   <svg style={{ position: "absolute", inset: 0, width: "100%", height: "100%", pointerEvents: "none" }}>
@@ -40,6 +41,7 @@ const ProductDetailPage = () => {
   const [formErrors, setFormErrors] = useState({});
   const [formSubmitting, setFormSubmitting] = useState(false);
   const [formSuccess, setFormSuccess] = useState(false);
+  const pageContainerClass = "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8";
 
   // Mock images array (in real app, these would come from product data)
   const productImages = [
@@ -211,6 +213,8 @@ const ProductDetailPage = () => {
   }
 
   return (
+    <>
+    <Header/>
     <div className="min-h-screen bg-stone-50 text-stone-800" style={{ fontFamily: "'Jost', sans-serif" }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600;1,700&family=Jost:wght@300;400;500;600;700&display=swap');
@@ -245,7 +249,7 @@ const ProductDetailPage = () => {
         animate={{ opacity: 1, y: 0 }}
         className="bg-white border-b border-orange-100 sticky top-0 z-30 shadow-sm"
       >
-        <div className="max-w-7xl mx-auto px-8 lg:px-16 py-4">
+        <div className={`${pageContainerClass} py-4`}>
           <div className="flex items-center gap-2 text-sm">
             <Link to="/" className="text-stone-500 hover:text-orange-600 transition-colors font-medium">Home</Link>
             <span className="text-stone-400">›</span>
@@ -256,7 +260,7 @@ const ProductDetailPage = () => {
         </div>
       </motion.div>
 
-      <div className="max-w-7xl mx-auto px-8 lg:px-16 py-12">
+      <div className={`${pageContainerClass} py-12`}>
         {/* Main Product Section */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 mb-20">
           {/* Image Gallery */}
@@ -340,19 +344,19 @@ const ProductDetailPage = () => {
               <div className="grid grid-cols-2 gap-6 mb-10">
                 <div className="bg-gradient-to-br from-orange-50 to-yellow-50 p-6 rounded-2xl border border-orange-100">
                   <p className="text-xs font-semibold text-orange-600 mb-2 tracking-widest uppercase">Strength</p>
-                  <p className="text-2xl font-bold text-stone-900">{product.specifications.strength}</p>
+                  <p className="text-xl font-bold text-stone-900">{product.specifications.strength}</p>
                 </div>
                 <div className="bg-gradient-to-br from-orange-50 to-yellow-50 p-6 rounded-2xl border border-orange-100">
                   <p className="text-xs font-semibold text-orange-600 mb-2 tracking-widest uppercase">Size</p>
-                  <p className="text-2xl font-bold text-stone-900">{product.specifications.size}</p>
+                  <p className="text-xl font-bold text-stone-900">{product.specifications.size}</p>
                 </div>
                 <div className="bg-gradient-to-br from-orange-50 to-yellow-50 p-6 rounded-2xl border border-orange-100">
                   <p className="text-xs font-semibold text-orange-600 mb-2 tracking-widest uppercase">Weight</p>
-                  <p className="text-2xl font-bold text-stone-900">{product.specifications.weight}</p>
+                  <p className="text-xl font-bold text-stone-900">{product.specifications.weight}</p>
                 </div>
                 <div className="bg-gradient-to-br from-orange-50 to-yellow-50 p-6 rounded-2xl border border-orange-100">
                   <p className="text-xs font-semibold text-orange-600 mb-2 tracking-widest uppercase">Water Absorption</p>
-                  <p className="text-2xl font-bold text-stone-900">{product.specifications.waterAbsorption}</p>
+                  <p className="text-xl font-bold text-stone-900">{product.specifications.waterAbsorption}</p>
                 </div>
               </div>
 
@@ -430,7 +434,7 @@ const ProductDetailPage = () => {
         </div>
 
         {/* Tabs Section */}
-        <div className="max-w-7xl mx-auto px-8 lg:px-16">
+        <div>
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -610,7 +614,7 @@ const ProductDetailPage = () => {
         </div>
 
         {/* Reviews Section */}
-        <div className="max-w-7xl mx-auto px-8 lg:px-16 mb-20">
+        <div className="mb-20">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -696,7 +700,7 @@ const ProductDetailPage = () => {
 
         {/* Related Products */}
         {relatedProducts.length > 0 && (
-          <div className="max-w-7xl mx-auto px-8 lg:px-16 mb-20">
+          <div className="mb-20">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
@@ -948,6 +952,8 @@ const ProductDetailPage = () => {
         </AnimatePresence>
       </div>
     </div>
+    <Footer />
+    </>
   );
 };
 
