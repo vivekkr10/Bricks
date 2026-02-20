@@ -86,7 +86,7 @@ const AdminLogin = () => {
         console.log('Redirecting to home page...');
         
         // Redirect to HOME PAGE (root path)
-        navigate('/dashboard');
+        navigate('/Dashboardmain');
       }
     } catch (error) {
       console.error('Login error:', error);

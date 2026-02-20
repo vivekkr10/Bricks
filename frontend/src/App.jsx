@@ -25,7 +25,6 @@ import ProjectPage from "./pages/Project/Project.jsx";
 import ProjectDetailsPage from "./pages/Project/ProjectDetailPage.jsx";
 
 import ForgotPasswordOTP from "./pages/auth/ForgotPasswordOTP";
-import ForgotPassword from "./pages/auth/ForgotPassword";
 
 
 
