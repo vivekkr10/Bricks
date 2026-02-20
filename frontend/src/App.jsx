@@ -12,18 +12,11 @@ import ProductForm from "./pages/AdminDashboard/ProductForm.jsx"
 import Profile from "./pages/AdminDashboard/profile.jsx"
 
 
+
 // 3. The Temporary Fix
 import ComingSoon from "./Components/commingsoon.jsx";
-<<<<<<< aboutChangesAndProjectChanges
-import ProductsPage from "./pages/Products/ProductsPage.jsx"
-import ProductDetails from "./pages/Products/ProductDetailPage.jsx";
-import BlogSection from "./pages/blog/BlogSection.jsx";
-import Contact from "./pages/contactPage/Contact.jsx";
-import BlogDetails from "./pages/blog/BlogDetails.jsx";
-=======
 import { ProductsPage, ProductDetails } from "./pages/Products";
 import Contact from "./pages/contactPage/ContactSection.jsx";
->>>>>>> main
 import AboutPage from "./pages/AboutPage/About.jsx";
 // Projects Page
 import ProjectPage from "./pages/Project/Project.jsx";
@@ -53,8 +46,7 @@ function App() {
         {/* Admin Auth Routes */}
         <Route path="/dashboard" element={<Dashboard/>} /> 
          <Route path="/profile" element={<Profile/>} /> 
-        <Route path="/product-form" element={<ProductForm/>} />
-         
+        <Route path="/ProductForm" element={<ProductForm/>} />
         <Route path="/admin-login" element={<AdminLogin />} />
         <Route path="/admin-register" element={<AdminRegister />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
@@ -64,15 +56,8 @@ function App() {
         {/* <Route path="/admin-register" element={<AdminRegister />} /> */}
 
         <Route path="/products" element={<ProductsPage />} />
-<<<<<<< aboutChangesAndProjectChanges
-        <Route path="/product/:id" element={<ProductDetails />} />
-
-        <Route path="/blog" element={<BlogSection />} />
-        <Route path="/blog/:id" element={<BlogDetails />} />
-=======
         <Route path="/products/:id" element={<ProductDetails />} />
         <Route path="/blog" element={<FeaturedArticle />} />
->>>>>>> main
         <Route path="/contact" element={<Contact />} />
         <Route path="/inquiry" element={<Inquiry />} />
         <Route path="/terms" element={<Terms />} />
