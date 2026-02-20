@@ -2,7 +2,11 @@ import React, { useState, useEffect, useRef } from "react";
 import Header from '../../Components/header.jsx';
 import Footer from '../../Components/footer.jsx';
 import { useNavigate } from "react-router-dom";
+<<<<<<< aboutChangesAndProjectChanges
 import { motion, AnimatePresence } from "framer-motion";
+=======
+import Footer from "../../Components/footer.jsx";
+>>>>>>> main
 
 export default function ProjectPage() {
   const [activeFilter, setActiveFilter] = useState("All");

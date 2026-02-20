@@ -302,31 +302,31 @@ const FloatingStatsBar = () => {
 
   return (
     // Increased max-w-5xl to max-w-6xl so it perfectly matches the grid width below it
-    <div className="relative z-30  mx-36 px-4 -mt-16 mb-10">
-      <div className="bg-white/95 backdrop-blur-xl border border-stone-200 shadow-2xl rounded-2xl p-4 flex flex-col md:flex-row items-center justify-around gap-8">
+    <div className="relative z-30  mx-36 px-4 -mt-14 mb-10">
+      <div className="bg-white/95 backdrop-blur-xl border border-stone-200 shadow-2xl rounded-2xl py-6  flex flex-col md:flex-row items-center justify-around gap-8">
          
          <div ref={projRef} className="group flex flex-col items-center text-center w-full md:w-1/3 cursor-default">
-            <Building2 className="w-8 h-8 text-orange-600 mb-3 opacity-90 transition-transform duration-700 ease-in-out group-hover:rotate-[360deg]" />
-            <div className="text-4xl md:text-5xl font-serif font-bold text-stone-900 mb-1">{projects}+</div>
-            <div className="text-xs font-sans font-bold uppercase tracking-widest text-stone-500">Projects Served</div>
+            <Building2 className="w-8 -ml-4 h-8 text-orange-600 mb-3 opacity-90 transition-transform duration-700 ease-in-out group-hover:rotate-[360deg]" />
+            <div className="text-4xl md:text-4xl font-sans font-semibold text-stone-900 mb-2">{projects}+</div>
+            <div className="text-sm font-serif font-bold uppercase tracking-widest text-stone-600">Projects Served</div>
          </div>
          
          <div className="hidden md:block w-px h-16 bg-stone-200"></div>
          <div className="md:hidden h-px w-full bg-stone-200"></div>
 
          <div ref={satRef} className="group flex flex-col items-center text-center w-full md:w-1/3 cursor-default">
-            <Star className="w-8 h-8 text-orange-600 mb-3 opacity-90 transition-transform duration-700 ease-in-out group-hover:rotate-[360deg]" />
-            <div className="text-4xl md:text-5xl font-serif font-bold text-stone-900 mb-1">{sat}%</div>
-            <div className="text-xs font-sans font-bold uppercase tracking-widest text-stone-500">Satisfaction Rate</div>
+            <Star className="w-8 -ml-4 h-8 text-orange-600 mb-3 opacity-90 transition-transform duration-700 ease-in-out group-hover:rotate-[360deg]" />
+            <div className="text-4xl md:text-4xl font-sans font-semibold text-stone-900 mb-2">{sat}%</div>
+            <div className="text-sm font-serif font-bold uppercase tracking-widest text-stone-600">Satisfaction Rate</div>
          </div>
 
          <div className="hidden md:block w-px h-16 bg-stone-200"></div>
          <div className="md:hidden h-px w-full bg-stone-200"></div>
 
          <div ref={expRef} className="group flex flex-col items-center text-center w-full md:w-1/3 cursor-default">
-            <ShieldCheck className="w-8 h-8 text-orange-600 mb-3 opacity-90 transition-transform duration-700 ease-in-out group-hover:rotate-[360deg]" />
-            <div className="text-4xl md:text-5xl font-serif font-bold text-stone-900 mb-1">{exp}+</div>
-            <div className="text-xs font-sans font-bold uppercase tracking-widest text-stone-500">Years Experience</div>
+            <ShieldCheck className="w-8 -ml-3 h-8 text-orange-600 mb-3 opacity-90 transition-transform duration-700 ease-in-out group-hover:rotate-[360deg]" />
+            <div className="text-4xl md:text-4xl font-sans font-semibold text-stone-900 mb-2">{exp}+</div>
+            <div className="text-sm font-serif font-bold uppercase tracking-widest text-stone-600">Years Experience</div>
          </div>
       </div>
     </div>
@@ -353,11 +353,14 @@ const AboutShort = () => {
                   The Legacy
                 </span>
             </div>
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif font-medium text-stone-900 mb-6 leading-tight">
+          
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif font-medium text-stone-950 mb-6 leading-tight">
               Welcome to <br className="hidden lg:block"/> VR & Sons
             </h2>
+           
             
-            <div className="rounded-2xl shadow-lg w-full h-48 md:h-64 mt-6 hidden lg:block overflow-hidden group border border-stone-200">
+            
+            <div className="rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.1)] border border-stone-200 w-full h-48 md:h-64 mt-6 hidden lg:block overflow-hidden group border border-stone-200">
               <img 
                 src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&q=80" 
                 alt="Craftsmanship" 
@@ -366,15 +369,20 @@ const AboutShort = () => {
             </div>
           </div>
 
-          <div className="lg:col-span-7 flex flex-col justify-center h-full pt-4 lg:pt-0">
+          <div className="lg:col-span-7 flex flex-col justify-center h-full lg:pt-4 lg:mt-6 ">
             <p className="text-xl md:text-2xl text-stone-800 font-serif leading-relaxed mb-6 text-center lg:text-left">
               We are a leading brick manufacturer committed to delivering <strong className="text-orange-700 font-bold">durable</strong>, <strong className="text-orange-700 font-bold">eco-friendly</strong>, and <strong className="text-orange-700 font-bold">high-performance</strong> bricks.
             </p>
             <p className="text-base md:text-lg text-stone-600 leading-relaxed font-sans font-light text-center lg:text-left mb-8">
-              With over 30 years of industry experience, we supply the foundation for builders, contractors, and visionaries. Our commitment to quality ensures that every brick fired in our kilns meets the highest architectural standards.
+              With over 30 years of industry experience, we supply the foundation for builders, contractors, and visionaries. Our commitment to quality ensures that every brick fired in our kilns meets the highest architectural standards. 
+              <br />From residential homes to large-scale commercial developments, our products are engineered for strength, consistency, and long-lasting performance.
             </p>
+            <p className="text-base md:text-lg text-stone-600 leading-relaxed font-sans font-light text-center lg:text-left mb-8">
+              Trusted by architects, engineers, and construction experts, we continue to build structures that shape skylines and communities.
+            </p>
+
             
-            <div className="text-center lg:text-left">
+            <div className="text-center lg:right-left">
               <Link
                 to="/about"
                 className="inline-flex items-center px-8 py-4 border border-stone-300 text-stone-800 font-bold font-sans text-xs uppercase tracking-widest rounded-lg hover:bg-orange-600 hover:text-white hover:border-orange-600 hover:shadow-lg transition-all duration-300"
@@ -395,12 +403,12 @@ const ProductOverview = () => {
 
   const products = [
     { title: "Classic Reds", img: brick1 },
+    { title: "Yellows", img:  brick5 }, 
     { title: "Multies", img:  brick2},
     { title: "Darks", img: brick3 },
     { title: "Hamptons", img:  brick4 },
-    { title: "Yellows", img:  brick5 },  
-      { title: "Rumbled", img:  brick6},  
-        { title: "Reclaimed", img:  brick7},   
+    { title: "Rumbled", img:  brick6},  
+    { title: "Reclaimed", img:  brick7},   
   ];
 
   return (
@@ -420,7 +428,7 @@ const ProductOverview = () => {
             <span className="w-8 h-[2px] bg-orange-600"></span>
         </div>
         <h2 className="text-4xl md:text-5xl font-serif font-medium text-stone-900 mb-4">
-         Top-tier Bricks
+         Top<span className="mx-0.5 font-sans">-</span>tier Bricks
         </h2>
         <p className="text-stone-600 font-sans font-light text-lg">
           High-grade clay crafted for modern architectural needs.
@@ -429,17 +437,17 @@ const ProductOverview = () => {
 
       {/* Marquee Wrapper */}
       <div className="relative w-full overflow-hidden z-10 pb-6">
-        <div className="absolute left-0 top-0 h-full w-24 md:w-48 bg-gradient-to-r from-stone-50 to-transparent z-10 pointer-events-none"></div>
-        <div className="absolute right-0 top-0 h-full w-24 md:w-48 bg-gradient-to-l from-stone-50 to-transparent z-10 pointer-events-none"></div>
+        <div className="absolute left-0 top-0 h-full w-24 md:w-48 bg-gradient-to-r from-stone-50 to-transparent z-10 pointer-events-none opacity-50"></div>
+        <div className="absolute right-0 top-0 h-full w-24 md:w-48 bg-gradient-to-l from-stone-50 to-transparent z-10 pointer-events-none opacity-50"></div>
 
         <div className="flex animate-marquee-horizontal gap-6">
           {[...products, ...products, ...products].map((p, i) => (
             <div key={i} className="w-64 md:w-72 flex-shrink-0 group cursor-pointer">
-              <div className="h-56 overflow-hidden rounded-2xl mb-4 shadow-sm border border-stone-200 bg-white group-hover:shadow-xl group-hover:border-orange-300 transition-all duration-500">
+              <div className="h-56 overflow-hidden rounded-2xl mb-4 shadow-sm border border-stone-300 bg-white group-hover:shadow-xl group-hover:border-orange-300 transition-all duration-500">
                 <img
                   src={p.img}
                   alt={p.title}
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 grayscale-[15%] group-hover:grayscale-0"
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-800 grayscale-[10%] group-hover:grayscale-0"
                 />
               </div>
               <h3 className="text-xl font-serif font-medium text-stone-900 group-hover:text-orange-700 transition-colors text-center">
@@ -562,6 +570,7 @@ architectural excellence.
           </div>
         </div>
       </div>
+      
 
       <style>{`
         @keyframes marquee-up { 0% { transform: translateY(0); } 100% { transform: translateY(-50%); } }
@@ -579,20 +588,25 @@ const Projects = () => {
 
   const projects = [
     {
-      title: "Skyline Residency",
+      title: "Crystal Heights Tower",
       desc: "A luxury residential complex built for longevity using our Red Clay Bricks.",
-      images: [P1,P1]
+      images: ["https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80",
+        "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80"],
+    },
+
+    {
+      title: "Green Valley Villas",
+      desc: "Sustainable housing project featuring our premium exposed brickwork.",
+      images: ["https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&q=80",
+        "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&q=80"]
     },
     {
       title: "Tech Park One",
       desc: "Commercial hub utilizing Fly Ash Blocks for superior thermal insulation.",
-      images:[P2,P2]
-    },
-    {
-      title: "Green Valley Villas",
-      desc: "Sustainable housing project featuring our premium exposed brickwork.",
-      images: [P3,P3]
+      images:["https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80",
+        "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80"],
     }
+   
   ];
 
   return (
@@ -603,7 +617,7 @@ const Projects = () => {
       }`}
     >
       <div className="container mx-auto px-6 relative z-10">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-10 gap-4">
+        {/* <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-10 gap-4">
           <div>
              <span className="text-orange-700 font-bold uppercase tracking-widest text-xs font-sans mb-2 block">Experiences</span>
              <h2 className="text-4xl md:text-5xl font-serif font-medium text-stone-900">
@@ -616,7 +630,23 @@ const Projects = () => {
           >
             View All Projects →
           </Link>
+        </div> */}
+
+         <div className="container mx-auto px-6 mb-10 relative z-10 flex flex-col items-center text-center">
+        <div className="inline-flex items-center gap-2 mb-3">
+            <span className="w-8 h-[2px] bg-orange-600"></span>
+            <span className="text-orange-700 font-bold uppercase tracking-widest text-xs font-sans">
+              Our Experiences
+            </span>
+            <span className="w-8 h-[2px] bg-orange-600"></span>
         </div>
+        <h2 className="text-4xl md:text-5xl font-serif font-medium text-stone-900 mb-4">Featured Projects
+         
+        </h2>
+        <p className="text-stone-600 font-sans font-light text-lg">
+        Engineering strength and timeless design into every structure we build.
+        </p>
+      </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {projects.map((p, i) => (
@@ -628,7 +658,7 @@ const Projects = () => {
                 <div className="absolute inset-0 flex w-[200%] animate-slide-project">
                   {[...p.images, ...p.images].map((img, idx) => (
                     <div key={idx} className="w-full h-full flex-shrink-0">
-                      <img src={img} alt={p.title} className="w-full h-full object-cover grayscale-[15%] group-hover:grayscale-0 transition-all duration-500" />
+                      <img src={img} alt={p.title} className="w-full h-full object-cover grayscale-[10%] group-hover:grayscale-0 transition-all duration-500" />
                     </div>
                   ))}
                 </div>
@@ -648,7 +678,19 @@ const Projects = () => {
             </div>
           ))}
         </div>
+ {/* side nav */}
+            <div className="container mx-auto px-6 mt-8 flex justify-end relative z-10">
+        <Link
+          to="/projects"
+          className="inline-flex items-center text-orange-700 font-bold font-sans uppercase tracking-widest text-xs hover:text-orange-900 transition-colors group border-b-2 border-orange-200 pb-1 hover:border-orange-700"
+        >
+          View All Projects
+          <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+        </Link>
       </div>
+
+      </div>
+          
 
       <style>{`
         @keyframes slide-proj { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
@@ -678,7 +720,7 @@ const CtaSection = () => {
         </p>
         <Link 
           to="/contact" 
-          className="inline-flex items-center px-10 py-4 bg-orange-600 text-white font-bold font-sans text-xs uppercase tracking-widest rounded-xl hover:bg-stone-900 transition-all duration-300 shadow-[0_0_20px_rgba(234,88,12,0.4)] hover:-translate-y-1"
+          className="inline-flex items-center px-10 py-4 bg-orange-600 text-white font-bold font-sans text-xs uppercase tracking-widest rounded-xl hover:bg-stone-900 transition-all duration-300  hover:-translate-y-1"
         >
           Inquire Now <ArrowRight className="w-4 h-4 ml-3" />
         </Link>

@@ -254,7 +254,7 @@ const handleVerifyOTP = async (e) => {
       <div className="auth-brand-section">
         <div className="brand-content">
           <div className="brand-logo">
-            <h1 style={{ color: 'white', fontSize: '48px' }}>VR & SONS</h1>
+            <h1 style={{ color: 'white', fontSize: '48px' }}></h1>
           </div>
           <h1 className="brand-title">VR & SONS</h1>
           <div className="brand-divider"></div>
@@ -474,119 +474,6 @@ const handleVerifyOTP = async (e) => {
           </div>
         </motion.div>
       </div>
-
-      <style>{`
-        .step-indicator {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          margin: 30px 0;
-          padding: 0 20px;
-        }
-
-        .step {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          gap: 8px;
-        }
-
-        .step-number {
-          width: 40px;
-          height: 40px;
-          border-radius: 50%;
-          background: #f0f0f0;
-          color: #999;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-weight: bold;
-          transition: all 0.3s ease;
-        }
-
-        .step.active .step-number {
-          background: #7C2F26;
-          color: white;
-        }
-
-        .step span {
-          font-size: 12px;
-          color: #666;
-        }
-
-        .step.active span {
-          color: #7C2F26;
-          font-weight: 600;
-        }
-
-        .step-line {
-          width: 60px;
-          height: 2px;
-          background: #f0f0f0;
-          margin: 0 10px;
-          transition: all 0.3s ease;
-        }
-
-        .step-line.active {
-          background: #7C2F26;
-        }
-
-        .otp-container {
-          display: flex;
-          gap: 10px;
-          justify-content: center;
-          margin: 20px 0;
-        }
-
-        .otp-input {
-          width: 50px;
-          height: 60px;
-          border: 2px solid #e0e0e0;
-          border-radius: 8px;
-          font-size: 24px;
-          font-weight: bold;
-          text-align: center;
-          background: #f8f8f8;
-          transition: all 0.3s ease;
-        }
-
-        .otp-input:focus {
-          outline: none;
-          border-color: #7C2F26;
-          background: white;
-          box-shadow: 0 0 0 4px rgba(124, 47, 38, 0.1);
-        }
-
-        .timer-container {
-          text-align: center;
-          margin: 15px 0;
-        }
-
-        .timer-text {
-          color: #666;
-          font-size: 14px;
-        }
-
-        .resend-button {
-          background: none;
-          border: none;
-          color: #7C2F26;
-          font-weight: 600;
-          cursor: pointer;
-          font-size: 14px;
-          transition: color 0.3s ease;
-        }
-
-        .resend-button:hover {
-          color: #9B3E31;
-          text-decoration: underline;
-        }
-
-        .resend-button:disabled {
-          color: #999;
-          cursor: not-allowed;
-        }
-      `}</style>
     </div>
   );
 };
