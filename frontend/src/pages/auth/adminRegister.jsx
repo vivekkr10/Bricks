@@ -117,7 +117,7 @@ const AdminRegister = () => {
         
         console.log('Redirecting to home page...'); 
         // Redirect to DASHBOARD PAGE
-        navigate('/dashboard');
+        navigate('/Dashboard');
       } else {
         console.log('Registration failed:', response.data.message); 
         toast.error(response.data.message || 'Registration failed');
@@ -140,7 +140,7 @@ const AdminRegister = () => {
   };
 
   return (
-    <div className="auth-container">
+   <div className="auth-container register-page">
       {/* Left Side - Brand Section */}
       <div className="auth-brand-section">
         <div className="brand-content">
