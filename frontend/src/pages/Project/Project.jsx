@@ -1,567 +1,119 @@
-import React, { useState } from "react";
-import Navbar from "../../components/header.jsx";
+import React, { useState, useEffect, useRef } from "react";
+import Header from '../../Components/header.jsx';
+import Footer from '../../Components/footer.jsx';
 import { useNavigate } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function ProjectPage() {
   const [activeFilter, setActiveFilter] = useState("All");
   const [selectedProject, setSelectedProject] = useState(null);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [heroTextIndex, setHeroTextIndex] = useState(0);
+  const [isHoveringCard, setIsHoveringCard] = useState(null);
+  const heroRef = useRef(null);
   const navigate = useNavigate();
 
   const filters = ["All", "Industrial", "Commercial", "Residential"];
 
+  const heroTexts = [
+    "Showcasing excellence in architecture and design",
+    "Building dreams with precision and passion",
+    "Creating spaces that inspire generations",
+    "Where innovation meets architectural brilliance",
+  ];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setHeroTextIndex((prev) => (prev + 1) % heroTexts.length);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      if (heroRef.current) {
+        const rect = heroRef.current.getBoundingClientRect();
+        setMousePosition({
+          x: ((e.clientX - rect.left) / rect.width - 0.5) * 20,
+          y: ((e.clientY - rect.top) / rect.height - 0.5) * 20,
+        });
+      }
+    };
+
+    const heroElement = heroRef.current;
+    if (heroElement) {
+      heroElement.addEventListener("mousemove", handleMouseMove);
+      return () =>
+        heroElement.removeEventListener("mousemove", handleMouseMove);
+    }
+  }, []);
+
   const BrickWall = ({ opacity = 0.06, color = "#8B4513" }) => (
-  <svg
-    style={{
-      position: "absolute",
-      inset: 0,
-      width: "100%",
-      height: "100%",
-      pointerEvents: "none",
-    }}
-  >
-    <defs>
-      <pattern
-        id={`bwall-${color.replace("#", "")}`}
-        x="0"
-        y="0"
-        width="88"
-        height="44"
-        patternUnits="userSpaceOnUse"
-      >
-        <rect
-          x="2"
-          y="2"
-          width="84"
-          height="20"
-          fill="none"
-          stroke={color}
-          strokeWidth="1"
-          rx="2"
-          opacity={opacity * 12}
-        />
-        <rect
-          x="46"
-          y="24"
-          width="42"
-          height="18"
-          fill="none"
-          stroke={color}
-          strokeWidth="1"
-          rx="2"
-          opacity={opacity * 12}
-        />
-        <rect
-          x="2"
-          y="24"
-          width="42"
-          height="18"
-          fill="none"
-          stroke={color}
-          strokeWidth="1"
-          rx="2"
-          opacity={opacity * 12}
-        />
-      </pattern>
-    </defs>
-    <rect
-      width="100%"
-      height="100%"
-      fill={`url(#bwall-${color.replace("#", "")})`}
-      opacity={opacity}
-    />
-  </svg>
-);
+    <svg
+      style={{
+        position: "absolute",
+        inset: 0,
+        width: "100%",
+        height: "100%",
+        pointerEvents: "none",
+      }}
+    >
+      <defs>
+        <pattern
+          id={`bwall-${color.replace("#", "")}`}
+          x="0"
+          y="0"
+          width="88"
+          height="44"
+          patternUnits="userSpaceOnUse"
+        >
+          <rect
+            x="2"
+            y="2"
+            width="84"
+            height="20"
+            fill="none"
+            stroke={color}
+            strokeWidth="1"
+            rx="2"
+            opacity={opacity * 12}
+          />
+          <rect
+            x="46"
+            y="24"
+            width="42"
+            height="18"
+            fill="none"
+            stroke={color}
+            strokeWidth="1"
+            rx="2"
+            opacity={opacity * 12}
+          />
+          <rect
+            x="2"
+            y="24"
+            width="42"
+            height="18"
+            fill="none"
+            stroke={color}
+            strokeWidth="1"
+            rx="2"
+            opacity={opacity * 12}
+          />
+        </pattern>
+      </defs>
+      <rect
+        width="100%"
+        height="100%"
+        fill={`url(#bwall-${color.replace("#", "")})`}
+        opacity={opacity}
+      />
+    </svg>
+  );
 
   const projects = [
     {
       id: 1,
-      title: "Crystal Heights Tower",
-      category: "Commercial",
-      location: "Mumbai",
-      architect: "Modi Srivastava & Associates",
-      image:
-        "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80",
-      description:
-        "Premium office tower with sustainable design features and smart building technology.",
-      details: { area: "85,000 sq ft", year: "2024", client: "Crystal Group" },
-    },
-    {
-      id: 2,
-      title: "Serenity Villas",
-      category: "Residential",
-      location: "Pune",
-      architect: "Modi Srivastava & Associates",
-      image:
-        "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80",
-      description:
-        "Luxury villa community with modern architecture and landscaped gardens.",
-      details: { area: "45,000 sq ft", year: "2023", client: "Private Client" },
-    },
-
-    {
-      id: 5,
-      title: "Sunset Residences",
-      category: "Residential",
-      location: "Goa",
-      architect: "Modi Srivastava & Associates",
-      image:
-        "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&q=80",
-      description:
-        "Beachfront apartments with panoramic ocean views and tropical architecture.",
-      details: {
-        area: "55,000 sq ft",
-        year: "2024",
-        client: "Coastal Developers",
-      },
-    },
-    {
-      id: 6,
-      title: "Tech Park One",
-      category: "Commercial",
-      location: "Hyderabad",
-      architect: "Modi Srivastava & Associates",
-      image:
-        "https://images.unsplash.com/photo-1497366754035-f200968a6a72?w=800&q=80",
-      description:
-        "IT office complex with collaborative workspaces and green building certification.",
-      details: {
-        area: "200,000 sq ft",
-        year: "2023",
-        client: "Tech Parks Ltd",
-      },
-    },
-
-    {
-      id: 8,
-      title: "Lotus Valley Apartments",
-      category: "Residential",
-      location: "Delhi NCR",
-      architect: "Modi Srivastava & Associates",
-      image:
-        "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&q=80",
-      description:
-        "High-rise residential tower with premium amenities and sky gardens.",
-      details: { area: "150,000 sq ft", year: "2024", client: "Urban Living" },
-    },
-
-    {
-      id: 10,
-      title: "Innovation Hub",
-      category: "Commercial",
-      location: "Gurugram",
-      architect: "Modi Srivastava & Associates",
-      image:
-        "https://images.unsplash.com/photo-1497215842964-222b430dc094?w=800&q=80",
-      description:
-        "Startup incubator space with flexible offices and community areas.",
-      details: {
-        area: "35,000 sq ft",
-        year: "2024",
-        client: "Innovation Foundation",
-      },
-    },
-    {
-      id: 11,
-      title: "Seaside Promenade",
-      category: "Commercial",
-      location: "Mangalore",
-      architect: "Modi Srivastava & Associates",
-      image:
-        "https://images.unsplash.com/photo-1575429198097-0414ec08e8cd?w=800&q=80",
-      description:
-        "Beachfront retail and dining destination with stunning coastal views.",
-      details: { area: "28,000 sq ft", year: "2022", client: "Coastal Retail" },
-    },
-    {
-      id: 12,
-      title: "Maple Woods Township",
-      category: "Residential",
-      location: "Chandigarh",
-      architect: "Modi Srivastava & Associates",
-      image:
-        "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80",
-      description:
-        "Integrated township with villas, apartments, and community facilities.",
-      details: {
-        area: "500,000 sq ft",
-        year: "2024",
-        client: "Township Developers",
-      },
-    },
-    {
-      id: 13,
-      title: "Business Bay Tower",
-      category: "Commercial",
-      location: "Navi Mumbai",
-      architect: "Modi Srivastava & Associates",
-      image:
-        "https://images.unsplash.com/photo-1551038247-3d9af20df552?w=800&q=80",
-      description: "Premium commercial tower with cutting-edge office spaces.",
-      details: {
-        area: "180,000 sq ft",
-        year: "2023",
-        client: "Business Bay Corp",
-      },
-    },
-
-    {
-      id: 15,
-      title: "Orchid Residency",
-      category: "Residential",
-      location: "Bhopal",
-      architect: "Modi Srivastava & Associates",
-      image:
-        "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800&q=80",
-      description:
-        "Luxury apartment complex with modern amenities and green spaces.",
-      details: {
-        area: "75,000 sq ft",
-        year: "2023",
-        client: "Urban Developers",
-      },
-    },
-
-    {
-      id: 18,
-      title: "Vertex Plaza",
-      category: "Commercial",
-      location: "Surat",
-      architect: "Modi Srivastava & Associates",
-      image:
-        "https://images.unsplash.com/photo-1558002038-1055907df827?w=800&q=80",
-      description: "Retail and office plaza with contemporary glass facade.",
-      details: { area: "18,500 sq ft", year: "2023", client: "Corporate" },
-    },
-    {
-      id: 19,
-      title: "Infinity Trade Center",
-      category: "Commercial",
-      location: "Vadodara",
-      architect: "Modi Srivastava & Associates",
-      image:
-        "https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=800&q=80",
-      description:
-        "Mixed-use commercial complex with efficient circulation planning.",
-      details: { area: "30,000 sq ft", year: "2022", client: "Developer" },
-    },
-
-    {
-      id: 22,
-      title: "Cypress Court",
-      category: "Residential",
-      location: "Lucknow",
-      architect: "Modi Srivastava & Associates",
-      image:
-        "https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=800&q=80",
-      description: "Premium residential development with modern apartments.",
-      details: { area: "65,000 sq ft", year: "2024", client: "Housing Corp" },
-    },
-    {
-      id: 23,
-      title: "Steel City Corporate Park",
-      category: "Commercial",
-      location: "Jamshedpur",
-      architect: "Modi Srivastava & Associates",
-      image:
-        "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80",
-      description: "Corporate office park with sustainable design features.",
-      details: {
-        area: "90,000 sq ft",
-        year: "2022",
-        client: "Industrial Corp",
-      },
-    },
-
-    {
-      id: 25,
-      title: "Lakeview Club",
-      category: "Commercial",
-      location: "Udaipur",
-      architect: "Modi Srivastava & Associates",
-      image:
-        "https://images.unsplash.com/photo-1576495199011-eb94736d05d6?w=800&q=80",
-      description:
-        "Premium clubhouse with recreational facilities and lake views.",
-      details: { area: "15,000 sq ft", year: "2024", client: "Club Corp" },
-    },
-    {
-      id: 26,
-      title: "Garden Heights",
-      category: "Residential",
-      location: "Indore",
-      architect: "Modi Srivastava & Associates",
-      image:
-        "https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=800&q=80",
-      description: "Eco-friendly residential towers with vertical gardens.",
-      details: {
-        area: "85,000 sq ft",
-        year: "2023",
-        client: "Green Developers",
-      },
-    },
-    {
-      id: 27,
-      title: "City Square Mall",
-      category: "Commercial",
-      location: "Nagpur",
-      architect: "Modi Srivastava & Associates",
-      image:
-        "https://images.unsplash.com/photo-1519567241046-7f570eee3ce6?w=800&q=80",
-      description:
-        "Urban shopping center with entertainment and dining options.",
-      details: { area: "150,000 sq ft", year: "2024", client: "Retail Corp" },
-    },
-
-    {
-      id: 30,
-      title: "Spectrum Business Park",
-      category: "Commercial",
-      location: "Thane",
-      architect: "Modi Srivastava & Associates",
-      image:
-        "https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=800&q=80",
-      description: "Modern business park with flexible office solutions.",
-      details: {
-        area: "115,000 sq ft",
-        year: "2023",
-        client: "Business Parks Ltd",
-      },
-    },
-    {
-      id: 31,
-      title: "Silver Oak Residences",
-      category: "Residential",
-      location: "Agra",
-      architect: "Modi Srivastava & Associates",
-      image:
-        "https://images.unsplash.com/photo-1600573472591-ee6981cf35b6?w=800&q=80",
-      description: "Luxury apartments with panoramic city views.",
-      details: { area: "48,000 sq ft", year: "2023", client: "Realty Group" },
-    },
-
-    {
-      id: 33,
-      title: "Tech Valley Campus",
-      category: "Commercial",
-      location: "Trivandrum",
-      architect: "Modi Srivastava & Associates",
-      image:
-        "https://images.unsplash.com/photo-1497215842964-222b430dc094?w=800&q=80",
-      description: "IT campus with collaborative workspaces and amenities.",
-      details: { area: "175,000 sq ft", year: "2024", client: "Tech Parks" },
-    },
-
-    {
-      id: 35,
-      title: "Royal Meadows",
-      category: "Residential",
-      location: "Rajkot",
-      architect: "Modi Srivastava & Associates",
-      image:
-        "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80",
-      description: "Premium township with modern villas and apartments.",
-      details: { area: "280,000 sq ft", year: "2024", client: "Township Ltd" },
-    },
-    {
-      id: 37,
-      title: "Corporate Centre",
-      category: "Commercial",
-      location: "Faridabad",
-      architect: "Modi Srivastava & Associates",
-      image:
-        "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80",
-      description: "Premium office space with modern amenities.",
-      details: {
-        area: "68,000 sq ft",
-        year: "2023",
-        client: "Corporate Group",
-      },
-    },
-    {
-      id: 38,
-      title: "Valley View Apartments",
-      category: "Residential",
-      location: "Shimla",
-      architect: "Modi Srivastava & Associates",
-      image:
-        "https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=800&q=80",
-      description: "Hill station apartments with valley views.",
-      details: {
-        area: "25,000 sq ft",
-        year: "2024",
-        client: "Hill Developers",
-      },
-    },
-    {
-      id: 39,
-      title: "Convention Centre",
-      category: "Commercial",
-      location: "Aurangabad",
-      architect: "Modi Srivastava & Associates",
-      image:
-        "https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=800&q=80",
-      description: "Modern convention facility with multiple event spaces.",
-      details: {
-        area: "45,000 sq ft",
-        year: "2023",
-        client: "Convention Bureau",
-      },
-    },
-
-    {
-      id: 43,
-      title: "Metro Square",
-      category: "Commercial",
-      location: "Gwalior",
-      architect: "Modi Srivastava & Associates",
-      image:
-        "https://images.unsplash.com/photo-1558002038-1055907df827?w=800&q=80",
-      description: "Mixed-use development with retail and office spaces.",
-      details: {
-        area: "52,000 sq ft",
-        year: "2023",
-        client: "Urban Developers",
-      },
-    },
-    {
-      id: 44,
-      title: "Emerald Heights",
-      category: "Residential",
-      location: "Nashik",
-      architect: "Modi Srivastava & Associates",
-      image:
-        "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80",
-      description: "Luxury villas with wine valley views.",
-      details: {
-        area: "42,000 sq ft",
-        year: "2024",
-        client: "Villa Developers",
-      },
-    },
-
-    {
-      id: 46,
-      title: "Trade Tower",
-      category: "Commercial",
-      location: "Ludhiana",
-      architect: "Modi Srivastava & Associates",
-      image:
-        "https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=800&q=80",
-      description: "Commercial tower with modern office spaces.",
-      details: { area: "62,000 sq ft", year: "2023", client: "Trade Corp" },
-    },
-    {
-      id: 48,
-      title: "Sapphire Plaza",
-      category: "Commercial",
-      location: "Raipur",
-      architect: "Modi Srivastava & Associates",
-      image:
-        "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80",
-      description: "Shopping plaza with retail and entertainment.",
-      details: { area: "48,000 sq ft", year: "2023", client: "Retail Group" },
-    },
-    {
-      id: 49,
-      title: "Riverside Apartments",
-      category: "Residential",
-      location: "Haridwar",
-      architect: "Modi Srivastava & Associates",
-      image:
-        "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80",
-      description: "Apartments with Ganges river views.",
-      details: {
-        area: "35,000 sq ft",
-        year: "2024",
-        client: "River Developers",
-      },
-    },
-    {
-      id: 50,
-      title: "Business Centre",
-      category: "Commercial",
-      location: "Kolhapur",
-      architect: "Modi Srivastava & Associates",
-      image:
-        "https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80",
-      description: "Modern business center with co-working spaces.",
-      details: { area: "25,000 sq ft", year: "2022", client: "Business Hub" },
-    },
-    {
-      id: 52,
-      title: "Tech Hub",
-      category: "Commercial",
-      location: "Mohali",
-      architect: "Modi Srivastava & Associates",
-      image:
-        "https://images.unsplash.com/photo-1497215842964-222b430dc094?w=800&q=80",
-      description: "Technology incubator and startup space.",
-      details: {
-        area: "45,000 sq ft",
-        year: "2023",
-        client: "Tech Foundation",
-      },
-    },
-    {
-      id: 56,
-      title: "Corporate Tower",
-      category: "Commercial",
-      location: "Ghaziabad",
-      architect: "Modi Srivastava & Associates",
-      image:
-        "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80",
-      description: "Premium corporate office tower.",
-      details: { area: "78,000 sq ft", year: "2024", client: "Corporate Ltd" },
-    },
-    {
-      id: 57,
-      title: "Mountain Villas",
-      category: "Residential",
-      location: "Darjeeling",
-      architect: "Modi Srivastava & Associates",
-      image:
-        "https://images.unsplash.com/photo-1600573472591-ee6981cf35b6?w=800&q=80",
-      description: "Luxury villas with tea garden views.",
-      details: {
-        area: "22,000 sq ft",
-        year: "2023",
-        client: "Hill Developers",
-      },
-    },
-
-    {
-      id: 59,
-      title: "Business Park",
-      category: "Commercial",
-      location: "Bhopal",
-      architect: "Modi Srivastava & Associates",
-      image:
-        "https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=800&q=80",
-      description: "Integrated business park with amenities.",
-      details: {
-        area: "135,000 sq ft",
-        year: "2024",
-        client: "Business Parks",
-      },
-    },
-    {
-      id: 60,
-      title: "Sports Complex",
-      category: "Commercial",
-      location: "Guwahati",
-      architect: "Modi Srivastava & Associates",
-      image:
-        "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800&q=80",
-      description: "Indoor sports facility with multiple courts.",
-      details: {
-        area: "42,000 sq ft",
-        year: "2023",
-        client: "Sports Authority",
-      },
-    },
-
-    {
-      id: 62,
       title: "Tech Park",
       category: "Commercial",
       location: "Bhubaneswar",
@@ -576,41 +128,248 @@ export default function ProjectPage() {
       },
     },
     {
-      id: 63,
-      title: "Golf Course Residences",
-      category: "Residential",
-      location: "Kolkata",
-      architect: "Modi Srivastava & Associates",
+      id: 2,
+      title: "Steel Manufacturing Plant",
+      category: "Industrial",
+      location: "Jamshedpur",
+      architect: "Industrial Design Consortium",
       image:
-        "https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=800&q=80",
-      description: "Luxury apartments overlooking golf course.",
-      details: { area: "68,000 sq ft", year: "2024", client: "Realty Corp" },
+        "https://images.unsplash.com/photo-1581091226033-d5c48150dbaa?w=800&q=80",
+      description:
+        "State-of-the-art steel manufacturing facility with automated production lines.",
+      details: {
+        area: "450,000 sq ft",
+        year: "2022",
+        client: "Tata Steel",
+      },
     },
-
     {
-      id: 65,
-      title: "Retail Plaza",
+      id: 3,
+      title: "Riverside Apartments",
+      category: "Residential",
+      location: "Pune",
+      architect: "Urban Space Architects",
+      image:
+        "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&q=80",
+      description: "Luxury residential complex with 200 units and river views.",
+      details: {
+        area: "320,000 sq ft",
+        year: "2023",
+        client: "Prestige Group",
+      },
+    },
+    {
+      id: 4,
+      title: "Food Processing Unit",
+      category: "Industrial",
+      location: "Ludhiana",
+      architect: "Agro Industrial Designs",
+      image:
+        "https://images.unsplash.com/photo-1581091226033-d5c48150dbaa?w=800&q=80",
+      description:
+        "Modern food processing facility with cold storage and packaging units.",
+      details: {
+        area: "85,000 sq ft",
+        year: "2022",
+        client: "Nestle India",
+      },
+    },
+    {
+      id: 5,
+      title: "Green Valley Villas",
+      category: "Residential",
+      location: "Bangalore",
+      architect: "Eco Design Studios",
+      image:
+        "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80",
+      description:
+        "Eco-friendly villas with solar panels and rainwater harvesting.",
+      details: {
+        area: "50,000 sq ft",
+        year: "2023",
+        client: "Sobha Developers",
+      },
+    },
+    {
+      id: 6,
+      title: "City Mall",
       category: "Commercial",
-      location: "Meerut",
-      architect: "Modi Srivastava & Associates",
+      location: "Mumbai",
+      architect: "Retail Architecture Group",
       image:
         "https://images.unsplash.com/photo-1519567241046-7f570eee3ce6?w=800&q=80",
-      description: "Shopping plaza with branded stores.",
-      details: { area: "52,000 sq ft", year: "2024", client: "Retail Corp" },
+      description: "Six-story shopping mall with multiplex and food court.",
+      details: {
+        area: "500,000 sq ft",
+        year: "2021",
+        client: "Phoenix Mills",
+      },
     },
     {
-      id: 67,
-      title: "City Centre",
-      category: "Commercial",
-      location: "Jabalpur",
-      architect: "Modi Srivastava & Associates",
+      id: 7,
+      title: "Automobile Assembly Plant",
+      category: "Industrial",
+      location: "Chennai",
+      architect: "Industrial Innovations",
       image:
-        "https://images.unsplash.com/photo-1558002038-1055907df827?w=800&q=80",
-      description: "Mixed-use urban development.",
+        "https://images.unsplash.com/photo-1581092335871-4c7fd9f8f1b5?w=800&q=80",
+      description: "Advanced automobile assembly line with robotic automation.",
       details: {
-        area: "72,000 sq ft",
-        year: "2024",
-        client: "Urban Developers",
+        area: "750,000 sq ft",
+        year: "2022",
+        client: "Hyundai Motors",
+      },
+    },
+    {
+      id: 8,
+      title: "Sunset Heights",
+      category: "Residential",
+      location: "Goa",
+      architect: "Coastal Living Designs",
+      image:
+        "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&q=80",
+      description: "Beachfront apartments with panoramic ocean views.",
+      details: {
+        area: "120,000 sq ft",
+        year: "2023",
+        client: "Goa Developers",
+      },
+    },
+    {
+      id: 9,
+      title: "Business Hub",
+      category: "Commercial",
+      location: "Gurugram",
+      architect: "Corporate Architecture Ltd",
+      image:
+        "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80",
+      description: "Grade A office space with smart building features.",
+      details: {
+        area: "280,000 sq ft",
+        year: "2022",
+        client: "DLF Limited",
+      },
+    },
+    {
+      id: 10,
+      title: "Pharmaceutical Complex",
+      category: "Industrial",
+      location: "Hyderabad",
+      architect: "Pharma Design Solutions",
+      image:
+        "https://images.unsplash.com/photo-1581091226033-d5c48150dbaa?w=800&q=80",
+      description: "WHO-GMP certified pharmaceutical manufacturing unit.",
+      details: {
+        area: "200,000 sq ft",
+        year: "2021",
+        client: "Dr. Reddy's Laboratories",
+      },
+    },
+    {
+      id: 11,
+      title: "Garden Residency",
+      category: "Residential",
+      location: "Ahmedabad",
+      architect: "Green Space Architects",
+      image:
+        "https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=800&q=80",
+      description: "Gated community with landscaped gardens and clubhouse.",
+      details: {
+        area: "180,000 sq ft",
+        year: "2023",
+        client: "Godrej Properties",
+      },
+    },
+    {
+      id: 12,
+      title: "Textile Park",
+      category: "Industrial",
+      location: "Surat",
+      architect: "Textile Industry Designers",
+      image:
+        "https://images.unsplash.com/photo-1581091226033-d5c48150dbaa?w=800&q=80",
+      description: "Integrated textile manufacturing and processing facility.",
+      details: {
+        area: "300,000 sq ft",
+        year: "2022",
+        client: "Arvind Mills",
+      },
+    },
+    {
+      id: 13,
+      title: "Financial Tower",
+      category: "Commercial",
+      location: "Mumbai",
+      architect: "Modern Architecture Group",
+      image:
+        "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80",
+      description: "25-story commercial tower in the financial district.",
+      details: {
+        area: "450,000 sq ft",
+        year: "2021",
+        client: "HDFC Bank",
+      },
+    },
+    {
+      id: 14,
+      title: "Royal Orchards",
+      category: "Residential",
+      location: "Lucknow",
+      architect: "Heritage Modern Designs",
+      image:
+        "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80",
+      description: "Luxury villas inspired by Awadhi architecture.",
+      details: {
+        area: "95,000 sq ft",
+        year: "2023",
+        client: "Lucknow Developers",
+      },
+    },
+    {
+      id: 15,
+      title: "Warehouse Complex",
+      category: "Industrial",
+      location: "Nagpur",
+      architect: "Logistics Design Solutions",
+      image:
+        "https://images.unsplash.com/photo-1586528116311-2630a57b52b9?w=800&q=80",
+      description:
+        "Modern warehouse with automated storage and retrieval system.",
+      details: {
+        area: "500,000 sq ft",
+        year: "2022",
+        client: "Delhivery Logistics",
+      },
+    },
+    {
+      id: 16,
+      title: "Lakeview Towers",
+      category: "Residential",
+      location: "Bhopal",
+      architect: "Urban Living Designs",
+      image:
+        "https://images.unsplash.com/photo-1574362848149-11496d93a7c7?w=800&q=80",
+      description: "High-rise apartments overlooking the upper lake.",
+      details: {
+        area: "220,000 sq ft",
+        year: "2023",
+        client: "Bhopal Builders",
+      },
+    },
+    {
+      id: 17,
+      title: "Convention Center",
+      category: "Commercial",
+      location: "Kochi",
+      architect: "Event Space Architects",
+      image:
+        "https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=800&q=80",
+      description:
+        "Modern convention center with multiple halls and auditoriums.",
+      details: {
+        area: "150,000 sq ft",
+        year: "2022",
+        client: "Kochi Municipality",
       },
     },
   ];
@@ -620,108 +379,397 @@ export default function ProjectPage() {
       ? projects
       : projects.filter((project) => project.category === activeFilter);
 
+  // Animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: {
+        type: "spring",
+        stiffness: 100,
+        damping: 12,
+      },
+    },
+  };
+
+  const heroVariants = {
+    initial: { scale: 1.1, opacity: 0 },
+    animate: {
+      scale: 1,
+      opacity: 1,
+      transition: {
+        duration: 1.5,
+        ease: "easeOut",
+      },
+    },
+  };
+
+  const textVariants = {
+    initial: { y: 50, opacity: 0 },
+    animate: {
+      y: 0,
+      opacity: 1,
+      transition: {
+        type: "spring",
+        stiffness: 50,
+        damping: 20,
+      },
+    },
+  };
+
   return (
-    <div>
-      <Navbar />
-      <div className="mt-17 min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50">
+    <div className="overflow-x-hidden">
+      <Header />
+      <div className="mt-16 min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50">
         <BrickWall opacity={0.07} color="#8B4513" />
-        {/* Hero Section */}
-        <div className="relative h-[60vh] overflow-hidden">
-          <div
+
+        {/* Main Hero Section */}
+        <div ref={heroRef} className="relative h-[80vh] overflow-hidden">
+          {/* Parallax Background */}
+          <motion.div
             className="absolute inset-0 bg-cover bg-center"
             style={{
               backgroundImage:
                 "url(https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1600&q=80)",
+              // x: mousePosition.x,
+              // y: mousePosition.y,
             }}
+            animate={heroVariants}
+            initial="initial"
           >
-            <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/40 to-black/60"></div>
-          </div>
+            <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/70"></div>
+          </motion.div>
+
+          {/* Animated Particles */}
+          {[...Array(20)].map((_, i) => (
+            <motion.div
+              key={i}
+              className="absolute w-1 h-1 bg-white rounded-full opacity-20"
+              style={{
+                left: `${Math.random() * 100}%`,
+                top: `${Math.random() * 100}%`,
+              }}
+              animate={{
+                y: [0, -30, 0],
+                opacity: [0.2, 0.5, 0.2],
+                scale: [1, 1.5, 1],
+              }}
+              transition={{
+                duration: 3 + Math.random() * 2,
+                repeat: Infinity,
+                delay: Math.random() * 2,
+              }}
+            />
+          ))}
+
+          {/* Hero Content */}
           <div className="relative h-full flex items-center justify-center">
-            <div className="text-center text-white px-4">
-              <h1 className="text-6xl md:text-7xl font-bold mb-4 tracking-tight animate-fade-in">
-                Projects
-              </h1>
-              <p className="text-xl md:text-2xl text-white/90 max-w-2xl mx-auto">
-                Showcasing excellence in architecture and design
-              </p>
+            <div className="text-center text-white px-4 max-w-5xl mx-auto">
+              <motion.h1
+                className="text-7xl md:text-8xl font-bold mb-6 tracking-tight"
+                initial={{ opacity: 0, y: -50 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.2 }}
+              >
+                <span className="bg-clip-text text-transparent bg-gradient-to-r from-white via-orange-200 to-white">
+                  Our Projects
+                </span>
+              </motion.h1>
+
+              <AnimatePresence mode="wait">
+                <motion.p
+                  key={heroTextIndex}
+                  className="text-2xl md:text-3xl text-white/90 max-w-3xl mx-auto mb-8 font-light"
+                  variants={textVariants}
+                  initial="initial"
+                  animate="animate"
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  {heroTexts[heroTextIndex]}
+                </motion.p>
+              </AnimatePresence>
+
+              {/* Animated Stats */}
+              <motion.div
+                className="flex justify-center gap-12 mt-12"
+                initial={{ opacity: 0, y: 50 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.6 }}
+              >
+                {[
+                  { label: "Projects", value: "500+" },
+                  { label: "Cities", value: "50+" },
+                  { label: "Happy Clients", value: "300+" },
+                ].map((stat, index) => (
+                  <motion.div
+                    key={index}
+                    className="text-center"
+                    whileHover={{ scale: 1.1 }}
+                    transition={{ type: "spring", stiffness: 300 }}
+                  >
+                    <div className="text-4xl font-bold text-orange-400">
+                      {stat.value}
+                    </div>
+                    <div className="text-sm text-white/70 mt-1">
+                      {stat.label}
+                    </div>
+                  </motion.div>
+                ))}
+              </motion.div>
+
+              {/* Scroll Indicator */}
+              <motion.div
+                className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
+                animate={{ y: [0, 10, 0] }}
+                transition={{ duration: 1.5, repeat: Infinity }}
+              >
+                <div className="w-6 h-10 border-2 border-white/30 rounded-full flex justify-center">
+                  <motion.div
+                    className="w-1 h-2 bg-white rounded-full mt-2"
+                    animate={{ opacity: [0.3, 1, 0.3] }}
+                    transition={{ duration: 1.5, repeat: Infinity }}
+                  />
+                </div>
+              </motion.div>
             </div>
           </div>
         </div>
 
         {/* Filter Section */}
-        <div className=" z-40 bg-white/75 backdrop-blur-sm border-b border-slate-200">
-          <div className="container mx-auto px-4 py-5">
+        <motion.div
+          className="sticky top-16 z-40 bg-white/80 backdrop-blur-xl border-b border-slate-200 shadow-lg"
+          initial={{ y: -100 }}
+          animate={{ y: 0 }}
+          transition={{ duration: 0.5 }}
+         >
+
+          
+          <div className="container mx-auto px-6 lg:px-8 py-6">
             <div className="flex flex-wrap justify-center gap-3">
               {filters.map((filter) => {
                 const isActive = activeFilter === filter;
 
                 return (
-                  <button
+                  <motion.button
                     key={filter}
                     onClick={() => setActiveFilter(filter)}
                     className={`
-                    relative px-6 py-2.5 rounded-full text-sm font-medium
-                    transition-all duration-200 cursor-pointer
-              ${
-                isActive
-                  ? `
-                    bg-orange-50 text-orange-700
-                    border border-orange-300
-                    shadow-sm
-                  `
-                  : `
-                    bg-white text-slate-700
-                    border border-slate-200
-                    hover:bg-orange-50
-                    hover:border-orange-200
-                  `
-              }
-            `}
-                  >
-                    {filter}
-                  </button>
+                      relative px-8 py-3 rounded-full text-sm font-medium
+                      transition-all duration-300 cursor-pointer overflow-hidden
+                      ${isActive ? "text-orange-700" : "text-slate-700 hover:text-orange-600"}
+                    `}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                   >
+                    {/* Background with gradient */}
+                    <motion.div
+                      className={`absolute inset-0 rounded-full ${
+                        isActive
+                          ? "bg-gradient-to-r from-orange-400 to-orange-500"
+                          : "bg-gradient-to-r from-slate-100 to-slate-200"
+                      }`}
+                      animate={isActive ? { scale: 1 } : { scale: 0.95 }}
+                      transition={{ duration: 0.3 }}
+                    />
+
+                    {/* Glow effect */}
+                    {isActive && (
+                      <motion.div
+                        className="absolute inset-0 rounded-full bg-orange-400 blur-md"
+                        animate={{ opacity: [0.5, 0.8, 0.5] }}
+                        transition={{ duration: 2, repeat: Infinity }}
+                      />
+                    )}
+
+                    <span className="relative z-10">{filter}</span>
+
+                    {/* Count badge */}
+                    <motion.span
+                      className={`absolute -top-1 -right-1 w-5 h-5 rounded-full text-xs flex items-center justify-center ${
+                        isActive
+                          ? "bg-white text-orange-700"
+                          : "bg-orange-100 text-orange-600"
+                      }`}
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 500,
+                        delay: 0.1,
+                      }}
+                    >
+                      {filter === "All"
+                        ? projects.length
+                        : projects.filter((p) => p.category === filter).length}
+                    </motion.span>
+                  </motion.button>
                 );
               })}
             </div>
           </div>
-        </div>
+        </motion.div>
 
-        {/* Projects Grid */}
-        <div className="container mx-auto px-4 py-16">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {/* Enhanced Projects Grid with Padding */}
+        <div className="container mx-auto px-4 py-16 relative">
+          {/* Card Section Background */}
+          <div className="absolute inset-0 overflow-hidden pointer-events-none">
+            {/* Your Brick Pattern - More Visible */}
+            <BrickWall opacity={0.25} color="#8B4513" />
+
+            {/* Gradient Orbs for Depth */}
+            <div className="absolute top-20 left-0 w-96 h-96 bg-orange-200/20 rounded-full blur-3xl"></div>
+            <div className="absolute bottom-20 right-0 w-96 h-96 bg-blue-200/20 rounded-full blur-3xl"></div>
+            <div className="absolute top-1/2 left-1/3 w-64 h-64 bg-purple-200/20 rounded-full blur-3xl"></div>
+
+            {/* Subtle Grid Overlay */}
+            <svg className="absolute inset-0 w-full h-full opacity-[0.05]">
+              <defs>
+                <pattern
+                  id="grid-overlay"
+                  x="0"
+                  y="0"
+                  width="40"
+                  height="40"
+                  patternUnits="userSpaceOnUse"
+                >
+                  <path
+                    d="M 40 0 L 0 0 0 40"
+                    fill="none"
+                    stroke="#8B4513"
+                    strokeWidth="0.8"
+                  />
+                </pattern>
+              </defs>
+              <rect width="100%" height="100%" fill="url(#grid-overlay)" />
+            </svg>
+
+            {/* Floating Architectural Elements */}
+            <div className="absolute top-40 left-10 w-20 h-20 border border-[#8B4513]/20 rotate-45"></div>
+            <div className="absolute bottom-40 right-10 w-32 h-32 border border-[#8B4513]/20 rounded-full"></div>
+            <div className="absolute top-60 right-40 w-16 h-16 border border-[#8B4513]/20 rotate-12"></div>
+
+            {/* Decorative Line */}
+            <svg
+              className="absolute bottom-0 left-0 w-full opacity-[0.1]"
+              viewBox="0 0 100 20"
+              preserveAspectRatio="none"
+            >
+              <path
+                d="M0,20 L20,5 L40,15 L60,0 L80,10 L100,3"
+                stroke="#8B4513"
+                fill="none"
+                strokeWidth="2"
+              />
+            </svg>
+          </div>
+          {/* <AnimatePresence mode="wait"> */}
+          <motion.div
+            key={activeFilter}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10"
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            exit={{ opacity: 0, y: 20 }}
+          >
             {filteredProjects.map((project, index) => (
-              <div
+              <motion.div
                 key={project.id}
-                className="group relative bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 cursor-pointer"
+                variants={itemVariants}
+                whileHover={{
+                  y: -8,
+                  transition: { type: "spring", stiffness: 300 },
+                }}
+                onHoverStart={() => setIsHoveringCard(project.id)}
+                onHoverEnd={() => setIsHoveringCard(null)}
+                className="group relative bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer"
                 onClick={() =>
                   navigate(`/projects/${project.id}`, { state: project })
                 }
-                style={{
-                  animationDelay: `${index * 100}ms`,
-                  animation: "fadeInUp 0.6s ease-out forwards",
-                  opacity: 0,
-                }}
               >
-                {/* Image Container */}
-                <div className="relative h-72 overflow-hidden">
-                  <img
+                {/* Image Container with 3D Effect */}
+                <div className="relative h-80 overflow-hidden">
+                  <motion.img
                     src={project.image}
                     alt={project.title}
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    className="w-full h-full object-cover"
+                    animate={{
+                      scale: isHoveringCard === project.id ? 1.1 : 1,
+                    }}
+                    transition={{ duration: 0.6 }}
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
-                  {/* Category Badge */}
-                  <div className="absolute top-4 left-4">
-                    <span className="px-4 py-1.5 bg-white/95 backdrop-blur-sm text-slate-800 rounded-full text-sm font-semibold shadow-md">
+                  {/* Gradient Overlay */}
+                  <motion.div
+                    className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"
+                    initial={{ opacity: 0 }}
+                    animate={{
+                      opacity: isHoveringCard === project.id ? 1 : 0,
+                    }}
+                    transition={{ duration: 0.3 }}
+                  />
+
+                  {/* Category Badge with Animation */}
+                  <motion.div
+                    className="absolute top-4 left-4"
+                    initial={{ x: -20, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    transition={{ delay: index * 0.1 }}
+                  >
+                    <motion.span
+                      className="px-4 py-2 bg-white/95 backdrop-blur-sm text-slate-800 rounded-full text-sm font-semibold shadow-lg flex items-center gap-2"
+                      whileHover={{ scale: 1.05 }}
+                    >
+                      <span className="w-2 h-2 bg-orange-500 rounded-full animate-pulse"></span>
                       {project.category}
-                    </span>
-                  </div>
+                    </motion.span>
+                  </motion.div>
 
-                  {/* Hover Content */}
-                  <div className="absolute bottom-0 left-0 right-0 p-6 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
-                    <div className="text-white space-y-2">
-                      <div className="flex items-center gap-2">
+                  {/* Floating Elements */}
+                  <motion.div
+                    className="absolute top-4 right-4 flex gap-2"
+                    initial={{ x: 20, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    transition={{ delay: index * 0.1 + 0.1 }}
+                  >
+                    {project.details.year && (
+                      <span className="px-3 py-1 bg-blue-600 text-white rounded-full text-xs font-semibold shadow-lg">
+                        {project.details.year}
+                      </span>
+                    )}
+                  </motion.div>
+
+                  {/* Hover Content with Slide-up Animation */}
+                  <motion.div
+                    className="absolute bottom-0 left-0 right-0 p-6"
+                    initial={{ y: 100 }}
+                    animate={{ y: isHoveringCard === project.id ? 0 : 100 }}
+                    transition={{
+                      type: "spring",
+                      stiffness: 200,
+                      damping: 20,
+                    }}
+                  >
+                    <div className="text-white space-y-3">
+                      <motion.div
+                        className="flex items-center gap-2"
+                        initial={{ opacity: 0 }}
+                        animate={{
+                          opacity: isHoveringCard === project.id ? 1 : 0,
+                        }}
+                        transition={{ delay: 0.1 }}
+                      >
                         <svg
                           className="w-4 h-4"
                           fill="none"
@@ -742,8 +790,16 @@ export default function ProjectPage() {
                           />
                         </svg>
                         <span className="text-sm">{project.location}</span>
-                      </div>
-                      <div className="flex items-center gap-2">
+                      </motion.div>
+
+                      <motion.div
+                        className="flex items-center gap-2"
+                        initial={{ opacity: 0 }}
+                        animate={{
+                          opacity: isHoveringCard === project.id ? 1 : 0,
+                        }}
+                        transition={{ delay: 0.2 }}
+                      >
                         <svg
                           className="w-4 h-4"
                           fill="none"
@@ -757,22 +813,80 @@ export default function ProjectPage() {
                             d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
                           />
                         </svg>
-                        <span className="text-sm">{project.architect}</span>
-                      </div>
+                        <span className="text-sm">
+                          {project.architect.split(" ").slice(0, 2).join(" ")}
+                        </span>
+                      </motion.div>
+
+                      {/* Quick View Button */}
+                      <motion.button
+                        className="mt-4 px-4 cursor-pointer py-2 bg-white text-slate-900 rounded-lg text-sm font-semibold flex items-center gap-2 hover:bg-orange-500 hover:text-white transition-colors"
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{
+                          opacity: isHoveringCard === project.id ? 1 : 0,
+                          scale: isHoveringCard === project.id ? 1 : 0.8,
+                        }}
+                        transition={{ delay: 0.3 }}
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          navigate(`/projects/${project.id}`, {
+                            state: project,
+                          });
+                        }}
+                       >
+                        Quick View
+                        <svg
+                          className="w-4 h-4"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                          />
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                          />
+                        </svg>
+                      </motion.button>
                     </div>
-                  </div>
+                  </motion.div>
+
+                  {/* Shine Effect */}
+                  <motion.div
+                    className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
+                    initial={{ x: "-100%" }}
+                    whileHover={{ x: "100%" }}
+                    transition={{ duration: 0.8 }}
+                  />
                 </div>
 
                 {/* Content */}
                 <div className="p-6">
-                  <h3 className="text-2xl font-bold text-slate-900 mb-2 group-hover:text-blue-600 transition-colors">
+                  <motion.h3
+                    className="text-2xl font-bold text-slate-900 mb-2 flex items-center justify-between"
+                    animate={{
+                      color:
+                        isHoveringCard === project.id ? "#f97316" : "#0f172a",
+                    }}
+                  >
                     {project.title}
-                  </h3>
+                   
+                  </motion.h3>
+
                   <p className="text-slate-600 text-sm line-clamp-2 mb-4">
                     {project.description}
                   </p>
 
-                  <div className="flex items-center justify-between">
+                  <div className="flex items-center justify-between pt-4 border-t border-slate-100">
                     <div className="flex items-center gap-2 text-slate-500 text-sm">
                       <svg
                         className="w-4 h-4"
@@ -789,13 +903,20 @@ export default function ProjectPage() {
                       </svg>
                       <span>{project.details.area}</span>
                     </div>
-                    <button className="text-blue-600 font-semibold text-sm flex items-center gap-1 group-hover:gap-2 transition-all">
-                      View Details
-                      <svg
-                        className="w-4 h-4"
+
+                    <motion.div
+                      className="flex items-center gap-1"
+                      animate={{ x: isHoveringCard === project.id ? 5 : 0 }}
+                    >
+                      <span className="text-orange-400 font-semibold text-sm">
+                        Details
+                      </span>
+                      <motion.svg
+                        className="w-4 h-4 text-orange-400"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
+                        animate={{ x: isHoveringCard === project.id ? 3 : 0 }}
                       >
                         <path
                           strokeLinecap="round"
@@ -803,13 +924,16 @@ export default function ProjectPage() {
                           strokeWidth={2}
                           d="M9 5l7 7-7 7"
                         />
-                      </svg>
-                    </button>
+                      </motion.svg>
+                    </motion.div>
                   </div>
                 </div>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
+          {/* </AnimatePresence> */}
+
+          
         </div>
 
         <style>{`
@@ -824,22 +948,44 @@ export default function ProjectPage() {
             }
           }
 
-          @keyframes fade-in {
-            from {
-              opacity: 0;
-              transform: translateY(-20px);
-            }
-            to {
-              opacity: 1;
-              transform: translateY(0);
-            }
+          @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
           }
 
-          .animate-fade-in {
-            animation: fade-in 1s ease-out;
+          @keyframes pulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+          }
+
+          .animate-float {
+            animation: float 3s ease-in-out infinite;
+          }
+
+          .animate-pulse-slow {
+            animation: pulse 2s ease-in-out infinite;
+          }
+
+          /* Custom scrollbar */
+          ::-webkit-scrollbar {
+            width: 8px;
+          }
+
+          ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+          }
+
+          ::-webkit-scrollbar-thumb {
+            background: linear-gradient(to bottom, #f97316, #fb923c);
+            border-radius: 4px;
+          }
+
+          ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(to bottom, #ea580c, #f97316);
           }
         `}</style>
       </div>
+      <Footer/>
     </div>
   );
 }

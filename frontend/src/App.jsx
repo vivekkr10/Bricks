@@ -14,12 +14,13 @@ import Profile from "./pages/AdminDashboard/profile.jsx"
 
 // 3. The Temporary Fix
 import ComingSoon from "./Components/commingsoon.jsx";
-import { ProductsPage, ProductDetails } from "./pages/Products";
+import ProductsPage from "./pages/Products/ProductsPage.jsx"
+import ProductDetails from "./pages/Products/ProductDetailPage.jsx";
 import BlogSection from "./pages/blog/BlogSection.jsx";
 import Contact from "./pages/contactPage/Contact.jsx";
 import BlogDetails from "./pages/blog/BlogDetails.jsx";
 import AboutPage from "./pages/AboutPage/About.jsx";
-// Projects Page 
+// Projects Page
 import ProjectPage from "./pages/Project/Project.jsx";
 
 import ProjectDetailsPage from "./pages/Project/ProjectDetailPage.jsx";
@@ -50,8 +51,11 @@ function App() {
         <Route path="/forgot-password" element={<ForgotPasswordOTP />} />
         {/* Other Routes */}
         <Route path="/services" element={<Services />} />
+        {/* <Route path="/admin-register" element={<AdminRegister />} /> */}
+
         <Route path="/products" element={<ProductsPage />} />
-        <Route path="/products/:id" element={<ProductDetails />} />
+        <Route path="/product/:id" element={<ProductDetails />} />
+
         <Route path="/blog" element={<BlogSection />} />
         <Route path="/blog/:id" element={<BlogDetails />} />
         <Route path="/contact" element={<Contact />} />
