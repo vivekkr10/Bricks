@@ -22,12 +22,10 @@ import AboutPage from "./pages/AboutPage/About.jsx";
 import ProjectPage from "./pages/Project/Project.jsx";
 import FeaturedArticle from "./pages/blog/FeaturedArticle.jsx";
 import ContactSection from "./pages/contactPage/ContactSection";
-import Inquiry from "./pages/contactPage/Inquiry";
 import ProjectDetailsPage from "./pages/Project/ProjectDetailPage.jsx";
 import ForgotPasswordOTP from "./pages/auth/ForgotPasswordOTP";
 
-  
-
+import InquiryPage from "./Inquiry/InquiryForm.jsx";
 
 
 
@@ -54,7 +52,7 @@ function App() {
         <Route path="/products/:id" element={<ProductDetails />} />
         <Route path="/blog" element={<FeaturedArticle />} />
         <Route path="/contact" element={<Contact />} />
-        <Route path="/inquiry" element={<Inquiry />} />
+        {/* <Route path="/inquiry" element={<Inquiry />} /> */}
         <Route path="/terms" element={<Terms />} />
         <Route path="/privacy" element={<Privacy />} />
         <Route path="/about" element={<AboutPage />} />
@@ -63,7 +61,7 @@ function App() {
         <Route path="/contact" element={<ContactSection />} />
 
 
-        
+       <Route path="/inquiry" element={<InquiryPage />} />
 
         {/* 404 Fallback - Keep this at the end */}
         <Route path="*" element={<ComingSoon />} />
