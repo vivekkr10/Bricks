@@ -39,9 +39,9 @@ const ProductCard = ({ product, viewMode }) => {
       >
         <div className="flex flex-col md:flex-row h-72">
           {/* Image Container - Fixed Height */}
-          <div className="relative md:w-80 h-72 overflow-hidden bg-stone-200 flex-shrink-0">
+          <div className="relative md:w-80 h-72 overflow-hidden bg-stone-700 flex-shrink-0">
             {!imageLoaded && (
-              <div className="absolute inset-0 bg-gradient-to-r from-stone-300 to-stone-200 animate-pulse" />
+              <div className="absolute inset-0 bg-gradient-to-r from-stone-700 to-stone-600 animate-pulse" />
             )}
             <img
               src={product.image || '/images/default-brick.jpg'}
@@ -75,7 +75,7 @@ const ProductCard = ({ product, viewMode }) => {
           <div className="flex-1 p-5 flex flex-col justify-between h-72 overflow-hidden">
             <div className="overflow-y-auto">
               <Link to={productDetailPath}>
-                <h3 className="font-serif text-lg font-bold text-stone-900 mb-1 group-hover:text-orange-600 transition-colors line-clamp-2">
+                <h3 className="font-serif text-lg font-bold text-stone-900 mb-1 group-hover:text-red-700 transition-colors line-clamp-2">
                   {product.name}
                 </h3>
               </Link>
@@ -117,7 +117,7 @@ const ProductCard = ({ product, viewMode }) => {
             <div className="flex items-center gap-2 pt-3 border-t border-stone-200 mt-auto">
               <Link
                 to={productDetailPath}
-                className="flex-1 px-3 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors text-center font-bold text-xs whitespace-nowrap"
+                className="flex-1 px-3 py-2 bg-red-700 text-white rounded-lg hover:bg-red-800 transition-colors text-center font-bold text-xs whitespace-nowrap"
               >
                 Explore
               </Link>
@@ -125,7 +125,7 @@ const ProductCard = ({ product, viewMode }) => {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => navigate('/contact', { state: { productId: product.id, productName: product.name } })}
-                className="flex-1 px-3 py-2 border-2 border-orange-600 text-orange-600 rounded-lg hover:bg-orange-50 transition-colors font-bold text-xs whitespace-nowrap"
+                className="flex-1 px-3 py-2 border-2 border-red-700 text-red-700 rounded-lg hover:bg-red-50 transition-colors font-bold text-xs whitespace-nowrap"
               >
                 Inquire
               </motion.button>
@@ -182,7 +182,7 @@ const ProductCard = ({ product, viewMode }) => {
       <div className="p-4 flex flex-col justify-between flex-grow overflow-hidden">
         <div className="overflow-y-auto">
           <Link to={productDetailPath}>
-            <h3 className="font-serif text-xl font-bold text-stone-900 mb-1 group-hover:text-orange-600 transition-colors line-clamp-2">
+            <h3 className="font-serif text-xl font-bold text-stone-900 mb-1 group-hover:text-red-700 transition-colors line-clamp-2">
               {product.name}
             </h3>
           </Link>
@@ -215,7 +215,7 @@ const ProductCard = ({ product, viewMode }) => {
         <div className="flex items-center gap-2 pt-2">
           <Link
             to={productDetailPath}
-            className="flex-1 px-3 py-2.5 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors text-center font-bold text-xs whitespace-nowrap"
+            className="flex-1 px-3 py-2.5 bg-red-700 text-white rounded-lg hover:bg-red-800 transition-colors text-center font-bold text-xs whitespace-nowrap"
           >
             Explore
           </Link>
@@ -223,7 +223,7 @@ const ProductCard = ({ product, viewMode }) => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={() => navigate('/contact', { state: { productId: product.id, productName: product.name } })}
-            className="flex-1 px-3 py-2.5 border-2 border-orange-600 text-orange-600 rounded-lg hover:bg-orange-50 transition-colors font-bold text-xs whitespace-nowrap"
+            className="flex-1 px-3 py-2.5 border-2 border-red-700 text-red-700 rounded-lg hover:bg-red-50 transition-colors font-bold text-xs whitespace-nowrap"
           >
             Inquire
           </motion.button>
