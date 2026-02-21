@@ -40,6 +40,7 @@ const Header = () => {
     { name: 'About Us', path: '/about' },
     { name: 'Products', path: '/products' },
     { name: 'Projects', path: '/projects' },
+    { name: 'Services', path: '/services' },
     { name: 'Blog', path: '/blog' },
   ];
 
