@@ -25,7 +25,6 @@ import ContactSection from "./pages/contactPage/ContactSection";
 import Inquiry from "./pages/contactPage/Inquiry";
 import ProjectDetailsPage from "./pages/Project/ProjectDetailPage.jsx";
 import ForgotPasswordOTP from "./pages/auth/ForgotPasswordOTP";
-import ForgotPassword from "./pages/auth/ForgotPassword";
 
   
 
