@@ -19,13 +19,10 @@ import Contact from "./pages/contactPage/ContactSection.jsx";
 import AboutPage from "./pages/AboutPage/About.jsx";
 // Projects Page 
 import ProjectPage from "./pages/Project/Project.jsx";
-
 import FeaturedArticle from "./pages/blog/FeaturedArticle.jsx";
 import ContactSection from "./pages/contactPage/ContactSection";
 import Inquiry from "./pages/contactPage/Inquiry";
-
 import ProjectDetailsPage from "./pages/Project/ProjectDetailPage.jsx";
-
 import ForgotPasswordOTP from "./pages/auth/ForgotPasswordOTP";
 
   
@@ -48,7 +45,6 @@ function App() {
          
         <Route path="/admin-login" element={<AdminLogin />} />
         <Route path="/admin-register" element={<AdminRegister />} />
-        <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/forgot-password" element={<ForgotPasswordOTP />} />
         {/* Other Routes */}
         <Route path="/services" element={<Services />} />
