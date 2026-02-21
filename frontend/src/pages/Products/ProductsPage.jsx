@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Helmet } from 'react-helmet';
+import { AlignCenter } from "lucide-react";
 import { useNavigate } from 'react-router-dom';
 import ProductCard from './ProductCard';
 import ProductFilters from './ProductFilters';
@@ -397,11 +398,11 @@ const ProductsPage = () => {
           100% { background-position: 0% 50%; }
         }
         @keyframes heroTextShimmer {
-          0%, 100% { text-shadow: 0 0 0 rgba(251, 146, 60, 0); }
-          50% { text-shadow: 0 0 14px rgba(251, 146, 60, 0.28); }
+          0%, 100% { text-shadow: 0 0 0 rgba(239, 68, 68, 0); }
+          50% { text-shadow: 0 0 14px rgba(239, 68, 68, 0.28); }
         }
         .hero-gradient-shimmer {
-          background-image: linear-gradient(90deg, #f97316, #ea580c, #c2410c, #ea580c, #f97316);
+          background-image: linear-gradient(90deg, #f87171, #ef4444, #b91c1c, #ef4444, #f87171);
           background-size: 220% 220%;
           animation: heroGradientShift 8s ease-in-out infinite;
         }
@@ -448,10 +449,10 @@ const ProductsPage = () => {
                 transition={{ delay: 0.1, duration: 0.7, ease: "easeOut" }}
                 className="inline-block mb-8"
               >
-                <div className="flex items-center gap-3 bg-gradient-to-r from-orange-50 to-transparent border border-orange-200/60 rounded-full px-6 py-3">
-                  <span className="w-2 h-2 rounded-full bg-gradient-to-r from-orange-500 to-orange-600 animate-pulse" />
+                <div className="flex items-center gap-3 bg-gradient-to-r from-red-50 to-transparent border border-red-200/60 rounded-full px-6 py-3">
+                  <span className="w-2 h-2 rounded-full bg-gradient-to-r from-red-500 to-red-600 animate-pulse" />
                   <motion.span
-                    className="text-xs font-bold tracking-widest text-orange-700 uppercase inline-block"
+                    className="text-xs font-bold tracking-widest text-red-700 uppercase inline-block"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ duration: 0.65, delay: 0.2, ease: heroEase }}
@@ -474,16 +475,9 @@ const ProductsPage = () => {
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   transition={{ delay: 0.35, duration: 0.9, ease: "easeOut" }}
                 >
+                  Exceptional Bricks <br className="hidden md:block" />
                   <motion.span
-                    className="block"
-                    initial={{ opacity: 0, x: -30 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.35, duration: 0.7 }}
-                  >
-                    Exceptional Bricks
-                  </motion.span>
-                  <motion.span
-                    className="hero-gradient-shimmer hero-text-shimmer block text-transparent bg-clip-text"
+                    className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-amber-200 to-orange-400"
                     initial={{ opacity: 0, x: 30 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.56, duration: 0.75, ease: "easeOut" }}
@@ -511,8 +505,8 @@ const ProductsPage = () => {
                 className="flex flex-col sm:flex-row gap-8 mb-10"
               >
                 <div className="flex items-start gap-3">
-                  <div className="w-12 h-12 rounded-lg bg-orange-100 flex items-center justify-center flex-shrink-0">
-                    <svg className="w-6 h-6 text-orange-600" fill="currentColor" viewBox="0 0 20 20">
+                  <div className="w-12 h-12 rounded-lg bg-red-100 flex items-center justify-center flex-shrink-0">
+                    <svg className="w-6 h-6 text-red-600" fill="currentColor" viewBox="0 0 20 20">
                       <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v1h8v-1zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z" />
                     </svg>
                   </div>
@@ -523,8 +517,8 @@ const ProductsPage = () => {
                 </div>
                 
                 <div className="flex items-start gap-3">
-                  <div className="w-12 h-12 rounded-lg bg-orange-100 flex items-center justify-center flex-shrink-0">
-                    <svg className="w-6 h-6 text-orange-600" fill="currentColor" viewBox="0 0 20 20">
+                  <div className="w-12 h-12 rounded-lg bg-red-100 flex items-center justify-center flex-shrink-0">
+                    <svg className="w-6 h-6 text-red-600" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
                     </svg>
                   </div>
@@ -540,7 +534,7 @@ const ProductsPage = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 1.05, duration: 0.75, ease: "easeOut" }}
-                className="flex flex-wrap gap-4"
+                className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 w-full max-w-2xl -mt-3"
               >
                 <button 
                   onClick={() => {
@@ -548,19 +542,34 @@ const ProductsPage = () => {
                       productsRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
                     }
                   }}
-                  className="group relative px-8 py-4 bg-gradient-to-r from-orange-600 to-orange-700 text-white font-bold text-sm tracking-wide rounded-xl shadow-lg shadow-orange-600/30 hover:shadow-orange-600/50 hover:-translate-y-1 transition-all duration-300 overflow-hidden">
-                  <span className="relative z-10 flex items-center gap-2">
+                  className="group relative px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-red-600 to-red-700 text-white font-bold text-xs sm:text-sm tracking-wide rounded-xl shadow-lg shadow-red-600/30 hover:shadow-red-600/50 hover:-translate-y-1 transition-all duration-300 overflow-hidden whitespace-nowrap">
+                  <span className="relative z-10 flex items-center justify-center gap-2">
                     Explore All Products
                     <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                     </svg>
                   </span>
                 </button>
-                <button 
-                  onClick={() => navigate('/contact')}
-                  className="group px-8 py-4 border-2 border-stone-300 text-stone-700 font-bold text-sm tracking-wide rounded-xl hover:border-orange-500 hover:text-orange-600 hover:bg-orange-50 transition-all duration-300">
-                  Request Catalog
-                </button>
+               <button 
+  onClick={() => navigate('/contact')}
+  className="group w-full sm:w-auto
+             px-6 py-4 
+             bg-white text-red-700 
+             font-bold text-sm tracking-wide 
+             rounded-xl shadow-xl shadow-black/20
+             hover:bg-red-600 hover:text-white 
+             transition-all duration-300
+             flex items-center justify-center gap-2">
+  Request Catalog
+  <svg 
+    className="w-4 h-4 group-hover:translate-x-1 transition-transform"
+    fill="none"
+    stroke="currentColor"
+    viewBox="0 0 24 24"
+  >
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+  </svg>
+</button>
               </motion.div>
             </motion.div>
 
@@ -569,12 +578,12 @@ const ProductsPage = () => {
               initial={{ opacity: 0, x: 40 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}
-              className="relative mt-10 lg:mt-0 w-full lg:max-w-[620px] lg:ml-auto flex flex-col"
+              className="relative mt-10 lg:mt-24 w-full lg:max-w-[620px] lg:ml-auto flex flex-col"
             >
-              <div className="absolute inset-8 bg-gradient-to-br from-orange-200/25 via-amber-100/15 to-transparent rounded-[36px] blur-3xl pointer-events-none" />
+              <div className="absolute inset-8 bg-gradient-to-br from-red-200/25 via-amber-100/15 to-transparent rounded-[36px] blur-3xl pointer-events-none" />
               {/* Brick Color Preview Grid */}
               <motion.div
-                className="brick-float-scene relative z-10 grid grid-cols-2 lg:grid-cols-3 gap-x-7 lg:gap-x-8 gap-y-8 lg:gap-y-9 place-items-center content-start pr-2 lg:pr-8 xl:pr-10"
+                className="hidden lg:grid brick-float-scene relative z-10 grid grid-cols-2 lg:grid-cols-3 gap-x-7 lg:gap-x-8 gap-y-8 lg:gap-y-9 place-items-center content-start pr-2 lg:pr-8 xl:pr-10"
                 variants={staggerContainerVariants}
                 initial="hidden"
                 animate="visible"
@@ -595,7 +604,7 @@ const ProductsPage = () => {
                       y: -6,
                       rotateX: 1.2,
                       rotateY: 1.6,
-                      boxShadow: "0 30px 52px rgba(15, 23, 42, 0.36), 0 0 24px rgba(251, 146, 60, 0.2)"
+                      boxShadow: "0 30px 52px rgba(15, 23, 42, 0.36), 0 0 24px rgba(239, 68, 68, 0.2)"
                     }}
                     transition={{ duration: 0.35, ease: "easeInOut" }}
                     className="brick-float-card relative group overflow-hidden cursor-pointer"
@@ -636,7 +645,7 @@ const ProductsPage = () => {
               <motion.div
                 animate={{ y: [0, -20, 0] }}
                 transition={{ duration: 4, repeat: Infinity }}
-                className="absolute -bottom-10 -right-10 w-40 h-40 bg-orange-100 rounded-full blur-3xl opacity-40 pointer-events-none"
+                className="absolute -bottom-10 -right-10 w-40 h-40 bg-red-100 rounded-full blur-3xl opacity-40 pointer-events-none"
               />
             </motion.div>
           </div>
@@ -730,7 +739,7 @@ const ProductsPage = () => {
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                       onClick={clearFilters}
-                      className="px-6 py-3 bg-orange-600 text-white rounded-xl hover:bg-orange-700 transition-colors font-semibold"
+                      className="px-6 py-3 bg-red-600 text-white rounded-xl hover:bg-red-700 transition-colors font-semibold"
                     >
                       Clear All Filters
                     </motion.button>
@@ -771,7 +780,7 @@ const ProductsPage = () => {
                       className="text-center py-20"
                     >
                       <div className="relative inline-block">
-                        <div className="absolute inset-0 bg-orange-100 rounded-full blur-3xl opacity-20"></div>
+                        <div className="absolute inset-0 bg-red-100 rounded-full blur-3xl opacity-20"></div>
                         <svg className="w-32 h-32 mx-auto text-stone-400 relative" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
                         </svg>
@@ -792,7 +801,7 @@ const ProductsPage = () => {
       {/* Why Choose Us Section */}
       <section className="py-24 bg-white relative overflow-hidden">
         <BrickWall opacity={0.07} color="#8B4513" />
-        <div className="absolute top-0 right-0 w-2/5 h-full bg-gradient-to-l from-orange-50 to-transparent hidden lg:block" />
+        <div className="absolute top-0 right-0 w-2/5 h-full bg-gradient-to-l from-red-50 to-transparent hidden lg:block" />
         
         <div className="container mx-auto px-6 sm:px-8 lg:px-10 relative z-10">
           <motion.div
@@ -811,7 +820,7 @@ const ProductsPage = () => {
             >
               Why Choose{" "}
               <motion.em 
-                className="text-orange-600 not-italic inline-block"
+                className="text-red-600 not-italic inline-block"
                 initial={{ opacity: 0, scale: 0.8 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
@@ -845,13 +854,13 @@ const ProductsPage = () => {
               },
               {
                 icon: (
-                  <svg className="w-12 h-12 text-orange-600 mx-auto" fill="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-12 h-12 text-red-600 mx-auto" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" />
                   </svg>
                 ),
                 title: "Quality Tested",
                 description: "Each brick undergoes rigorous quality control",
-                color: "bg-orange-50"
+                color: "bg-red-50"
               },
               {
                 icon: (
@@ -871,7 +880,7 @@ const ProductsPage = () => {
                 viewport={{ once: true }}
                 transition={{ delay: 0.5 + index * 0.15, duration: 0.6 }}
                 whileHover={{ y: -8 }}
-                className={`${feature.color} p-8 rounded-2xl border border-orange-100 hover:shadow-xl hover:border-orange-300 transition-all cursor-default h-full flex flex-col items-center justify-center text-center`}
+                className={`${feature.color} p-8 rounded-2xl border border-red-100 hover:shadow-xl hover:border-red-300 transition-all cursor-default h-full flex flex-col items-center justify-center text-center`}
               >
                 <motion.div 
                   className="mb-4"

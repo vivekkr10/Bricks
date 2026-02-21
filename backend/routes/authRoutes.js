@@ -173,7 +173,8 @@ router.post('/login', [
 // @desc    Send OTP to email if registered
 // @access  Public
 router.post('/forgot-password/send-otp', [
-  body('email').isEmail().withMessage('Please provide a valid email')
+  body('email').isEmail().withMessage('Please provide a valid email'),
+  body('secretKey').not().isEmpty().withMessage('Secret key is required')
 ], async (req, res) => {
   // Check for validation errors
   const errors = validationResult(req);
@@ -184,10 +185,22 @@ router.post('/forgot-password/send-otp', [
     });
   }
 
-  const { email } = req.body;
+  const { email, secretKey } = req.body;
 
   try {
-    // Check if admin exists with this email
+    console.log('🔍 Forgot password request received:');
+    console.log('Email:', email);
+    console.log('Secret Key:', secretKey);
+    console.log('Expected Secret Key:', process.env.ADMIN_SECRET_KEY);
+
+    // FIRST: Verify secret key (MOST IMPORTANT)
+    if (secretKey !== process.env.ADMIN_SECRET_KEY) {
+      console.log('❌ Invalid secret key');
+      return res.status(401).json({ 
+        success: false, 
+        message: 'Invalid secret key. Access denied.' 
+      });
+    }
     const admin = await Admin.findOne({ email });
 
     if (!admin) {
@@ -197,23 +210,28 @@ router.post('/forgot-password/send-otp', [
       });
     }
 
+    console.log('✅ Email found:', admin.email);
+
     // Generate OTP
     const otp = generateOTP();
+    console.log('Generated OTP:', otp);
     
-    // Store OTP in database with expiration (10 minutes)
     admin.resetPasswordOTP = otp;
-    admin.resetPasswordExpire = Date.now() + 10 * 60 * 1000; // 10 minutes
+    admin.resetPasswordExpire = Date.now() + 10 * 60 * 1000; 
     await admin.save();
 
     // Send OTP via email
     const emailSent = await sendOTPEmail(email, otp);
 
     if (!emailSent) {
+      console.log('❌ Failed to send email');
       return res.status(500).json({ 
         success: false, 
         message: 'Failed to send OTP email. Please try again.' 
       });
     }
+
+    console.log('✅ Email sent successfully');
 
     res.status(200).json({
       success: true,
@@ -221,7 +239,7 @@ router.post('/forgot-password/send-otp', [
     });
 
   } catch (error) {
-    console.error(error);
+    console.error('❌ Server error:', error);
     res.status(500).json({ 
       success: false, 
       message: 'Server error' 
@@ -396,7 +414,5 @@ router.get('/me', protect, async (req, res) => {
     });
   }
 });
-
-
 
 module.exports = router;

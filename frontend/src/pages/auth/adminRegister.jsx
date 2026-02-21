@@ -140,7 +140,8 @@ const AdminRegister = () => {
   };
 
   return (
-    <div className="auth-container">
+      <div className="admin-auth register-page">
+   <div className="auth-container register-page">
       {/* Left Side - Brand Section */}
       <div className="auth-brand-section">
         <div className="brand-content">
@@ -323,6 +324,7 @@ const AdminRegister = () => {
           </form>
         </motion.div>
       </div>
+    </div>
     </div>
   );
 };

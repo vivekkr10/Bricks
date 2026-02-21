@@ -16,7 +16,7 @@ export default function ContactSection() {
 
       {/* ================= HERO / GET IN TOUCH ================= */}
       <section className="py-20 px-6">
-        <div className="max-w-6xl mx-auto">
+        <div className="max-w-8xl mx-auto">
 
           <motion.div
             initial={{ y: -60, opacity: 0 }}
