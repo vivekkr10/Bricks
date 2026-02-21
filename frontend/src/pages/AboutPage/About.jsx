@@ -523,11 +523,7 @@ export default function AboutPage() {
         <style>{`
           @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600;1,700&family=Jost:wght@300;400;500;600;700&display=swap');
           .font-serif { font-family: 'Cormorant Garamond', Georgia, serif !important; }
-          html { scroll-behavior: smooth; }
-          ::-webkit-scrollbar { width: 4px; }
-          ::-webkit-scrollbar-track { background: #fafaf9; }
-          ::-webkit-scrollbar-thumb { background: #ea580c; border-radius: 4px; }
-
+          
           @keyframes floatA { 0%,100%{transform:translateY(0) rotate(0deg)} 50%{transform:translateY(-12px) rotate(3deg)} }
           @keyframes floatB { 0%,100%{transform:translateY(0) rotate(0deg)} 50%{transform:translateY(-8px) rotate(-2deg)} }
           @keyframes floatC { 0%,100%{transform:translateY(0) rotate(0deg)} 50%{transform:translateY(-16px) rotate(4deg)} }
@@ -568,7 +564,7 @@ export default function AboutPage() {
         <section
           ref={heroRef}
           className=" mt-10 min-h-screen relative flex items-center overflow-hidden bg-gradient-to-br from-stone-50 via-orange-100/60 to-stone-100 pt-20 pb-12 border-b border-stone-200"
-         >
+        >
           <BrickWall opacity={0.05} color="#8B4513" />
 
           {/* Main Content Container */}
@@ -660,7 +656,7 @@ export default function AboutPage() {
                     whileHover={{ scale: 1.05, y: -3 }}
                     whileTap={{ scale: 0.98 }}
                     className="group w-full sm:w-auto cursor-pointer px-6 sm:px-8 py-3.5 sm:py-4 bg-orange-600 text-white font-bold text-xs tracking-widest uppercase rounded-xl shadow-xl shadow-orange-200/50 hover:shadow-2xl hover:shadow-orange-300/50 transition-all duration-300 flex items-center justify-center gap-2 relative overflow-hidden"
-                  >
+                   >
                     <motion.div
                       className="absolute inset-0 bg-gradient-to-r from-orange-500 to-orange-700"
                       initial={{ x: "-100%" }}
@@ -740,14 +736,14 @@ export default function AboutPage() {
                 animate={heroInView ? { opacity: 1, x: 0 } : {}}
                 transition={{ duration: 0.8, delay: 0.3 }}
                 className="relative lg:block "
-               >
+              >
                 {/* Main Image */}
                 <div className="relative">
                   <motion.div
                     whileHover={{ scale: 1.02 }}
                     transition={{ duration: 0.4 }}
                     className="relative rounded-2xl overflow-hidden shadow-2xl"
-                   >
+                  >
                     <img
                       src="https://images.unsplash.com/photo-1589939705384-5185137a7f0f?w=800&q=80"
                       alt="Brick manufacturing facility"
@@ -770,8 +766,6 @@ export default function AboutPage() {
                       </p>
                     </motion.div>
                   </motion.div>
-
-                 
 
                   {/* Decorative Elements */}
                   <motion.div
@@ -1317,7 +1311,6 @@ export default function AboutPage() {
             <div
               className={`mb-8 sm:mb-12 section-reveal d1 ${productInView ? "visible" : ""}`}
             >
-              
               <div className="flex overflow-x-auto pb-1 sm:pb-0 sm:justify-center gap-0 sm:gap-0">
                 <div className="bg-stone-100 p-1.5 rounded-xl flex gap-1 min-w-max sm:min-w-0 mx-auto">
                   {products.map((p, i) => (
