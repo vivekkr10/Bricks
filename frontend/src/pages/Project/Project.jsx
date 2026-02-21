@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
-import Header from '../../Components/header.jsx';
-import Footer from '../../Components/footer.jsx';
+import Header from "../../Components/header.jsx";
+import Footer from "../../Components/footer.jsx";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -553,9 +553,7 @@ export default function ProjectPage() {
           initial={{ y: -100 }}
           animate={{ y: 0 }}
           transition={{ duration: 0.5 }}
-         >
-
-          
+        >
           <div className="container mx-auto px-6 lg:px-8 py-6">
             <div className="flex flex-wrap justify-center gap-3">
               {filters.map((filter) => {
@@ -572,7 +570,7 @@ export default function ProjectPage() {
                     `}
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                   >
+                  >
                     {/* Background with gradient */}
                     <motion.div
                       className={`absolute inset-0 rounded-full ${
@@ -835,7 +833,7 @@ export default function ProjectPage() {
                             state: project,
                           });
                         }}
-                       >
+                      >
                         Quick View
                         <svg
                           className="w-4 h-4"
@@ -879,7 +877,6 @@ export default function ProjectPage() {
                     }}
                   >
                     {project.title}
-                   
                   </motion.h3>
 
                   <p className="text-slate-600 text-sm line-clamp-2 mb-4">
@@ -932,8 +929,6 @@ export default function ProjectPage() {
             ))}
           </motion.div>
           {/* </AnimatePresence> */}
-
-          
         </div>
 
         <style>{`
@@ -965,27 +960,9 @@ export default function ProjectPage() {
           .animate-pulse-slow {
             animation: pulse 2s ease-in-out infinite;
           }
-
-          /* Custom scrollbar */
-          ::-webkit-scrollbar {
-            width: 8px;
-          }
-
-          ::-webkit-scrollbar-track {
-            background: #f1f1f1;
-          }
-
-          ::-webkit-scrollbar-thumb {
-            background: linear-gradient(to bottom, #f97316, #fb923c);
-            border-radius: 4px;
-          }
-
-          ::-webkit-scrollbar-thumb:hover {
-            background: linear-gradient(to bottom, #ea580c, #f97316);
-          }
         `}</style>
       </div>
-      <Footer/>
+      <Footer />
     </div>
   );
 }
