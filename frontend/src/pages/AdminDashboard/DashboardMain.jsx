@@ -1,4 +1,3 @@
-// src/pages/AdminDashboard/MainDashboard.jsx
 import React, { useState } from 'react';
 import Sidebar from './Sidebar'; 
 import Navbar from './Nav';   
@@ -10,7 +9,10 @@ import ProductDetails from './View';
 function MainDashboard() {
   const [activePage, setActivePage] = useState('dashboard');
   const [editId, setEditId] = useState(null);
-  const [selectedProduct, setSelectedProduct] = useState(null); // Product data store karne ke liye
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  
+  // State for Sidebar Shrink/Expand
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
 
   const handleLogout = () => {
     if(window.confirm("Are you sure you want to logout?")) {
@@ -19,22 +21,29 @@ function MainDashboard() {
   };
 
   return (
-    <div className="flex min-h-screen">
+    <div className="flex min-h-screen bg-[#F8F7F5]">
       
       <style>{`
         .font-serif { font-family: 'Cormorant Garamond', serif; }
         .font-sans { font-family: 'Jost', sans-serif; }
       `}</style>
 
-      {/* 1. Sidebar hamesha rahega */}
+      {/* 1. Sidebar with collapsed states */}
       <Sidebar 
         activePage={activePage} 
         setActivePage={setActivePage} 
-        handleLogout={handleLogout} 
+        handleLogout={handleLogout}
+        isCollapsed={isSidebarCollapsed}
+        setIsCollapsed={setIsSidebarCollapsed}
       />
 
-      <div className="flex-1 ml-72 flex flex-col">
-        {/* 2. Navbar hamesha rahega */}
+      {/* 2. Main Content Area */}
+      {/* ml-0: Mobile pe space cover karega | lg:ml: Desktop pe sidebar ke hisab se space chhodega */}
+      <div className={`flex-1 flex flex-col transition-all duration-300 ease-in-out 
+        ml-0 
+        ${isSidebarCollapsed ? 'lg:ml-20' : 'lg:ml-72'}`}
+      >
+        {/* Navbar */}
         <Navbar onProfileClick={() => setActivePage('profile')} />
 
         <main className="p-4 flex-1">
@@ -47,8 +56,8 @@ function MainDashboard() {
                 setActivePage('edit'); 
               }} 
               onViewClick={(product) => {
-                setSelectedProduct(product); // Product object save kiya
-                setActivePage('view');        // Page change kiya
+                setSelectedProduct(product); 
+                setActivePage('view');        
               }}
             />
           )}
@@ -64,12 +73,12 @@ function MainDashboard() {
             />
           )}
 
-          {/* 3. Profile Settings View */}
+          {/* Profile Settings View */}
           {activePage === 'profile' && (
             <ProfileSettings onCancel={() => setActivePage('dashboard')} />
           )}
 
-          {/* 4. Product Details View (Jo aapne manga tha) */}
+          {/* Product Details View */}
           {activePage === 'view' && (
             <ProductDetails 
               product={selectedProduct} 

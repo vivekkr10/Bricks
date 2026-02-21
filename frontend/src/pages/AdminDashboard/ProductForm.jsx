@@ -4,7 +4,6 @@ import { Save, UploadCloud, ArrowLeft, Trash2, Info, Tag, Layers, Settings, Help
 const ProductForm = ({ editId, onCancel }) => {
   const isEditMode = Boolean(editId);
 
-  // Changed to array for multiple images
   const [previewImages, setPreviewImages] = useState([]); 
   const [formData, setFormData] = useState({
     name: "",
@@ -24,7 +23,6 @@ const ProductForm = ({ editId, onCancel }) => {
 
       if (product) {
         setFormData({ ...product });
-        // Handle both old single image and new array format
         setPreviewImages(Array.isArray(product.images) ? product.images : product.image ? [product.image] : []);
       }
     }
@@ -34,7 +32,6 @@ const ProductForm = ({ editId, onCancel }) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // Updated for multiple images
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files);
     files.forEach(file => {
@@ -57,8 +54,8 @@ const ProductForm = ({ editId, onCancel }) => {
 
     const productData = {
       ...formData,
-      images: previewImages, // Save as array
-      image: previewImages[0] || null // Maintain backward compatibility
+      images: previewImages, 
+      image: previewImages[0] || null 
     };
 
     if (isEditMode) {
@@ -95,7 +92,7 @@ const ProductForm = ({ editId, onCancel }) => {
 
         <div className="p-8 md:p-6">
           <header className="mb-12">
-           <h1 className="text-4xl font-black text-stone-900 ">
+            <h1 className="text-4xl font-black text-stone-900 ">
               {isEditMode ? (
                 <>Update <span className="text-orange-600">Product</span></>
               ) : (
@@ -107,64 +104,8 @@ const ProductForm = ({ editId, onCancel }) => {
 
           <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-12 gap-12">
             
-            <div className="lg:col-span-8 space-y-8">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <FormInput label="Product Name" icon={<Tag size={16} className="text-orange-600"/>}>
-                    <input required name="name" value={formData.name} onChange={handleChange} placeholder="e.g. Premium Fly Ash Bricks" className="form-input-style" />
-                </FormInput>
-
-                <FormInput label="Category / Type" icon={<Layers size={16} className="text-orange-600"/>}>
-                    <select required name="type" value={formData.type} onChange={handleChange} className="form-input-style appearance-none">
-                        <option value="">Select Type</option>
-                        <option>Darks</option>
-                        <option>Hamptons</option>
-                        <option>Classic Reds</option>
-                         <option>Multies</option>
-                        <option>Rumbled</option>
-                        <option>Yellows</option>
-                         <option>Reclaimed</option>
-                    </select>
-                </FormInput>
-
-                <FormInput label="Application Area" icon={<Settings size={16} className="text-orange-600"/>}>
-                    <select required name="application" value={formData.application} onChange={handleChange} className="form-input-style appearance-none">
-                        <option value="">Select Application</option>
-                        <option>Industrial</option>
-                        <option>Commercial</option>
-                        <option>Residential</option>
-                        
-                    </select>
-                </FormInput>
-
-                <FormInput label="Product Status" icon={<Info size={16} className="text-orange-600"/>}>
-                    <select name="status" value={formData.status} onChange={handleChange} className="form-input-style appearance-none">
-                        <option>Active</option>
-                        <option>InActive</option>
-                    </select>
-                </FormInput>
-              </div>
-
-              <FormInput label="Short Description" icon={<Info size={16} className="text-orange-600"/>}>
-                  <input name="shortDesc" value={formData.shortDesc} onChange={handleChange} placeholder="One line catchphrase..." className="form-input-style" />
-              </FormInput>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <FormInput label="Technical Specifications" icon={<Settings size={16} className="text-orange-600"/>}>
-                    <textarea name="specs" value={formData.specs} onChange={handleChange} rows="4" placeholder="Size, Weight, Strength..." className="form-input-style" />
-                </FormInput>
-
-                <FormInput label="Usage Guidelines" icon={<HelpCircle size={16} className="text-orange-600"/>}>
-                    <textarea name="usage" value={formData.usage} onChange={handleChange} rows="4" placeholder="How to use or install..." className="form-input-style" />
-                </FormInput>
-              </div>
-
-              <FormInput label="Detailed Description" icon={<Info size={16} className="text-orange-600"/>}>
-                  <textarea name="detailedDesc" value={formData.detailedDesc} onChange={handleChange} rows="6" placeholder="Write full details about the product..." className="form-input-style" />
-              </FormInput>
-            </div>
-
-            {/* RIGHT COLUMN: MULTI-IMAGE UPLOAD */}
-            <div className="lg:col-span-4 space-y-6">
+            {/* LEFT COLUMN: MULTI-IMAGE UPLOAD (Ab ye pehle aayega) */}
+            <div className="lg:col-span-4 space-y-6 order-2 lg:order-1">
               <div className="sticky top-24 space-y-6">
                 <div className="bg-stone-50 p-6 rounded-[2rem] border border-stone-200">
                     <label className="text-xs font-black text-stone-400 uppercase tracking-widest mb-4 block">Product Gallery</label>
@@ -198,7 +139,7 @@ const ProductForm = ({ editId, onCancel }) => {
                     </div>
                 </div>
 
-                <button type="submit" className="w-full  text-white py-5 rounded-[1.5rem] font-black bg-[#EA580C] transition-all shadow-xl shadow-orange-900/10 flex items-center justify-center gap-3 group hover:scale-110">
+                <button type="submit" className="w-full text-white py-5 rounded-[1.5rem] font-black bg-[#EA580C] transition-all shadow-xl shadow-orange-900/10 flex items-center justify-center gap-3 group hover:scale-105">
                     <Save size={20} className="group-hover:rotate-12 transition-transform" />
                     {isEditMode ? "UPDATE PRODUCT" : "ADD PRODUCT"}
                 </button>
@@ -208,6 +149,63 @@ const ProductForm = ({ editId, onCancel }) => {
                 </p>
               </div>
             </div>
+
+            {/* RIGHT COLUMN: FORM DETAILS (Ab ye right side aayega) */}
+            <div className="lg:col-span-8 space-y-8 order-1 lg:order-2">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <FormInput label="Product Name" icon={<Tag size={16} className="text-orange-600"/>}>
+                    <input required name="name" value={formData.name} onChange={handleChange} placeholder="e.g. Premium Fly Ash Bricks" className="form-input-style" />
+                </FormInput>
+
+                <FormInput label="Category / Type" icon={<Layers size={16} className="text-orange-600"/>}>
+                    <select required name="type" value={formData.type} onChange={handleChange} className="form-input-style appearance-none">
+                        <option value="">Select Type</option>
+                        <option>Darks</option>
+                        <option>Hamptons</option>
+                        <option>Classic Reds</option>
+                         <option>Multies</option>
+                        <option>Rumbled</option>
+                        <option>Yellows</option>
+                         <option>Reclaimed</option>
+                    </select>
+                </FormInput>
+
+                <FormInput label="Application Area" icon={<Settings size={16} className="text-orange-600"/>}>
+                    <select required name="application" value={formData.application} onChange={handleChange} className="form-input-style appearance-none">
+                        <option value="">Select Application</option>
+                        <option>Industrial</option>
+                        <option>Commercial</option>
+                        <option>Residential</option>
+                    </select>
+                </FormInput>
+
+                <FormInput label="Product Status" icon={<Info size={16} className="text-orange-600"/>}>
+                    <select name="status" value={formData.status} onChange={handleChange} className="form-input-style appearance-none">
+                        <option>Active</option>
+                        <option>InActive</option>
+                    </select>
+                </FormInput>
+              </div>
+
+              <FormInput label="Short Description" icon={<Info size={16} className="text-orange-600"/>}>
+                  <input name="shortDesc" value={formData.shortDesc} onChange={handleChange} placeholder="One line catchphrase..." className="form-input-style" />
+              </FormInput>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <FormInput label="Technical Specifications" icon={<Settings size={16} className="text-orange-600"/>}>
+                    <textarea name="specs" value={formData.specs} onChange={handleChange} rows="4" placeholder="Size, Weight, Strength..." className="form-input-style" />
+                </FormInput>
+
+                <FormInput label="Usage Guidelines" icon={<HelpCircle size={16} className="text-orange-600"/>}>
+                    <textarea name="usage" value={formData.usage} onChange={handleChange} rows="4" placeholder="How to use or install..." className="form-input-style" />
+                </FormInput>
+              </div>
+
+              <FormInput label="Detailed Description" icon={<Info size={16} className="text-orange-600"/>}>
+                  <textarea name="detailedDesc" value={formData.detailedDesc} onChange={handleChange} rows="6" placeholder="Write full details about the product..." className="form-input-style" />
+              </FormInput>
+            </div>
+
           </form>
         </div>
       </div>
