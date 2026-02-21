@@ -85,8 +85,8 @@ const AdminLogin = () => {
         toast.success('Login successful!');
         console.log('Redirecting to home page...');
         
-        // Redirect to HOME PAGE (root path)
-        navigate('/Dashboardmain');
+        // Redirect to Dashboard PAGE (root path)
+        navigate('/dashboard');
       }
     } catch (error) {
       console.error('Login error:', error);
@@ -101,7 +101,8 @@ const AdminLogin = () => {
     navigate('/admin-register');
   };
 
-  return (
+ return (
+  <div className="admin-auth">    
     <div className="auth-container">
       {/* Left Side - Brand Section */}
       <div className="auth-brand-section">
@@ -240,7 +241,8 @@ const AdminLogin = () => {
         </motion.div>
       </div>
     </div>
-  );
-};
+  </div>    
+);
+}
 
 export default AdminLogin;
