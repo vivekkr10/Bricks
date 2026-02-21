@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Helmet } from 'react-helmet';
+import { AlignCenter } from "lucide-react";
 import { useNavigate } from 'react-router-dom';
 import ProductCard from './ProductCard';
 import ProductFilters from './ProductFilters';

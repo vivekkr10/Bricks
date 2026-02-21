@@ -12,18 +12,20 @@ import ProductForm from "./pages/AdminDashboard/ProductForm.jsx"
 import Profile from "./pages/AdminDashboard/profile.jsx"
 
 
+
 // 3. The Temporary Fix
 import ComingSoon from "./Components/commingsoon.jsx";
 import { ProductsPage, ProductDetails } from "./pages/Products";
 import Contact from "./pages/contactPage/ContactSection.jsx";
 import AboutPage from "./pages/AboutPage/About.jsx";
-// Projects Page 
+// Projects Page
 import ProjectPage from "./pages/Project/Project.jsx";
 import FeaturedArticle from "./pages/blog/FeaturedArticle.jsx";
 import ContactSection from "./pages/contactPage/ContactSection";
 import Inquiry from "./pages/contactPage/Inquiry";
 import ProjectDetailsPage from "./pages/Project/ProjectDetailPage.jsx";
 import ForgotPasswordOTP from "./pages/auth/ForgotPasswordOTP";
+import ForgotPassword from "./pages/auth/ForgotPassword";
 
   
 
@@ -41,13 +43,14 @@ function App() {
         {/* Admin Auth Routes */}
         <Route path="/dashboard" element={<Dashboard/>} /> 
          <Route path="/profile" element={<Profile/>} /> 
-        <Route path="/product-form" element={<ProductForm/>} />
-         
+        <Route path="/ProductForm" element={<ProductForm/>} />
         <Route path="/admin-login" element={<AdminLogin />} />
         <Route path="/admin-register" element={<AdminRegister />} />
         <Route path="/forgot-password" element={<ForgotPasswordOTP />} />
         {/* Other Routes */}
         <Route path="/services" element={<Services />} />
+        {/* <Route path="/admin-register" element={<AdminRegister />} /> */}
+
         <Route path="/products" element={<ProductsPage />} />
         <Route path="/products/:id" element={<ProductDetails />} />
         <Route path="/blog" element={<FeaturedArticle />} />
