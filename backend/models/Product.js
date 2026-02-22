@@ -27,8 +27,11 @@ const ProductSchema = new mongoose.Schema({
     type: String 
   },
   
-  specifications: { 
-    type: String 
+ specifications: {
+    strength: { type: String },
+    size: { type: String },
+    weight: { type: String },
+    waterAbsorption: { type: String }
   },
   
   usageArea: { 
@@ -41,9 +44,8 @@ const ProductSchema = new mongoose.Schema({
     enum: ["Active", "Inactive"] 
   },
 
-  image: { 
-    type: String 
-  }
+ images: [{ type: String }]
+ 
 }, { timestamps: true }); 
 
 module.exports = mongoose.model('Product', ProductSchema);

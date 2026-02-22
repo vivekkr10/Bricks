@@ -348,6 +348,7 @@ const ProductDetailPage = () => {
           <meta name="keywords" content={`${product?.name}, ${product?.category}, bricks, construction materials`} />
         </Helmet>
 
+
         {/* Breadcrumb */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}

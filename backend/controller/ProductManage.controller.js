@@ -2,31 +2,38 @@ const Product = require('../models/Product');
 
 exports.addProduct = async (req, res) => {
   try {
-    const {
-      name,
-      type,
-      shortDesc,
-      detailedDesc,
-      specs,
-      usage,
+  const {
+      name, productName,      
+      type, productType,      
+      shortDesc, shortDescription,
+      detailedDesc, detailedDescription,
+      usage, usageArea,
       status,
-      image
+      images, image,
+      specifications,
+      strength, size, weight, waterAbsorption 
     } = req.body;
-
     const productId = `BRK-${Date.now()}`;
+
     const newProduct = new Product({
       productId,
-      productName: name,
-      productType: type,
-      shortDescription: shortDesc,
-      detailedDescription: detailedDesc,
-      specifications: specs,
-      usageArea: usage,
+     productName: productName || name,
+    productType: productType || type,
+      shortDescription: shortDescription || shortDesc,
+      detailedDescription: detailedDescription || detailedDesc,
+      usageArea: usageArea || usage,
       status: status || "Active",
-      image: image
+      images: images || (image ? [image] : []),
+      specifications: {
+        strength: specifications?.strength || strength,
+        size: specifications?.size || size,
+        weight: specifications?.weight || weight,
+        waterAbsorption: specifications?.waterAbsorption || waterAbsorption
+      }
     });
 
     const savedProduct = await newProduct.save();
+
     res.status(201).json({
       success: true,
       message: "Product added to MongoDB successfully!",
@@ -35,9 +42,10 @@ exports.addProduct = async (req, res) => {
 
   } catch (error) {
     console.error("MongoDB Save Error:", error);
-    res.status(500).json({ 
+    res.status(400).json({ 
       success: false, 
-      error: "Failed to add product to database" 
+      error: "Validation failed or database error",
+      details: error.message 
     });
   }
 };
@@ -83,6 +91,92 @@ exports.deleteProduct = async (req, res) => {
   }
 };
 
+// EDIT/UPDATE PRODUCT
+exports.editProduct = async (req, res) => {
+  try {
+    const { id } = req.params; 
+    const {
+      name, productName,
+      type, productType,
+      shortDesc, shortDescription,
+      detailedDesc, detailedDescription,
+      usage, usageArea,
+      status,
+      images, image,
+      specifications,
+      strength, size, weight, waterAbsorption 
+    } = req.body;
+
+    const updateData = {
+      productName: productName || name,
+      productType: productType || type,
+      shortDescription: shortDescription || shortDesc,
+      detailedDescription: detailedDescription || detailedDesc,
+      usageArea: usageArea || usage,
+      status: status,
+      
+      images: images || (image ? (Array.isArray(image) ? image : [image]) : undefined),
+      
+      specifications: {
+        strength: specifications?.strength || strength,
+        size: specifications?.size || size,
+        weight: specifications?.weight || weight,
+        waterAbsorption: specifications?.waterAbsorption || waterAbsorption
+      }
+    };
+
+    Object.keys(updateData).forEach(key => updateData[key] === undefined && delete updateData[key]);
+
+    const updatedProduct = await Product.findByIdAndUpdate(
+      id,
+      { $set: updateData },
+      { new: true, runValidators: true } 
+    );
+
+    if (!updatedProduct) {
+      return res.status(404).json({ success: false, message: "Product not found" });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Product updated successfully!",
+      product: updatedProduct
+    });
+
+  } catch (error) {
+    console.error("Update Error:", error);
+    res.status(400).json({ 
+      success: false, 
+      error: "Failed to update product",
+      details: error.message 
+    });
+  }
+};
+
+exports.getCategories = async (req, res) => {
+  try {
+    const predefinedCategories = [
+      "Darks", 
+      "Hamptopns", 
+      "Classic Reds", 
+      "Multies",
+      "Rumbled", 
+      "Yellows",
+      "Reclaimed"
+    ];
+
+    const dynamicCategories = await Product.distinct("productType");
+
+    const allCategories = [...new Set([...predefinedCategories, ...dynamicCategories])];
+
+    res.status(200).json({
+      success: true,
+      categories: allCategories.sort() 
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+};
 
 exports.toggleStatus = async (req, res) => {
   try {

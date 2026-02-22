@@ -35,11 +35,8 @@ app.use("/api/products", ProductRoutes);
 app.get('/', (req, res) => {
   res.json({ message: 'Welcome to VR & SONS' });
 app.use('/api/profile', profileRoutes);
+})
 
-// Test route to check if server is running
-app.get('/', (req, res) => {
-  res.json({ message: 'Welcome to VR & SONS API' });
-});
 
 // Test route for profile
 app.get('/api/test', (req, res) => {
@@ -75,7 +72,4 @@ connectDB()
   .catch(err => {
     console.error("Failed to connect DB:", err);
   });
-      console.log(`✅ Server running on port ${PORT}`);
-      console.log(`📍 Frontend URL: http://localhost:5173`);
-      console.log(`📍 Backend URL: http://localhost:${PORT}`);
-    });
+    
