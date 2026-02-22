@@ -101,13 +101,13 @@ const ProfileSettings = ({ onCancel }) => {
         {/* STICKY HEADER */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white/70 backdrop-blur-md p-6 rounded-[1.5rem] top-16 z-40 border border-white shadow-sm">
           <div className="flex items-center gap-4">
-            <button className="w-10 h-10 rounded-full hover:bg-orange-600 border border-orange-600 text-orange-600 hover:text-white flex items-center justify-center hover:scale-110 transition-transform" onClick={handleBack}>
+            <button className="w-10 h-10 rounded-full hover:bg-red-800 border border-red-700 text-red-700 hover:text-white flex items-center justify-center hover:scale-110 transition-transform" onClick={handleBack}>
               <ArrowLeft size={18} />
             </button>
 
             <div>
-              <h1 className="text-2xl font-black tracking-tight flex items-center gap-2">
-                Admin<span className="text-orange-600"> Profile</span>
+              <h1 className="text-2xl text-stone-900 font-bold tracking-tight flex font-serif items-center gap-2">
+                Admin<span className="text-red-700 font-bold font-serif"> Profile</span>
                 {isDirty && <span className="w-2 h-2 bg-orange-500 rounded-full animate-pulse" />}
               </h1>
               <p className="text-[10px] uppercase font-bold text-stone-400 tracking-widest">
@@ -121,7 +121,7 @@ const ProfileSettings = ({ onCancel }) => {
             disabled={!isDirty || loading}
             className={`flex items-center gap-2 px-8 py-3 rounded-2xl font-bold transition-all shadow-lg
               ${isDirty 
-                ? "hover:bg-stone-900 text-white bg-orange-600 scale-105" 
+                ? "hover:bg-red-800 text-white bg-red-700 scale-105" 
                 : "bg-stone-200 text-stone-400 cursor-not-allowed"}`}
           >
             {loading ? (
@@ -134,13 +134,13 @@ const ProfileSettings = ({ onCancel }) => {
         </div>
 
         {/* MAIN CARD */}
-        <div className="bg-white rounded-[1.5rem] border border-stone-200 shadow-2xl overflow-hidden relative transition-all">
+        <div className="bg-white rounded-xl border border-stone-200 shadow-2xl overflow-hidden relative transition-all">
           
           {/* PROFILE IMAGE HEADER SECTION (STYLED FROM IMAGE_D52B99) */}
           <div className="p-2 md:p-10 border-b border-stone-100 bg-gradient-to-b from-white to-[#FAF9F8]">
             <div className="flex items-center gap-3">
               <User size={22} className="text-stone-800" />
-              <h2 className="text-xl font-bold text-stone-800">Basic Details</h2>
+              <h2 className="text-xl font-bold font-serif text-stone-900">Basic Details</h2>
             </div>
 
             {/* <div className="space-y-3">
@@ -187,13 +187,13 @@ const ProfileSettings = ({ onCancel }) => {
 
 
                     <div className="px-4">
-        <div className="h-[3px] bg-[#EA580C]" />
+        <div className="h-[3px] bg-red-700" />
       </div>
           {/* FORM CONTENT */}
           <div className="p-8 md:p-8 space-y-5">
             
             {/* PERSONAL IDENTIFICATION */}
-            <Section title="Personal Identification" icon={<User size={16} className="text-orange-600"/>}>
+            <Section title="Personal Identification" icon={<User size={16} className="text-red-700"/>}>
               <Grid>
                 <InputField label="Display Name" name="name" value={profile.name} onChange={handleChange} placeholder="e.g. John Doe" />
                 <InputField label="Date of Birth" name="dob" type="date" value={profile.dob} onChange={handleChange} />
@@ -203,12 +203,12 @@ const ProfileSettings = ({ onCancel }) => {
             </Section>
 
            <div className="px-4">
-        <div className="h-[3px] bg-[#EA580C]" />
+        <div className="h-[3px] bg-red-700" />
       </div>
 
 
             {/* LOCATION DETAILS */}
-            <Section title="Location Details" icon={<MapPin size={16} className="text-orange-600"/>}>
+            <Section title="Location Details" icon={<MapPin size={16} className="text-red-700"/>}>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                  <div className="md:col-span-2">
                     <InputField label="Full Street Address" name="address" value={profile.address} onChange={handleChange} placeholder="Building, Street, Landmark" />
@@ -221,15 +221,15 @@ const ProfileSettings = ({ onCancel }) => {
             </Section>
 
           <div className="px-4">
-        <div className="h-[3px] bg-[#EA580C]" />
+        <div className="h-[3px] bg-red-700" />
       </div>
 
             {/* SECURITY & AUTHENTICATION */}
-            <Section title="Security & Authentication" icon={<Lock size={16} className="text-orange-600"/>}>
+            <Section title="Security & Authentication" icon={<Lock size={16} className="text-red-700"/>}>
               <div className="bg-stone-50 p-8 rounded-2xl border border-stone-100 shadow-inner">
                 <div className="flex items-center gap-3 mb-4">
                   <div className="p-2 bg-white rounded-xl shadow-sm border border-stone-100">
-                    <KeyRound size={18} className="text-orange-600" />
+                    <KeyRound size={18} className="text-reed-700" />
                   </div>
                   <h4 className="text-[11px] font-black uppercase tracking-[0.2em] text-stone-700">Credential Refresh</h4>
                 </div>
@@ -282,19 +282,19 @@ const Grid = ({ children }) => (
 
 const InputField = ({ label, ...props }) => (
   <div className="space-y-2 group">
-    <label className="text-[10px] font-black text-stone-500 uppercase tracking-widest ml-1 transition-colors group-focus-within:text-orange-600">
+    <label className="text-[10px] font-black text-stone-500 uppercase tracking-widest ml-1 transition-colors group-focus-within:text-red-600">
       {label}
     </label>
     <input
       {...props}
-      className="w-full bg-[#FAF9F8] border border-stone-200 rounded-[1.2rem] px-6 py-4 text-sm font-bold text-stone-800 outline-none focus:border-orange-500 focus:ring-8 focus:ring-orange-500/5 focus:bg-white transition-all placeholder:text-stone-300"
+      className="w-full bg-[#FAF9F8] border border-stone-200 rounded-[1.2rem] px-6 py-4 text-sm font-bold text-stone-800 outline-none focus:border-red-500 focus:ring-8 focus:ring-orange-500/5 focus:bg-white transition-all placeholder:text-stone-300"
     />
   </div>
 );
 
 const OrangeDivider = () => (
   <div className="px-2">
-    <div className="h-[2px] bg-gradient-to-r from-orange-600 via-orange-400 to-transparent opacity-20" />
+    <div className="h-[2px] bg-gradient-to-r from-red-600 via-red-400 to-transparent opacity-20" />
   </div>
 );
 

@@ -16,7 +16,7 @@ const Sidebar = ({ activePage, setActivePage, handleLogout, isCollapsed, setIsCo
       {/* MOBILE HEADER (Sirf phone view me dikhega) */}
       <div className="lg:hidden fixed top-0 left-0 right-0 h-16 bg-white flex items-center justify-between px-6 z-[60] border-b border-[#EA580C]/30">
         <div className="flex items-center gap-3">
-          <BrickWall size={20} className="text-[#EA580C]" />
+          <BrickWall size={20} className="text-red-700" />
           <h1 className="font-black text-sm text-black">VR & SONS</h1>
         </div>
         <button 
@@ -112,11 +112,11 @@ const NavItem = ({ icon, label, active, isCollapsed, onClick }) => (
     onClick={onClick}
     className={`flex items-center gap-4 p-3 rounded-xl cursor-pointer transition-all duration-300 group relative border-l-4 ${
       active 
-      ? 'bg-[#292524] border-[#EA580C] text-orange-600' 
+      ? 'bg-[#292524] border-[#EA580C] text-red-600' 
       : 'hover:bg-[#292524]/50 border-transparent hover:text-white text-white'
     } ${isCollapsed ? 'justify-center' : ''}`}
   >
-    <div className={`shrink-0 ${active ? 'text-orange-600' : 'group-hover:text-white'} transition-colors`}>
+    <div className={`shrink-0 ${active ? 'text-red-600' : 'group-hover:text-white'} transition-colors`}>
       {icon}
     </div>
     {!isCollapsed && (
