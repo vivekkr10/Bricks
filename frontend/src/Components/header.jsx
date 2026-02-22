@@ -1,25 +1,39 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Building2, Phone, ArrowRight } from 'lucide-react';
+import { Menu, X, Building2, ArrowRight } from 'lucide-react';
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const location = useLocation();
 
-  // Handle Scroll Effect
+  // Check if the current page is the Home page
+  const isHomePage = location.pathname === '/';
+
+  // Close mobile menu on route change
+  useEffect(() => {
+    setIsOpen(false);
+  }, [location]);
+
+  // Handle scroll event to change header background
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
+      if (window.scrollY > 50) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
     };
+
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Close mobile menu when route changes
-  useEffect(() => {
-    setIsOpen(false);
-  }, [location]);
+  // THE FIX: The header should be solid white if:
+  // 1. We are NOT on the home page
+  // 2. The user has scrolled down
+  // 3. The mobile menu is open
+  const shouldBeSolid = !isHomePage || isScrolled || isOpen;
 
   const navLinks = [
     { name: 'Home', path: '/' },
@@ -27,90 +41,97 @@ const Header = () => {
     { name: 'Products', path: '/products' },
     { name: 'Projects', path: '/projects' },
     { name: 'Blog', path: '/blog' },
-    { name: 'Contact Us', path: '/contact' },
   ];
 
   return (
     <header 
-      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 font-sans ${
-        scrolled ? 'bg-white shadow-md py-3' : 'bg-white/95 backdrop-blur-md py-5'
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 font-sans mx-auto w-full px-0 border-b ${
+        shouldBeSolid 
+          ? 'bg-white/90 backdrop-blur-md shadow-md border-stone-200 py-3' // Solid State
+          : 'bg-transparent border-white/10 py-5' // Transparent State (Only at top of Home)
       }`}
     >
-      <div className="container mx-auto px-6 md:px-12"> {/* Increased padding so it's not stuck to edges */}
+      <div className="container mx-auto px-6">
         <div className="flex justify-between items-center">
           
-          {/* 1. LOGO (Always Visible) */}
-          <Link to="/" className="flex items-center gap-2 group z-50">
-            <div className={`p-2 rounded-lg transition-colors ${scrolled ? 'bg-orange-600 text-white' : 'bg-stone-900 text-white group-hover:bg-orange-600'}`}>
-              <Building2 className="w-6 h-6" />
+          {/* LOGO */}
+          <Link to="/" className="flex items-center gap-3 group z-50">
+            <div className="p-2 transition-all duration-300 bg-red-700 rounded-md shadow-md shadow-orange-600/20 ">
+              <Building2 className="w-6 h-6 text-white" />
             </div>
             <div className="flex flex-col">
-              <span className="text-2xl font-black text-stone-900 leading-none tracking-tight group-hover:text-orange-600 transition-colors">
+              <span className={`text-xl md:text-2xl font-black leading-none tracking-tighter  transition-colors font-serif ${
+                shouldBeSolid ? 'text-stone-900' : 'text-white'
+              }`}>
                 VR & SONS
               </span>
-              <span className="text-[12px] font-bold text-stone-500 tracking-[0.2em] uppercase">
-                Est. 1986
+              <span className={`text-[10px] font-bold tracking-[0.4em] uppercase mt-1 transition-colors ${
+                shouldBeSolid ? 'text-stone-500' : 'text-white/70'
+              }`}>
+                Since 1986
               </span>
             </div>
           </Link>
 
-          {/* 2. DESKTOP NAVIGATION (Hidden on Mobile) */}
-          <nav className="hidden md:flex items-center gap-8">
+          {/* DESKTOP NAVIGATION */}
+          <nav className="hidden md:flex items-center gap-8 ml-2">
             {navLinks.map((link) => (
               <Link 
                 key={link.name}
                 to={link.path} 
-                className={`text-xl font-bold  tracking-wide transition-colors duration-300 ${
+                className={`text-m font-semibold  tracking-[0.15em] transition-colors duration-300 ${
                   location.pathname === link.path 
-                    ? 'text-orange-600' 
-                    : 'text-stone-600 hover:text-orange-600'
+                    ? 'text-red-700' 
+                    : shouldBeSolid 
+                      ? 'text-stone-700 hover:text-red-700  ' 
+                      : 'text-white/80 hover:text-white'
                 }`}
               >
                 {link.name}
               </Link>
             ))}
+            
+            <Link 
+              to="/contact" 
+              className="bg-red-700 hover:bg-red-800 text-white px-6 py-3 rounded-xl text-sm font-semibold  tracking-wide transition-all shadow-md hover:shadow-xl  active:scale-95"
+            >
+              Contact Us
+            </Link>
           </nav>
 
-          {/* 3. MOBILE HAMBURGER (Visible ONLY on Mobile) */}
+          {/* MOBILE TOGGLE */}
           <button 
-            className="md:hidden p-2 text-stone-800 focus:outline-none z-50 hover:bg-stone-100 rounded-md transition-colors"
+            className={`md:hidden p-2 transition-colors ${
+              shouldBeSolid ? 'text-stone-900 hover:text-red-800' : 'text-white hover:text-red-800'
+            }`}
             onClick={() => setIsOpen(!isOpen)}
-            aria-label="Toggle Menu"
           >
-            {/* Swaps between Hamburger (Menu) and Close (X) icon */}
-            {isOpen ? <X className="w-8 h-8 text-orange-600" /> : <Menu className="w-8 h-8" />}
+            {isOpen ? <X className="w-8 h-8" /> : <Menu className="w-8 h-8" />}
           </button>
         </div>
       </div>
 
-      {/* 4. MOBILE MENU DROPDOWN (Slides down when isOpen is true) */}
+      {/* MOBILE DRAWER */}
       <div 
-        className={`md:hidden absolute top-full left-0 w-full bg-white border-t border-stone-100 shadow-xl transition-all duration-300 ease-in-out origin-top ${
-          isOpen ? 'scale-y-100 opacity-100' : 'scale-y-0 opacity-0 h-0'
+        className={`md:hidden absolute left-0 right-0 top-full mt-0 mx-auto w-full bg-white border-b border-stone-200 overflow-hidden transition-all duration-400 ease-in-out origin-top shadow-xl ${
+          isOpen ? 'translate-y-0 opacity-100 visible' : '-translate-y-4 opacity-0 invisible'
         }`}
       >
-        <div className="container mx-auto px-6 py-8 flex flex-col gap-4">
+        <div className="flex flex-col p-8 gap-6">
           {navLinks.map((link) => (
             <Link 
-              key={link.name}
+              key={link.name} 
               to={link.path} 
-              className={`text-lg font-bold border-b border-stone-50 pb-3 flex justify-between items-center ${
-                 location.pathname === link.path ? 'text-orange-600' : 'text-stone-800 hover:text-orange-600'
+              className={`text-lg font-bold uppercase tracking-widest ${
+                location.pathname === link.path ? 'text-red-700' : 'text-stone-700'
               }`}
             >
               {link.name}
-              {/* Show arrow only for Contact link for emphasis */}
-              {link.name === 'Contact Us' && <ArrowRight className="w-5 h-5" />}
             </Link>
           ))}
-          
-          {/* Quick Contact for Mobile Users */}
-          <div className="mt-4 pt-4">
-            <p className="text-xs text-stone-400 font-bold uppercase tracking-widest mb-2">Need Help?</p>
-            <a href="tel:+919876543210" className="flex items-center gap-2 text-stone-800 font-bold bg-stone-50 p-3 rounded-lg justify-center">
-              <Phone className="w-4 h-4 text-orange-600" /> Call Support
-            </a>
-          </div>
+          <Link to="/contact" className="text-lg font-semibold text-red-700  hover:text-red-800 uppercase flex items-center justify-between border-t border-stone-200 px-6 py-3 group">
+            Contact Us <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
+          </Link>
         </div>
       </div>
     </header>
