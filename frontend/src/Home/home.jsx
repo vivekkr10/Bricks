@@ -301,14 +301,18 @@ const FloatingStatsBar = () => {
   const { count: exp, ref: expRef } = useCounter(40, 1500);
 
   return (
-    // Increased max-w-5xl to max-w-6xl so it perfectly matches the grid width below it
-    <div className="relative z-30  mx-36 px-4 -mt-14 mb-10">
-      <div className="bg-white/95 backdrop-blur-xl border border-stone-200 shadow-2xl rounded-2xl py-6  flex flex-col md:flex-row items-center justify-around gap-8">
+    <div className="relative z-30 mt-10 md:-mt-14 mb-10 
+                    mx-4 sm:mx-8 md:mx-16 lg:mx-36">
+      
+      <div className="bg-white/95 backdrop-blur-xl border border-stone-200 shadow-2xl rounded-2xl py-6 
+                      flex flex-col md:flex-row items-center justify-around gap-8">
          
          <div ref={projRef} className="group flex flex-col items-center text-center w-full md:w-1/3 cursor-default">
-            <Building2 className="w-8 -ml-4 h-8  text-red-700 mb-3 opacity-90 transition-transform duration-700 ease-in-out group-hover:rotate-[360deg]" />
-            <div className="text-4xl md:text-4xl font-sans font-semibold text-stone-900 mb-2">{projects}+</div>
-            <div className="text-sm font-serif font-bold uppercase tracking-widest text-stone-600">Projects Served</div>
+            <Building2 className="w-8 -ml-4 h-8 text-red-700 mb-3 opacity-90 transition-transform duration-700 ease-in-out group-hover:rotate-[360deg]" />
+            <div className="text-4xl font-sans font-semibold text-stone-900 mb-2">{projects}+</div>
+            <div className="text-sm font-serif font-bold uppercase tracking-widest text-stone-600">
+              Projects Served
+            </div>
          </div>
          
          <div className="hidden md:block w-px h-16 bg-stone-200"></div>
@@ -316,8 +320,10 @@ const FloatingStatsBar = () => {
 
          <div ref={satRef} className="group flex flex-col items-center text-center w-full md:w-1/3 cursor-default">
             <Star className="w-8 -ml-4 h-8 text-red-700 mb-3 opacity-90 transition-transform duration-700 ease-in-out group-hover:rotate-[360deg]" />
-            <div className="text-4xl md:text-4xl font-sans font-semibold text-stone-900 mb-2">{sat}%</div>
-            <div className="text-sm font-serif font-bold uppercase tracking-widest text-stone-600">Satisfaction Rate</div>
+            <div className="text-4xl font-sans font-semibold text-stone-900 mb-2">{sat}%</div>
+            <div className="text-sm font-serif font-bold uppercase tracking-widest text-stone-600">
+              Satisfaction Rate
+            </div>
          </div>
 
          <div className="hidden md:block w-px h-16 bg-stone-200"></div>
@@ -325,13 +331,17 @@ const FloatingStatsBar = () => {
 
          <div ref={expRef} className="group flex flex-col items-center text-center w-full md:w-1/3 cursor-default">
             <ShieldCheck className="w-8 -ml-3 h-8 text-red-700 mb-3 opacity-90 transition-transform duration-700 ease-in-out group-hover:rotate-[360deg]" />
-            <div className="text-4xl md:text-4xl font-sans font-semibold text-stone-900 mb-2">{exp}+</div>
-            <div className="text-sm font-serif font-bold uppercase tracking-widest text-stone-600">Years Experience</div>
+            <div className="text-4xl font-sans font-semibold text-stone-900 mb-2">{exp}+</div>
+            <div className="text-sm font-serif font-bold uppercase tracking-widest text-stone-600">
+              Years Experience
+            </div>
          </div>
       </div>
     </div>
   );
 };
+
+
 const headingVariant = {
   hidden: { opacity: 0, x: -150, scale: 0.95 },
   visible: { 
