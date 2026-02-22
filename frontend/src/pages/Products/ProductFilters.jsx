@@ -13,7 +13,7 @@ const ProductFilters = ({
   totalProducts,
   totalAvailable,
   isSidebar = false,
-  brickTypes = ["Classic Reds", "Multis", "Darks", "Hamptons", "Yellows", "Rumbled", "Reclaimed"]
+  brickTypes = ["Classic Reds", "Multies", "Darks", "Hamptons", "Yellows", "Rumbled", "Reclaimed"]
 }) => {
   const [isFiltersOpen, setIsFiltersOpen] = React.useState(false);
   const [priceRange, setPriceRange] = React.useState([0, 100000]);
@@ -31,7 +31,7 @@ const ProductFilters = ({
               placeholder="Search products..."
               value={filters.searchQuery}
               onChange={(e) => onFilterChange('searchQuery', e.target.value)}
-              className="w-full pl-10 pr-4 py-3 border border-stone-200 rounded-lg focus:ring-2 focus:ring-orange-600 focus:border-transparent bg-white transition-all text-stone-900 placeholder:text-stone-400"
+              className="w-full pl-10 pr-4 py-3 border border-stone-200 rounded-lg focus:ring-2 focus:ring-red-600 focus:border-transparent bg-white transition-all text-stone-900 placeholder:text-stone-400"
             />
             <svg
               className="absolute left-3 top-3.5 w-5 h-5 text-stone-400"
@@ -50,7 +50,7 @@ const ProductFilters = ({
           <select
             value={filters.category}
             onChange={(e) => onFilterChange('category', e.target.value)}
-            className="w-full px-4 py-3 border border-stone-200 rounded-lg focus:ring-2 focus:ring-orange-600 focus:border-transparent bg-white text-stone-900 font-medium"
+            className="w-full px-4 py-3 border border-stone-200 rounded-lg focus:ring-2 focus:ring-red-600 focus:border-transparent bg-white text-stone-900 font-medium"
           >
             <option value="">All Categories</option>
             {categories.map(category => (
@@ -65,7 +65,7 @@ const ProductFilters = ({
           <select
             value={filters.applicationType}
             onChange={(e) => onFilterChange('applicationType', e.target.value)}
-            className="w-full px-4 py-3 border border-stone-200 rounded-lg focus:ring-2 focus:ring-orange-600 focus:border-transparent bg-white text-stone-900 font-medium"
+            className="w-full px-4 py-3 border border-stone-200 rounded-lg focus:ring-2 focus:ring-red-600 focus:border-transparent bg-white text-stone-900 font-medium"
           >
             <option value="">All Applications</option>
             <option value="residential">Residential</option>
@@ -80,7 +80,7 @@ const ProductFilters = ({
           <select
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value)}
-            className="w-full px-4 py-3 border border-stone-200 rounded-lg focus:ring-2 focus:ring-orange-600 focus:border-transparent bg-white text-stone-900 font-medium"
+            className="w-full px-4 py-3 border border-stone-200 rounded-lg focus:ring-2 focus:ring-red-600 focus:border-transparent bg-white text-stone-900 font-medium"
           >
             <option value="default">Default Sort</option>
             <option value="name-asc">Name: A to Z</option>
@@ -97,7 +97,7 @@ const ProductFilters = ({
               onClick={() => setViewMode('grid')}
               className={`flex-1 p-3 transition-colors ${
                 viewMode === 'grid' 
-                  ? 'bg-orange-600 text-white' 
+                  ? 'bg-red-600 text-white' 
                   : 'bg-white text-stone-600 hover:bg-stone-50'
               }`}
               title="Grid View"
@@ -110,7 +110,7 @@ const ProductFilters = ({
               onClick={() => setViewMode('list')}
               className={`flex-1 p-3 transition-colors ${
                 viewMode === 'list' 
-                  ? 'bg-orange-600 text-white' 
+                  ? 'bg-red-600 text-white' 
                   : 'bg-white text-stone-600 hover:bg-stone-50'
               }`}
               title="List View"
@@ -149,7 +149,7 @@ const ProductFilters = ({
       {/* Mobile Filter Toggle */}
       <button
         onClick={() => setIsFiltersOpen(!isFiltersOpen)}
-        className="lg:hidden w-full flex items-center justify-between px-4 py-3 bg-orange-50 border border-orange-200 rounded-lg mb-4 font-semibold text-stone-700 hover:bg-orange-100 transition-colors"
+        className="lg:hidden w-full flex items-center justify-between px-4 py-3 bg-red-50 border border-red-200 rounded-lg mb-4 font-semibold text-stone-700 hover:bg-red-100 transition-colors"
       >
         <span>🔍 Filters & Sorting</span>
         <svg
@@ -181,7 +181,7 @@ const ProductFilters = ({
                   placeholder="Search products..."
                   value={filters.searchQuery}
                   onChange={(e) => onFilterChange('searchQuery', e.target.value)}
-                  className="w-full pl-10 pr-4 py-2.5 border border-orange-200 rounded-lg focus:ring-2 focus:ring-orange-600 focus:border-transparent bg-white transition-all text-stone-900 placeholder:text-stone-400"
+                  className="w-full pl-10 pr-4 py-2.5 border border-red-200 rounded-lg focus:ring-2 focus:ring-red-600 focus:border-transparent bg-white transition-all text-stone-900 placeholder:text-stone-400"
                 />
                 <svg
                   className="absolute left-3 top-3 w-5 h-5 text-stone-400"
@@ -197,7 +197,7 @@ const ProductFilters = ({
               <select
                 value={filters.category}
                 onChange={(e) => onFilterChange('category', e.target.value)}
-                className="px-4 py-2.5 border border-orange-200 rounded-lg focus:ring-2 focus:ring-orange-600 focus:border-transparent bg-white min-w-[160px] text-stone-900 font-medium"
+                className="px-4 py-2.5 border border-red-200 rounded-lg focus:ring-2 focus:ring-red-600 focus:border-transparent bg-white min-w-[160px] text-stone-900 font-medium"
               >
                 <option value="">All Categories</option>
                 {categories.map(category => (
@@ -209,7 +209,7 @@ const ProductFilters = ({
               <select
                 value={filters.applicationType}
                 onChange={(e) => onFilterChange('applicationType', e.target.value)}
-                className="px-4 py-2.5 border border-orange-200 rounded-lg focus:ring-2 focus:ring-orange-600 focus:border-transparent bg-white min-w-[160px] text-stone-900 font-medium"
+                className="px-4 py-2.5 border border-red-200 rounded-lg focus:ring-2 focus:ring-red-600 focus:border-transparent bg-white min-w-[160px] text-stone-900 font-medium"
               >
                 <option value="">All Applications</option>
                 <option value="residential">Residential</option>
@@ -242,7 +242,7 @@ const ProductFilters = ({
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="px-4 py-2.5 border border-orange-200 rounded-lg focus:ring-2 focus:ring-orange-600 focus:border-transparent bg-white text-stone-900 font-medium"
+                className="px-4 py-2.5 border border-red-200 rounded-lg focus:ring-2 focus:ring-red-600 focus:border-transparent bg-white text-stone-900 font-medium"
               >
                 <option value="default">Default Sort</option>
                 <option value="name-asc">Name: A to Z</option>
@@ -251,12 +251,12 @@ const ProductFilters = ({
               </select>
 
               {/* View Mode Toggle */}
-              <div className="flex border border-orange-200 rounded-lg overflow-hidden bg-white">
+              <div className="flex border border-red-200 rounded-lg overflow-hidden bg-white">
                 <button
                   onClick={() => setViewMode('grid')}
                   className={`p-2.5 transition-colors ${
                     viewMode === 'grid' 
-                      ? 'bg-orange-600 text-white' 
+                      ? 'bg-red-600 text-white' 
                       : 'bg-white text-stone-600 hover:bg-stone-50'
                   }`}
                   title="Grid View"
@@ -269,7 +269,7 @@ const ProductFilters = ({
                   onClick={() => setViewMode('list')}
                   className={`p-2.5 transition-colors ${
                     viewMode === 'list' 
-                      ? 'bg-orange-600 text-white' 
+                      ? 'bg-red-600 text-white' 
                       : 'bg-white text-stone-600 hover:bg-stone-50'
                   }`}
                   title="List View"

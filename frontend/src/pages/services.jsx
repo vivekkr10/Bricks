@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, Hammer, Palette, BrickWall, Ruler, Truck, ChevronRight, History, LayoutGrid } from 'lucide-react';
 import { Link } from 'react-router-dom';
-
+import Header from '../Components/header';
+import Footer from '../Components/footer';
 // --- THEME COLORS ---
 const THEME = {
   primary: "text-[#2E5C55]", 
@@ -15,7 +16,7 @@ const THEME = {
 
 const ServiceHero = () => {
   return (
-    <div className="relative h-[45vh] min-h-[400px] w-full flex items-center justify-center overflow-hidden bg-black border-b border-gray-200">
+    <div className="relative h-[45vh] min-h-[500px] w-full flex items-center justify-center overflow-hidden bg-black border-b border-gray-200">
       <motion.div 
         initial={{ scale: 1.2 }}
         animate={{ scale: 1 }}
@@ -104,7 +105,8 @@ export default function Services() {
     }
   };
 
-  return (
+  return (<>
+  <Header />
     <div className={THEME.lightBg}>
       <ServiceHero />
 
@@ -113,7 +115,7 @@ export default function Services() {
         
         {/* --- STICKY SIDEBAR --- */}
         {/* UPDATED: Removed 'justify-between', added 'gap-20' to bring sections closer */}
-        <aside className="hidden lg:flex flex-col gap-20 w-1/4 sticky top-0 h-screen border-r border-gray-200 pt-28 pb-8 pr-8">
+        <aside className="hidden lg:flex flex-col gap-20 w-1/4 sticky top-10 h-screen border-r border-gray-200 pt-16 pb-8 pr-8">
           
           {/* TOP PART: Navigation */}
           <div>
@@ -227,7 +229,7 @@ export default function Services() {
       </div>
 
       {/* --- BOTTOM SECTION --- */}
-      <div className="border-t border-gray-200 bg-white">
+      {/* <div className="border-t border-gray-200 bg-white">
         <div className="max-w-7xl mx-auto py-12 px-6 flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="text-center md:text-left">
             <h2 className="text-2xl font-serif text-[#111] mb-2">
@@ -241,7 +243,8 @@ export default function Services() {
             Contact Us <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </Link>
         </div>
-      </div>
+      </div> */}
     </div>
+    <Footer /></>
   );
 }

@@ -140,7 +140,12 @@ const AdminRegister = () => {
   };
 
   return (
+<<<<<<< HEAD
     <div className="auth-container">
+=======
+      <div className="admin-auth register-page">
+   <div className="auth-container register-page">
+>>>>>>> aa8d3f71721cf8d689bd5aa37497b5bf198b22a4
       {/* Left Side - Brand Section */}
       <div className="auth-brand-section">
         <div className="brand-content">
@@ -324,6 +329,10 @@ const AdminRegister = () => {
         </motion.div>
       </div>
     </div>
+<<<<<<< HEAD
+=======
+    </div>
+>>>>>>> aa8d3f71721cf8d689bd5aa37497b5bf198b22a4
   );
 };
 

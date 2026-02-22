@@ -6,7 +6,7 @@ const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-stone-950 text-stone-400 font-sans border-t border-white/5 relative z-10">
+    <footer className="bg-stone-900 text-stone-400 font-sans border-t border-white/5 relative z-10">
       
       {/* Upper Footer: Main Content */}
       <div className="container mx-auto px-6 lg:px-14 py-16">
@@ -15,11 +15,11 @@ const Footer = () => {
           {/* 1. Brand & Intro */}
           <div className="space-y-6 col-span-2">
             <Link to="/" className="flex items-center gap-3 group">
-              <div className="p-2 bg-orange-600 rounded-md text-white transition-all duration-300 group-hover:bg-orange-500 shadow-lg shadow-orange-900/30">
+              <div className="p-2 bg-red-700 rounded-md text-white transition-all duration-300  shadow-lg shadow-red-900/30">
                 <Building2 className="w-6 h-6" />
               </div>
               <div className="flex flex-col">
-                <span className="text-xl font-serif font-black text-white leading-none tracking-tight group-hover:text-orange-500 transition-colors">
+                <span className="text-xl font-serif font-black text-white leading-none tracking-tight transition-colors">
                   VR & SONS
                 </span>
                 <span className="text-[10px] font-bold text-stone-500 tracking-[0.2em] uppercase mt-1">
@@ -39,7 +39,7 @@ const Footer = () => {
                 <a 
                   key={index} 
                   href="#" 
-                  className="p-2.5 bg-white/5 border border-white/10 text-stone-300 rounded-full hover:bg-orange-600 hover:border-orange-600 hover:text-white transition-all duration-300 shadow-sm"
+                  className="p-2.5 bg-white/5 border border-white/10 text-white/95 rounded-full hover:text-red-600 hover:border-red-600  transition-all duration-300 shadow-sm"
                 >
                   <Icon className="w-4 h-4" />
                 </a>
@@ -49,17 +49,17 @@ const Footer = () => {
 
           {/* 2. Quick Links */}
           <div>
-            <h4 className="text-white font-bold mb-6 text-xs uppercase tracking-[0.2em] border-l-2 border-orange-600 pl-3">
+            <h4 className="text-white font-bold mb-6 text-xs uppercase tracking-[0.2em] border-l-2 border-red-600 pl-3">
               Quick Links
             </h4>
             <ul className="space-y-3 text-sm">
-              {['Home', 'About Us', 'Products', 'Projects', 'Blog', 'Contact Us'].map((item) => (
+              {['Home', 'About Us', 'Products', 'Projects',, 'Services' , 'Blog', 'Contact Us' ].map((item) => (
                 <li key={item}>
                   <Link 
                     to={item === 'Home' ? '/' : `/${item.toLowerCase().replace(' ', '')}`} 
-                    className="text-stone-300 hover:text-orange-500 transition-colors flex items-center gap-2 group font-light"
+                    className="text-stone-300 hover:text-red-600 transition-colors flex items-center gap-2 group font-light"
                   >
-                    <span className="h-[1px] w-0 bg-orange-500 transition-all duration-300 group-hover:w-3"></span>
+                    <span className="h-[1px] w-0 bg-red-600 transition-all duration-300 group-hover:w-3"></span>
                     {item}
                   </Link>
                 </li>
@@ -69,17 +69,17 @@ const Footer = () => {
 
           {/* 3. Legal */}
           <div>
-            <h4 className="text-white font-bold mb-6 text-xs uppercase tracking-[0.2em] border-l-2 border-orange-600 pl-3">
+            <h4 className="text-white font-bold mb-6 text-xs uppercase tracking-[0.2em] border-l-2 border-red-600 pl-3">
               Legal
             </h4>
             <ul className="space-y-3 text-sm">
               <li>
-                <Link to="/terms" className="text-stone-300 hover:text-orange-500 transition-colors font-light">
+                <Link to="/terms" className="text-stone-300 hover:text-red-600 transition-all  duration-300 group-hover:w-3 ">
                   Terms & Conditions
                 </Link>
               </li>
               <li>
-                <Link to="/privacy" className="text-stone-300 hover:text-orange-500 transition-colors font-light">
+                <Link to="/privacy" className="text-stone-300 hover:text-red-600 transition-all  duration-300 group-hover:w-3 ">
                   Privacy Policy
                 </Link>
               </li>
@@ -88,12 +88,12 @@ const Footer = () => {
 
           {/* 4. Contact Details */}
           <div>
-            <h4 className="text-white font-bold mb-6 text-xs uppercase tracking-[0.2em] border-l-2 border-orange-600 pl-3">
+            <h4 className="text-white font-bold mb-6 text-xs uppercase tracking-[0.2em] border-l-2 border-red-600 pl-3">
               Get in Touch
             </h4>
             <ul className="space-y-5 text-sm">
               <li className="flex items-start gap-3">
-                <MapPin className="w-5 h-5 text-orange-600 flex-shrink-0 mt-0.5" />
+                <MapPin className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
                 <span className="leading-relaxed text-stone-300 font-light">
                   7XF5+3WX, Kamrej Char Rasta,<br/>
                   Kamrej, Gujarat 394185
@@ -101,15 +101,15 @@ const Footer = () => {
               </li>
               
               <li className="flex items-start gap-3">
-                <Phone className="w-5 h-5 text-orange-600 flex-shrink-0 mt-0.5" />
+                <Phone className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
                 <div className="flex flex-col gap-1 font-medium text-stone-300">
-                  <a href="tel:9825474047" className="hover:text-orange-500 transition-colors">+91 98254 74047</a>
-                  <a href="tel:9825266811" className="hover:text-orange-500 transition-colors">+91 98252 66811</a>
+                  <a href="tel:9825474047" className="hover:text-red-600 transition-colors">+91 98254 74047</a>
+                  <a href="tel:9825266811" className="hover:text-red-600 transition-colors">+91 98252 66811</a>
                 </div>
               </li> 
 
               <li className="flex items-center gap-3">
-                <Mail className="w-5 h-5 text-orange-600 flex-shrink-0" />
+                <Mail className="w-5 h-5 text-red-600 flex-shrink-0" />
                 <a href="mailto:support@vrandsons.com" className="text-stone-300 hover:text-orange-500 transition-colors font-light">
                   support@vrandsons.com
                 </a>

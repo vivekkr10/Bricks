@@ -3,9 +3,7 @@ import Navbar from "../../components/header";
 import { useState, useEffect, useRef } from "react";
 import Footer from "../../Components/footer";
 
-/* ─────────────────────────────────────────
-   Hook: fires true once element enters view
-───────────────────────────────────────── */
+// hooks fires when element view
 function useInView(threshold = 0.15) {
   const ref = useRef(null);
   const [visible, setVisible] = useState(false);
@@ -22,9 +20,8 @@ function useInView(threshold = 0.15) {
   return [ref, visible];
 }
 
-/* ─────────────────────────────────────────
-   Animated counter
-───────────────────────────────────────── */
+// animated counter
+
 function AnimatedNumber({ target, duration = 1200 }) {
   const [val, setVal] = useState(0);
   const num = parseInt(target) || 0;
@@ -44,20 +41,17 @@ function AnimatedNumber({ target, duration = 1200 }) {
   return <span>{num ? val : target}</span>;
 }
 
-/* ─────────────────────────────────────────
-   Main Component
-───────────────────────────────────────── */
+// main section or content
 export default function ProjectDetails() {
   const { state: project } = useLocation();
   const navigate = useNavigate();
   const [scrollY, setScrollY] = useState(0);
   const [activeTab, setActiveTab] = useState("overview");
   const [imgLoaded, setImgLoaded] = useState(false);
-  const [liked, setLiked] = useState(false);
-  const [bookmarked, setBookmarked] = useState(false);
-
   const [aboutRef, aboutVisible] = useInView();
   const [statsRef, statsVisible] = useInView(0.1);
+
+  // console.log(project.category);
 
   useEffect(() => {
     const onScroll = () => setScrollY(window.scrollY);
@@ -67,18 +61,7 @@ export default function ProjectDetails() {
 
   if (!project) return null;
 
-  const tabs = [
-    { id: "overview", label: "Overview", icon: "◈" }
-  ];
-
-  const specs = [
-    { label: "Project Area", value: project.details?.area, icon: "⬡" },
-    { label: "Completion Year", value: project.details?.year, icon: "◷" },
-    { label: "Client", value: project.details?.client, icon: "◉" },
-    { label: "Lead Architect", value: project.architect, icon: "◈" },
-    { label: "Category", value: project.category, icon: "⬟" },
-    { label: "Location", value: project.location, icon: "⊕" },
-  ];
+  const tabs = [{ id: "overview", label: "Overview", icon: "◈" }];
 
   return (
     <>
@@ -196,10 +179,6 @@ export default function ProjectDetails() {
           box-shadow: 0 0 0 3px rgba(240,112,48,0.1);
         }
 
-        ::-webkit-scrollbar { width: 4px; }
-        ::-webkit-scrollbar-track { background: #faf9f7; }
-        ::-webkit-scrollbar-thumb { background: #f0a07866; border-radius: 4px; }
-
         .hero-overlay-bottom {
           background: linear-gradient(to top, #faf9f7 0%, rgba(250,249,247,0.5) 35%, transparent 70%);
         }
@@ -214,10 +193,10 @@ export default function ProjectDetails() {
           <div
             className="absolute inset-0"
             style={{
-              transform: `translateY(${scrollY * 0.35}px) scale(1.1)`,
-              transition: "transform 0.05s linear",
+              background:
+                "linear-gradient(to top, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.25) 40%, rgba(0,0,0,0.1) 70%, transparent 100%)",
             }}
-           >
+          >
             <img
               src={project.image}
               alt={project.title}
@@ -225,10 +204,6 @@ export default function ProjectDetails() {
               onLoad={() => setImgLoaded(true)}
             />
           </div>
-
-          {/* Light-theme overlays */}
-          {/* <div className="hero-overlay-bottom absolute inset-0" /> */}
-          <div className="hero-overlay-left absolute inset-0" />
 
           {/* Subtle warm tint */}
           <div
@@ -255,13 +230,16 @@ export default function ProjectDetails() {
           <div className="absolute bottom-0 left-0 right-0 px-8 md:px-14 pb-14 z-10">
             {/* Category badge */}
             <div
-              className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full mb-5 text-xs font-semibold tracking-[0.18em] uppercase anim-fade-up"
+              className="inline-flex items-center gap-2.5 px-5 py-2 rounded-full mb-6 text-xs font-semibold tracking-[0.18em] uppercase anim-fade-up"
               style={{
                 opacity: 0,
                 animationDelay: "0.05s",
-                background: "rgba(240,112,48,0.1)",
-                border: "1px solid rgba(240,112,48,0.25)",
-                color: "#d95f1a",
+                background: "rgba(255,255,255,0.85)",
+                backdropFilter: "blur(12px)",
+                WebkitBackdropFilter: "blur(12px)",
+                border: "1px solid rgba(255,255,255,0.6)",
+                color: "#c6541a",
+                boxShadow: "0 8px 28px rgba(0,0,0,0.12)",
               }}
             >
               <span className="pulse-dot" />
@@ -276,10 +254,11 @@ export default function ProjectDetails() {
                 animationDelay: "0.17s",
                 fontSize: "clamp(3rem, 8vw, 6.5rem)",
                 fontWeight: 700,
-                lineHeight: 0.92,
-                color: "#1c1410",
+                lineHeight: 0.95,
+                color: "#ffffff",
                 marginBottom: "1.1rem",
                 maxWidth: "750px",
+                textShadow: "0 4px 30px rgba(0,0,0,0.45)",
               }}
             >
               {project.title}
@@ -291,8 +270,9 @@ export default function ProjectDetails() {
               style={{
                 opacity: 0,
                 animationDelay: "0.3s",
-                color: "#8a7a6e",
+                color: "rgba(255,255,255,0.9)",
                 marginBottom: "1.8rem",
+                textShadow: "0 2px 14px rgba(0,0,0,0.4)",
               }}
             >
               <span style={{ color: "#f07030" }}>⊕</span>
@@ -315,10 +295,10 @@ export default function ProjectDetails() {
                     key={s.label}
                     className="flex items-center gap-2 px-5 py-2 rounded-full text-sm"
                     style={{
-                      background: "rgba(255,255,255,0.82)",
+                      background: "rgba(255,255,255,0.85)",
                       backdropFilter: "blur(12px)",
                       boxShadow: "0 2px 12px rgba(0,0,0,0.08)",
-                      color: "#3d3530",
+                      color: "#0e0b0a",
                     }}
                   >
                     <span style={{ color: "#f07030", fontWeight: 600 }}>
@@ -359,254 +339,23 @@ export default function ProjectDetails() {
           </div>
         </section>
 
-        {/* sticky tabs  */}
-        <div
-          className="sticky top-0 z-30"
-          style={{
-            background: "rgba(250,249,247,0.92)",
-            backdropFilter: "blur(20px)",
-            borderBottom: "1px solid rgba(0,0,0,0.07)",
-          }}
-        >
-          <div className="max-w-6xl mx-auto px-6 flex items-center">
-            {tabs.map((t) => (
-              <button
-                key={t.id}
-                onClick={() => setActiveTab(t.id)}
-                className="relative flex items-center gap-2 px-5 py-4 text-sm font-medium tracking-wider transition-all duration-300"
-                style={{ color: activeTab === t.id ? "#f07030" : "#a09080" }}
-              >
-                <span className="text-xs">{t.icon}</span>
-                {t.label}
-                {activeTab === t.id && <span className="tab-indicator" />}
-              </button>
-            ))}
-          </div>
-        </div>
-
         {/* main content */}
 
         <main className="max-w-6xl mx-auto px-6 py-16">
           {/* ── OVERVIEW ── */}
-          {activeTab === "overview" && (
-            <div className="grid md:grid-cols-5 gap-12">
-              {/* Left */}
-              <div
-                ref={aboutRef}
-                className="md:col-span-3 space-y-12"
-                style={{
-                  opacity: aboutVisible ? 1 : 0,
-                  transform: aboutVisible ? "none" : "translateY(28px)",
-                  transition: "opacity 0.65s ease, transform 0.65s ease",
-                }}
-              >
-                {/* Section label row */}
-                <div className="flex items-center gap-4">
-                  <div
-                    className="h-px flex-1"
-                    style={{
-                      background:
-                        "linear-gradient(to right, #f07030aa, transparent)",
-                    }}
-                  />
-                  <span
-                    className="text-[10px] tracking-[0.35em] uppercase font-semibold"
-                    style={{ color: "#f07030" }}
-                  >
-                    About the Project
-                  </span>
-                </div>
-
-                {/* Heading + body */}
-                <div>
-                  <h2
-                    className="font-display mb-5"
-                    style={{
-                      fontSize: "clamp(2.2rem,5vw,3.5rem)",
-                      fontWeight: 700,
-                      color: "#1c1410",
-                      lineHeight: 1.1,
-                    }}
-                  >
-                    Project{" "}
-                    <span className="italic" style={{ color: "#f07030" }}>
-                      Overview
-                    </span>
-                  </h2>
-                  <p
-                    className="text-lg leading-relaxed font-light"
-                    style={{ color: "#6b5e54" }}
-                  >
-                    {project.description}
-                  </p>
-                </div>
-
-                {/* Pull quote */}
-                <div
-                  className="py-1 pl-7"
-                  style={{ borderLeft: "3px solid #f07030" }}
-                >
-                  <p
-                    className="font-display text-2xl italic leading-relaxed"
-                    style={{ color: "#5c4d44" }}
-                  >
-                    "Architecture is the thoughtful making of space — every
-                    line, a decision."
-                  </p>
-                </div>
-
-                {/* Progress bars */}
-                <div className="space-y-6">
-                  <p
-                    className="text-[10px] tracking-[0.3em] uppercase font-semibold"
-                    style={{ color: "#c0afa4" }}
-                  >
-                    Project Scores
-                  </p>
-                  {[
-                    { label: "Design Innovation", pct: 92 },
-                    { label: "Sustainability", pct: 78 },
-                    { label: "Client Satisfaction", pct: 97 },
-                    { label: "Build Quality", pct: 88 },
-                  ].map((p, i) => (
-                    <div key={p.label}>
-                      <div className="flex justify-between text-sm mb-2">
-                        <span style={{ color: "#8a7a6e" }}>{p.label}</span>
-                        <span
-                          className="font-semibold"
-                          style={{ color: "#f07030" }}
-                        >
-                          {p.pct}%
-                        </span>
-                      </div>
-                      <div
-                        className="h-1.5 rounded-full overflow-hidden"
-                        style={{ background: "#ede9e5" }}
-                      >
-                        <div
-                          className="progress-fill h-full"
-                          style={{
-                            width: aboutVisible ? `${p.pct}%` : "0%",
-                            transitionDelay: `${0.1 + i * 0.13}s`,
-                          }}
-                        />
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Right */}
-              <div className="md:col-span-2 space-y-5">
-                {/* Detail card */}
-                <div
-                  className="rounded-3xl p-7"
-                  style={{
-                    background: "#fff",
-                    boxShadow: "0 8px 40px rgba(0,0,0,0.07)",
-                    border: "1px solid rgba(240,112,48,0.1)",
-                    opacity: aboutVisible ? 1 : 0,
-                    transform: aboutVisible ? "none" : "translateY(28px)",
-                    transition:
-                      "opacity 0.65s ease 0.18s, transform 0.65s ease 0.18s",
-                  }}
-                >
-                  <p
-                    className="text-[10px] tracking-[0.3em] uppercase font-semibold mb-6"
-                    style={{ color: "#f07030" }}
-                  >
-                    Project Details
-                  </p>
-
-                  {[
-                    { label: "Location", val: project.location, icon: "⊕" },
-                    { label: "Category", val: project.category, icon: "⬟" },
-                    { label: "Architect", val: project.architect, icon: "◈" },
-                    {
-                      label: "Client",
-                      val: project.details?.client,
-                      icon: "◉",
-                    },
-                    { label: "Area", val: project.details?.area, icon: "⬡" },
-                    { label: "Year", val: project.details?.year, icon: "◷" },
-                  ].map((item, i) => (
-                    <div
-                      key={item.label}
-                      className="detail-row flex items-start gap-4 py-3.5 px-2 -mx-2"
-                      style={{
-                        borderBottom: i < 5 ? "1px solid #f0ece8" : "none",
-                        opacity: aboutVisible ? 1 : 0,
-                        transform: aboutVisible ? "none" : "translateY(10px)",
-                        transition: `opacity 0.45s ease ${0.22 + i * 0.07}s, transform 0.45s ease ${0.22 + i * 0.07}s`,
-                      }}
-                    >
-                      <span
-                        className="w-5 text-center flex-shrink-0 mt-0.5 text-sm"
-                        style={{ color: "#f07030" }}
-                      >
-                        {item.icon}
-                      </span>
-                      <div>
-                        <p
-                          className="text-[10px] tracking-widest uppercase mb-0.5"
-                          style={{ color: "#c0afa4" }}
-                        >
-                          {item.label}
-                        </p>
-                        <p
-                          className="font-medium text-sm"
-                          style={{ color: "#2c2420" }}
-                        >
-                          {item.val || "—"}
-                        </p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-
-
-                {/* Floating architect card */}
-                <div
-                  className="anim-float rounded-3xl p-6 flex items-center gap-4"
-                  style={{
-                    background: "#fff",
-                    boxShadow: "0 4px 24px rgba(240,112,48,0.1)",
-                    border: "1px solid rgba(240,112,48,0.12)",
-                    opacity: aboutVisible ? 1 : 0,
-                    transition: "opacity 0.65s ease 0.48s",
-                  }}
-                >
-                  <div
-                    className="w-12 h-12 rounded-2xl flex items-center justify-center text-xl flex-shrink-0 text-white"
-                    style={{
-                      background: "linear-gradient(135deg, #f07030, #f7a060)",
-                    }}
-                  >
-                    ◈
-                  </div>
-                  <div>
-                    <p
-                      className="text-[10px] tracking-widest uppercase mb-0.5"
-                      style={{ color: "#c0afa4" }}
-                    >
-                      Lead Architect
-                    </p>
-                    <p
-                      className="font-semibold text-sm"
-                      style={{ color: "#2c2420" }}
-                    >
-                      {project.architect || "Studio Architect"}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* ── SPECS ── */}
-          {activeTab === "specs" && (
-            <div>
-              <div className="flex items-center gap-4 mb-12">
+          <div className="grid md:grid-cols-5 gap-12">
+            {/* Left */}
+            <div
+              ref={aboutRef}
+              className="md:col-span-3 space-y-12"
+              style={{
+                opacity: aboutVisible ? 1 : 0,
+                transform: aboutVisible ? "none" : "translateY(28px)",
+                transition: "opacity 0.65s ease, transform 0.65s ease",
+              }}
+            >
+              {/* Section label row */}
+              <div className="flex items-center gap-4">
                 <div
                   className="h-px flex-1"
                   style={{
@@ -618,117 +367,198 @@ export default function ProjectDetails() {
                   className="text-[10px] tracking-[0.35em] uppercase font-semibold"
                   style={{ color: "#f07030" }}
                 >
-                  Technical
+                  About the Project
                 </span>
               </div>
 
-              <h2
-                className="font-display mb-12"
-                style={{
-                  fontSize: "clamp(2.2rem,5vw,3.5rem)",
-                  fontWeight: 700,
-                  color: "#1c1410",
-                  lineHeight: 1.1,
-                }}
-              >
-                Project{" "}
-                <span className="italic" style={{ color: "#f07030" }}>
-                  Specifications
-                </span>
-              </h2>
-
-              {/* Grid */}
-              <div
-                ref={statsRef}
-                className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-12"
-              >
-                {specs.map((s, i) => (
-                  <div
-                    key={s.label}
-                    className="spec-card rounded-2xl p-7"
-                    style={{
-                      opacity: statsVisible ? 1 : 0,
-                      transform: statsVisible ? "none" : "translateY(22px)",
-                      transition: `opacity 0.55s ease ${i * 0.09}s, transform 0.55s ease ${i * 0.09}s`,
-                    }}
-                  >
-                    <div
-                      className="w-11 h-11 rounded-xl flex items-center justify-center text-xl mb-6"
-                      style={{
-                        background: "rgba(240,112,48,0.09)",
-                        color: "#f07030",
-                      }}
-                    >
-                      {s.icon}
-                    </div>
-                    <p
-                      className="text-[10px] tracking-[0.25em] uppercase mb-2"
-                      style={{ color: "#c0afa4" }}
-                    >
-                      {s.label}
-                    </p>
-                    <p
-                      className="font-semibold text-lg"
-                      style={{ color: "#1c1410" }}
-                    >
-                      {s.value || "—"}
-                    </p>
-                  </div>
-                ))}
+              {/* Heading + body */}
+              <div>
+                <h2
+                  className="font-display mb-5"
+                  style={{
+                    fontSize: "clamp(2.2rem,5vw,3.5rem)",
+                    fontWeight: 700,
+                    color: "#1c1410",
+                    lineHeight: 1.1,
+                  }}
+                >
+                  Project{" "}
+                  <span className="italic" style={{ color: "#f07030" }}>
+                    Overview
+                  </span>
+                </h2>
+                <p
+                  className="text-lg leading-relaxed font-light"
+                  style={{ color: "#6b5e54" }}
+                >
+                  {project.description}
+                </p>
               </div>
 
-              {/* Big numbers */}
+              {/* Pull quote */}
               <div
-                className="rounded-3xl p-10 grid sm:grid-cols-3 gap-8 text-center"
-                style={{
-                  background: "#fff",
-                  boxShadow: "0 8px 40px rgba(0,0,0,0.06)",
-                  opacity: statsVisible ? 1 : 0,
-                  transition: "opacity 0.7s ease 0.52s",
-                }}
+                className="py-1 pl-7"
+                style={{ borderLeft: "3px solid #f07030" }}
               >
+                <p
+                  className="font-display text-2xl italic leading-relaxed"
+                  style={{ color: "#5c4d44" }}
+                >
+                  "Architecture is the thoughtful making of space — every line,
+                  a decision."
+                </p>
+              </div>
+
+              {/* Progress bars */}
+              <div className="space-y-6">
+                <p
+                  className="text-[10px] tracking-[0.3em] uppercase font-semibold"
+                  style={{ color: "#c0afa4" }}
+                >
+                  Project Scores
+                </p>
                 {[
-                  {
-                    num: project.details?.year || "2024",
-                    suffix: "",
-                    label: "Year Completed",
-                  },
-                  { num: "98", suffix: "%", label: "Client Satisfaction" },
-                  { num: "12", suffix: "+", label: "Awards & Recognition" },
-                ].map((n, i) => (
-                  <div key={i} className="space-y-2">
-                    <p
-                      className="font-display font-bold"
-                      style={{
-                        fontSize: "4rem",
-                        lineHeight: 1,
-                        color: "#f07030",
-                      }}
-                    >
-                      {statsVisible ? <AnimatedNumber target={n.num} /> : "0"}
-                      {n.suffix}
-                    </p>
+                  { label: "Design Innovation", pct: 92 },
+                  { label: "Sustainability", pct: 78 },
+                  { label: "Client Satisfaction", pct: 97 },
+                  { label: "Build Quality", pct: 88 },
+                ].map((p, i) => (
+                  <div key={p.label}>
+                    <div className="flex justify-between text-sm mb-2">
+                      <span style={{ color: "#8a7a6e" }}>{p.label}</span>
+                      <span
+                        className="font-semibold"
+                        style={{ color: "#f07030" }}
+                      >
+                        {p.pct}%
+                      </span>
+                    </div>
                     <div
-                      className="w-8 h-0.5 mx-auto rounded-full"
-                      style={{ background: "#f07030", opacity: 0.3 }}
-                    />
-                    <p
-                      className="text-xs tracking-widest uppercase"
-                      style={{ color: "#b0a098" }}
+                      className="h-1.5 rounded-full overflow-hidden"
+                      style={{ background: "#ede9e5" }}
                     >
-                      {n.label}
-                    </p>
+                      <div
+                        className="progress-fill h-full"
+                        style={{
+                          width: aboutVisible ? `${p.pct}%` : "0%",
+                          transitionDelay: `${0.1 + i * 0.13}s`,
+                        }}
+                      />
+                    </div>
                   </div>
                 ))}
               </div>
             </div>
-          )}
+
+            {/* Right */}
+            <div className="md:col-span-2 space-y-5">
+              {/* Detail card */}
+              <div
+                className="rounded-3xl p-7"
+                style={{
+                  background: "#fff",
+                  boxShadow: "0 8px 40px rgba(0,0,0,0.07)",
+                  border: "1px solid rgba(240,112,48,0.1)",
+                  opacity: aboutVisible ? 1 : 0,
+                  transform: aboutVisible ? "none" : "translateY(28px)",
+                  transition:
+                    "opacity 0.65s ease 0.18s, transform 0.65s ease 0.18s",
+                }}
+              >
+                <p
+                  className="text-[10px] tracking-[0.3em] uppercase font-semibold mb-6"
+                  style={{ color: "#f07030" }}
+                >
+                  Project Details
+                </p>
+
+                {[
+                  { label: "Location", val: project.location, icon: "⊕" },
+                  { label: "Category", val: project.category, icon: "⬟" },
+                  { label: "Architect", val: project.architect, icon: "◈" },
+                  {
+                    label: "Client",
+                    val: project.details?.client,
+                    icon: "◉",
+                  },
+                  { label: "Area", val: project.details?.area, icon: "⬡" },
+                  { label: "Year", val: project.details?.year, icon: "◷" },
+                ].map((item, i) => (
+                  <div
+                    key={item.label}
+                    className="detail-row flex items-start gap-4 py-3.5 px-2 -mx-2"
+                    style={{
+                      borderBottom: i < 5 ? "1px solid #f0ece8" : "none",
+                      opacity: aboutVisible ? 1 : 0,
+                      transform: aboutVisible ? "none" : "translateY(10px)",
+                      transition: `opacity 0.45s ease ${0.22 + i * 0.07}s, transform 0.45s ease ${0.22 + i * 0.07}s`,
+                    }}
+                  >
+                    <span
+                      className="w-5 text-center flex-shrink-0 mt-0.5 text-sm"
+                      style={{ color: "#f07030" }}
+                    >
+                      {item.icon}
+                    </span>
+                    <div>
+                      <p
+                        className="text-[10px] tracking-widest uppercase mb-0.5"
+                        style={{ color: "#c0afa4" }}
+                      >
+                        {item.label}
+                      </p>
+                      <p
+                        className="font-medium text-sm"
+                        style={{ color: "#2c2420" }}
+                      >
+                        {item.val || "—"}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Floating architect card */}
+              <div
+                className="anim-float rounded-3xl p-6 flex items-center gap-4"
+                style={{
+                  background: "#fff",
+                  boxShadow: "0 4px 24px rgba(240,112,48,0.1)",
+                  border: "1px solid rgba(240,112,48,0.12)",
+                  opacity: aboutVisible ? 1 : 0,
+                  transition: "opacity 0.65s ease 0.48s",
+                }}
+              >
+                <div
+                  className="w-12 h-12 rounded-2xl flex items-center justify-center text-xl flex-shrink-0 text-white"
+                  style={{
+                    background: "linear-gradient(135deg, #f07030, #f7a060)",
+                  }}
+                >
+                  ◈
+                </div>
+                <div>
+                  <p
+                    className="text-[10px] tracking-widest uppercase mb-0.5"
+                    style={{ color: "#c0afa4" }}
+                  >
+                    Lead Architect
+                  </p>
+                  <p
+                    className="font-semibold text-sm"
+                    style={{ color: "#2c2420" }}
+                  >
+                    {project.architect || "Studio Architect"}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
         </main>
 
         {/* footer Stripe */}
-</div>
-        <Footer/>
-      
+      </div>
+      <Footer />
     </>
   );
 }

@@ -8,7 +8,7 @@ import Footer from '../Components/footer';
 import { heroImg, brick1, brick2, brick3, brick4, brick5, brick6, brick7 ,G1, G2, G3, G4, G5, G6, G7, G8, G9, G10, G11, G12,P1,P2,P3} from "../assets/homeAssets";
 // --- HOOKS ---
 
-const useScrollReveal = (threshold = 0.1) => {
+const useScrollReveal = (threshold = 0.3) => {
   const [isVisible, setIsVisible] = useState(false);
   const ref = useRef(null);
 
@@ -137,8 +137,8 @@ const Hero = () => {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.15, // Delay between each child animating in
-        delayChildren: 0.2,
+        staggerChildren: 0.4, // Delay between each child animating in
+        delayChildren: 0.3,
       },
     },
   };
@@ -179,7 +179,7 @@ const Hero = () => {
         </motion.div>
 
         {/* Gradient Overlays */}
-        <div className="absolute inset-0 bg-gradient-to-r from-stone-950/100 via-stone-950/80 via-40% to-transparent to-70%"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-stone-950/100 via-stone-950/80 via-20% to-transparent to-60%"></div>
         <div className="absolute inset-0 opacity-[0.03] pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/stardust.png')]"></div>
         
         {/* Animated Dust Particles */}
@@ -230,7 +230,7 @@ const Hero = () => {
             variants={itemVariants}
             className="inline-flex items-center gap-2 px-5 py-2 rounded-full border border-orange-500/40 bg-orange-900/30 backdrop-blur-md mb-8 shadow-lg shadow-orange-900/20"
           >
-            <span className="w-2 h-2 rounded-full bg-orange-400 animate-pulse shadow-[0_0_8px_#fb923c]"></span>
+            <span className="w-2 h-2 rounded-full bg-red-400 animate-pulse shadow-[0_0_8px_#fb923c]"></span>
             <span className="text-orange-100 text-xs font-bold tracking-[0.2em] uppercase font-sans">
               Crafting Excellence Since 1986
             </span>
@@ -264,9 +264,9 @@ const Hero = () => {
           >
             <Link
               to="/products"
-              className="group relative px-10 py-4 bg-orange-600 text-white font-bold font-sans tracking-wider text-xs uppercase rounded-lg overflow-hidden shadow-[0_0_20px_rgba(234,88,12,0.3)] transition-all hover:-translate-y-1 hover:shadow-[0_10px_40px_rgba(234,88,12,0.5)]"
+              className="group relative px-6 py-3 bg-red-700 text-white font-bold font-sans tracking-wider text-xs uppercase rounded-xl overflow-hidden shadow-[0_0_20px_rgba(234,88,12,0.3)] transition-all hover:-translate-y-1 hover:shadow-[0_10px_40px_rgba(234,88,12,0.5)]"
             >
-              <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-orange-500 to-orange-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+              <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-red-800 to-red-700 opacity-0 group-hover:opacity-100 transition-opacity tracking-wide duration-300"></span>
               <span className="relative flex items-center gap-2 drop-shadow-md">
                 View Products{" "}
                 <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
@@ -275,7 +275,7 @@ const Hero = () => {
 
             <Link
               to="/contact"
-              className="px-10 py-4 bg-white/5 border border-white/20 text-white font-semibold font-sans tracking-wider text-xs uppercase rounded-lg hover:bg-white hover:text-stone-950 transition-all duration-300 backdrop-blur-sm flex items-center shadow-lg hover:-translate-y-1"
+              className="px-6 py-3 bg-white/5 border border-white/20 text-white font-semibold font-sans tracking-wide text-xs uppercase rounded-xl hover:bg-white hover:text-stone-950 transition-all duration-300 backdrop-blur-sm flex items-center shadow-lg hover:-translate-y-1"
             >
               Contact Sales
             </Link>
@@ -306,7 +306,7 @@ const FloatingStatsBar = () => {
       <div className="bg-white/95 backdrop-blur-xl border border-stone-200 shadow-2xl rounded-2xl py-6  flex flex-col md:flex-row items-center justify-around gap-8">
          
          <div ref={projRef} className="group flex flex-col items-center text-center w-full md:w-1/3 cursor-default">
-            <Building2 className="w-8 -ml-4 h-8 text-orange-600 mb-3 opacity-90 transition-transform duration-700 ease-in-out group-hover:rotate-[360deg]" />
+            <Building2 className="w-8 -ml-4 h-8  text-red-700 mb-3 opacity-90 transition-transform duration-700 ease-in-out group-hover:rotate-[360deg]" />
             <div className="text-4xl md:text-4xl font-sans font-semibold text-stone-900 mb-2">{projects}+</div>
             <div className="text-sm font-serif font-bold uppercase tracking-widest text-stone-600">Projects Served</div>
          </div>
@@ -315,7 +315,7 @@ const FloatingStatsBar = () => {
          <div className="md:hidden h-px w-full bg-stone-200"></div>
 
          <div ref={satRef} className="group flex flex-col items-center text-center w-full md:w-1/3 cursor-default">
-            <Star className="w-8 -ml-4 h-8 text-orange-600 mb-3 opacity-90 transition-transform duration-700 ease-in-out group-hover:rotate-[360deg]" />
+            <Star className="w-8 -ml-4 h-8 text-red-700 mb-3 opacity-90 transition-transform duration-700 ease-in-out group-hover:rotate-[360deg]" />
             <div className="text-4xl md:text-4xl font-sans font-semibold text-stone-900 mb-2">{sat}%</div>
             <div className="text-sm font-serif font-bold uppercase tracking-widest text-stone-600">Satisfaction Rate</div>
          </div>
@@ -324,13 +324,44 @@ const FloatingStatsBar = () => {
          <div className="md:hidden h-px w-full bg-stone-200"></div>
 
          <div ref={expRef} className="group flex flex-col items-center text-center w-full md:w-1/3 cursor-default">
-            <ShieldCheck className="w-8 -ml-3 h-8 text-orange-600 mb-3 opacity-90 transition-transform duration-700 ease-in-out group-hover:rotate-[360deg]" />
+            <ShieldCheck className="w-8 -ml-3 h-8 text-red-700 mb-3 opacity-90 transition-transform duration-700 ease-in-out group-hover:rotate-[360deg]" />
             <div className="text-4xl md:text-4xl font-sans font-semibold text-stone-900 mb-2">{exp}+</div>
             <div className="text-sm font-serif font-bold uppercase tracking-widest text-stone-600">Years Experience</div>
          </div>
       </div>
     </div>
   );
+};
+const headingVariant = {
+  hidden: { opacity: 0, x: -150, scale: 0.95 },
+  visible: { 
+    opacity: 1, 
+    x: 0,
+    scale: 1,
+    transition: { duration: 1.25, ease: "easeOut" }
+  }
+};
+
+const paragraphVariant = {
+  hidden: { opacity: 0, x: 150, scale: 0.95 },
+  visible: { 
+    opacity: 1, 
+    x: 0,
+    scale: 1,
+    transition: { duration: 1.5, delay: 0.4, ease: "easeOut" }
+  }
+};
+
+const imageVariant = {
+  hidden: { opacity: 0, scale: 0.8, y: 50 },
+  visible: { 
+    opacity: 1, 
+    scale: 1,
+    y: 0,
+    transition: { duration: 2, 
+      delay: 0.6,        
+      ease: [0.25, 1, 0.5, 1] }
+  }
 };
 
 const AboutShort = () => {
@@ -348,31 +379,63 @@ const AboutShort = () => {
           
           <div className="lg:col-span-5 text-center lg:text-left">
             <div className="inline-flex items-center gap-2 mb-4 justify-center lg:justify-start">
-                <span className="w-8 h-[2px] bg-orange-600"></span>
-                <span className="text-orange-700 font-bold uppercase tracking-widest text-xs font-sans">
+                <span className="w-8 h-[2px] bg-red-600"></span>
+                <span className="text-red-700 font-bold uppercase tracking-widest text-xs font-sans">
                   The Legacy
                 </span>
             </div>
           
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif font-medium text-stone-950 mb-6 leading-tight">
+              {/* <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif font-medium text-stone-950 mb-6 leading-tight">
               Welcome to <br className="hidden lg:block"/> VR & Sons
-            </h2>
-           
+            </h2> */}
+           <motion.h2
+           viewport={{ once: true, amount: 0.7 }}
+  variants={headingVariant}
+  initial="hidden"
+  animate={isVisible ? "visible" : "hidden"}
+  className="text-4xl md:text-5xl lg:text-6xl font-serif font-medium text-stone-950 mb-6 leading-tight"
+>
+  Welcome to <br className="hidden lg:block"/> VR & Sons
+</motion.h2>
             
             
-            <div className="rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.1)] border border-stone-200 w-full h-48 md:h-64 mt-6 hidden lg:block overflow-hidden group border border-stone-200">
+            {/* <div className="rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.1)] border border-stone-200 w-full h-48 md:h-64 mt-6 hidden lg:block overflow-hidden group border border-stone-200"> */}
+             <motion.div
+              viewport={{ once: true, amount: 1 }}
+  variants={imageVariant}
+  initial="hidden"
+  animate={isVisible ? "visible" : "hidden"}
+  className="rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.1)] border border-stone-200 w-full h-48 md:h-64 mt-6 hidden lg:block overflow-hidden group"
+>
               <img 
                 src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&q=80" 
                 alt="Craftsmanship" 
                 className="w-full h-full object-cover grayscale-[30%] transition-all duration-700 group-hover:scale-110 group-hover:grayscale-0"
               />
-            </div>
+              </motion.div>
+            {/* </div> */}
           </div>
 
           <div className="lg:col-span-7 flex flex-col justify-center h-full lg:pt-4 lg:mt-6 ">
-            <p className="text-xl md:text-2xl text-stone-800 font-serif leading-relaxed mb-6 text-center lg:text-left">
-              We are a leading brick manufacturer committed to delivering <strong className="text-orange-700 font-bold">durable</strong>, <strong className="text-orange-700 font-bold">eco-friendly</strong>, and <strong className="text-orange-700 font-bold">high-performance</strong> bricks.
-            </p>
+            <motion.p
+             viewport={{ once: true, amount: 0.8 }}
+  variants={paragraphVariant}
+  initial="hidden"
+  animate={isVisible ? "visible" : "hidden"}
+  className="text-xl md:text-2xl text-stone-800 font-serif leading-relaxed mb-6 text-center lg:text-left"
+>
+  We are a leading brick manufacturer committed to delivering 
+  <strong className="text-red-700 font-bold"> durable</strong>, 
+  <strong className="text-red-700 font-bold"> eco-friendly</strong>, and 
+  <strong className="text-red-700 font-bold"> high-performance</strong> bricks.
+</motion.p>
+
+            <motion.p
+  variants={paragraphVariant}
+  initial="hidden"
+  animate={isVisible ? "visible" : "hidden"}
+  // className="text-xl md:text-2xl text-stone-800 font-serif leading-relaxed mb-6 text-center lg:text-left"
+>
             <p className="text-base md:text-lg text-stone-600 leading-relaxed font-sans font-light text-center lg:text-left mb-8">
               With over 30 years of industry experience, we supply the foundation for builders, contractors, and visionaries. Our commitment to quality ensures that every brick fired in our kilns meets the highest architectural standards. 
               <br />From residential homes to large-scale commercial developments, our products are engineered for strength, consistency, and long-lasting performance.
@@ -380,12 +443,13 @@ const AboutShort = () => {
             <p className="text-base md:text-lg text-stone-600 leading-relaxed font-sans font-light text-center lg:text-left mb-8">
               Trusted by architects, engineers, and construction experts, we continue to build structures that shape skylines and communities.
             </p>
+            </motion.p>
 
             
             <div className="text-center lg:right-left">
               <Link
                 to="/about"
-                className="inline-flex items-center px-8 py-4 border border-stone-300 text-stone-800 font-bold font-sans text-xs uppercase tracking-widest rounded-lg hover:bg-orange-600 hover:text-white hover:border-orange-600 hover:shadow-lg transition-all duration-300"
+                className="inline-flex items-center px-6 py-3  bg-red-700 text-white font-bold font-sans text-xs uppercase tracking-widest rounded-xl hover:bg-red-800   hover:-translate-y-1 transition-all duration-300"
               >
                 Discover Our Story <ArrowRight className="w-4 h-4 ml-2" />
               </Link>
@@ -421,11 +485,11 @@ const ProductOverview = () => {
       {/* Title Centered */}
       <div className="container mx-auto px-6 mb-10 relative z-10 flex flex-col items-center text-center">
         <div className="inline-flex items-center gap-2 mb-3">
-            <span className="w-8 h-[2px] bg-orange-600"></span>
-            <span className="text-orange-700 font-bold uppercase tracking-widest text-xs font-sans">
+            <span className="w-8 h-[2px] bg-red-600"></span>
+            <span className="text-red-700 font-bold uppercase tracking-widest text-xs font-sans">
               Our Products
             </span>
-            <span className="w-8 h-[2px] bg-orange-600"></span>
+            <span className="w-8 h-[2px] bg-red-600"></span>
         </div>
         <h2 className="text-4xl md:text-5xl font-serif font-medium text-stone-900 mb-4">
          Top<span className="mx-0.5 font-sans">-</span>tier Bricks
@@ -436,13 +500,15 @@ const ProductOverview = () => {
       </div>
 
       {/* Marquee Wrapper */}
-      <div className="relative w-full overflow-hidden z-10 pb-6">
+      <div className="relative  overflow-hidden z-10 pb-6 ml-6 mr-6  ">
         <div className="absolute left-0 top-0 h-full w-24 md:w-48 bg-gradient-to-r from-stone-50 to-transparent z-10 pointer-events-none opacity-50"></div>
         <div className="absolute right-0 top-0 h-full w-24 md:w-48 bg-gradient-to-l from-stone-50 to-transparent z-10 pointer-events-none opacity-50"></div>
 
-        <div className="flex animate-marquee-horizontal gap-6">
+        <div className="flex animate-marquee-horizontal gap-6 ">
           {[...products, ...products, ...products].map((p, i) => (
-            <div key={i} className="w-64 md:w-72 flex-shrink-0 group cursor-pointer">
+            <Link key={i} 
+            to={`/products?category=${encodeURIComponent(p.title)}`}
+            className="w-64 md:w-72 flex-shrink-0 group cursor-pointer">
               <div className="h-56 overflow-hidden rounded-2xl mb-4 shadow-sm border border-stone-300 bg-white group-hover:shadow-xl group-hover:border-orange-300 transition-all duration-500">
                 <img
                   src={p.img}
@@ -453,20 +519,22 @@ const ProductOverview = () => {
               <h3 className="text-xl font-serif font-medium text-stone-900 group-hover:text-orange-700 transition-colors text-center">
                 {p.title}
               </h3>
-            </div>
+            </Link>
           ))}
         </div>
       </div>
 
       {/* Link aligned to the right, below the cards */}
-      <div className="container mx-auto px-6 mt-4 flex justify-end relative z-10">
+      <div className="container mx-auto px-6 mt-4 flex justify-center relative z-10">
         <Link
           to="/products"
-          className="inline-flex items-center text-orange-700 font-bold font-sans uppercase tracking-widest text-xs hover:text-orange-900 transition-colors group border-b-2 border-orange-200 pb-1 hover:border-orange-700"
+          className=" hover:scale-105 
+ inline-flex items-end text-red-700 font-bold font-sans uppercase  text-xs hover:text-red-800 transition-colors group border-b-2 border-red-200 pb-1 hover:border-red-700"
         >
           View Collection
           <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
         </Link>
+        
       </div>
 
       <style>{`
@@ -528,17 +596,25 @@ const col3 = [G9, G10, G11, G12];
           
           <div className="text-center lg:text-left">
             <div className="inline-flex items-center gap-2 mb-4 justify-center lg:justify-start">
-                <span className="w-8 h-[2px] bg-orange-500"></span>
-                <span className="text-orange-400 font-bold uppercase tracking-widest text-[10px] font-sans">
+                <span className="w-8 h-[2px] bg-red-500"></span>
+                <span className="text-red-400 font-bold uppercase tracking-widest text-[10px] font-sans">
                   Visual Mastery
                 </span>
             </div>
             
+ <motion.h2
+           viewport={{ once: true, amount: 0.7 }}
+  variants={headingVariant}
+  initial="hidden"
+  animate={isVisible ? "visible" : "hidden"}
+  className="text-4xl md:text-5xl lg:text-6xl font-serif font-medium text-white mt-2 mb-8 leading-tight"
+>
+
             {/* Text colors adjusted for dark background */}
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif font-medium text-white mt-2 mb-8 leading-tight">
-             Building Dreams with Quality and Strength <br /> <span className="italic text-orange-500">Brick Impressions.</span>
-            </h2>
-            
+            {/* <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif font-medium text-white mt-2 mb-8 leading-tight"> */}
+             Building Dreams with Quality and Strength <br /> <span className="italic text-red-500">Brick Impressions.</span>
+            {/* </h2> */}
+       </motion.h2>     
             <p className="text-lg text-stone-400 leading-relaxed mb-10 max-w-xl font-sans font-light mx-auto lg:mx-0">
               Step into the world of timeless craftsmanship with
 VR & Sons Bricks, where every brick is more than just a construction
@@ -548,7 +624,7 @@ architectural excellence.
             
             <Link
               to="/projects"
-              className="inline-flex items-center font-bold text-xs uppercase tracking-widest text-white hover:text-orange-400 group font-sans border-b border-white/20 pb-2 hover:border-orange-500 transition-all mt-4"
+              className="inline-flex items-center font-bold text-xs uppercase tracking-widest text-white hover:text-red-400 group font-sans border-b border-white/20 pb-2 hover:border-red-500 transition-all mt-4"
             >
               Explore Full Collection
               <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
@@ -634,11 +710,11 @@ const Projects = () => {
 
          <div className="container mx-auto px-6 mb-10 relative z-10 flex flex-col items-center text-center">
         <div className="inline-flex items-center gap-2 mb-3">
-            <span className="w-8 h-[2px] bg-orange-600"></span>
-            <span className="text-orange-700 font-bold uppercase tracking-widest text-xs font-sans">
+            <span className="w-8 h-[2px] bg-red-600"></span>
+            <span className="text-red-700 font-bold uppercase tracking-widest text-xs font-sans">
               Our Experiences
             </span>
-            <span className="w-8 h-[2px] bg-orange-600"></span>
+            <span className="w-8 h-[2px] bg-red-600"></span>
         </div>
         <h2 className="text-4xl md:text-5xl font-serif font-medium text-stone-900 mb-4">Featured Projects
          
@@ -665,13 +741,13 @@ const Projects = () => {
               </div>
 
               <div className="p-6 relative z-20 bg-white">
-                <h3 className="text-xl font-serif font-medium text-stone-900 mb-2 group-hover:text-orange-700 transition-colors">
+                <h3 className="text-xl font-serif font-medium text-stone-900 mb-2 transition-colors">
                   {p.title}
                 </h3>
                 <p className="text-stone-500 text-sm font-sans leading-relaxed mb-5 line-clamp-2">
                   {p.desc}
                 </p>
-                <span className="inline-flex items-center text-orange-700 text-[10px] font-bold uppercase tracking-widest group-hover:text-orange-900 transition-all duration-300 cursor-pointer">
+                <span className="inline-flex items-center text-red-700 text-[10px] font-bold uppercase tracking-widest group-hover:text-red-800 transition-all duration-300 cursor-pointer border-b-2 border-red-200 pb-0.5 hover:border-red-700 hover:scale-105">
                   View Case Study <ArrowRight className="w-3 h-3 ml-1 group-hover:translate-x-1 transition-transform" />
                 </span>
               </div>
@@ -679,10 +755,10 @@ const Projects = () => {
           ))}
         </div>
  {/* side nav */}
-            <div className="container mx-auto px-6 mt-8 flex justify-end relative z-10">
+            <div className="container mx-auto px-6 mt-10 flex justify-center relative z-10">
         <Link
           to="/projects"
-          className="inline-flex items-center text-orange-700 font-bold font-sans uppercase tracking-widest text-xs hover:text-orange-900 transition-colors group border-b-2 border-orange-200 pb-1 hover:border-orange-700"
+          className="inline-flex items-center text-red-700 font-semibold font-sans uppercase tracking-wide text-xs hover:text-red-800 transition-colors group border-b-2 border-red-200 pb-1 hover:border-red-700 hover:scale-105"
         >
           View All Projects
           <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
@@ -719,8 +795,8 @@ const CtaSection = () => {
           Whether you're an architect designing a modern masterpiece or a builder seeking reliable materials, our experts are here to help you select the perfect bricks for your vision.
         </p>
         <Link 
-          to="/contact" 
-          className="inline-flex items-center px-10 py-4 bg-orange-600 text-white font-bold font-sans text-xs uppercase tracking-widest rounded-xl hover:bg-stone-900 transition-all duration-300  hover:-translate-y-1"
+          to="/inquiry" 
+          className="inline-flex items-center px-6 py-3 bg-red-700 text-white font-bold font-sans text-xs uppercase tracking-wide rounded-xl hover:bg-red-800 transition-all duration-300  hover:-translate-y-1"
         >
           Inquire Now <ArrowRight className="w-4 h-4 ml-3" />
         </Link>
@@ -730,6 +806,10 @@ const CtaSection = () => {
 };
 
 // --- MAIN PAGE ---
+
+
+
+
 
 export default function Home() {
   return (
@@ -747,7 +827,7 @@ export default function Home() {
       `}</style>
       
       <Header />
-      
+     
       <Hero />
       
       <div className="relative w-full">

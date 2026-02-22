@@ -1,47 +1,88 @@
-// src/App.js
 import React, { useState } from 'react';
-import Sidebar from './Sidebar'; // Sidebar import karein
-import Navbar from './Nav';   // Navbar import karein
-import Dashboard from './Dashboard';   // Dashboard page import karein
+import Sidebar from './Sidebar'; 
+import Navbar from './Nav';   
+import Dashboard from './Dashboard';   
+import ProductForm from './ProductForm'; 
+import ProfileSettings from './profile'; 
+import ProductDetails from './View'; 
 
-
-function App() {
-
-    
-
+function MainDashboard() {
   const [activePage, setActivePage] = useState('dashboard');
+  const [editId, setEditId] = useState(null);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
 
   const handleLogout = () => {
-    // Logout logic yahan aayegi
-    alert("Logged out!");
+    if (window.confirm("Are you sure you want to logout?")) {
+      alert("Logged out!");
+    }
   };
 
   return (
-    // 'flex' class use karke dono ko side-by-side layenge
-    <div className="flex min-h-screen bg-slate-50">
-      
-      {/* SIDEBAR: Iska width fixed rahega (w-72) */}
+    // ❌ BODY SCROLL OFF
+    <div className="flex h-screen overflow-hidden bg-[#F8F7F5]">
+
       <Sidebar 
         activePage={activePage} 
         setActivePage={setActivePage} 
-        handleLogout={handleLogout} 
+        handleLogout={handleLogout}
+        isCollapsed={isSidebarCollapsed}
+        setIsCollapsed={setIsSidebarCollapsed}
       />
 
-      {/* MAIN CONTENT AREA: Ye flex-1 lega aur sidebar ke baad shuru hoga */}
-      <div className="flex-1 ml-72 flex flex-col">
-        
-        {/* TOP NAVBAR */}
-        <Navbar />
+      {/* MAIN AREA */}
+      <div
+        className={`flex-1 flex flex-col transition-all duration-300
+          ${isSidebarCollapsed ? 'lg:ml-20' : 'lg:ml-72'}
+        `}
+      >
+        {/* NAVBAR FIXED */}
+        <Navbar onProfileClick={() => setActivePage('profile')} />
 
-        {/* PAGE CONTENT: Yahan dashboard dikhega */}
-        <main className="p-4">
-          {activePage === 'dashboard' && <Dashboard />}
+        {/* ✅ ONLY DASHBOARD SCROLLS */}
+        <main className="flex-1 overflow-y-auto p-4">
+          
+          {activePage === 'dashboard' && (
+            <Dashboard 
+              onAddClick={() => setActivePage('add')} 
+              onEditClick={(id) => { 
+                setEditId(id); 
+                setActivePage('edit'); 
+              }} 
+              onViewClick={(product) => {
+                setSelectedProduct(product); 
+                setActivePage('view');        
+              }}
+            />
+          )}
 
+          {(activePage === 'add' || activePage === 'edit') && (
+            <ProductForm 
+              editId={activePage === 'edit' ? editId : null} 
+              onCancel={() => { 
+                setActivePage('dashboard'); 
+                setEditId(null); 
+              }} 
+            />
+          )}
+
+          {activePage === 'profile' && (
+            <ProfileSettings onCancel={() => setActivePage('dashboard')} />
+          )}
+
+          {activePage === 'view' && (
+            <ProductDetails 
+              product={selectedProduct} 
+              onBack={() => {
+                setActivePage('dashboard');
+                setSelectedProduct(null);
+              }} 
+            />
+          )}
         </main>
-
       </div>
     </div>
   );
 }
 
-export default App;
+export default MainDashboard;

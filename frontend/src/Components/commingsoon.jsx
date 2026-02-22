@@ -1,36 +1,33 @@
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { Construction, ArrowLeft } from 'lucide-react';
-
-const ComingSoon = () => {
-  const location = useLocation();
-  
-  // Extract page name from URL (e.g., "/about" -> "About")
-  const pageName = location.pathname.replace('/', '').replace('-', ' ');
-
+import not from "../assets/PageNotFound.png"
+const NotFound = () => {
   return (
-    <div className="min-h-[60vh] flex flex-col items-center justify-center text-center px-4 bg-stone-50">
-      <div className="p-6 bg-white rounded-full shadow-xl mb-6">
-        <Construction className="w-16 h-16 text-orange-600" />
-      </div>
-      
-      <h1 className="text-4xl font-black text-stone-900 mb-4 capitalize">
-        {pageName || "Page"} 
-      </h1>
-      
-      <p className="text-xl text-stone-500 max-w-md mb-8">
-        We are currently building this section. <br/>
-        The <strong>{pageName}</strong> page will be available soon with premium content.
-      </p>
+    <div className="min-h-screen bg-white/90 flex flex-col items-center justify-center p-6 text-center">
+      <div className="max-w-2xl w-full">
+        {/* Ensure PageNotFound.jpg is in your /public folder */}
+        <img 
+          src={not}
+          alt="404 Page Not Found" 
+          className="w-full max-w-md mx-auto mb-8 drop-shadow-xl"
+        />
 
-      <Link 
-        to="/" 
-        className="inline-flex items-center gap-2 px-8 py-3 bg-stone-900 hover:bg-orange-600 text-white font-bold rounded-lg transition-colors"
-      >
-        <ArrowLeft className="w-4 h-4" /> Return Home
-      </Link>
+        <h1 className="text-4xl font-bold text-gray-800 mb-4">
+          Under Construction?
+        </h1>
+        
+        <p className="text-lg text-gray-600 mb-8 max-w-md mx-auto">
+          It looks like the page you are looking for hasn't been built yet or has been moved to another site.
+        </p>
+
+        <a 
+          href="/"
+          className="inline-block bg-[#ce5a28] hover:bg-[#a64820] text-white font-bold py-3 px-8 rounded-lg transition-colors duration-300 shadow-lg"
+        >
+          Back to Homepage
+        </a>
+      </div>
     </div>
   );
 };
 
-export default ComingSoon;
+export default NotFound;

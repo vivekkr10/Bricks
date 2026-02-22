@@ -2,10 +2,43 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Helmet } from 'react-helmet';
+import {
+  Home,
+  Building2,
+  Landmark,
+  Palette,
+  Layers,
+  Zap,
+  Columns,
+  Castle,
+  PanelTop,
+  Sparkles,
+  Warehouse,
+  Store,
+  Factory,
+  Hammer,
+  Wrench,
+  Lightbulb,
+  Grid3x3,
+  Briefcase,
+  Sofa,
+  Crown,
+  Waves,
+  Eye,
+  Award,
+  Wind,
+  Maximize2,
+  Clock,
+  TreePine,
+  Pickaxe,
+  Compass,
+  Leaf,
+  Trees,
+  Shovel
+} from 'lucide-react';
 import productsData from './productsData';
 import Header from '../../Components/header';
 import Footer from '../../Components/footer';
-import axios from "axios";
 // BrickWall pattern
 const BrickWall = ({ opacity = 0.06, color = "#8B4513" }) => (
   <svg style={{ position: "absolute", inset: 0, width: "100%", height: "100%", pointerEvents: "none" }}>
@@ -19,6 +52,76 @@ const BrickWall = ({ opacity = 0.06, color = "#8B4513" }) => (
     <rect width="100%" height="100%" fill={`url(#bwall-${color.replace("#", "")})`} opacity={opacity} />
   </svg>
 );
+
+// Icon mapping for application areas
+const getApplicationIcon = (applicationArea) => {
+  const iconProps = {
+    size: 40,
+    strokeWidth: 1.5,
+    className: 'text-red-600'
+  };
+
+  const iconMap = {
+    // Product 1 (Classic Red Premium)
+    'Residential Buildings': <Home {...iconProps} />,
+    'Heritage Projects': <Castle {...iconProps} />,
+    'Classic Architecture': <Columns {...iconProps} />,
+    'Face Brickwork': <PanelTop {...iconProps} />,
+    'Decorative Walls': <Palette {...iconProps} />,
+    'Premium Exteriors': <Landmark {...iconProps} />,
+    // Product 2 (Multicolor Blend)
+    'Traditional Architecture': <Wrench {...iconProps} />,
+    'Heritage Properties': <Warehouse {...iconProps} />,
+    'Artistic Projects': <Sparkles {...iconProps} />,
+    'Feature Walls': <Layers {...iconProps} />,
+    'Gallery Spaces': <Store {...iconProps} />,
+    'Character Buildings': <Building2 {...iconProps} />,
+    // Product 3 (Dark Grey)
+    'Modern Commercial': <Factory {...iconProps} />,
+    'Contemporary Homes': <Sofa {...iconProps} />,
+    'Urban Architecture': <Grid3x3 {...iconProps} />,
+    'Accent Walls': <Hammer {...iconProps} />,
+    'Industrial Lofts': <Briefcase {...iconProps} />,
+    'Contemporary Design': <Lightbulb {...iconProps} />,
+    // Product 4 (Hamptons Light)
+    'Premium Residences': <Crown {...iconProps} />,
+    'Coastal Projects': <Waves {...iconProps} />,
+    'Luxury Developments': <Eye {...iconProps} />,
+    'Upscale Exteriors': <Award {...iconProps} />,
+    'Elegant Facades': <Wind {...iconProps} />,
+    'Designer Buildings': <Maximize2 {...iconProps} />,
+    // Product 5 (Yellow Gold)
+    'Luxury Projects': <Crown {...iconProps} />,
+    'High-end Residences': <Sofa {...iconProps} />,
+    'Premium Commercial': <Factory {...iconProps} />,
+    'Showcase Buildings': <Eye {...iconProps} />,
+    'High-visibility Projects': <Award {...iconProps} />,
+    'Signature Architecture': <Sparkles {...iconProps} />,
+    // Product 6 (Rumbled Texture)
+    'Heritage Restoration': <Clock {...iconProps} />,
+    'Country Estates': <TreePine {...iconProps} />,
+    'Artisan Projects': <Pickaxe {...iconProps} />,
+    'Historic Buildings': <Landmark {...iconProps} />,
+    'Character Properties': <Castle {...iconProps} />,
+    'Rustic Architecture': <Trees {...iconProps} />,
+    // Product 7 (Reclaimed Vintage)
+    'Historic Restoration': <Compass {...iconProps} />,
+    'Period Properties': <Castle {...iconProps} />,
+    'Heritage Conservation': <Leaf {...iconProps} />,
+    'Antique Preservation': <Clock {...iconProps} />,
+    'Listed Buildings': <Landmark {...iconProps} />,
+    'Museum Projects': <Store {...iconProps} />,
+    // Product 8 (Red Paver)
+    'Outdoor Landscapes': <Trees {...iconProps} />,
+    'Garden Design': <Leaf {...iconProps} />,
+    'Patio Construction': <Hammer {...iconProps} />,
+    'Driveway Installation': <Shovel {...iconProps} />,
+    'Pathway Creation': <Grid3x3 {...iconProps} />,
+    'Outdoor Living Spaces': <Sofa {...iconProps} />
+  };
+
+  return iconMap[applicationArea] || <Building2 {...iconProps} />;
+};
 
 const ProductDetailPage = () => {
   const { id } = useParams();
@@ -53,19 +156,20 @@ const ProductDetailPage = () => {
   ];
 
   useEffect(() => {
-    const fetchProduct = async () => {
-      try {
-        setLoading(true);
-        const response = await axios.get(`http://localhost:5000/api/products/${id}`);
-        setProduct(response.data);
-      } catch (error) {
-        console.error("Error fetching product details:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
+    // Simulate API fetch
+    setTimeout(() => {
+      const foundProduct = productsData.find(p => p.id === parseInt(id));
+      if (foundProduct && foundProduct.active) {
+        setProduct(foundProduct);
 
-    if (id) fetchProduct();
+        // Get related products (same category)
+        const related = productsData
+          .filter(p => p.category === foundProduct.category && p.id !== foundProduct.id && p.active)
+          .slice(0, 4);
+        setRelatedProducts(related);
+      }
+      setLoading(false);
+    }, 800);
   }, [id]);
 
   // Form validation
@@ -112,40 +216,47 @@ const ProductDetailPage = () => {
   const handleFormSubmit = async (e) => {
     e.preventDefault();
 
-    if (!inquiryForm.fullName || !inquiryForm.mobileNumber) {
-      setFormErrors({ submit: "Please fill in required fields." });
+    if (!validateForm()) {
       return;
     }
 
     setFormSubmitting(true);
 
     try {
+      // Simulate API call - in real app, send to backend
+      await new Promise(resolve => setTimeout(resolve, 1500));
 
-      const payload = {
-        name: inquiryForm.fullName,
-        email: inquiryForm.emailAddress,
-        phone: inquiryForm.mobileNumber,
-        message: inquiryForm.message,
-        productName: product.productName,
-        requiredQty: quantity,
-        deliveryLoc: inquiryForm.deliveryLocation
-      }
-      const res = await axios.post("http://localhost:5000/api/inquiry", payload);
+      // Log form data (in real app, would send to backend)
+      console.log('Inquiry Submitted:', {
+        product: product.name,
+        productId: product.id,
+        quantity,
+        ...inquiryForm,
+        timestamp: new Date().toISOString()
+      });
 
-      if (res.data.success) {
-        setFormSuccess(true);
-        // Reset form after success
-        setInquiryForm({
-          fullName: "",
-          emailAddress: "",
-          mobileNumber: "",
-          deliveryLocation: "",
-          message: ""
-        });
-      }
+      // Success state
+      setFormSuccess(true);
+
+      // Reset form
+      setInquiryForm({
+        fullName: '',
+        mobileNumber: '',
+        emailAddress: '',
+        deliveryLocation: '',
+        message: ''
+      });
+      setFormErrors({});
+
+      // Close form after 2 seconds
+      setTimeout(() => {
+        setShowInquiryForm(false);
+        setFormSuccess(false);
+      }, 2000);
+
     } catch (error) {
-      console.error("Submission Error:", error);
-      setFormErrors({ submit: "Failed to send inquiry. Please try again." });
+      console.error('Error submitting inquiry:', error);
+      setFormErrors({ submit: 'Failed to submit inquiry. Please try again.' });
     } finally {
       setFormSubmitting(false);
     }
@@ -169,7 +280,7 @@ const ProductDetailPage = () => {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="relative">
-          <div className="w-20 h-20 border-4 border-orange-200 border-t-orange-500 rounded-full animate-spin"></div>
+          <div className="w-20 h-20 border-4 border-red-200 border-t-red-500 rounded-full animate-spin"></div>
           <p className="absolute -bottom-10 left-1/2 transform -translate-x-1/2 text-gray-600 whitespace-nowrap">
             Loading product details...
           </p>
@@ -187,7 +298,7 @@ const ProductDetailPage = () => {
       >
         <div className="text-center">
           <div className="relative inline-block">
-            <div className="absolute inset-0 bg-orange-100 rounded-full blur-3xl opacity-30"></div>
+            <div className="absolute inset-0 bg-red-100 rounded-full blur-3xl opacity-30"></div>
             <svg className="w-32 h-32 mx-auto text-gray-400 relative" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
             </svg>
@@ -196,7 +307,7 @@ const ProductDetailPage = () => {
           <p className="text-gray-600 mt-2 mb-6">The product you're looking for doesn't exist or is unavailable.</p>
           <button
             onClick={() => navigate('/products')}
-            className="px-6 py-3 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors"
+            className="px-6 py-3 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors"
           >
             Browse All Products
           </button>
@@ -211,7 +322,8 @@ const ProductDetailPage = () => {
       <div className="min-h-screen bg-stone-50 text-stone-800" style={{ fontFamily: "'Jost', sans-serif" }}>
         <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600;1,700&family=Jost:wght@300;400;500;600;700&display=swap');
-        .font-serif { font-family: 'Cormorant Garamond', Georgia, serif !important; }
+        .font-serif { font-family: 'Cormorant Garamond', serif; }
+        .font-sans { font-family: 'Jost', sans-serif; }
         html { scroll-behavior: smooth; }
         @keyframes floatA { 0%,100%{transform:translateY(0) rotate(0deg)} 50%{transform:translateY(-14px) rotate(3deg)} }
         @keyframes floatB { 0%,100%{transform:translateY(0) rotate(0deg)} 50%{transform:translateY(-10px) rotate(-2deg)} }
@@ -227,7 +339,7 @@ const ProductDetailPage = () => {
         .section-reveal { opacity:0; transform:translateY(40px); transition: opacity 0.8s cubic-bezier(0.22,1,0.36,1), transform 0.8s cubic-bezier(0.22,1,0.36,1); }
         .section-reveal.visible { opacity:1; transform:translateY(0); }
         .brick-hover { transition: transform 0.4s cubic-bezier(0.22,1,0.36,1), box-shadow 0.4s ease; }
-        .brick-hover:hover { transform: translateY(-10px) rotate(-1.5deg); box-shadow: 0 30px 60px rgba(234,88,12,0.18); }
+        .brick-hover:hover { transform: translateY(-10px) rotate(-1.5deg); box-shadow: 0 30px 60px rgba(220,38,38,0.18); }
       `}</style>
 
         <Helmet>
@@ -240,22 +352,41 @@ const ProductDetailPage = () => {
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-white border-b border-orange-100 sticky top-0 z-30 shadow-sm"
+          className="bg-white border-b border-red-100 sticky top-0 z-30 shadow-sm"
         >
           <div className={`${pageContainerClass} py-4`}>
             <div className="flex items-center gap-2 text-sm">
-              <Link to="/" className="text-stone-500 hover:text-orange-600 transition-colors font-medium">Home</Link>
+              <Link to="/" className="text-stone-500 hover:text-red-600 transition-colors font-medium">Home</Link>
               <span className="text-stone-400">›</span>
-              <Link to="/products" className="text-stone-500 hover:text-orange-600 transition-colors font-medium">Products</Link>
+              <Link to="/products" className="text-stone-500 hover:text-red-600 transition-colors font-medium">Products</Link>
               <span className="text-stone-400">›</span>
               <span className="text-stone-900 font-semibold">{product?.name}</span>
             </div>
           </div>
         </motion.div>
 
-        <div className={`${pageContainerClass} py-12`}>
+        {/* Back to Products Button */}
+        <div className={`${pageContainerClass} pt-12 pb-0`}>
+          <button
+            onClick={() => navigate('/products')}
+            className="flex items-center gap-2 text-red-600 hover:text-red-800 font-semibold transition-all group"
+          >
+            <svg
+              className="w-5 h-5 transition-transform group-hover:-translate-x-1"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+            Back to Products
+          </button>
+        </div>
+
+        <div className={`${pageContainerClass} py-12 relative`}>
+          <BrickWall opacity={0.05} color="#8B4513" />
           {/* Main Product Section */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 mb-20">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 mb-20 relative z-10">
             {/* Image Gallery */}
             <motion.div
               initial={{ opacity: 0, x: -40 }}
@@ -264,7 +395,7 @@ const ProductDetailPage = () => {
             >
               <div className="sticky top-32">
                 {/* Main Image */}
-                <div className="relative rounded-2xl overflow-hidden bg-white shadow-2xl shadow-orange-200/50 mb-6 group brick-hover">
+                <div className="relative rounded-2xl overflow-hidden bg-white shadow-2xl shadow-red-200/50 mb-6 group brick-hover">
                   <img
                     src={productImages[selectedImage]}
                     alt={product.name}
@@ -273,8 +404,8 @@ const ProductDetailPage = () => {
 
                   {/* Category Badge */}
                   <div className="absolute top-6 left-6">
-                    <span className="px-4 py-2 bg-orange-600 text-white font-bold text-xs tracking-widest rounded-full shadow-lg">
-                      {product.productType}
+                    <span className="px-4 py-2 bg-red-600 text-white font-bold text-xs tracking-widest rounded-full shadow-lg">
+                      {product.category}
                     </span>
                   </div>
 
@@ -298,8 +429,8 @@ const ProductDetailPage = () => {
                       whileTap={{ scale: 0.92 }}
                       onClick={() => setSelectedImage(index)}
                       className={`relative rounded-xl overflow-hidden border-2 transition-all ${selectedImage === index
-                        ? 'border-orange-600 shadow-lg shadow-orange-200'
-                        : 'border-stone-200 hover:border-orange-400'
+                          ? 'border-red-600 shadow-lg shadow-red-200'
+                          : 'border-stone-200 hover:border-red-400'
                         }`}
                     >
                       <img src={img} alt={`View ${index + 1}`} className="w-full h-24 object-cover" />
@@ -315,39 +446,32 @@ const ProductDetailPage = () => {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
             >
-              <div className="bg-white rounded-2xl shadow-2xl shadow-orange-200/50 p-10">
-                {/* Title & Rating */}
-                <h1 className="text-5xl font-serif font-bold text-stone-900 mb-2">{product.productName}</h1>
+              <div className="bg-white rounded-2xl shadow-2xl shadow-red-200/50 p-10">
+                {/* Title */}
+                <h1 className="text-5xl font-serif font-bold text-stone-900 mb-2">{product.name}</h1>
 
-                <div className="flex items-center gap-4 mb-8 pb-8 border-b border-orange-100">
-                  <div className="flex items-center gap-1">
-                    {[1, 2, 3, 4, 5].map((star) => (
-                      <svg key={star} className="w-5 h-5 text-yellow-500 fill-current" viewBox="0 0 20 20">
-                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                      </svg>
-                    ))}
-                  </div>
-                  <span className="text-stone-600 font-medium">(124 reviews)</span>
-                  <span className="text-stone-300">|</span>
-                  <span className="text-emerald-600 font-semibold tracking-wide">In Stock</span>
+                <div className="flex items-center gap-4 mb-8 pb-8 border-b border-red-100">
+                  <span className={`font-semibold tracking-wide ${product.inStock ? 'text-emerald-600' : 'text-red-600'}`}>
+                    {product.inStock ? 'In Stock' : 'Out of Stock'}
+                  </span>
                 </div>
 
                 {/* Quick Specs */}
                 <div className="grid grid-cols-2 gap-6 mb-10">
-                  <div className="bg-gradient-to-br from-orange-50 to-yellow-50 p-6 rounded-2xl border border-orange-100">
-                    <p className="text-xs font-semibold text-orange-600 mb-2 tracking-widest uppercase">Strength</p>
+                  <div className="bg-gradient-to-br from-red-50 to-yellow-50 p-6 rounded-2xl border border-red-100">
+                    <p className="text-xs font-semibold text-red-600 mb-2 tracking-widest uppercase">Strength</p>
                     <p className="text-xl font-bold text-stone-900">{product.specifications.strength}</p>
                   </div>
-                  <div className="bg-gradient-to-br from-orange-50 to-yellow-50 p-6 rounded-2xl border border-orange-100">
-                    <p className="text-xs font-semibold text-orange-600 mb-2 tracking-widest uppercase">Size</p>
+                  <div className="bg-gradient-to-br from-red-50 to-yellow-50 p-6 rounded-2xl border border-red-100">
+                    <p className="text-xs font-semibold text-red-600 mb-2 tracking-widest uppercase">Size</p>
                     <p className="text-xl font-bold text-stone-900">{product.specifications.size}</p>
                   </div>
-                  <div className="bg-gradient-to-br from-orange-50 to-yellow-50 p-6 rounded-2xl border border-orange-100">
-                    <p className="text-xs font-semibold text-orange-600 mb-2 tracking-widest uppercase">Weight</p>
+                  <div className="bg-gradient-to-br from-red-50 to-yellow-50 p-6 rounded-2xl border border-red-100">
+                    <p className="text-xs font-semibold text-red-600 mb-2 tracking-widest uppercase">Weight</p>
                     <p className="text-xl font-bold text-stone-900">{product.specifications.weight}</p>
                   </div>
-                  <div className="bg-gradient-to-br from-orange-50 to-yellow-50 p-6 rounded-2xl border border-orange-100">
-                    <p className="text-xs font-semibold text-orange-600 mb-2 tracking-widest uppercase">Water Absorption</p>
+                  <div className="bg-gradient-to-br from-red-50 to-yellow-50 p-6 rounded-2xl border border-red-100">
+                    <p className="text-xs font-semibold text-red-600 mb-2 tracking-widest uppercase">Water Absorption</p>
                     <p className="text-xl font-bold text-stone-900">{product.specifications.waterAbsorption}</p>
                   </div>
                 </div>
@@ -362,7 +486,7 @@ const ProductDetailPage = () => {
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                       onClick={() => setQuantity(Math.max(100, quantity - 100))}
-                      className="w-12 h-12 rounded-xl border-2 border-orange-200 flex items-center justify-center hover:bg-orange-50 text-stone-900 font-bold hover:border-orange-400 transition-all"
+                      className="w-12 h-12 rounded-xl border-2 border-red-200 flex items-center justify-center hover:bg-red-50 text-stone-900 font-bold hover:border-red-400 transition-all"
                     >
                       −
                     </motion.button>
@@ -370,7 +494,7 @@ const ProductDetailPage = () => {
                       type="number"
                       value={quantity}
                       onChange={(e) => setQuantity(Math.max(100, parseInt(e.target.value) || 100))}
-                      className="flex-1 px-6 py-3 border-2 border-orange-200 rounded-xl text-center text-lg font-semibold text-stone-900 focus:ring-2 focus:ring-orange-600 focus:border-transparent transition-all"
+                      className="flex-1 px-6 py-3 border-2 border-red-200 rounded-xl text-center text-lg font-semibold text-stone-900 focus:ring-2 focus:ring-red-600 focus:border-transparent transition-all"
                       min="100"
                       step="100"
                     />
@@ -378,7 +502,7 @@ const ProductDetailPage = () => {
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                       onClick={() => setQuantity(quantity + 100)}
-                      className="w-12 h-12 rounded-xl border-2 border-orange-200 flex items-center justify-center hover:bg-orange-50 text-stone-900 font-bold hover:border-orange-400 transition-all"
+                      className="w-12 h-12 rounded-xl border-2 border-red-200 flex items-center justify-center hover:bg-red-50 text-stone-900 font-bold hover:border-red-400 transition-all"
                     >
                       +
                     </motion.button>
@@ -388,10 +512,10 @@ const ProductDetailPage = () => {
                 {/* Action Buttons */}
                 <div className="flex gap-5 mb-10">
                   <motion.button
-                    whileHover={{ scale: 1.02, boxShadow: "0 20px 25px -5px rgba(234, 88, 12, 0.3)" }}
+                    whileHover={{ scale: 1.02, boxShadow: "0 20px 25px -5px rgba(220, 38, 38, 0.3)" }}
                     whileTap={{ scale: 0.98 }}
                     onClick={() => setShowInquiryForm(true)}
-                    className="flex-1 px-8 py-5 bg-orange-600 text-white rounded-2xl hover:bg-orange-700 transition-all font-bold text-lg tracking-wide shadow-lg flex items-center justify-center gap-3"
+                    className="flex-1 px-8 py-5 bg-red-600 text-white rounded-2xl hover:bg-red-700 transition-all font-bold text-lg tracking-wide shadow-lg flex items-center justify-center gap-3"
                   >
                     <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
@@ -401,7 +525,7 @@ const ProductDetailPage = () => {
                 </div>
 
                 {/* Key Features */}
-                <div className="border-t-2 border-orange-100 pt-8">
+                <div className="border-t-2 border-red-100 pt-8">
                   <h3 className="font-serif text-2xl font-bold text-stone-900 mb-6">Key Features</h3>
                   <div className="grid grid-cols-2 gap-4">
                     {[
@@ -412,7 +536,7 @@ const ProductDetailPage = () => {
                       'Perfect Finish',
                       'Thermal Insulation'
                     ].map((feature, index) => (
-                      <div key={index} className="flex items-center gap-3 p-3 bg-orange-50 rounded-xl border border-orange-100">
+                      <div key={index} className="flex items-center gap-3 p-3 bg-red-50 rounded-xl border border-red-100">
                         <svg className="w-6 h-6 text-emerald-600 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                           <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                         </svg>
@@ -426,15 +550,16 @@ const ProductDetailPage = () => {
           </div>
 
           {/* Tabs Section */}
-          <div>
+          <div className="relative">
+            <BrickWall opacity={0.05} color="#8B4513" />
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.4 }}
-              className="bg-white rounded-2xl shadow-2xl shadow-orange-200/50 overflow-hidden mb-20"
+              className="bg-white rounded-2xl shadow-2xl shadow-red-200/50 overflow-hidden mb-20 relative z-10"
             >
               {/* Tab Headers */}
-              <div className="flex border-b-2 border-orange-100">
+              <div className="flex border-b-2 border-red-100">
                 {[
                   {
                     id: 'description',
@@ -442,15 +567,6 @@ const ProductDetailPage = () => {
                     icon: (
                       <svg className="w-5 h-5 inline mr-2" fill="currentColor" viewBox="0 0 20 20">
                         <path d="M4 4a2 2 0 012-2h8a2 2 0 012 2v12a1 1 0 110 2h-3.5a1 1 0 01-.82-.4l-2.09-2.59a1 1 0 00-.78-.4H4a2 2 0 01-2-2V4z" />
-                      </svg>
-                    )
-                  },
-                  {
-                    id: 'specifications',
-                    label: 'Specifications',
-                    icon: (
-                      <svg className="w-5 h-5 inline mr-2" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h1a1 1 0 001-1v-6a1 1 0 00-1-1h-1z" />
                       </svg>
                     )
                   },
@@ -477,8 +593,8 @@ const ProductDetailPage = () => {
                     key={tab.id}
                     onClick={() => setActiveTab(tab.id)}
                     className={`flex-1 px-6 py-5 font-semibold transition-all relative ${activeTab === tab.id
-                      ? 'text-orange-600'
-                      : 'text-stone-600 hover:text-stone-800 hover:bg-stone-50'
+                        ? 'text-red-600'
+                        : 'text-stone-600 hover:text-stone-800 hover:bg-stone-50'
                       }`}
                   >
                     <span className="mr-2">{typeof tab.icon === 'string' ? tab.icon : tab.icon}</span>
@@ -486,7 +602,7 @@ const ProductDetailPage = () => {
                     {activeTab === tab.id && (
                       <motion.div
                         layoutId="activeTab"
-                        className="absolute bottom-0 left-0 right-0 h-1 bg-orange-600"
+                        className="absolute bottom-0 left-0 right-0 h-1 bg-red-600"
                       />
                     )}
                   </button>
@@ -518,8 +634,8 @@ const ProductDetailPage = () => {
                             'Sound insulation capabilities',
                             'Environmentally sustainable'
                           ].map((benefit, index) => (
-                            <li key={index} className="flex items-center gap-3 text-stone-700 p-3 bg-orange-50 rounded-xl border border-orange-100">
-                              <svg className="w-6 h-6 text-orange-600 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                            <li key={index} className="flex items-center gap-3 text-stone-700 p-3 bg-red-50 rounded-xl border border-red-100">
+                              <svg className="w-6 h-6 text-emerald-600 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                                 <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                               </svg>
                               {benefit}
@@ -529,29 +645,21 @@ const ProductDetailPage = () => {
                       </div>
                     )}
 
-                    {activeTab === 'specifications' && (
-                      <div>
-                        <h3 className="text-3xl font-serif font-bold text-stone-900 mb-8">Technical Specifications</h3>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                          {Object.entries(product.specifications).map(([key, value]) => (
-                            <div key={key} className="flex justify-between items-center p-6 bg-gradient-to-br from-orange-50 to-yellow-50 rounded-2xl border border-orange-100">
-                              <span className="text-stone-700 font-medium capitalize">{key.replace(/([A-Z])/g, ' $1')}</span>
-                              <span className="font-bold text-stone-900 text-lg">{value}</span>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-
                     {activeTab === 'applications' && (
                       <div>
                         <h3 className="text-3xl font-serif font-bold text-stone-900 mb-8">Ideal Applications</h3>
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
                           {product.applicationAreas.map((area, index) => (
-                            <div key={index} className="text-center p-8 bg-gradient-to-br from-orange-50 to-yellow-50 rounded-2xl hover:shadow-xl transition-all border border-orange-100 hover:border-orange-300">
-                              <div className="text-4xl mb-4">🏗️</div>
-                              <span className="font-semibold text-stone-900">{area}</span>
-                            </div>
+                            <motion.div
+                              key={index}
+                              whileHover={{ y: -8 }}
+                              className="text-center p-8 bg-gradient-to-br from-red-50 to-yellow-50 rounded-2xl hover:shadow-xl transition-all duration-300 border border-red-100 hover:border-red-300 group"
+                            >
+                              <div className="flex items-center justify-center mb-4 h-16 transition-transform duration-300 group-hover:scale-110">
+                                {getApplicationIcon(area)}
+                              </div>
+                              <span className="font-semibold text-stone-900 text-sm md:text-base leading-tight">{area}</span>
+                            </motion.div>
                           ))}
                         </div>
                         <p className="mt-8 text-sm text-stone-500 italic text-center">
@@ -564,7 +672,7 @@ const ProductDetailPage = () => {
                       <div>
                         <h3 className="text-3xl font-serif font-bold text-stone-900 mb-6">Manufacturing Process</h3>
                         <div className="flex items-center gap-3 mb-8">
-                          <span className="px-5 py-2 bg-orange-100 text-orange-700 rounded-full text-sm font-semibold tracking-wide">
+                          <span className="px-5 py-2 bg-red-100 text-red-700 rounded-full text-sm font-semibold tracking-wide">
                             {product.manufacturingType}
                           </span>
                         </div>
@@ -584,8 +692,8 @@ const ProductDetailPage = () => {
                               { step: 'Drying & Curing', desc: 'Controlled environment drying for optimal strength' },
                               { step: 'Final Inspection', desc: 'Each batch tested for strength, absorption, and dimensions' }
                             ].map((item, index) => (
-                              <div key={index} className="flex gap-5 p-5 bg-orange-50 rounded-xl border border-orange-100">
-                                <div className="w-8 h-8 bg-orange-600 text-white rounded-full flex items-center justify-center font-bold shrink-0">
+                              <div key={index} className="flex gap-5 p-5 bg-red-50 rounded-xl border border-red-100">
+                                <div className="w-8 h-8 bg-red-600 text-white rounded-full flex items-center justify-center font-bold shrink-0">
                                   {index + 1}
                                 </div>
                                 <div>
@@ -604,98 +712,17 @@ const ProductDetailPage = () => {
             </motion.div>
           </div>
 
-          {/* Reviews Section */}
-          <div className="mb-20">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.5 }}
-              className="bg-white rounded-2xl shadow-2xl shadow-orange-200/50 p-12"
-            >
-              <h2 className="text-4xl font-serif font-bold text-stone-900 mb-10">Customer Reviews</h2>
 
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
-                {/* Rating Summary */}
-                <div className="flex flex-col items-center justify-center p-8 bg-gradient-to-br from-orange-50 to-yellow-50 rounded-2xl border border-orange-100">
-                  <div className="text-6xl font-serif font-bold text-orange-600 mb-4">{product.rating}</div>
-                  <div className="flex items-center gap-1 mb-4">
-                    {[...Array(5)].map((_, i) => (
-                      <span key={i} className={`text-3xl ${i < Math.floor(product.rating) ? 'text-yellow-500' : 'text-stone-300'}`}>
-                        ★
-                      </span>
-                    ))}
-                  </div>
-                  <p className="text-stone-700 text-center font-medium">Based on {product.reviews} reviews</p>
-
-                  {/* Rating Breakdown */}
-                  <div className="mt-8 w-full space-y-3">
-                    {[5, 4, 3, 2, 1].map((rating) => {
-                      const percentage = Math.random() * 100 | 0; // Simulate percentages
-                      return (
-                        <div key={rating} className="flex items-center gap-3">
-                          <span className="text-sm font-medium text-stone-700 w-8">{rating}★</span>
-                          <div className="flex-1 h-2 bg-stone-200 rounded-full overflow-hidden">
-                            <div
-                              className="h-full bg-yellow-500 transition-all duration-300"
-                              style={{ width: `${percentage}%` }}
-                            ></div>
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-
-                {/* Reviews List */}
-                <div className="lg:col-span-2 space-y-6">
-                  {[
-                    { name: 'Rajesh Kumar', rating: 5, date: '2 weeks ago', text: 'Excellent quality bricks! Perfect for our residential project. Highly recommended.' },
-                    { name: 'Amit Singh', rating: 5, date: '1 month ago', text: 'Best bricks in the market. Strong, durable, and great customer support.' },
-                    { name: 'Priya Patel', rating: 4, date: '1.5 months ago', text: 'Good quality and reasonable prices. Delivery was on time.' }
-                  ].map((review, index) => (
-                    <motion.div
-                      key={index}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: index * 0.1 }}
-                      className="border-b-2 border-orange-100 pb-8 last:border-b-0"
-                    >
-                      <div className="flex items-start justify-between mb-4">
-                        <div>
-                          <h4 className="font-semibold text-stone-900 text-lg">{review.name}</h4>
-                          <p className="text-sm text-stone-600">{review.date}</p>
-                        </div>
-                        <div className="flex gap-1">
-                          {[...Array(5)].map((_, i) => (
-                            <span key={i} className={`text-xl ${i < review.rating ? 'text-yellow-500' : 'text-stone-300'}`}>
-                              ★
-                            </span>
-                          ))}
-                        </div>
-                      </div>
-                      <p className="text-stone-700 leading-relaxed">{review.text}</p>
-                    </motion.div>
-                  ))}
-
-                  <motion.button
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    className="w-full mt-8 px-6 py-4 border-2 border-orange-300 text-orange-600 rounded-2xl hover:bg-orange-50 transition-all font-semibold text-lg tracking-wide"
-                  >
-                    View All Reviews
-                  </motion.button>
-                </div>
-              </div>
-            </motion.div>
-          </div>
 
           {/* Related Products */}
           {relatedProducts.length > 0 && (
-            <div className="mb-20">
+            <div className="mb-20 relative">
+              <BrickWall opacity={0.05} color="#8B4513" />
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.6 }}
+                className="relative z-10"
               >
                 <h2 className="text-4xl font-serif font-bold text-stone-900 mb-12">Related Products</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -709,7 +736,7 @@ const ProductDetailPage = () => {
                       onClick={() => navigate(`/product/${related.id}`)}
                       className="cursor-pointer group"
                     >
-                      <div className="bg-white rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl hover:shadow-orange-200/50 transition-all">
+                      <div className="bg-white rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl hover:shadow-red-200/50 transition-all">
                         <div className="relative h-56 overflow-hidden bg-stone-100">
                           <img
                             src={related.image || '/images/default-brick.jpg'}
@@ -719,7 +746,7 @@ const ProductDetailPage = () => {
                           <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                         </div>
                         <div className="p-6">
-                          <h3 className="font-serif font-bold text-stone-900 mb-3 text-lg group-hover:text-orange-600 transition-colors">
+                          <h3 className="font-serif font-bold text-stone-900 mb-3 text-lg group-hover:text-red-600 transition-colors">
                             {related.name}
                           </h3>
                           <p className="text-sm text-stone-600 line-clamp-2">{related.shortDescription}</p>
@@ -746,7 +773,7 @@ const ProductDetailPage = () => {
                   initial={{ scale: 0.9, opacity: 0, y: 20 }}
                   animate={{ scale: 1, opacity: 1, y: 0 }}
                   exit={{ scale: 0.9, opacity: 0, y: 20 }}
-                  className="bg-white rounded-2xl max-w-lg w-full p-8 shadow-2xl shadow-orange-200/50 max-h-[90vh] overflow-y-auto"
+                  className="bg-white rounded-2xl max-w-lg w-full p-8 shadow-2xl shadow-red-200/50 max-h-[90vh] overflow-y-auto"
                   onClick={(e) => e.stopPropagation()}
                 >
                   {formSuccess ? (
@@ -768,7 +795,7 @@ const ProductDetailPage = () => {
                       <div className="flex items-start justify-between mb-6">
                         <div>
                           <h3 className="text-2xl font-serif font-bold text-stone-900">Get Quote</h3>
-                          <p className="text-orange-600 font-semibold mt-1">{product?.name}</p>
+                          <p className="text-red-600 font-semibold mt-1">{product?.name}</p>
                         </div>
                         <button
                           onClick={handleCloseForm}
@@ -791,8 +818,8 @@ const ProductDetailPage = () => {
                             onChange={handleFormChange}
                             placeholder="Enter your full name"
                             className={`w-full px-4 py-3 border-2 rounded-lg transition-all text-stone-900 placeholder:text-stone-400 focus:outline-none ${formErrors.fullName
-                              ? 'border-red-500 focus:ring-2 focus:ring-red-300'
-                              : 'border-orange-200 focus:ring-2 focus:ring-orange-600 focus:border-transparent'
+                                ? 'border-red-500 focus:ring-2 focus:ring-red-300'
+                                : 'border-red-200 focus:ring-2 focus:ring-red-600 focus:border-transparent'
                               }`}
                           />
                           {formErrors.fullName && (
@@ -812,8 +839,8 @@ const ProductDetailPage = () => {
                             onChange={handleFormChange}
                             placeholder="10-digit mobile number"
                             className={`w-full px-4 py-3 border-2 rounded-lg transition-all text-stone-900 placeholder:text-stone-400 focus:outline-none ${formErrors.mobileNumber
-                              ? 'border-red-500 focus:ring-2 focus:ring-red-300'
-                              : 'border-orange-200 focus:ring-2 focus:ring-orange-600 focus:border-transparent'
+                                ? 'border-red-500 focus:ring-2 focus:ring-red-300'
+                                : 'border-red-200 focus:ring-2 focus:ring-red-600 focus:border-transparent'
                               }`}
                           />
                           {formErrors.mobileNumber && (
@@ -833,8 +860,8 @@ const ProductDetailPage = () => {
                             onChange={handleFormChange}
                             placeholder="your.email@example.com"
                             className={`w-full px-4 py-3 border-2 rounded-lg transition-all text-stone-900 placeholder:text-stone-400 focus:outline-none ${formErrors.emailAddress
-                              ? 'border-red-500 focus:ring-2 focus:ring-red-300'
-                              : 'border-orange-200 focus:ring-2 focus:ring-orange-600 focus:border-transparent'
+                                ? 'border-red-500 focus:ring-2 focus:ring-red-300'
+                                : 'border-red-200 focus:ring-2 focus:ring-red-600 focus:border-transparent'
                               }`}
                           />
                           {formErrors.emailAddress && (
@@ -851,7 +878,7 @@ const ProductDetailPage = () => {
                             type="number"
                             value={quantity}
                             readOnly
-                            className="w-full px-4 py-3 border-2 border-orange-200 rounded-lg bg-orange-50 text-stone-900 font-medium cursor-not-allowed"
+                            className="w-full px-4 py-3 border-2 border-red-200 rounded-lg bg-red-50 text-stone-900 font-medium cursor-not-allowed"
                           />
                           <p className="mt-1 text-xs text-stone-500">Quantity from product page: {quantity.toLocaleString()} units</p>
                         </div>
@@ -865,7 +892,7 @@ const ProductDetailPage = () => {
                             value={inquiryForm.deliveryLocation}
                             onChange={handleFormChange}
                             placeholder="Enter delivery address or city"
-                            className="w-full px-4 py-3 border-2 border-orange-200 rounded-lg focus:ring-2 focus:ring-orange-600 focus:border-transparent transition-all text-stone-900 placeholder:text-stone-400 focus:outline-none"
+                            className="w-full px-4 py-3 border-2 border-red-200 rounded-lg focus:ring-2 focus:ring-red-600 focus:border-transparent transition-all text-stone-900 placeholder:text-stone-400 focus:outline-none"
                           />
                         </div>
 
@@ -878,7 +905,7 @@ const ProductDetailPage = () => {
                             onChange={handleFormChange}
                             rows="3"
                             placeholder="Any special requirements or queries?"
-                            className="w-full px-4 py-3 border-2 border-orange-200 rounded-lg focus:ring-2 focus:ring-orange-600 focus:border-transparent transition-all text-stone-900 placeholder:text-stone-400 focus:outline-none resize-none"
+                            className="w-full px-4 py-3 border-2 border-red-200 rounded-lg focus:ring-2 focus:ring-red-600 focus:border-transparent transition-all text-stone-900 placeholder:text-stone-400 focus:outline-none resize-none"
                           ></textarea>
                         </div>
 
@@ -902,7 +929,7 @@ const ProductDetailPage = () => {
                             disabled={formSubmitting}
                             whileHover={{ scale: formSubmitting ? 1 : 1.02 }}
                             whileTap={{ scale: formSubmitting ? 1 : 0.98 }}
-                            className="flex-1 px-6 py-3 bg-gradient-to-r from-orange-600 to-orange-700 text-white rounded-lg hover:shadow-lg hover:shadow-orange-600/30 transition-all font-bold tracking-wide disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                            className="flex-1 px-6 py-3 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-lg hover:shadow-lg hover:shadow-red-600/30 transition-all font-bold tracking-wide disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                           >
                             {formSubmitting ? (
                               <>
