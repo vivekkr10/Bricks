@@ -55,9 +55,13 @@ const ProductCard = ({ product, viewMode }) => {
             {/* Badges */}
             <div className="absolute inset-0 p-4 flex flex-col justify-between">
               <div className="flex flex-col gap-2">
-                {product.inStock && (
+                {product.inStock ? (
                   <span className="px-4 py-1.5 bg-emerald-600 text-white text-xs font-semibold rounded-full shadow-lg w-fit">
                     In Stock
+                  </span>
+                ) : (
+                  <span className="px-4 py-1.5 bg-red-600 text-white text-xs font-semibold rounded-full shadow-lg w-fit">
+                    Out of Stock
                   </span>
                 )}
               </div>
@@ -81,11 +85,6 @@ const ProductCard = ({ product, viewMode }) => {
               </Link>
               
               <p className="text-stone-600 text-xs mb-2 line-clamp-1 font-light">{product.shortDescription}</p>
-              
-              {/* Rating */}
-              <div className="mb-2">
-                <StarRating rating={product.rating} reviews={product.reviews} />
-              </div>
 
               {/* Quick Features */}
               <div className="grid grid-cols-3 gap-2 mb-2">
@@ -162,9 +161,13 @@ const ProductCard = ({ product, viewMode }) => {
         {/* Badges */}
         <div className="absolute inset-0 p-4 flex flex-col justify-between">
           <div className="flex flex-col gap-2">
-            {product.inStock && (
+            {product.inStock ? (
               <span className="px-3 py-1.5 bg-emerald-600 text-white text-xs font-semibold rounded-full shadow-lg w-fit">
                 In Stock
+              </span>
+            ) : (
+              <span className="px-3 py-1.5 bg-red-600 text-white text-xs font-semibold rounded-full shadow-lg w-fit">
+                Out of Stock
               </span>
             )}
           </div>
@@ -188,11 +191,6 @@ const ProductCard = ({ product, viewMode }) => {
           </Link>
           
           <p className="text-stone-600 text-xs mb-2 line-clamp-1 font-light">{product.shortDescription}</p>
-          
-          {/* Rating */}
-          <div className="mb-3">
-            <StarRating rating={product.rating} reviews={product.reviews} />
-          </div>
 
             {/* Quick Features Grid */}
             <div className="grid grid-cols-2 gap-1 mb-3">

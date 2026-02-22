@@ -96,7 +96,7 @@ const productsData = [
     active: true,
     rating: 4.6,
     reviews: 189,
-    inStock: true
+    inStock: false
   },
   {
     id: 3,
@@ -243,7 +243,7 @@ const productsData = [
     active: true,
     rating: 4.8,
     reviews: 67,
-    inStock: true
+    inStock: false
   },
   {
     id: 6,
@@ -339,7 +339,7 @@ const productsData = [
     active: true,
     rating: 4.9,
     reviews: 34,
-    inStock: true
+    inStock: false
   },
   {
     id: 8,

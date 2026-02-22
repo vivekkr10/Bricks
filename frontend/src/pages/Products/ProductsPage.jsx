@@ -291,8 +291,8 @@ const ProductsPage = () => {
       subtitle: "Coastal Refined",
       image: "https://imgs.search.brave.com/cVKg0qRTU0NxldwO6Cj0GEndkVFr0J7T3AesG249Plo/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9saXJw/LmNkbi13ZWJzaXRl/LmNvbS9kNjI0MTM3/Ny9kbXMzcmVwL211/bHRpL29wdC9wZ2gt/YnJpY2tzXy1zaG9y/ZWxpbmVfZWxraG9y/bl8yMzB4MTEweDc2/LTE5MjB3LmpwZw",
       overlay: "bg-black/30",
-      titleClass: "text-stone-900",
-      subtitleClass: "text-stone-700"
+      titleClass: "text-white",
+      subtitleClass: "text-white"
     },
     {
       title: "Yellows",
@@ -325,7 +325,8 @@ const ProductsPage = () => {
     <div className="min-h-screen bg-stone-50 text-stone-800" style={{ fontFamily: "'Jost', sans-serif" }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600;1,700&family=Jost:wght@300;400;500;600;700&display=swap');
-        .font-serif { font-family: 'Cormorant Garamond', Georgia, serif !important; }
+        .font-serif { font-family: 'Cormorant Garamond', serif; }
+        .font-sans { font-family: 'Jost', sans-serif; }
         @keyframes floatA { 0%,100%{transform:translateY(0) rotate(0deg)} 50%{transform:translateY(-14px) rotate(3deg)} }
         @keyframes floatB { 0%,100%{transform:translateY(0) rotate(0deg)} 50%{transform:translateY(-10px) rotate(-2deg)} }
         @keyframes floatC { 0%,100%{transform:translateY(0) rotate(0deg)} 50%{transform:translateY(-18px) rotate(4deg)} }
@@ -749,15 +750,16 @@ const ProductsPage = () => {
                 <AnimatePresence mode="wait">
                   {filteredProducts.length > 0 ? (
                     <motion.div 
-                      key="products"
+                      key={`products-${filters.category}-${filters.applicationType}-${filters.searchQuery}-${viewMode}`}
                       variants={containerVariants}
                       initial="hidden"
                       animate="visible"
                       exit={{ opacity: 0, y: 20 }}
+                      layout
                       className={
                         viewMode === 'grid' 
-                          ? 'grid grid-cols-1 sm:grid-cols-2 2xl:grid-cols-3 gap-10 xl:gap-12'
-                          : 'flex flex-col gap-6'
+                          ? 'grid grid-cols-1 sm:grid-cols-2 2xl:grid-cols-3 gap-10 xl:gap-12 w-full'
+                          : 'flex flex-col gap-6 w-full'
                       }
                     >
                       {filteredProducts.map((product) => (
@@ -766,6 +768,7 @@ const ProductsPage = () => {
                           variants={itemVariants}
                           layout
                           transition={{ layout: { duration: 0.3 } }}
+                          className="h-full"
                         >
                           <ProductCard product={product} viewMode={viewMode} />
                         </motion.div>
@@ -795,124 +798,6 @@ const ProductsPage = () => {
               </div>
             </div>
           )}
-        </div>
-      </section>
-
-      {/* Why Choose Us Section */}
-      <section className="py-24 bg-white relative overflow-hidden">
-        <BrickWall opacity={0.07} color="#8B4513" />
-        <div className="absolute top-0 right-0 w-2/5 h-full bg-gradient-to-l from-red-50 to-transparent hidden lg:block" />
-        
-        <div className="container mx-auto px-6 sm:px-8 lg:px-10 relative z-10">
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-16"
-          >
-            <motion.h2 
-              className="font-serif text-5xl lg:text-6xl font-bold text-stone-900 mb-4"
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.1, duration: 0.7 }}
-            >
-              Why Choose{" "}
-              <motion.em 
-                className="text-red-600 not-italic inline-block"
-                initial={{ opacity: 0, scale: 0.8 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.3, duration: 0.6 }}
-              >
-                Our Bricks
-              </motion.em>
-            </motion.h2>
-            <motion.p 
-              className="text-xl text-stone-500 max-w-3xl mx-auto font-light line-animation"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.4, duration: 0.7 }}
-            >
-              Excellence built on decades of craftsmanship and innovation
-            </motion.p>
-          </motion.div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              {
-                icon: (
-                  <svg className="w-12 h-12 text-amber-600 mx-auto" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                  </svg>
-                ),
-                title: "40+ Years Excellence",
-                description: "Trusted by builders and architects across 46 countries",
-                color: "bg-amber-50"
-              },
-              {
-                icon: (
-                  <svg className="w-12 h-12 text-red-600 mx-auto" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" />
-                  </svg>
-                ),
-                title: "Quality Tested",
-                description: "Each brick undergoes rigorous quality control",
-                color: "bg-red-50"
-              },
-              {
-                icon: (
-                  <svg className="w-12 h-12 text-red-600 mx-auto" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z" />
-                  </svg>
-                ),
-               title:<AlignCenter>"Eco-Friendly"</AlignCenter>,
-                description: "Sustainable manufacturing processes",
-                color: "bg-red-50"
-              }
-            ].map((feature, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.5 + index * 0.15, duration: 0.6 }}
-                whileHover={{ y: -8 }}
-                className={`${feature.color} p-8 rounded-2xl border border-red-100 hover:shadow-xl hover:border-red-300 transition-all cursor-default h-full flex flex-col items-center justify-center text-center`}
-              >
-                <motion.div 
-                  className="mb-4"
-                  initial={{ opacity: 0, scale: 0 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.5 + index * 0.15 + 0.1, duration: 0.5, type: "spring" }}
-                  whileHover={{ rotate: 6, scale: 1.1 }}
-                >
-                  {feature.icon}
-                </motion.div>
-                <motion.h3 
-                  className="font-serif text-2xl font-bold text-stone-900 mb-2 text-center"
-                  initial={{ opacity: 0, y: 10 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.5 + index * 0.15 + 0.15, duration: 0.5 }}
-                >
-                  {feature.title}
-                </motion.h3>
-                <motion.p 
-                  className="text-stone-600 font-light text-center"
-                  initial={{ opacity: 0, y: 10 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.5 + index * 0.15 + 0.2, duration: 0.5 }}
-                >
-                  {feature.description}
-                </motion.p>
-              </motion.div>
-            ))}
-          </div>
         </div>
       </section>
     </div>
