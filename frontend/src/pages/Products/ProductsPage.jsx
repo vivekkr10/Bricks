@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { AlignCenter } from "lucide-react";
 import { motion, AnimatePresence } from 'framer-motion';
 import { Helmet } from 'react-helmet';
 import { useNavigate } from 'react-router-dom';
@@ -8,6 +9,7 @@ import ProductSkeleton from './ProductSkeleton';
 import productsData from './productsData';
 import Header from '../../Components/header';
 import Footer from '../../Components/footer';
+import axios from "axios";
 
 // BrickWall pattern background
 const BrickWall = ({ opacity = 0.06, color = "#8B4513" }) => (
@@ -88,13 +90,34 @@ const ProductsPage = () => {
   const productsRef = useRef(null);
 
   useEffect(() => {
-    // Simulate API fetch with loading state
-    setTimeout(() => {
-      const activeProducts = productsData.filter(p => p.active);
-      setProducts(activeProducts);
-      setFilteredProducts(activeProducts);
-      setLoading(false);
-    }, 1500);
+    const fetchLiveProducts = async () => {
+      try {
+        setLoading(true);
+        const response = await axios.get("http://localhost:5000/api/products/all-products");
+
+        const activeProducts = response.data.filter(p => p.status === "Active");
+
+        const mappedProducts = activeProducts.map(p => ({
+          ...p,
+          id: p._id,
+          name: p.productName,
+          category: p.productType || 'Uncategorized',
+          applicationAreas: p.applicationAreas || [],
+          shortDescription: p.shortDescription || '',
+          image: p.image || 'https://via.placeholder.com/300',
+          specifications: p.specifications || { strength: "0" }
+        }));
+
+        setProducts(mappedProducts);
+        setFilteredProducts(mappedProducts);
+      } catch (error) {
+        console.error("Error fetching live products:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchLiveProducts();
   }, []);
 
   useEffect(() => {
@@ -111,8 +134,8 @@ const ProductsPage = () => {
 
     // Filter by application type
     if (filters.applicationType) {
-      filtered = filtered.filter(p => 
-        p.applicationAreas.some(area => 
+      filtered = filtered.filter(p =>
+        p.applicationAreas.some(area =>
           area.toLowerCase().includes(filters.applicationType.toLowerCase())
         )
       );
@@ -121,15 +144,15 @@ const ProductsPage = () => {
     // Filter by search query
     if (filters.searchQuery) {
       const query = filters.searchQuery.toLowerCase();
-      filtered = filtered.filter(p => 
-        p.name.toLowerCase().includes(query) ||
+      filtered = filtered.filter(p =>
+        p.productName.toLowerCase().includes(query) ||
         p.shortDescription.toLowerCase().includes(query) ||
         p.category.toLowerCase().includes(query)
       );
     }
 
     // Apply sorting
-    switch(sortBy) {
+    switch (sortBy) {
       case 'name-asc':
         filtered.sort((a, b) => a.name.localeCompare(b.name));
         break;
@@ -321,8 +344,8 @@ const ProductsPage = () => {
 
   return (
     <><Header />
-    <div className="min-h-screen bg-stone-50 text-stone-800" style={{ fontFamily: "'Jost', sans-serif" }}>
-      <style>{`
+      <div className="min-h-screen bg-stone-50 text-stone-800" style={{ fontFamily: "'Jost', sans-serif" }}>
+        <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600;1,700&family=Jost:wght@300;400;500;600;700&display=swap');
         .font-serif { font-family: 'Cormorant Garamond', Georgia, serif !important; }
         @keyframes floatA { 0%,100%{transform:translateY(0) rotate(0deg)} 50%{transform:translateY(-14px) rotate(3deg)} }
@@ -421,493 +444,495 @@ const ProductsPage = () => {
         @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.4;transform:scale(1.6)} }
       `}</style>
 
-      {/* Hero Section */}
-      <section className="relative overflow-hidden pt-32 pb-20" style={{
-        backgroundImage: 'url(https://imgs.search.brave.com/sbXckuXlnnLcPxZ2osxS5ZyA9Os89QVDKBCEzjgOVcc/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzA3LzM5LzcyLzAy/LzM2MF9GXzczOTcy/MDIyNV93STQxbVBn/aVR1M2JnMEFoQmJn/N2NrTW1vdXZsT2NO/NC5qcGc)',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundAttachment: 'fixed'
-      }}>
-        <BrickWall opacity={0.08} color="#8B4513" />
-        
-        {/* Background overlay for readability */}
-        <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/40 to-black/30 pointer-events-none" />
-        
-        <div className="max-w-[1500px] mx-auto px-6 sm:px-8 lg:px-10 xl:px-12 lg:pl-14 xl:pl-16 2xl:pl-20 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-20 items-center lg:items-start">
-            {/* Left Content */}
-            <motion.div
-              initial={{ opacity: 0, x: -28 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.75, ease: heroEase }}
-            >
-              {/* Premium Badge */}
-              <motion.div
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.1, duration: 0.7, ease: "easeOut" }}
-                className="inline-block mb-8"
-              >
-                <div className="flex items-center gap-3 bg-gradient-to-r from-orange-50 to-transparent border border-orange-200/60 rounded-full px-6 py-3">
-                  <span className="w-2 h-2 rounded-full bg-gradient-to-r from-orange-500 to-orange-600 animate-pulse" />
-                  <motion.span
-                    className="text-xs font-bold tracking-widest text-orange-700 uppercase inline-block"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 0.65, delay: 0.2, ease: heroEase }}
-                  >
-                    Premium Selection | 40+ Years of Excellence
-                  </motion.span>
-                </div>
-              </motion.div>
+        {/* Hero Section */}
+        <section className="relative overflow-hidden pt-32 pb-20" style={{
+          backgroundImage: 'url(https://imgs.search.brave.com/sbXckuXlnnLcPxZ2osxS5ZyA9Os89QVDKBCEzjgOVcc/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzA3LzM5LzcyLzAy/LzM2MF9GXzczOTcy/MDIyNV93STQxbVBn/aVR1M2JnMEFoQmJn/N2NrTW1vdXZsT2NO/NC5qcGc)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundAttachment: 'fixed'
+        }}>
+          <BrickWall opacity={0.08} color="#8B4513" />
 
-              {/* Main Headline */}
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.35, duration: 0.75, ease: "easeOut" }}
-              >
-                <motion.h1
-                  className="font-serif text-5xl lg:text-7xl font-bold text-white mb-6 leading-tight"
-                  style={{ fontFamily: "'Cormorant Garamond', serif" }}
-                  initial={{ opacity: 0, y: 30, scale: 0.95 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  transition={{ delay: 0.35, duration: 0.9, ease: "easeOut" }}
-                >
-                  <motion.span
-                    className="block"
-                    initial={{ opacity: 0, x: -30 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.35, duration: 0.7 }}
-                  >
-                    Exceptional Bricks
-                  </motion.span>
-                  <motion.span
-                    className="hero-gradient-shimmer hero-text-shimmer block text-transparent bg-clip-text"
-                    initial={{ opacity: 0, x: 30 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.56, duration: 0.75, ease: "easeOut" }}
-                  >
-                    Engineered for Excellence
-                  </motion.span>
-                </motion.h1>
-              </motion.div>
+          {/* Background overlay for readability */}
+          <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/40 to-black/30 pointer-events-none" />
 
-              {/* Subheading */}
-              <motion.p
-                initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}
-                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                transition={{ delay: 0.65, duration: 0.8, ease: "easeOut" }}
-                className="text-lg lg:text-xl text-white/90 font-light leading-relaxed max-w-xl mb-8 line-animation"
-              >
-                Discover our premium collection of 7 distinctive brick types, each crafted for strength, durability, and timeless architectural beauty.
-              </motion.p>
-
-              {/* Key Stats */}
+          <div className="max-w-[1500px] mx-auto px-6 sm:px-8 lg:px-10 xl:px-12 lg:pl-14 xl:pl-16 2xl:pl-20 relative z-10">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-20 items-center lg:items-start">
+              {/* Left Content */}
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.86, duration: 0.75, ease: "easeOut" }}
-                className="flex flex-col sm:flex-row gap-8 mb-10"
-              >
-                <div className="flex items-start gap-3">
-                  <div className="w-12 h-12 rounded-lg bg-orange-100 flex items-center justify-center flex-shrink-0">
-                    <svg className="w-6 h-6 text-orange-600" fill="currentColor" viewBox="0 0 20 20">
-                      <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v1h8v-1zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z" />
-                    </svg>
-                  </div>
-                  <div>
-                    <div className="font-bold text-2xl text-white">1000+</div>
-                    <div className="text-sm text-white/70">Satisfied Customers</div>
-                  </div>
-                </div>
-                
-                <div className="flex items-start gap-3">
-                  <div className="w-12 h-12 rounded-lg bg-orange-100 flex items-center justify-center flex-shrink-0">
-                    <svg className="w-6 h-6 text-orange-600" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
-                    </svg>
-                  </div>
-                  <div>
-                    <div className="font-bold text-2xl text-white">7 Types</div>
-                    <div className="text-sm text-white/70">Distinctive Colors</div>
-                  </div>
-                </div>
-              </motion.div>
-
-              {/* CTA Buttons */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 1.05, duration: 0.75, ease: "easeOut" }}
-                className="flex flex-wrap gap-4"
-              >
-                <button 
-                  onClick={() => {
-                    if (productsRef.current) {
-                      productsRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    }
-                  }}
-                  className="group relative px-8 py-4 bg-gradient-to-r from-orange-600 to-orange-700 text-white font-bold text-sm tracking-wide rounded-xl shadow-lg shadow-orange-600/30 hover:shadow-orange-600/50 hover:-translate-y-1 transition-all duration-300 overflow-hidden">
-                  <span className="relative z-10 flex items-center gap-2">
-                    Explore All Products
-                    <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                    </svg>
-                  </span>
-                </button>
-                <button 
-                  onClick={() => navigate('/contact')}
-                  className="group px-8 py-4 border-2 border-stone-300 text-stone-700 font-bold text-sm tracking-wide rounded-xl hover:border-orange-500 hover:text-orange-600 hover:bg-orange-50 transition-all duration-300">
-                  Request Catalog
-                </button>
-              </motion.div>
-            </motion.div>
-
-            {/* Right - Visual Showcase */}
-            <motion.div
-              initial={{ opacity: 0, x: 40 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
-              className="relative mt-10 lg:mt-0 w-full lg:max-w-[620px] lg:ml-auto flex flex-col"
-            >
-              <div className="absolute inset-8 bg-gradient-to-br from-orange-200/25 via-amber-100/15 to-transparent rounded-[36px] blur-3xl pointer-events-none" />
-              {/* Brick Color Preview Grid */}
-              <motion.div
-                className="brick-float-scene relative z-10 grid grid-cols-2 lg:grid-cols-3 gap-x-7 lg:gap-x-8 gap-y-8 lg:gap-y-9 place-items-center content-start pr-2 lg:pr-8 xl:pr-10"
-                variants={staggerContainerVariants}
-                initial="hidden"
-                animate="visible"
-              >
-                {brickCategoryCards.slice(0, 6).map((card, index) => {
-                  return (
-                  <motion.div
-                    key={`${card.title}-shell`}
-                    initial={{ opacity: 0, y: 24 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.65, ease: "easeOut", delay: 0.1 + index * 0.08 }}
-                    className={`w-full flex justify-center ${index >= 3 ? 'lg:mt-8' : ''} ${index === 1 ? 'lg:-mt-3 lg:z-10' : ''}`}
-                  >
-                  <motion.div
-                    key={card.title}
-                    whileHover={{
-                      scale: 1.045,
-                      y: -6,
-                      rotateX: 1.2,
-                      rotateY: 1.6,
-                      boxShadow: "0 30px 52px rgba(15, 23, 42, 0.36), 0 0 24px rgba(251, 146, 60, 0.2)"
-                    }}
-                    transition={{ duration: 0.35, ease: "easeInOut" }}
-                    className="brick-float-card relative group overflow-hidden cursor-pointer"
-                    style={{
-                      "--tilt-x": `${3 + (index % 4)}deg`,
-                      "--tilt-y": `${4 + ((index + 1) % 5)}deg`,
-                      "--tilt-x-mid": `${2 + (index % 3)}deg`,
-                      "--tilt-y-mid": `${3 + (index % 4)}deg`,
-                      "--float-delay": `${(index % 4) * 0.5}s`,
-                      "--float-duration": `${4.2 + (index % 3) * 0.6}s`,
-                      width: "100%",
-                      maxWidth: "160px",
-                      aspectRatio: "1 / 1",
-                      borderRadius: "18px",
-                      backgroundImage: `url(${card.image})`,
-                      backgroundSize: "cover",
-                      backgroundPosition: "center",
-                      boxShadow: "0 12px 24px rgba(15, 23, 42, 0.2), 0 4px 18px rgba(15, 23, 42, 0.12)",
-                      transition: "box-shadow 0.35s ease-in-out, transform 0.35s ease-in-out"
-                    }}
-                  >
-                    <div className={`absolute inset-0 ${card.overlay}`} />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-black/10 to-white/10 pointer-events-none" />
-                    <div className="relative z-10 h-full w-full flex flex-col items-center justify-center text-center px-3">
-                      <div className={`font-serif text-xl font-bold ${card.titleClass}`}>
-                        {card.title}
-                      </div>
-                      <div className={`text-xs font-semibold mt-1 ${card.subtitleClass}`}>
-                        {card.subtitle}
-                      </div>
-                    </div>
-                  </motion.div>
-                  </motion.div>
-                )})}
-              </motion.div>
-
-              {/* Floating accent box */}
-              <motion.div
-                animate={{ y: [0, -20, 0] }}
-                transition={{ duration: 4, repeat: Infinity }}
-                className="absolute -bottom-10 -right-10 w-40 h-40 bg-orange-100 rounded-full blur-3xl opacity-40 pointer-events-none"
-              />
-            </motion.div>
-          </div>
-        </div>
-        {/* Bottom divider */}
-        <div className="absolute bottom-0 left-0 right-0 translate-y-1">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 120" className="w-full h-auto">
-            <path fill="#f5f5f4" d="M0,64L60,69.3C120,75,240,85,360,80C480,75,600,53,720,53.3C840,53,960,75,1080,80C1200,85,1320,75,1380,69.3L1440,64L1440,120L1380,120C1320,120,1200,120,1080,120C960,120,840,120,720,120C600,120,480,120,360,120C240,120,120,120,60,120L0,120Z" />
-          </svg>
-        </div>
-      </section>
-
-      {/* Products Section - Sidebar + Grid Layout */}
-      <section ref={productsRef} className="py-20 relative scroll-smooth">
-        <BrickWall opacity={0.05} color="#8B4513" />
-        <div className="max-w-[1500px] mx-auto px-6 sm:px-8 lg:px-10 xl:px-12 relative z-10">
-          {loading ? (
-            <ProductSkeleton viewMode={viewMode} />
-          ) : (
-            <div className="grid grid-cols-1 lg:grid-cols-4 gap-10 xl:gap-12">
-              {/* Left Sidebar - Filters */}
-              <motion.div
-                initial={{ opacity: 0, x: -30 }}
+                initial={{ opacity: 0, x: -28 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6 }}
-                className="lg:col-span-1"
+                transition={{ duration: 0.75, ease: heroEase }}
               >
-                <div className="sticky top-32">
-                  <h3 className="font-serif text-2xl font-bold text-stone-900 mb-8">Filters</h3>
-                  <ProductFilters 
-                    filters={filters}
-                    categories={categories}
-                    onFilterChange={handleFilterChange}
-                    onClearFilters={clearFilters}
-                    viewMode={viewMode}
-                    setViewMode={setViewMode}
-                    sortBy={sortBy}
-                    setSortBy={setSortBy}
-                    totalProducts={filteredProducts.length}
-                    totalAvailable={products.length}
-                    isSidebar={true}
-                  />
-                </div>
-              </motion.div>
-
-              {/* Right Content - Products Grid */}
-              <div className="lg:col-span-3 lg:pl-6 xl:pl-10 2xl:pl-12">
-                {/* Results Summary */}
-                <motion.div 
-                  initial={{ opacity: 0, y: 20 }}
+                {/* Premium Badge */}
+                <motion.div
+                  initial={{ opacity: 0, y: -20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6 }}
-                  className="mb-12 flex justify-between items-center"
+                  transition={{ delay: 0.1, duration: 0.7, ease: "easeOut" }}
+                  className="inline-block mb-8"
                 >
-                  <div>
-                    <motion.p 
-                      className="font-serif text-3xl font-bold text-stone-900 mb-2"
-                      initial={{ opacity: 0, x: -30 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: 0.1, duration: 0.6 }}
+                  <div className="flex items-center gap-3 bg-gradient-to-r from-orange-50 to-transparent border border-orange-200/60 rounded-full px-6 py-3">
+                    <span className="w-2 h-2 rounded-full bg-gradient-to-r from-orange-500 to-orange-600 animate-pulse" />
+                    <motion.span
+                      className="text-xs font-bold tracking-widest text-orange-700 uppercase inline-block"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ duration: 0.65, delay: 0.2, ease: heroEase }}
                     >
-                      Our Collection
-                    </motion.p>
-                    <motion.p 
-                      className="text-stone-600"
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.2, duration: 0.6 }}
-                    >
-                      Showing <motion.span 
-                        className="font-semibold text-stone-900"
-                        initial={{ scale: 0.8, opacity: 0 }}
-                        animate={{ scale: 1, opacity: 1 }}
-                        transition={{ delay: 0.3, duration: 0.4 }}
-                      >
-                        {filteredProducts.length}
-                      </motion.span> of{' '}
-                      <motion.span 
-                        className="font-semibold text-stone-900"
-                        initial={{ scale: 0.8, opacity: 0 }}
-                        animate={{ scale: 1, opacity: 1 }}
-                        transition={{ delay: 0.4, duration: 0.4 }}
-                      >
-                        {products.length}
-                      </motion.span> products
-                    </motion.p>
+                      Premium Selection | 40+ Years of Excellence
+                    </motion.span>
                   </div>
-                  
-                  {filteredProducts.length === 0 && (
-                    <motion.button
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      onClick={clearFilters}
-                      className="px-6 py-3 bg-orange-600 text-white rounded-xl hover:bg-orange-700 transition-colors font-semibold"
-                    >
-                      Clear All Filters
-                    </motion.button>
-                  )}
                 </motion.div>
 
-                <AnimatePresence mode="wait">
-                  {filteredProducts.length > 0 ? (
-                    <motion.div 
-                      key="products"
-                      variants={containerVariants}
-                      initial="hidden"
-                      animate="visible"
-                      exit={{ opacity: 0, y: 20 }}
-                      className={
-                        viewMode === 'grid' 
-                          ? 'grid grid-cols-1 sm:grid-cols-2 2xl:grid-cols-3 gap-10 xl:gap-12'
-                          : 'flex flex-col gap-6'
+                {/* Main Headline */}
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.35, duration: 0.75, ease: "easeOut" }}
+                >
+                  <motion.h1
+                    className="font-serif text-5xl lg:text-7xl font-bold text-white mb-6 leading-tight"
+                    style={{ fontFamily: "'Cormorant Garamond', serif" }}
+                    initial={{ opacity: 0, y: 30, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    transition={{ delay: 0.35, duration: 0.9, ease: "easeOut" }}
+                  >
+                    <motion.span
+                      className="block"
+                      initial={{ opacity: 0, x: -30 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.35, duration: 0.7 }}
+                    >
+                      Exceptional Bricks
+                    </motion.span>
+                    <motion.span
+                      className="hero-gradient-shimmer hero-text-shimmer block text-transparent bg-clip-text"
+                      initial={{ opacity: 0, x: 30 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.56, duration: 0.75, ease: "easeOut" }}
+                    >
+                      Engineered for Excellence
+                    </motion.span>
+                  </motion.h1>
+                </motion.div>
+
+                {/* Subheading */}
+                <motion.p
+                  initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}
+                  animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                  transition={{ delay: 0.65, duration: 0.8, ease: "easeOut" }}
+                  className="text-lg lg:text-xl text-white/90 font-light leading-relaxed max-w-xl mb-8 line-animation"
+                >
+                  Discover our premium collection of 7 distinctive brick types, each crafted for strength, durability, and timeless architectural beauty.
+                </motion.p>
+
+                {/* Key Stats */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.86, duration: 0.75, ease: "easeOut" }}
+                  className="flex flex-col sm:flex-row gap-8 mb-10"
+                >
+                  <div className="flex items-start gap-3">
+                    <div className="w-12 h-12 rounded-lg bg-orange-100 flex items-center justify-center flex-shrink-0">
+                      <svg className="w-6 h-6 text-orange-600" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v1h8v-1zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z" />
+                      </svg>
+                    </div>
+                    <div>
+                      <div className="font-bold text-2xl text-white">1000+</div>
+                      <div className="text-sm text-white/70">Satisfied Customers</div>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-3">
+                    <div className="w-12 h-12 rounded-lg bg-orange-100 flex items-center justify-center flex-shrink-0">
+                      <svg className="w-6 h-6 text-orange-600" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
+                      </svg>
+                    </div>
+                    <div>
+                      <div className="font-bold text-2xl text-white">7 Types</div>
+                      <div className="text-sm text-white/70">Distinctive Colors</div>
+                    </div>
+                  </div>
+                </motion.div>
+
+                {/* CTA Buttons */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 1.05, duration: 0.75, ease: "easeOut" }}
+                  className="flex flex-wrap gap-4"
+                >
+                  <button
+                    onClick={() => {
+                      if (productsRef.current) {
+                        productsRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
                       }
-                    >
-                      {filteredProducts.map((product) => (
-                        <motion.div
-                          key={product.id}
-                          variants={itemVariants}
-                          layout
-                          transition={{ layout: { duration: 0.3 } }}
-                        >
-                          <ProductCard product={product} viewMode={viewMode} />
-                        </motion.div>
-                      ))}
-                    </motion.div>
-                  ) : (
-                    <motion.div
-                      key="no-results"
-                      initial={{ opacity: 0, scale: 0.9 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0, scale: 0.9 }}
-                      className="text-center py-20"
-                    >
-                      <div className="relative inline-block">
-                        <div className="absolute inset-0 bg-orange-100 rounded-full blur-3xl opacity-20"></div>
-                        <svg className="w-32 h-32 mx-auto text-stone-400 relative" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-                        </svg>
-                      </div>
-                      <h3 className="font-serif text-3xl font-bold text-stone-900 mt-6">No Products Found</h3>
-                      <p className="text-stone-600 mt-2 max-w-md mx-auto">
-                        Try adjusting your filters or explore our other categories.
-                      </p>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-            </div>
-          )}
-        </div>
-      </section>
+                    }}
+                    className="group relative px-8 py-4 bg-gradient-to-r from-orange-600 to-orange-700 text-white font-bold text-sm tracking-wide rounded-xl shadow-lg shadow-orange-600/30 hover:shadow-orange-600/50 hover:-translate-y-1 transition-all duration-300 overflow-hidden">
+                    <span className="relative z-10 flex items-center gap-2">
+                      Explore All Products
+                      <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                      </svg>
+                    </span>
+                  </button>
+                  <button
+                    onClick={() => navigate('/contact')}
+                    className="group px-8 py-4 border-2 border-stone-300 text-stone-700 font-bold text-sm tracking-wide rounded-xl hover:border-orange-500 hover:text-orange-600 hover:bg-orange-50 transition-all duration-300">
+                    Request Catalog
+                  </button>
+                </motion.div>
+              </motion.div>
 
-      {/* Why Choose Us Section */}
-      <section className="py-24 bg-white relative overflow-hidden">
-        <BrickWall opacity={0.07} color="#8B4513" />
-        <div className="absolute top-0 right-0 w-2/5 h-full bg-gradient-to-l from-orange-50 to-transparent hidden lg:block" />
-        
-        <div className="container mx-auto px-6 sm:px-8 lg:px-10 relative z-10">
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-16"
-          >
-            <motion.h2 
-              className="font-serif text-5xl lg:text-6xl font-bold text-stone-900 mb-4"
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.1, duration: 0.7 }}
-            >
-              Why Choose{" "}
-              <motion.em 
-                className="text-orange-600 not-italic inline-block"
-                initial={{ opacity: 0, scale: 0.8 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.3, duration: 0.6 }}
-              >
-                Our Bricks
-              </motion.em>
-            </motion.h2>
-            <motion.p 
-              className="text-xl text-stone-500 max-w-3xl mx-auto font-light line-animation"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.4, duration: 0.7 }}
-            >
-              Excellence built on decades of craftsmanship and innovation
-            </motion.p>
-          </motion.div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              {
-                icon: (
-                  <svg className="w-12 h-12 text-amber-600 mx-auto" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                  </svg>
-                ),
-                title: "40+ Years Excellence",
-                description: "Trusted by builders and architects across 46 countries",
-                color: "bg-amber-50"
-              },
-              {
-                icon: (
-                  <svg className="w-12 h-12 text-orange-600 mx-auto" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" />
-                  </svg>
-                ),
-                title: "Quality Tested",
-                description: "Each brick undergoes rigorous quality control",
-                color: "bg-orange-50"
-              },
-              {
-                icon: (
-                  <svg className="w-12 h-12 text-red-600 mx-auto" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z" />
-                  </svg>
-                ),
-               title:<AlignCenter>"Eco-Friendly"</AlignCenter>,
-                description: "Sustainable manufacturing processes",
-                color: "bg-red-50"
-              }
-            ].map((feature, index) => (
+              {/* Right - Visual Showcase */}
               <motion.div
-                key={index}
+                initial={{ opacity: 0, x: 40 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8 }}
+                className="relative mt-10 lg:mt-0 w-full lg:max-w-[620px] lg:ml-auto flex flex-col"
+              >
+                <div className="absolute inset-8 bg-gradient-to-br from-orange-200/25 via-amber-100/15 to-transparent rounded-[36px] blur-3xl pointer-events-none" />
+                {/* Brick Color Preview Grid */}
+                <motion.div
+                  className="brick-float-scene relative z-10 grid grid-cols-2 lg:grid-cols-3 gap-x-7 lg:gap-x-8 gap-y-8 lg:gap-y-9 place-items-center content-start pr-2 lg:pr-8 xl:pr-10"
+                  variants={staggerContainerVariants}
+                  initial="hidden"
+                  animate="visible"
+                >
+                  {brickCategoryCards.slice(0, 6).map((card, index) => {
+                    return (
+                      <motion.div
+                        key={`${card.title}-shell`}
+                        initial={{ opacity: 0, y: 24 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.65, ease: "easeOut", delay: 0.1 + index * 0.08 }}
+                        className={`w-full flex justify-center ${index >= 3 ? 'lg:mt-8' : ''} ${index === 1 ? 'lg:-mt-3 lg:z-10' : ''}`}
+                      >
+                        <motion.div
+                          key={card.title}
+                          whileHover={{
+                            scale: 1.045,
+                            y: -6,
+                            rotateX: 1.2,
+                            rotateY: 1.6,
+                            boxShadow: "0 30px 52px rgba(15, 23, 42, 0.36), 0 0 24px rgba(251, 146, 60, 0.2)"
+                          }}
+                          transition={{ duration: 0.35, ease: "easeInOut" }}
+                          className="brick-float-card relative group overflow-hidden cursor-pointer"
+                          style={{
+                            "--tilt-x": `${3 + (index % 4)}deg`,
+                            "--tilt-y": `${4 + ((index + 1) % 5)}deg`,
+                            "--tilt-x-mid": `${2 + (index % 3)}deg`,
+                            "--tilt-y-mid": `${3 + (index % 4)}deg`,
+                            "--float-delay": `${(index % 4) * 0.5}s`,
+                            "--float-duration": `${4.2 + (index % 3) * 0.6}s`,
+                            width: "100%",
+                            maxWidth: "160px",
+                            aspectRatio: "1 / 1",
+                            borderRadius: "18px",
+                            backgroundImage: `url(${card.image})`,
+                            backgroundSize: "cover",
+                            backgroundPosition: "center",
+                            boxShadow: "0 12px 24px rgba(15, 23, 42, 0.2), 0 4px 18px rgba(15, 23, 42, 0.12)",
+                            transition: "box-shadow 0.35s ease-in-out, transform 0.35s ease-in-out"
+                          }}
+                        >
+                          <div className={`absolute inset-0 ${card.overlay}`} />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-black/10 to-white/10 pointer-events-none" />
+                          <div className="relative z-10 h-full w-full flex flex-col items-center justify-center text-center px-3">
+                            <div className={`font-serif text-xl font-bold ${card.titleClass}`}>
+                              {card.title}
+                            </div>
+                            <div className={`text-xs font-semibold mt-1 ${card.subtitleClass}`}>
+                              {card.subtitle}
+                            </div>
+                          </div>
+                        </motion.div>
+                      </motion.div>
+                    )
+                  })}
+                </motion.div>
+
+                {/* Floating accent box */}
+                <motion.div
+                  animate={{ y: [0, -20, 0] }}
+                  transition={{ duration: 4, repeat: Infinity }}
+                  className="absolute -bottom-10 -right-10 w-40 h-40 bg-orange-100 rounded-full blur-3xl opacity-40 pointer-events-none"
+                />
+              </motion.div>
+            </div>
+          </div>
+          {/* Bottom divider */}
+          <div className="absolute bottom-0 left-0 right-0 translate-y-1">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 120" className="w-full h-auto">
+              <path fill="#f5f5f4" d="M0,64L60,69.3C120,75,240,85,360,80C480,75,600,53,720,53.3C840,53,960,75,1080,80C1200,85,1320,75,1380,69.3L1440,64L1440,120L1380,120C1320,120,1200,120,1080,120C960,120,840,120,720,120C600,120,480,120,360,120C240,120,120,120,60,120L0,120Z" />
+            </svg>
+          </div>
+        </section>
+
+        {/* Products Section - Sidebar + Grid Layout */}
+        <section ref={productsRef} className="py-20 relative scroll-smooth">
+          <BrickWall opacity={0.05} color="#8B4513" />
+          <div className="max-w-[1500px] mx-auto px-6 sm:px-8 lg:px-10 xl:px-12 relative z-10">
+            {loading ? (
+              <ProductSkeleton viewMode={viewMode} />
+            ) : (
+              <div className="grid grid-cols-1 lg:grid-cols-4 gap-10 xl:gap-12">
+                {/* Left Sidebar - Filters */}
+                <motion.div
+                  initial={{ opacity: 0, x: -30 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.6 }}
+                  className="lg:col-span-1"
+                >
+                  <div className="sticky top-32">
+                    <h3 className="font-serif text-2xl font-bold text-stone-900 mb-8">Filters</h3>
+                    <ProductFilters
+                      filters={filters}
+                      categories={categories}
+                      onFilterChange={handleFilterChange}
+                      onClearFilters={clearFilters}
+                      viewMode={viewMode}
+                      setViewMode={setViewMode}
+                      sortBy={sortBy}
+                      setSortBy={setSortBy}
+                      totalProducts={filteredProducts.length}
+                      totalAvailable={products.length}
+                      isSidebar={true}
+                    />
+                  </div>
+                </motion.div>
+
+                {/* Right Content - Products Grid */}
+                <div className="lg:col-span-3 lg:pl-6 xl:pl-10 2xl:pl-12">
+                  {/* Results Summary */}
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6 }}
+                    className="mb-12 flex justify-between items-center"
+                  >
+                    <div>
+                      <motion.p
+                        className="font-serif text-3xl font-bold text-stone-900 mb-2"
+                        initial={{ opacity: 0, x: -30 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: 0.1, duration: 0.6 }}
+                      >
+                        Our Collection
+                      </motion.p>
+                      <motion.p
+                        className="text-stone-600"
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.2, duration: 0.6 }}
+                      >
+                        Showing <motion.span
+                          className="font-semibold text-stone-900"
+                          initial={{ scale: 0.8, opacity: 0 }}
+                          animate={{ scale: 1, opacity: 1 }}
+                          transition={{ delay: 0.3, duration: 0.4 }}
+                        >
+                          {filteredProducts.length}
+                        </motion.span> of{' '}
+                        <motion.span
+                          className="font-semibold text-stone-900"
+                          initial={{ scale: 0.8, opacity: 0 }}
+                          animate={{ scale: 1, opacity: 1 }}
+                          transition={{ delay: 0.4, duration: 0.4 }}
+                        >
+                          {products.length}
+                        </motion.span> products
+                      </motion.p>
+                    </div>
+
+                    {filteredProducts.length === 0 && (
+                      <motion.button
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        onClick={clearFilters}
+                        className="px-6 py-3 bg-orange-600 text-white rounded-xl hover:bg-orange-700 transition-colors font-semibold"
+                      >
+                        Clear All Filters
+                      </motion.button>
+                    )}
+                  </motion.div>
+
+                  <AnimatePresence mode="wait">
+                    {filteredProducts.length > 0 ? (
+                      <motion.div
+                        key="products"
+                        variants={containerVariants}
+                        initial="hidden"
+                        animate="visible"
+                        exit={{ opacity: 0, y: 20 }}
+                        className={
+                          viewMode === 'grid'
+                            ? 'grid grid-cols-1 sm:grid-cols-2 2xl:grid-cols-3 gap-10 xl:gap-12'
+                            : 'flex flex-col gap-6'
+                        }
+                      >
+                        {filteredProducts.map((product) => (
+                          <motion.div
+                            key={product.id}
+                            variants={itemVariants}
+                            onClick={() => navigate(`/products/${product.id}`)}
+                            layout
+                            transition={{ layout: { duration: 0.3 } }}
+                          >
+                            <ProductCard product={product} viewMode={viewMode} />
+                          </motion.div>
+                        ))}
+                      </motion.div>
+                    ) : (
+                      <motion.div
+                        key="no-results"
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.9 }}
+                        className="text-center py-20"
+                      >
+                        <div className="relative inline-block">
+                          <div className="absolute inset-0 bg-orange-100 rounded-full blur-3xl opacity-20"></div>
+                          <svg className="w-32 h-32 mx-auto text-stone-400 relative" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                          </svg>
+                        </div>
+                        <h3 className="font-serif text-3xl font-bold text-stone-900 mt-6">No Products Found</h3>
+                        <p className="text-stone-600 mt-2 max-w-md mx-auto">
+                          Try adjusting your filters or explore our other categories.
+                        </p>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              </div>
+            )}
+          </div>
+        </section>
+
+        {/* Why Choose Us Section */}
+        <section className="py-24 bg-white relative overflow-hidden">
+          <BrickWall opacity={0.07} color="#8B4513" />
+          <div className="absolute top-0 right-0 w-2/5 h-full bg-gradient-to-l from-orange-50 to-transparent hidden lg:block" />
+
+          <div className="container mx-auto px-6 sm:px-8 lg:px-10 relative z-10">
+            <motion.div
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="text-center mb-16"
+            >
+              <motion.h2
+                className="font-serif text-5xl lg:text-6xl font-bold text-stone-900 mb-4"
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: 0.5 + index * 0.15, duration: 0.6 }}
-                whileHover={{ y: -8 }}
-                className={`${feature.color} p-8 rounded-2xl border border-orange-100 hover:shadow-xl hover:border-orange-300 transition-all cursor-default h-full flex flex-col items-center justify-center text-center`}
+                transition={{ delay: 0.1, duration: 0.7 }}
               >
-                <motion.div 
-                  className="mb-4"
-                  initial={{ opacity: 0, scale: 0 }}
+                Why Choose{" "}
+                <motion.em
+                  className="text-orange-600 not-italic inline-block"
+                  initial={{ opacity: 0, scale: 0.8 }}
                   whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true }}
-                  transition={{ delay: 0.5 + index * 0.15 + 0.1, duration: 0.5, type: "spring" }}
-                  whileHover={{ rotate: 6, scale: 1.1 }}
+                  transition={{ delay: 0.3, duration: 0.6 }}
                 >
-                  {feature.icon}
+                  Our Bricks
+                </motion.em>
+              </motion.h2>
+              <motion.p
+                className="text-xl text-stone-500 max-w-3xl mx-auto font-light line-animation"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.4, duration: 0.7 }}
+              >
+                Excellence built on decades of craftsmanship and innovation
+              </motion.p>
+            </motion.div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {[
+                {
+                  icon: (
+                    <svg className="w-12 h-12 text-amber-600 mx-auto" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                    </svg>
+                  ),
+                  title: "40+ Years Excellence",
+                  description: "Trusted by builders and architects across 46 countries",
+                  color: "bg-amber-50"
+                },
+                {
+                  icon: (
+                    <svg className="w-12 h-12 text-orange-600 mx-auto" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" />
+                    </svg>
+                  ),
+                  title: "Quality Tested",
+                  description: "Each brick undergoes rigorous quality control",
+                  color: "bg-orange-50"
+                },
+                {
+                  icon: (
+                    <svg className="w-12 h-12 text-red-600 mx-auto" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z" />
+                    </svg>
+                  ),
+                  title: <AlignCenter>"Eco-Friendly"</AlignCenter>,
+                  description: "Sustainable manufacturing processes",
+                  color: "bg-red-50"
+                }
+              ].map((feature, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.5 + index * 0.15, duration: 0.6 }}
+                  whileHover={{ y: -8 }}
+                  className={`${feature.color} p-8 rounded-2xl border border-orange-100 hover:shadow-xl hover:border-orange-300 transition-all cursor-default h-full flex flex-col items-center justify-center text-center`}
+                >
+                  <motion.div
+                    className="mb-4"
+                    initial={{ opacity: 0, scale: 0 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.5 + index * 0.15 + 0.1, duration: 0.5, type: "spring" }}
+                    whileHover={{ rotate: 6, scale: 1.1 }}
+                  >
+                    {feature.icon}
+                  </motion.div>
+                  <motion.h3
+                    className="font-serif text-2xl font-bold text-stone-900 mb-2 text-center"
+                    initial={{ opacity: 0, y: 10 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.5 + index * 0.15 + 0.15, duration: 0.5 }}
+                  >
+                    {feature.title}
+                  </motion.h3>
+                  <motion.p
+                    className="text-stone-600 font-light text-center"
+                    initial={{ opacity: 0, y: 10 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.5 + index * 0.15 + 0.2, duration: 0.5 }}
+                  >
+                    {feature.description}
+                  </motion.p>
                 </motion.div>
-                <motion.h3 
-                  className="font-serif text-2xl font-bold text-stone-900 mb-2 text-center"
-                  initial={{ opacity: 0, y: 10 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.5 + index * 0.15 + 0.15, duration: 0.5 }}
-                >
-                  {feature.title}
-                </motion.h3>
-                <motion.p 
-                  className="text-stone-600 font-light text-center"
-                  initial={{ opacity: 0, y: 10 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.5 + index * 0.15 + 0.2, duration: 0.5 }}
-                >
-                  {feature.description}
-                </motion.p>
-              </motion.div>
-            ))}
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
-    </div>
-    <Footer/>
+        </section>
+      </div>
+      <Footer />
     </>
   );
 };

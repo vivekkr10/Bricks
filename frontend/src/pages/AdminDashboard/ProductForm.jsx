@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { Save, UploadCloud } from "lucide-react";
+import axios from "axios";
+
 
 const ProductForm = () => {
   const navigate = useNavigate();
@@ -10,6 +12,8 @@ const ProductForm = () => {
   const isEditMode = Boolean(editId);
 
   const [previewImage, setPreviewImage] = useState(null);
+  const [uploadedImageUrl, setUploadedImageUrl] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -26,30 +30,38 @@ const ProductForm = () => {
      =============================== */
   useEffect(() => {
     if (isEditMode) {
-      const saved =
-        JSON.parse(localStorage.getItem("brick_products")) || [];
+      const fetchProductForEdit = async () => {
+        try {
+          // Fetch all products and find the one matching the MongoDB _id
+          const response = await axios.get("http://localhost:5000/api/products/all-products");
+          const product = response.data.find((p) => p._id === editId);
 
-      const product = saved.find((p) => p.id === Number(editId));
-
-      if (product) {
-        setFormData({
-          name: product.name || "",
-          type: product.type || "",
-          shortDesc: product.shortDesc || "",
-          detailedDesc: product.detailedDesc || "",
-          specs: product.specs || "",
-          usage: product.usage || "",
-          status: product.status || "Active",
-        });
-
-        setPreviewImage(product.image || null);
-      }
+          if (product) {
+            setFormData({
+              name: product.productName || "",
+              type: product.productType || "",
+              shortDesc: product.shortDescription || "",
+              detailedDesc: product.detailedDescription || "",
+              specs: product.specifications || "",
+              usage: product.usageArea || "",
+              status: product.status || "Active",
+            });
+            setPreviewImage(product.image || null);
+            setUploadedImageUrl(product.image || null);
+          }
+        } catch (error) {
+          console.error("Error loading product:", error);
+        }
+      };
+      fetchProductForEdit();
     }
   }, [editId, isEditMode]);
 
   /* ===============================
      INPUT CHANGE
      =============================== */
+
+
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -64,43 +76,62 @@ const ProductForm = () => {
     const file = e.target.files[0];
     if (file) {
       setPreviewImage(URL.createObjectURL(file));
+      setUploadedImageUrl(null);
     }
   };
 
+  const uploadImageToCloudinary = async (file) => {
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", "brick_upload");
+
+    try {
+      const res = await axios.post(
+        "https://api.cloudinary.com/v1_1/dybj3vbwq/image/upload",
+        formData,
+        {
+          withCredentials: false
+        }
+      );
+      return res.data.secure_url;
+    } catch (err) {
+      console.error("Cloudinary upload error:", err);
+      return null;
+    }
+  };
   /* ===============================
      SUBMIT HANDLER
      =============================== */
-  const handleSubmit = (e) => {
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsSubmitting(true);
 
-    const saved =
-      JSON.parse(localStorage.getItem("brick_products")) || [];
+    let imageUrl = uploadedImageUrl || previewImage;
 
-    let updatedProducts;
-
-    if (isEditMode) {
-      updatedProducts = saved.map((p) =>
-        p.id === Number(editId)
-          ? { ...p, ...formData, image: previewImage }
-          : p
-      );
-    } else {
-      updatedProducts = [
-        ...saved,
-        {
-          ...formData,
-          id: Date.now(),
-          image: previewImage,
-        },
-      ];
+    if (previewImage && !uploadedImageUrl) {
+      const fileInput = document.querySelector('input[type="file"]');
+      if (fileInput?.files[0]) {
+        imageUrl = await uploadImageToCloudinary(fileInput.files[0]);
+        setUploadedImageUrl(imageUrl);
+      }
     }
 
-    localStorage.setItem(
-      "brick_products",
-      JSON.stringify(updatedProducts)
-    );
+    try {
+      await axios.post("http://localhost:5000/api/products/add-product", {
+        ...formData,
+        image: imageUrl || "",
+      });
 
-    navigate("/dashboard");
+      alert("Product added successfully!");
+      navigate("/dashboard");
+    } catch (error) {
+      console.error("Axios Product Error:", error);
+      alert("Failed to add product");
+    }
+    finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -249,10 +280,21 @@ const ProductForm = () => {
           <div className="flex gap-4 pt-4">
             <button
               type="submit"
-              className="flex-1 bg-black text-white py-3 rounded-lg font-semibold flex items-center justify-center gap-2"
+              disabled={isSubmitting}
+              className={`flex-1 py-3 rounded-lg font-semibold flex items-center justify-center gap-2 transition-all ${isSubmitting ? "bg-gray-400 cursor-not-allowed" : "bg-black text-white"
+                }`}
             >
-              <Save size={18} />
-              {isEditMode ? "Update Product" : "Add Product"}
+              {isSubmitting ? (
+                <>
+                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                  Processing...
+                </>
+              ) : (
+                <>
+                  <Save size={18} />
+                  {isEditMode ? "Update Product" : "Add Product"}
+                </>
+              )}
             </button>
 
             <button

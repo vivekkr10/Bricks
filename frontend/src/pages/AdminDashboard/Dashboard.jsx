@@ -6,56 +6,74 @@ import {
   Package, CheckCircle, XCircle
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import axios from "axios";
+
 
 const Dashboard = () => {
   const navigate = useNavigate();
 
-  const [products, setProducts] = useState(() => {
-    const saved = localStorage.getItem("brick_products");
-    return saved
-      ? JSON.parse(saved)
-      : [
-          {
-            id: 1,
-            name: "Premium Red Clay Brick",
-            type: "Red Clay Bricks",
-            shortDesc: "High-density traditional bricks for load-bearing walls.",
-            specs: "230 x 110 x 75mm | 10.5 N/mm²",
-            usage: "Foundation, Exterior Walls",
-            status: "Active",
-          },
-        ];
-  });
-
+  const [products, setProducts] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
 
-  const filteredProducts = products.filter((p) =>
-    p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    p.type?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    p.usage?.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await axios.get("http://localhost:5000/api/products/all-products");
+        setProducts(response.data);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchProducts();
+  }, []);
+
+ const filteredProducts = products.filter((p) => {
+  const name = p.name?.toString().toLowerCase() || "";
+  const type = p.type?.toString().toLowerCase() || "";
+  const usage = p.usage?.toString().toLowerCase() || "";
+  const search = searchTerm.toLowerCase();
+
+  return name.includes(search) || type.includes(search) || usage.includes(search);
+});
+
+
 
   const total = filteredProducts.length;
   const active = filteredProducts.filter((p) => p.status === "Active").length;
   const inactive = total - active;
 
-  const toggleStatus = (id) => {
-    const updated = products.map((p) =>
-      p.id === id
-        ? { ...p, status: p.status === "Active" ? "Inactive" : "Active" }
-        : p
-    );
-    setProducts(updated);
-    localStorage.setItem("brick_products", JSON.stringify(updated));
-  };
-
-  const deleteProduct = (id) => {
-    if (window.confirm("Delete this product?")) {
-      const updated = products.filter((p) => p.id !== id);
-      setProducts(updated);
-      localStorage.setItem("brick_products", JSON.stringify(updated));
+ const toggleStatus = async (id) => {
+  try {
+    const response = await axios.patch(`http://localhost:5000/api/products/toggle-status/${id}`);
+    
+    if (response.data.success) {
+      setProducts(prevProducts => 
+        prevProducts.map((p) =>
+          p._id === id ? { ...p, status: response.data.newStatus } : p
+        )
+      );
     }
-  };
+  } catch (error) {
+    console.error("Status Toggle Error:", error);
+    alert("Failed to update status");
+  }
+};
+
+ const deleteProduct = async (e, id) => {
+  e.stopPropagation();
+  if (window.confirm("Are you sure you want to delete this product?")) {
+    try {
+      await axios.delete(`http://localhost:5000/api/products/delete-product/${id}`);
+      setProducts(products.filter((p) => p._id !== id));
+    } catch (error) {
+      console.log("Error", error.response || error);
+      alert("Error deleting product");
+    }
+  }
+};
 
   return (
     // Background: Stone-50 (#F9F8F7)
@@ -82,7 +100,7 @@ const Dashboard = () => {
           </div>
 
           <button
-            onClick={() => navigate("/add")}
+            onClick={() => navigate("/product-form")}
             // Primary: Orange-600 (#EA580C)
             className="bg-[#EA580C] text-white px-6 py-3 rounded-xl font-bold flex items-center gap-2 shadow-lg shadow-orange-600/20 hover:bg-[#c2410c] transition-colors whitespace-nowrap"
           >
@@ -103,7 +121,7 @@ const Dashboard = () => {
         <AnimatePresence>
           {filteredProducts.map((p) => (
             <motion.div
-              key={p.id}
+              key={p._id}
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95 }}
@@ -123,32 +141,32 @@ const Dashboard = () => {
                 <div className="flex justify-between items-start">
                   <div>
                     <div className="flex items-center gap-3">
-                      <h3 className="text-xl font-bold text-[#1C1917]">{p.name}</h3>
+                      <h3 className="text-xl font-bold text-[#1C1917]">{p.productName}</h3>
                       <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider ${
                         p.status === "Active" ? "bg-green-100 text-[#15803D]" : "bg-stone-100 text-[#78716C]"
                       }`}>
                         {p.status}
                       </span>
                     </div>
-                    <p className="text-[#78716C] text-sm mt-0.5">{p.shortDesc}</p>
+                    <p className="text-[#78716C] text-sm mt-0.5">{p.shortDescription}</p>
                   </div>
 
                   {/* Actions */}
                   <div className="flex gap-2">
-                    <ActionButton onClick={() => toggleStatus(p.id)} icon={p.status === "Inactive" ? <EyeOff size={18} /> : <Eye size={18} />} />
-                    <ActionButton onClick={() => navigate(`/add?id=${p.id}`)} icon={<Pencil size={18} />} />
-                    <ActionButton onClick={() => deleteProduct(p.id)} icon={<Trash2 size={18} />} variant="danger" />
+                    <ActionButton onClick={() => toggleStatus(p._id)} icon={p.status === "Inactive" ? <EyeOff size={18} /> : <Eye size={18} />} />
+                    <ActionButton onClick={() => navigate(`/add?id=${p._id}`)} icon={<Pencil size={18} />} />
+                    <ActionButton onClick={(e) => deleteProduct(e, p._id)} icon={<Trash2 size={18} />} variant="danger" />
                   </div>
                 </div>
 
                 <div className="mt-4 flex gap-8 border-t border-[#F5F5F4] pt-4">
                   <div>
                     <p className="text-[10px] font-bold text-[#78716C] uppercase tracking-widest">Specifications</p>
-                    <p className="text-sm text-[#44403C] font-medium">{p.specs}</p>
+                    <p className="text-sm text-[#44403C] font-medium">{p.specifications}</p>
                   </div>
                   <div>
                     <p className="text-[10px] font-bold text-[#78716C] uppercase tracking-widest">Usage Area</p>
-                    <p className="text-sm text-[#44403C] font-medium">{p.usage}</p>
+                    <p className="text-sm text-[#44403C] font-medium">{p.usageArea}</p>
                   </div>
                 </div>
               </div>

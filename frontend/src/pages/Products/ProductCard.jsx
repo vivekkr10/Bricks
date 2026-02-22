@@ -6,7 +6,9 @@ const ProductCard = ({ product, viewMode }) => {
   const navigate = useNavigate();
   const [isHovered, setIsHovered] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
-  const productDetailPath = `/products/${product.id}`;
+
+  const productId = product.id || product._id;
+  const productDetailPath = `/products/${productId}`;
 
   const handleCardNavigate = (e) => {
     // Allow inner buttons/links to handle their own actions.
@@ -94,21 +96,21 @@ const ProductCard = ({ product, viewMode }) => {
                     <path fillRule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 17v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.381z" clipRule="evenodd" />
                   </svg>
                   <div className="text-xs text-orange-600 font-bold">Strength</div>
-                  <div className="font-bold text-stone-900 text-xs">{product.specifications.strength}</div>
+                  <div className="font-bold text-stone-900 text-xs">{product.specifications?.strength || 'N/A'}</div>
                 </div>
                 <div className="text-center p-2 bg-orange-50 rounded-lg border border-orange-100">
                   <svg className="w-4 h-4 text-orange-600 mx-auto mb-0.5" fill="currentColor" viewBox="0 0 20 20">
                     <path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM15 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2h-2zM5 13a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM15 13a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2h-2z" />
                   </svg>
                   <div className="text-xs text-orange-600 font-bold">Size</div>
-                  <div className="font-bold text-stone-900 text-xs">{product.specifications.size}</div>
+                  <div className="font-bold text-stone-900 text-xs">{product.specifications.size || 'N/A'}</div>
                 </div>
                 <div className="text-center p-2 bg-orange-50 rounded-lg border border-orange-100">
                   <svg className="w-4 h-4 text-orange-600 mx-auto mb-0.5" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M8 16.5a1 1 0 01-1-1V6.414l-4.293 4.293a1 1 0 01-1.414-1.414l6-6a1 1 0 011.414 0l6 6a1 1 0 01-1.414 1.414L9 6.414V15.5a1 1 0 01-1 1z" clipRule="evenodd" />
                   </svg>
                   <div className="text-xs text-orange-600 font-bold">Weight</div>
-                  <div className="font-bold text-stone-900 text-xs">{product.specifications.weight}</div>
+                  <div className="font-bold text-stone-900 text-xs">{product.specifications.weight || 'N/A'}</div>
                 </div>
               </div>
             </div>

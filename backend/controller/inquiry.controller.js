@@ -2,11 +2,11 @@ const sheets = require("../config/googleApiConfig");
 
 const submitInquiry = async (req, res) => {
   try {
-    const { name, email, phone, message } = req.body;
+    const { name, email, phone, message, productName, requiredQty, deliveryLoc, } = req.body;
 
     await sheets.spreadsheets.values.append({
       spreadsheetId: process.env.GOOGLE_SHEET_ID,
-      range: "Inquiries!A:E",   
+      range: "Inquiries!A:H",   
       valueInputOption: "USER_ENTERED",
       requestBody: {
         values: [[
@@ -14,6 +14,9 @@ const submitInquiry = async (req, res) => {
           email,
           phone,
           message,
+          productName,
+          requiredQty,
+          deliveryLoc,
           new Date().toLocaleString()
         ]],
       },
