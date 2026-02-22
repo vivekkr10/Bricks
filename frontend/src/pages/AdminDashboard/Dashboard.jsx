@@ -2,7 +2,8 @@ import React, { useState, useEffect, useMemo } from "react";
 import {
   Plus, EyeOff, Eye, Pencil, Trash2, Search, Package, 
   CheckCircle, XCircle, LayoutGrid, List, Filter, 
-  ArrowUpRight, ImageIcon, Settings2, HardHat, X, Edit
+  ArrowUpRight, ImageIcon, Settings2, HardHat, X, Edit,
+  ChevronLeft, ChevronRight // Naye icons
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -44,6 +45,10 @@ const Dashboard = ({ onAddClick, onEditClick ,onViewClick }) => {
   const [viewMode, setViewMode] = useState("grid"); 
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
+  // --- PAGINATION LOGIC (Naya Add Kiya Gaya) ---
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 6; 
+
   const filteredProducts = useMemo(() => {
     return products.filter((p) => {
       const matchesSearch = p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -52,6 +57,17 @@ const Dashboard = ({ onAddClick, onEditClick ,onViewClick }) => {
       return matchesSearch && matchesCategory;
     });
   }, [products, searchTerm, activeCategory]);
+
+  // Current page ke items nikalne ke liye
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = filteredProducts.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
+
+  // Search ya category badalne par page 1 par reset karein
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm, activeCategory]);
 
   const stats = {
     total: products.length,
@@ -77,10 +93,10 @@ const Dashboard = ({ onAddClick, onEditClick ,onViewClick }) => {
   };
 
   return (
-    <div className="min-h-screen text-[#44403C] font-sans-serif">
+    <div className="min-h-screen text-[#44403C] font-sans">
       <div className="relative max-w-full mx-auto p-2 lg:p-2">
         
-        {/* --- TOP BRANDING (Responsive Header) --- */}
+        {/* --- HEADER --- */}
         <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-10 md:mb-8">
           <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} className="space-y-2">
             <h1 className="text-4xl md:text-5xl font-black text-[#1C1917] tracking-tight leading-tight font-serif">
@@ -98,17 +114,16 @@ const Dashboard = ({ onAddClick, onEditClick ,onViewClick }) => {
           </motion.button>
         </header>
 
-        {/* --- 3 CARDS STATS (Responsive Grid) --- */}
+        {/* --- STATS --- */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
            <StatCard label="Total Products" value={stats.total} icon={<Package />} color="stone" />
            <StatCard label="Active Products" value={stats.active} icon={<CheckCircle />} color="green" />
            <StatCard label="Inactive Products" value={stats.inactive} icon={<XCircle />} color="orange" />
         </div>
 
-        {/* --- SEARCH & VIEW TOGGLE BAR --- */}
+        {/* --- SEARCH BAR --- */}
         <div className="bg-white p-4 rounded-[1.5rem] border border-stone-200 shadow-xl mb-8 space-y-4">
           <div className="flex flex-col lg:flex-row gap-4 items-center">
-            {/* Search Input */}
             <div className="relative flex-1 group w-full">
               <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-stone-400 group-focus-within:text-orange-500 transition-colors" size={20} />
               <input
@@ -120,29 +135,13 @@ const Dashboard = ({ onAddClick, onEditClick ,onViewClick }) => {
               />
             </div>
             
-            {/* View Mode & Filter Buttons (Side by Side on mobile) */}
             <div className="flex items-center gap-4 w-full lg:w-auto">
               <div className="flex bg-stone-100 p-1.5 rounded-[1rem] border border-stone-200 flex-1 lg:flex-none">
-                 <button 
-                   onClick={() => setViewMode('grid')}
-                   className={`flex-1 lg:flex-none p-3 rounded-[1rem] transition-all flex justify-center ${viewMode === 'grid' ? "bg-white text-orange-600 shadow-md" : "text-stone-400"}`}
-                 >
-                   <LayoutGrid size={20} />
-                 </button>
-                 <button 
-                   onClick={() => setViewMode('list')}
-                   className={`flex-1 lg:flex-none p-3 rounded-[1rem] transition-all flex justify-center ${viewMode === 'list' ? "bg-white text-orange-600 shadow-md" : "text-stone-400"}`}
-                 >
-                   <List size={20} />
-                 </button>
+                 <button onClick={() => setViewMode('grid')} className={`flex-1 lg:flex-none p-3 rounded-[1rem] transition-all flex justify-center ${viewMode === 'grid' ? "bg-white text-orange-600 shadow-md" : "text-stone-400"}`}><LayoutGrid size={20} /></button>
+                 <button onClick={() => setViewMode('list')} className={`flex-1 lg:flex-none p-3 rounded-[1rem] transition-all flex justify-center ${viewMode === 'list' ? "bg-white text-orange-600 shadow-md" : "text-stone-400"}`}><List size={20} /></button>
               </div>
 
-              <button 
-                onClick={() => setIsFilterOpen(!isFilterOpen)}
-                className={`flex-1 lg:flex-none flex items-center justify-center gap-2 px-6 py-4 rounded-[1rem] font-black text-sm transition-all border ${
-                  isFilterOpen ? "bg-orange-600 text-white border-orange-600" : "bg-white text-stone-600 border-stone-200 hover:bg-stone-50"
-                }`}
-              >
+              <button onClick={() => setIsFilterOpen(!isFilterOpen)} className={`flex-1 lg:flex-none flex items-center justify-center gap-2 px-6 py-4 rounded-[1rem] font-black text-sm transition-all border ${isFilterOpen ? "bg-orange-600 text-white border-orange-600" : "bg-white text-stone-600 border-stone-200 hover:bg-stone-50"}`}>
                 {isFilterOpen ? <X size={20} /> : <Filter size={20} />}
                 <span className="hidden sm:inline">Filter</span>
               </button>
@@ -162,10 +161,10 @@ const Dashboard = ({ onAddClick, onEditClick ,onViewClick }) => {
           </AnimatePresence>
         </div>
 
-        {/* --- PRODUCTS LIST/GRID --- */}
+        {/* --- PRODUCTS LIST (Using currentItems for Pagination) --- */}
         <div className={viewMode === 'grid' ? "grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6" : "space-y-6"}>
           <AnimatePresence mode="popLayout">
-            {filteredProducts.map((p) => (
+            {currentItems.map((p) => (
               <motion.div layout key={p.id} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, scale: 0.9 }}>
                 {viewMode === 'list' ? (
                   <ListViewCard p={p} toggleStatus={toggleStatus} onEdit={onEditClick} onDelete={deleteProduct} onView={onViewClick} />
@@ -179,14 +178,53 @@ const Dashboard = ({ onAddClick, onEditClick ,onViewClick }) => {
           {filteredProducts.length === 0 && (
             <div className="col-span-full py-20 text-center">
               <Package size={48} className="mx-auto text-stone-200 mb-4" />
-              <p className="text-stone-400 font-bold uppercase tracking-widest text-sm">No products found matching your criteria</p>
+              <p className="text-stone-400 font-bold uppercase tracking-widest text-sm">No products found</p>
             </div>
           )}
         </div>
+
+        {/* --- PAGINATION CONTROLS (Naya UI Section) --- */}
+        {totalPages > 1 && (
+          <div className="flex justify-center items-center gap-3 mt-12 pb-10">
+            <button 
+              disabled={currentPage === 1}
+              onClick={() => setCurrentPage(prev => prev - 1)}
+              className="p-3 rounded-xl border border-stone-200 bg-white disabled:opacity-30 hover:bg-orange-50 transition-colors"
+            >
+              <ChevronLeft size={20} />
+            </button>
+            
+            <div className="flex gap-2">
+              {[...Array(totalPages)].map((_, index) => (
+                <button
+                  key={index + 1}
+                  onClick={() => setCurrentPage(index + 1)}
+                  className={`w-10 h-10 rounded-xl font-bold transition-all border ${
+                    currentPage === index + 1 
+                    ? "bg-orange-600 text-white border-orange-600 shadow-lg shadow-orange-100" 
+                    : "bg-white text-stone-600 border-stone-200 hover:border-orange-600"
+                  }`}
+                >
+                  {index + 1}
+                </button>
+              ))}
+            </div>
+
+            <button 
+              disabled={currentPage === totalPages}
+              onClick={() => setCurrentPage(prev => prev + 1)}
+              className="p-3 rounded-xl border border-stone-200 bg-white disabled:opacity-30 hover:bg-orange-50 transition-colors"
+            >
+              <ChevronRight size={20} />
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
 };
+
+// --- AAPKE BAAKI COMPONENTS (StatCard, ListViewCard, GridViewCard, etc. - NO CHANGE) ---
 
 const StatCard = ({ label, value, icon, color }) => {
   const themes = {
@@ -232,15 +270,15 @@ const ListViewCard = ({ p, toggleStatus, onEdit, onDelete, onView }) => (
         </div>
 
         <div className="flex gap-2 w-full sm:w-auto">
-           <ActionButton onClick={() => toggleStatus(p.id)} icon={p.status === "Inactive" ? <EyeOff size={18}/> : <Eye size={18}/>} tooltip="Toggle Visibility" />
+           <ActionButton onClick={() => toggleStatus(p.id)} icon={p.status === "Active" ? <Eye size={18}/> : <EyeOff size={18}/>} tooltip="Toggle Visibility" />
            <ActionButton onClick={() => onEdit(p.id)} icon={<Edit size={18}/>} tooltip="Modify Asset" />
            <ActionButton onClick={() => onDelete(p.id)} icon={<Trash2 size={18}/>} variant="danger" tooltip="Decommission" />
         </div>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 pt-4 border-t border-stone-100 items-end">
-         <InfoBlock label="Batch Specs" value={p.specs} icon={<Settings2 size={12}/>} />
-         <InfoBlock label="Application" value={p.usage} icon={<HardHat size={12}/>} />
+         <InfoBlock label="Batch Size" value={p.size} icon={<Settings2 size={12}/>} />
+         <InfoBlock label="Application" value={p.application} icon={<HardHat size={12}/>} />
          <button onClick={() => onView(p)} className="sm:ml-auto w-full sm:w-fit p-3 bg-orange-600 text-white rounded-xl hover:bg-orange-700 md:hover:scale-110 transition-all border border-orange-100 flex items-center justify-center gap-2">
             <span className="sm:hidden font-bold text-xs uppercase tracking-widest">View Details</span>
             <ArrowUpRight size={16} />
@@ -270,12 +308,12 @@ const GridViewCard = ({ p, toggleStatus, onEdit, onDelete, onView }) => (
 
     <div className="space-y-4 px-1 pb-1">
       <div className="grid grid-cols-2 gap-2">
-        <InfoBlock label="Batch Specs" value={p.specs} icon={<Settings2 size={12}/>} />
-        <InfoBlock label="Application" value={p.usage} icon={<HardHat size={12}/>} />
+        <InfoBlock label="Batch Size" value={p.size} icon={<Settings2 size={12}/>} />
+        <InfoBlock label="Application" value={p.application} icon={<HardHat size={12}/>} />
       </div>
 
       <div className="flex justify-between gap-2 pt-2">
-        <ActionButton onClick={() => toggleStatus(p.id)} icon={p.status === "Inactive" ? <EyeOff size={18}/> : <Eye size={18}/>} tooltip="Toggle Visibility" />
+        <ActionButton onClick={() => toggleStatus(p.id)} icon={p.status === "Active" ? <Eye size={18}/> : <EyeOff size={18}/>} tooltip="Toggle Visibility" />
            <ActionButton onClick={() => onEdit(p.id)} icon={<Edit size={18}/>} tooltip="Modify Asset" />
            <ActionButton onClick={() => onDelete(p.id)} icon={<Trash2 size={18}/>} variant="danger" tooltip="Decommission" />
         <ActionButton onClick={() => onView(p)} icon={<ArrowUpRight size={18}/>} tooltip="View Details" />

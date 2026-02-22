@@ -101,12 +101,18 @@ const ProfileSettings = ({ onCancel }) => {
         {/* STICKY HEADER */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white/70 backdrop-blur-md p-6 rounded-[1.5rem] top-16 z-40 border border-white shadow-sm">
           <div className="flex items-center gap-4">
+            <button className="w-10 h-10 rounded-full hover:bg-orange-600 border border-orange-600 text-orange-600 hover:text-white flex items-center justify-center hover:scale-110 transition-transform" onClick={handleBack}>
+              <ArrowLeft size={18} />
+            </button>
+
             <div>
               <h1 className="text-2xl font-black tracking-tight flex items-center gap-2">
                 Admin<span className="text-orange-600"> Profile</span>
                 {isDirty && <span className="w-2 h-2 bg-orange-500 rounded-full animate-pulse" />}
               </h1>
-              <p className="text-[10px] uppercase font-bold text-stone-400 tracking-widest">Master Identity Control</p>
+              <p className="text-[10px] uppercase font-bold text-stone-400 tracking-widest">
+                Master Identity Control
+              </p>
             </div>
           </div>
 
@@ -132,16 +138,16 @@ const ProfileSettings = ({ onCancel }) => {
           
           {/* PROFILE IMAGE HEADER SECTION (STYLED FROM IMAGE_D52B99) */}
           <div className="p-2 md:p-10 border-b border-stone-100 bg-gradient-to-b from-white to-[#FAF9F8]">
-            <div className="flex items-center gap-3 mb-8">
+            <div className="flex items-center gap-3">
               <User size={22} className="text-stone-800" />
               <h2 className="text-xl font-bold text-stone-800">Basic Details</h2>
             </div>
 
-            <div className="space-y-3">
+            {/* <div className="space-y-3">
 
-              <div className="flex flex-col md:flex-row items-center gap-8">
+              <div className="flex flex-col md:flex-row items-center gap-8"> */}
                 {/* Dotted Preview Circle */}
-                <div className="relative group">
+                {/* <div className="relative group">
                   <div className="w-55 h-45 rounded-[11rem] border-2 border-solid border-orange-600 flex items-center justify-center overflow-hidden bg-white shadow-inner">
                     {profile.photo ? (
                       <img src={profile.photo} alt="Preview" className="w-full h-full object-cover" />
@@ -149,10 +155,10 @@ const ProfileSettings = ({ onCancel }) => {
                       <User size={48} className="text-stone-200" />
                     )}
                   </div>
-                </div>
+                </div> */}
 
                 {/* Dotted Upload Box */}
-                <label className="flex-1 w-full border-2 border-dashed border-stone-300 rounded-[1.5rem] p-10 flex flex-col items-center justify-center gap-2 cursor-pointer hover:bg-orange-50/30 hover:border-orange-200 transition-all group">
+                {/* <label className="flex-1 w-full border-2 border-dashed border-stone-300 rounded-[1.5rem] p-10 flex flex-col items-center justify-center gap-2 cursor-pointer hover:bg-orange-50/30 hover:border-orange-200 transition-all group">
                   <div className="p-3 bg-orange-50 rounded-full text-orange-600 group-hover:scale-110 transition-transform">
                     <Upload size={24} />
                   </div>
@@ -161,12 +167,12 @@ const ProfileSettings = ({ onCancel }) => {
                     JPG, PNG, WEBP (Max 5MB)
                   </p>
                   <input type="file" hidden onChange={handlePhotoChange} accept="image/*" />
-                </label>
-              </div>
-            </div>
+                </label> */}
+              {/* </div>
+            </div> */}
 
             {/* User Badge Info */}
-            <div className="mt-8 flex items-center gap-4">
+            {/* <div className="mt-8 flex items-center gap-4">
               <div className="h-10 w-1 bg-orange-600 rounded-full" />
               <div>
                 <h3 className="text-2xl font-black text-stone-800 tracking-tight leading-none uppercase italic">
@@ -176,7 +182,7 @@ const ProfileSettings = ({ onCancel }) => {
                   @{profile.username || "username"} • {profile.designation}
                 </p>
               </div>
-            </div>
+            </div> */}
           </div>
 
 

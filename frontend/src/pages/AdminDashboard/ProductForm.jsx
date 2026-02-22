@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Save, UploadCloud, ArrowLeft, Trash2, Info, Tag, Layers, Settings, HelpCircle, Plus } from "lucide-react";
+import { Save, UploadCloud, ArrowLeft, Trash2, Info, Tag, Layers, Settings, HelpCircle, Ruler, Weight, Droplets, Zap, Cpu } from "lucide-react";
 
 const ProductForm = ({ editId, onCancel }) => {
   const isEditMode = Boolean(editId);
@@ -11,7 +11,11 @@ const ProductForm = ({ editId, onCancel }) => {
     application: "", 
     shortDesc: "",
     detailedDesc: "",
-    specs: "",
+    // New fields from image
+    strength: "",
+    size: "",
+    weight: "",
+    waterAbsorption: "",
     usage: "",
     status: "Active",
   });
@@ -104,7 +108,7 @@ const ProductForm = ({ editId, onCancel }) => {
 
           <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-12 gap-12">
             
-            {/* LEFT COLUMN: MULTI-IMAGE UPLOAD (Ab ye pehle aayega) */}
+            {/* LEFT COLUMN: MULTI-IMAGE UPLOAD */}
             <div className="lg:col-span-4 space-y-6 order-2 lg:order-1">
               <div className="sticky top-24 space-y-6">
                 <div className="bg-stone-50 p-6 rounded-[2rem] border border-stone-200">
@@ -139,7 +143,7 @@ const ProductForm = ({ editId, onCancel }) => {
                     </div>
                 </div>
 
-                <button type="submit" className="w-full text-white py-5 rounded-[1.5rem] font-black bg-[#EA580C] transition-all shadow-xl shadow-orange-900/10 flex items-center justify-center gap-3 group hover:scale-105">
+                <button type="submit" className="w-full text-white py-3 rounded-[1rem] font-black bg-[#EA580C] transition-all shadow-xl shadow-orange-900/10 flex items-center justify-center gap-3 group hover:scale-105">
                     <Save size={20} className="group-hover:rotate-12 transition-transform" />
                     {isEditMode ? "UPDATE PRODUCT" : "ADD PRODUCT"}
                 </button>
@@ -150,7 +154,7 @@ const ProductForm = ({ editId, onCancel }) => {
               </div>
             </div>
 
-            {/* RIGHT COLUMN: FORM DETAILS (Ab ye right side aayega) */}
+            {/* RIGHT COLUMN: FORM DETAILS */}
             <div className="lg:col-span-8 space-y-8 order-1 lg:order-2">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <FormInput label="Product Name" icon={<Tag size={16} className="text-orange-600"/>}>
@@ -191,18 +195,35 @@ const ProductForm = ({ editId, onCancel }) => {
                   <input name="shortDesc" value={formData.shortDesc} onChange={handleChange} placeholder="One line catchphrase..." className="form-input-style" />
               </FormInput>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <FormInput label="Technical Specifications" icon={<Settings size={16} className="text-orange-600"/>}>
-                    <textarea name="specs" value={formData.specs} onChange={handleChange} rows="4" placeholder="Size, Weight, Strength..." className="form-input-style" />
-                </FormInput>
+              {/* TECHNICAL SPECIFICATIONS SECTION FROM IMAGE */}
+              <FormInput label="Technical Specifications" icon={<Cpu size={16} className="text-orange-600"/>}></FormInput>
+              {/* <label className="text-xs font-black text-orange-600 uppercase tracking-widest mb-6 block">Technical Specifications</label> */}
+              <div className="rounded-[1.5rem]">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <FormInput label="Strength" icon={<Zap size={16} className="text-orange-600"/>}>
+                      <input name="strength" value={formData.strength} onChange={handleChange} placeholder="e.g. 7.5 N/mm²" className="form-input-style" />
+                  </FormInput>
 
-                <FormInput label="Usage Guidelines" icon={<HelpCircle size={16} className="text-orange-600"/>}>
-                    <textarea name="usage" value={formData.usage} onChange={handleChange} rows="4" placeholder="How to use or install..." className="form-input-style" />
-                </FormInput>
+                  <FormInput label="Size" icon={<Ruler size={16} className="text-orange-600"/>}>
+                      <input name="size" value={formData.size} onChange={handleChange} placeholder="e.g. 9&quot; x 4&quot; x 3&quot;" className="form-input-style" />
+                  </FormInput>
+
+                  <FormInput label="Weight" icon={<Weight size={16} className="text-orange-600"/>}>
+                      <input name="weight" value={formData.weight} onChange={handleChange} placeholder="e.g. 3.2 kg" className="form-input-style" />
+                  </FormInput>
+
+                  <FormInput label="Water Absorption" icon={<Droplets size={16} className="text-orange-600"/>}>
+                      <input name="waterAbsorption" value={formData.waterAbsorption} onChange={handleChange} placeholder="e.g. < 10%" className="form-input-style" />
+                  </FormInput>
+                </div>
               </div>
 
+              <FormInput label="Usage Guidelines" icon={<HelpCircle size={16} className="text-orange-600"/>}>
+                  <textarea name="usage" value={formData.usage} onChange={handleChange} rows="3" placeholder="How to use or install..." className="form-input-style" />
+              </FormInput>
+
               <FormInput label="Detailed Description" icon={<Info size={16} className="text-orange-600"/>}>
-                  <textarea name="detailedDesc" value={formData.detailedDesc} onChange={handleChange} rows="6" placeholder="Write full details about the product..." className="form-input-style" />
+                  <textarea name="detailedDesc" value={formData.detailedDesc} onChange={handleChange} rows="5" placeholder="Write full details about the product..." className="form-input-style" />
               </FormInput>
             </div>
 
