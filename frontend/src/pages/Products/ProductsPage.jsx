@@ -7,8 +7,8 @@ import ProductCard from './ProductCard';
 import ProductFilters from './ProductFilters';
 import ProductSkeleton from './ProductSkeleton';
 import productsData from './productsData';
-import Header from '../../Components/header';
-import Footer from '../../Components/footer';
+import Header from '../../Components/header.jsx';
+import Footer from '../../Components/footer.jsx';
 
 // BrickWall pattern background
 const BrickWall = ({ opacity = 0.06, color = "#8B4513" }) => (
