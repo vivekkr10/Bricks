@@ -1,205 +1,372 @@
 import React from "react";
-import { MapPin, Phone, Mail } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import {
+  MapPin,
+  Phone,
+  Mail,
+  ExternalLink,
+  ShieldCheck,
+  Truck,
+  Award,
+  ClipboardCheck,
+  ArrowRight,
+  ChevronDown,
+} from "lucide-react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import Header from "../../Components/header";
+import Footer from "../../Components/footer";
+
+/* ================= BRICK WALL ================= */
+const BrickWall = ({ opacity = 0.06, color = "#8B4513" }) => {
+  const id = React.useId();
+
+  return (
+    <svg
+      style={{ position: "absolute", inset: 0, width: "100%", height: "100%", pointerEvents: "none" }}
+    >
+      <defs>
+        <pattern id={id} width="88" height="44" patternUnits="userSpaceOnUse">
+          <rect x="2" y="2" width="84" height="20" fill="none" stroke={color} strokeWidth="1" rx="2" opacity={opacity * 15} />
+          <rect x="46" y="24" width="42" height="18" fill="none" stroke={color} strokeWidth="1" rx="2" opacity={opacity * 15} />
+          <rect x="2" y="24" width="42" height="18" fill="none" stroke={color} strokeWidth="1" rx="2" opacity={opacity * 15} />
+        </pattern>
+      </defs>
+      <rect width="100%" height="100%" fill={`url(#${id})`} opacity={opacity} />
+    </svg>
+  );
+};
+
+/* ================= CONTACT CARD ================= */
+const ContactCard = ({ icon: Icon, title, detail, subDetail, link }) => (
+  <motion.a
+    href={link}
+    target="_blank"
+    rel="noopener noreferrer"
+    whileHover={{ y: -6 }}
+    className="bg-white p-10 rounded-3xl shadow-xl border border-stone-100 text-center"
+  >
+    <div className="w-16 h-16 bg-stone-100 rounded-xl flex items-center justify-center mx-auto mb-6">
+      <Icon className="w-7 h-7 text-red-700" />
+    </div>
+    <h3 className="text-xs uppercase tracking-widest text-stone-400 mb-2">{title}</h3>
+    <p className="text-xl font-serif text-stone-900">{detail}</p>
+    <p className="text-sm text-stone-500 mt-2">{subDetail}</p>
+  </motion.a>
+);
+
+/* ================= FAQ ================= */
+const FAQItem = ({ question, answer, isOpen, onClick }) => {
+  return (
+    <div className="border-b border-stone-200 py-4">
+      <button
+        onClick={onClick}
+        className="flex justify-between w-full text-left font-semibold text-stone-800"
+      >
+        {question}
+        <ChevronDown
+          className={`transition-transform duration-300 ${
+            isOpen ? "rotate-180 text-red-700" : ""
+          }`}
+        />
+      </button>
+
+      <div
+        className={`transition-all duration-300 overflow-hidden ${
+          isOpen ? "max-h-40 mt-3" : "max-h-0"
+        }`}
+      >
+        <p className="text-stone-600 text-sm">{answer}</p>
+      </div>
+    </div>
+  );
+};
 
 export default function ContactSection() {
+  const contactInfo = [
+    {
+      icon: MapPin,
+      title: "Our Location",
+      detail: "VR & Sons Architectural Clay",
+      subDetail: "Kamrej Char Rasta, Gujarat 394185",
+      link: "https://maps.google.com/?q=Kamrej+Char+Rasta+Gujarat",
+    },
+    {
+      icon: Phone,
+      title: "Sales & Technical",
+      detail: "+91 98254 74047",
+      subDetail: "Alt: 98252 66811 / 95860 24642",
+      link: "tel:+919825474047",
+    },
+    {
+      icon: Mail,
+      title: "Email Support",
+      detail: "support@vrandsons.com",
+      subDetail: "Response within 6 business hours",
+      link: "mailto:support@vrandsons.com",
+    },
+  ];
+const [openIndex, setOpenIndex] = React.useState(null);
   return (
-    
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.6 }}
-      className="bg-[#FCFAF8] text-[#2a1a13]"
-    >
+    <div className="bg-stone-50 min-h-screen flex flex-col">
+      <Header />
 
-      {/* ================= HERO / GET IN TOUCH ================= */}
-      <section className="py-20 px-6">
-        <div className="max-w-8xl mx-auto">
+      <main className="flex-grow">
 
-          <motion.div
-            initial={{ y: -60, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.8 }}
-            className="relative rounded-2xl overflow-hidden shadow-xl"
-          >
+        {/* HERO */}
+        <section className="relative h-[600px] flex items-center justify-center text-center text-white">
+   
+          <img
+            src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80"
+            alt="Architectural Building"
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-stone-900/70" />
 
-            <img
-              src="https://i.pinimg.com/736x/1a/0a/b4/1a0ab4e00a136fbdbf475d4bc3f0b7aa.jpg"
-              alt="Office"
-              className="w-full h-[420px] object-cover"
-            />
+          <div className="relative z-10 max-w-3xl px-6">
+            <ShieldCheck className="mx-auto mb-4 text-red-600" />
+            <h1 className="text-5xl md:text-7xl font-serif mb-6">
+              Let’s Build Something <span className="italic text-stone-300">Timeless</span>
+            </h1>
+            <p className="text-stone-300 mb-8">
+              Reach out to Gujarat’s trusted architectural clay experts.
+            </p>
+            <Link
+              to="/inquiry"
+              className="inline-flex items-center gap-3 bg-red-700 px-10 py-4 rounded-xl uppercase tracking-widest text-sm hover:bg-red-800 transition"
+            >
+              Send Inquiry <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+        </section>
 
-            <div className="absolute inset-0 bg-gradient-to-r from-[#2a1a13]/50 via-[#2a1a13]/80 to-[#d97706]/50"></div>
+        {/* EVERYTHING BELOW HERO HAS BRICK BG */}
+        <section className="relative">
+          <div className="absolute inset-0 z-0">
+            <BrickWall />
+          </div>
 
-            <div className="absolute inset-0 flex flex-col justify-center items-center text-center px-6 text-white">
+          <div className="relative z-10">
 
-              <motion.h1
-                initial={{ y: 30, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.3 }}
-                className="text-4xl md:text-5xl font-bold mb-6"
-              >
-                Get in Touch
-              </motion.h1>
+            {/* TRUST STATS */}
+          {/* TRUST STATS - PREMIUM VERSION */}
+<div className="py-24 px-6">
+  <div className="max-w-6xl mx-auto">
 
-              <motion.p
-                initial={{ y: 30, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.5 }}
-                className="max-w-2xl text-gray-200 mb-8"
-              >
-                Our team is here to help with your technical or sales inquiries.
-                Reach out to us today and experience our dedicated support.
-              </motion.p>
+    {/* Section Heading */}
+    <div className="text-center mb-16">
+      <h2 className="text-4xl font-serif text-stone-900">
+        Built on <span className="italic text-red-700">Trust & Craftsmanship</span>
+      </h2>
+      <div className="w-20 h-[2px] bg-red-700 mx-auto mt-6"></div>
+    </div>
 
-              <motion.div
-                initial={{ y: 30, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.7 }}
-                className="flex flex-col sm:flex-row gap-4"
-              >
-                <Link to="/inquiry">
-                  <button className="bg-orange-500 hover:bg-orange-600 transition px-8 py-3 rounded-lg font-semibold shadow-lg hover:scale-105 active:scale-95">
-                    Contact Inquiry
-                  </button>
-                </Link>
+    {/* Stats Grid */}
+    <div className="grid md:grid-cols-4 gap-8">
+      {[
+        { icon: Award, number: "30+", label: "Years Experience" },
+        { icon: Truck, number: "All India", label: "Supply Network" },
+        { icon: ClipboardCheck, number: "5000+", label: "Projects Delivered" },
+        { icon: ShieldCheck, number: "100%", label: "Quality Assured" },
+      ].map((item, i) => (
+        <div
+          key={i}
+          className="group bg-white p-10 rounded-3xl shadow-md border border-stone-100 hover:shadow-xl transition duration-300 text-center"
+        >
+          <div className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-stone-100 flex items-center justify-center group-hover:bg-red-700 transition">
+            <item.icon className="w-7 h-7 text-red-700 group-hover:text-white transition" />
+          </div>
 
-                <button className="border border-white hover:bg-white hover:text-[#2a1a13] transition px-8 py-3 rounded-lg font-semibold hover:scale-105 active:scale-95">
-                  View Locations
-                </button>
-              </motion.div>
-
-            </div>
-          </motion.div>
+          <h3 className="text-3xl font-sans text-stone-900 mb-2">
+            {item.number}
+          </h3>
+          <p className="text-stone-500 text-sm tracking-wide uppercase">
+            {item.label}
+          </p>
         </div>
-      </section>
-
-{/* ================= CONTACT INFO CARDS ================= */}
-<section className="py-16 px-6">
-  <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-8">
-
-    {[MapPin, Phone, Mail].map((Icon, index) => (
-      <motion.div
-        key={index}
-        initial={{ y: 60, opacity: 0 }}
-        whileInView={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.6, delay: index * 0.2 }}
-        viewport={{ once: true }}
-        whileHover={{ scale: 1.05 }}
-        className="bg-[#2a1a13]/90 backdrop-blur-lg border border-white/10 text-white p-8 rounded-xl shadow-2xl hover:border-orange-500/40 transition-all duration-300"
-      >
-        <div className="text-orange-500 mb-4">
-          <Icon size={32} />
-        </div>
-
-        {index === 0 && (
-          <>
-            <h3 className="text-xl font-semibold mb-3">Office Address</h3>
-            <p className="text-gray-300">
-              123 Business Way, Suite 400 <br />
-              Tech City, CA 94000
-            </p>
-          </>
-        )}
-
-        {index === 1 && (
-          <>
-            <h3 className="text-xl font-semibold mb-3">Phone Number</h3>
-            <p className="text-gray-300">
-              +1 800-555-0199 <br />
-              Mon – Fri, 9AM – 6PM
-            </p>
-          </>
-        )}
-
-        {index === 2 && (
-          <>
-            <h3 className="text-xl font-semibold mb-3">Email Support</h3>
-            <p className="text-gray-300">
-              support@company.com <br />
-              Response within 24 hours
-            </p>
-          </>
-        )}
-
-      </motion.div>
-    ))}
+      ))}
+    </div>
 
   </div>
-</section>
+</div>
 
-{/* ================= CTA FORM SECTION ================= */}
-<section className="py-16 px-6">
-  <motion.div
-    initial={{ y: 60, opacity: 0 }}
-    whileInView={{ y: 0, opacity: 1 }}
-    transition={{ duration: 0.7 }}
-    viewport={{ once: true }}
-    whileHover={{ scale: 1.02 }}
-    className="max-w-4xl mx-auto bg-[#2a1a13]/90 backdrop-blur-lg border border-white/10 text-white rounded-2xl p-12 text-center shadow-2xl hover:shadow-orange-500/20 transition-all duration-300"
-  >
-    <h2 className="text-3xl md:text-4xl font-bold mb-6">
-      Have a specific question?
-    </h2>
+            {/* CONTACT CARDS - MATCHED STYLE */}
+{/* CONTACT SECTION */}
+<div className="py-24 px-6 bg-[#f1ede7]">
+  <div className="max-w-6xl mx-auto">
 
-    <p className="text-gray-300 mb-8">
-      Fill out our inquiry form and a representative will get back to you within
-      24 hours. Our specialists are ready to provide tailored solutions for your needs.
-    </p>
-
-    <Link to="/inquiry">
-                  <button className="bg-orange-500 hover:bg-orange-600 transition px-8 py-3 rounded-lg font-semibold shadow-lg hover:scale-105 active:scale-95">
-                    Contact Inquiry
-                  </button>
-                </Link>
-  </motion.div>
-</section>
-
-{/* ================= OUR LOCATION SECTION ================= */}
-<section className="py-16 px-6 bg-[#FCFAF8]">
-  <motion.div
-    initial={{ y: 60, opacity: 0 }}
-    whileInView={{ y: 0, opacity: 1 }}
-    transition={{ duration: 0.7 }}
-    viewport={{ once: true }}
-    className="max-w-6xl mx-auto"
-  >
-
-    <div className="flex justify-between items-center mb-6">
-      <h2 className="text-2xl md:text-3xl font-bold text-orange-500">
-        Our Location
+    {/* Section Heading */}
+    <div className="text-center mb-16">
+      <h2 className="text-3xl md:text-4xl font-serif text-stone-900">
+        Get in <span className="italic text-red-700">Touch</span>
       </h2>
 
-      <a
-        href="https://www.google.com/maps"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="text-orange-500 font-medium hover:underline hover:scale-105 transition"
-      >
-        Open in Google Maps ↗
-      </a>
+      <div className="w-20 h-[2px] bg-red-700 mx-auto mt-6"></div>
+
+      <p className="mt-6 text-stone-600 max-w-2xl mx-auto text-sm md:text-base">
+        Connect with our architectural clay specialists for project discussions,
+        technical support, or site visits.
+      </p>
     </div>
 
-    <div className="rounded-2xl overflow-hidden shadow-xl border border-gray-200 hover:shadow-orange-200/40 transition-all duration-300">
+    {/* Cards Grid */}
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 md:gap-8">
 
-      <iframe
-        title="Google Map"
-        src="https://www.google.com/maps?q=123%20Business%20Way&output=embed"
-        width="100%"
-        height="450"
-        style={{ border: 0 }}
-        allowFullScreen=""
-        loading="lazy"
-        className="grayscale hover:grayscale-0 transition duration-500"
-      ></iframe>
+      {contactInfo.map((item, idx) => {
+        const Icon = item.icon;
+
+        return (
+          <a
+            key={idx}
+            href={item.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group bg-white p-8 md:p-10 rounded-3xl shadow-md border border-stone-100 hover:shadow-xl transition duration-300 text-center w-full"
+          >
+            {/* Icon */}
+            <div className="w-14 h-14 md:w-16 md:h-16 mx-auto mb-6 rounded-2xl bg-stone-100 flex items-center justify-center group-hover:bg-red-700 transition">
+              <Icon className="w-6 h-6 md:w-7 md:h-7 text-red-700 group-hover:text-white transition" />
+            </div>
+
+            {/* Title */}
+            <h3 className="text-xs uppercase tracking-widest text-stone-400 mb-3">
+              {item.title}
+            </h3>
+
+            {/* Main Detail */}
+            <p className="text-lg md:text-xl font-sans text-stone-900 break-words leading-snug">
+              {item.detail}
+            </p>
+
+            {/* Sub Detail */}
+            <p className="text-sm text-stone-500 mt-2 break-all">
+              {item.subDetail}
+            </p>
+
+          </a>
+        );
+      })}
 
     </div>
+  </div>
+</div>
 
-  </motion.div>
-</section>
+            {/* MAP + FORM SECTION */}
+<div className="py-10 pt-20 px-6">
+  <div className="max-w-6xl mx-auto">
 
-    </motion.div>
+    <h2 className="text-3xl md:text-4xl font-serif text-center mb-16 text-stone-900">
+      Visit or Send Us an Inquiry
+    </h2>
+
+    <div className="grid md:grid-cols-2 gap-12 items-start">
+
+      {/* LEFT SIDE — MAP */}
+      <div className="space-y-6">
+        <h3 className="text-xl font-serif text-stone-800">
+          Our Manufacturing Hub
+        </h3>
+
+<div className="rounded-2xl overflow-hidden shadow-lg border border-stone-200 h-[280px] md:h-[320px]">
+  <iframe
+    title="VR & Sons Location - Kamrej, Gujarat"
+    src="https://maps.google.com/maps?q=Kamrej+Char+Rasta,+Surat,+Gujarat,+IN&output=embed"
+    width="100%"
+    height="100%"
+    style={{ border: 0 }}
+    loading="lazy"
+  ></iframe>
+</div>
+
+      </div>
+
+      {/* RIGHT SIDE — FORM */}
+      <div className="bg-white p-10 rounded-3xl shadow-xl border border-stone-100">
+        <h3 className="text-2xl font-serif mb-8 text-stone-900">
+          Quick Inquiry
+        </h3>
+
+        <form className="space-y-6">
+
+          <div className="grid md:grid-cols-2 gap-6">
+            <input
+              className="border border-stone-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
+              placeholder="Your Name"
+            />
+            <input
+              className="border border-stone-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
+              placeholder="Phone Number"
+            />
+          </div>
+
+          <input
+            className="border border-stone-300 p-3 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-red-600"
+            placeholder="Project Location"
+          />
+
+          <textarea
+            rows="4"
+            className="border border-stone-300 p-3 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-red-600"
+            placeholder="Project Details"
+          />
+
+          <button
+            type="submit"
+            className="w-full bg-red-700 text-white py-3 rounded-lg uppercase tracking-widest text-sm hover:bg-red-800 transition"
+          >
+            Submit Inquiry
+          </button>
+
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+            {/* FAQ */}
+            {/* FAQ */}
+<div className="py-20 px-6 relative z-10">
+  <div className="max-w-4xl mx-auto bg-white/90 border-stone-100 backdrop-blur-sm p-12 rounded-3xl shadow-xl">
+    <h2 className="text-3xl font-serif mb-8 text-center">
+      Frequently Asked Questions
+    </h2>
+
+    {[
+      {
+        question: "Do you supply outside Gujarat?",
+        answer:
+          "Yes, we supply across India with site-direct logistics support.",
+      },
+      {
+        question: "What is the minimum order quantity?",
+        answer:
+          "Minimum order depends on brick type. Contact our team for details.",
+      },
+      {
+        question: "Do you provide samples?",
+        answer:
+          "Yes, sample bricks can be dispatched upon request.",
+      },
+    ].map((faq, index) => (
+      <FAQItem
+        key={index}
+        question={faq.question}
+        answer={faq.answer}
+        isOpen={openIndex === index}
+        onClick={() =>
+          setOpenIndex(openIndex === index ? null : index)
+        }
+      />
+    ))}
+  </div>
+</div>
+
+          </div>
+        </section>
+
+      </main>
+
+      <Footer />
+    </div>
   );
 }

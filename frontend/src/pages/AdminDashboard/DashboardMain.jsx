@@ -10,25 +10,18 @@ function MainDashboard() {
   const [activePage, setActivePage] = useState('dashboard');
   const [editId, setEditId] = useState(null);
   const [selectedProduct, setSelectedProduct] = useState(null);
-  
-  // State for Sidebar Shrink/Expand
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
 
   const handleLogout = () => {
-    if(window.confirm("Are you sure you want to logout?")) {
+    if (window.confirm("Are you sure you want to logout?")) {
       alert("Logged out!");
     }
   };
 
   return (
-    <div className="flex min-h-screen bg-[#F8F7F5]">
-      
-      <style>{`
-        .font-serif { font-family: 'Cormorant Garamond', serif; }
-        .font-sans { font-family: 'Jost', sans-serif; }
-      `}</style>
+    // ❌ BODY SCROLL OFF
+    <div className="flex h-screen overflow-hidden bg-[#F8F7F5]">
 
-      {/* 1. Sidebar with collapsed states */}
       <Sidebar 
         activePage={activePage} 
         setActivePage={setActivePage} 
@@ -37,17 +30,18 @@ function MainDashboard() {
         setIsCollapsed={setIsSidebarCollapsed}
       />
 
-      {/* 2. Main Content Area */}
-      {/* ml-0: Mobile pe space cover karega | lg:ml: Desktop pe sidebar ke hisab se space chhodega */}
-      <div className={`flex-1 flex flex-col transition-all duration-300 ease-in-out 
-        ml-0 
-        ${isSidebarCollapsed ? 'lg:ml-20' : 'lg:ml-72'}`}
+      {/* MAIN AREA */}
+      <div
+        className={`flex-1 flex flex-col transition-all duration-300
+          ${isSidebarCollapsed ? 'lg:ml-20' : 'lg:ml-72'}
+        `}
       >
-        {/* Navbar */}
+        {/* NAVBAR FIXED */}
         <Navbar onProfileClick={() => setActivePage('profile')} />
 
-        <main className="p-4 flex-1">
-          {/* Dashboard View */}
+        {/* ✅ ONLY DASHBOARD SCROLLS */}
+        <main className="flex-1 overflow-y-auto p-4">
+          
           {activePage === 'dashboard' && (
             <Dashboard 
               onAddClick={() => setActivePage('add')} 
@@ -62,7 +56,6 @@ function MainDashboard() {
             />
           )}
 
-          {/* Product Form View (Add/Edit) */}
           {(activePage === 'add' || activePage === 'edit') && (
             <ProductForm 
               editId={activePage === 'edit' ? editId : null} 
@@ -73,12 +66,10 @@ function MainDashboard() {
             />
           )}
 
-          {/* Profile Settings View */}
           {activePage === 'profile' && (
             <ProfileSettings onCancel={() => setActivePage('dashboard')} />
           )}
 
-          {/* Product Details View */}
           {activePage === 'view' && (
             <ProductDetails 
               product={selectedProduct} 

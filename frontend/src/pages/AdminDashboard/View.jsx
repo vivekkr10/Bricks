@@ -167,7 +167,7 @@ const ProductDetails = ({ product, onBack }) => {
                 ["Strength", product.strength || "10 N/mm²"],
                 ["Water Absorption", product.waterAbsorption || "< 15%"],
                 ["Finish", product.finish || "Smooth"],
-                ["Color", product.color || "Natural Grey"]
+                ["weight", product.weight || "NA"]
               ].map(([label, value], i) => (
                 <AnimatedCard key={i}>
                   <Spec label={label} value={value} />

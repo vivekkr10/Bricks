@@ -14,10 +14,10 @@ const Sidebar = ({ activePage, setActivePage, handleLogout, isCollapsed, setIsCo
   return (
     <>
       {/* MOBILE HEADER (Sirf phone view me dikhega) */}
-      <div className="lg:hidden fixed top-0 left-0 right-0 h-16 bg-[#292524] flex items-center justify-between px-6 z-[60] border-b border-[#EA580C]/30">
+      <div className="lg:hidden fixed top-0 left-0 right-0 h-16 bg-white flex items-center justify-between px-6 z-[60] border-b border-[#EA580C]/30">
         <div className="flex items-center gap-3">
           <BrickWall size={20} className="text-[#EA580C]" />
-          <h1 className="font-black text-sm text-[#F5F5F4]">VR & SONS</h1>
+          <h1 className="font-black text-sm text-black">VR & SONS</h1>
         </div>
         <button 
           onClick={() => setIsMobileOpen(!isMobileOpen)}
@@ -94,11 +94,11 @@ const Sidebar = ({ activePage, setActivePage, handleLogout, isCollapsed, setIsCo
             onClick={handleLogout}
             className={`flex items-center gap-4 w-full p-3 rounded-xl transition-all duration-300 group hover:bg-red-500/10 ${isCollapsed ? 'justify-center' : ''}`}
           >
-            <div className="p-2 bg-[#292524] rounded-lg group-hover:bg-[#EA580C] text-[#EA580C] group-hover:text-white transition-colors duration-300 shrink-0">
+            <div className="p-2 group-hover:bg-[#EA580C] rounded-lg  text-white group-hover:text-white transition-colors duration-300 shrink-0">
               <LogOut size={20} />
             </div>
             {!isCollapsed && (
-              <span className="font-bold text-sm text-[#EA580C] uppercase tracking-widest group-hover:text-white whitespace-nowrap">Logout</span>
+              <span className="font-bold text-sm group-hover:text-[#EA580C] uppercase tracking-widest text-white whitespace-nowrap">Logout</span>
             )}
           </button>
         </div>
@@ -112,11 +112,11 @@ const NavItem = ({ icon, label, active, isCollapsed, onClick }) => (
     onClick={onClick}
     className={`flex items-center gap-4 p-3 rounded-xl cursor-pointer transition-all duration-300 group relative border-l-4 ${
       active 
-      ? 'bg-[#292524] border-[#EA580C] text-[#F5F5F4]' 
-      : 'hover:bg-[#292524]/50 border-transparent text-[#EA580C] hover:text-[#F5F5F4]'
+      ? 'bg-[#292524] border-[#EA580C] text-orange-600' 
+      : 'hover:bg-[#292524]/50 border-transparent hover:text-white text-white'
     } ${isCollapsed ? 'justify-center' : ''}`}
   >
-    <div className={`shrink-0 ${active ? 'text-[#F5F5F4]' : 'group-hover:text-[#F5F5F4]'} transition-colors`}>
+    <div className={`shrink-0 ${active ? 'text-orange-600' : 'group-hover:text-white'} transition-colors`}>
       {icon}
     </div>
     {!isCollapsed && (
