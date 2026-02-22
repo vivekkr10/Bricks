@@ -11,6 +11,7 @@ import Dashboard from "./pages/AdminDashboard/DashboardMain.jsx";
 import ProductForm from "./pages/AdminDashboard/ProductForm.jsx"
 import Profile from "./pages/AdminDashboard/profile.jsx"
 import BlogDetail from "./pages/blog/blogDetail.jsx"
+import ProtectedRoute from "./Components/ProtectedRoute.jsx";
 
 // 3. The Temporary Fix
 import ComingSoon from "./Components/commingsoon.jsx";
@@ -38,8 +39,10 @@ function App() {
         <Route path="/" element={<Home />} />
 
         {/* Admin Auth Routes */}
+        {/* <Route path="/dashboard" element={<ProtectedRoute><Dashboard/></ProtectedRoute>} />  */}
         <Route path="/dashboard" element={<Dashboard/>} /> 
          <Route path="/profile" element={<Profile/>} /> 
+        {/* <Route path="/ProductForm" element={<ProtectedRoute><ProductForm/></ProtectedRoute>} /> */}
         <Route path="/ProductForm" element={<ProductForm/>} />
         <Route path="/admin-login" element={<AdminLogin />} />
         <Route path="/admin-register" element={<AdminRegister />} />

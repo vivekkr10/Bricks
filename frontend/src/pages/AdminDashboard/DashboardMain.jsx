@@ -5,18 +5,36 @@ import Dashboard from './Dashboard';
 import ProductForm from './ProductForm'; 
 import ProfileSettings from './profile'; 
 import ProductDetails from './View'; 
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 function MainDashboard() {
   const [activePage, setActivePage] = useState('dashboard');
   const [editId, setEditId] = useState(null);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+  const navigate = useNavigate();
 
-  const handleLogout = () => {
-    if (window.confirm("Are you sure you want to logout?")) {
-      alert("Logged out!");
-    }
-  };
+const handleLogout = async () => {
+  try {
+    // Call backend to clear the httpOnly cookie
+    await axios.get('http://localhost:5000/api/auth/logout', {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('adminToken')}`
+      },
+      withCredentials: true
+    });
+  } catch (err) {
+    // Even if API call fails, still clear local storage and redirect
+    console.error('Logout error:', err);
+  } finally {
+    // Always clear localStorage and redirect
+    localStorage.removeItem('adminToken');
+    localStorage.removeItem('admin');
+    delete axios.defaults.headers.common['Authorization'];
+    navigate('/admin-login');
+  }
+};
 
   return (
     // ❌ BODY SCROLL OFF
