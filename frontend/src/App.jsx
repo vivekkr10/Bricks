@@ -20,18 +20,13 @@ import Contact from "./pages/contactPage/ContactSection.jsx";
 import AboutPage from "./pages/AboutPage/About.jsx";
 // Projects Page
 import ProjectPage from "./pages/Project/Project.jsx";
-
 import FeaturedArticle from "./pages/blog/FeaturedArticle.jsx";
 import ContactSection from "./pages/contactPage/ContactSection";
-import Inquiry from "./pages/contactPage/Inquiry";
-
 import ProjectDetailsPage from "./pages/Project/ProjectDetailPage.jsx";
-
 import ForgotPasswordOTP from "./pages/auth/ForgotPasswordOTP";
-import ForgotPassword from "./pages/auth/ForgotPassword";
 
-  
-
+import InquiryPage from "./Inquiry/InquiryForm.jsx";
+import ThankYouPage from "./Inquiry/ThankYou.jsx";
 
 
 
@@ -49,7 +44,6 @@ function App() {
         <Route path="/ProductForm" element={<ProductForm/>} />
         <Route path="/admin-login" element={<AdminLogin />} />
         <Route path="/admin-register" element={<AdminRegister />} />
-        <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/forgot-password" element={<ForgotPasswordOTP />} />
         {/* Other Routes */}
         <Route path="/services" element={<Services />} />
@@ -59,7 +53,7 @@ function App() {
         <Route path="/products/:id" element={<ProductDetails />} />
         <Route path="/blog" element={<FeaturedArticle />} />
         <Route path="/contact" element={<Contact />} />
-        <Route path="/inquiry" element={<Inquiry />} />
+        {/* <Route path="/inquiry" element={<Inquiry />} /> */}
         <Route path="/terms" element={<Terms />} />
         <Route path="/privacy" element={<Privacy />} />
         <Route path="/about" element={<AboutPage />} />
@@ -68,8 +62,8 @@ function App() {
         <Route path="/contact" element={<ContactSection />} />
 
 
-        
-
+       <Route path="/inquiry" element={<InquiryPage />} />
+      <Route path="/thankyou" element={<ThankYouPage />} />
         {/* 404 Fallback - Keep this at the end */}
         <Route path="*" element={<ComingSoon />} />
       </Routes>

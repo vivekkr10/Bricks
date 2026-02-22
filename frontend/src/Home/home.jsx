@@ -522,15 +522,16 @@ const ProductOverview = () => {
       </div>
 
       {/* Link aligned to the right, below the cards */}
-      <div className="container mx-auto px-6 mt-4 flex justify-end relative z-10">
+      <div className="container mx-auto px-6 mt-4 flex justify-center relative z-10">
         <Link
           to="/products"
           className=" hover:scale-105 
- inline-flex items-center text-red-700 font-bold font-sans uppercase tracking-widest text-xs hover:text-red-800 transition-colors group border-b-2 border-red-200 pb-1 hover:border-red-700"
+ inline-flex items-end text-red-700 font-bold font-sans uppercase  text-xs hover:text-red-800 transition-colors group border-b-2 border-red-200 pb-1 hover:border-red-700"
         >
           View Collection
           <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
         </Link>
+        
       </div>
 
       <style>{`
@@ -751,7 +752,7 @@ const Projects = () => {
           ))}
         </div>
  {/* side nav */}
-            <div className="container mx-auto px-6 mt-8 flex justify-end relative z-10">
+            <div className="container mx-auto px-6 mt-10 flex justify-center relative z-10">
         <Link
           to="/projects"
           className="inline-flex items-center text-red-700 font-semibold font-sans uppercase tracking-wide text-xs hover:text-red-800 transition-colors group border-b-2 border-red-200 pb-1 hover:border-red-700 hover:scale-105"
@@ -791,7 +792,7 @@ const CtaSection = () => {
           Whether you're an architect designing a modern masterpiece or a builder seeking reliable materials, our experts are here to help you select the perfect bricks for your vision.
         </p>
         <Link 
-          to="/contact" 
+          to="/inquiry" 
           className="inline-flex items-center px-6 py-3 bg-red-700 text-white font-bold font-sans text-xs uppercase tracking-wide rounded-xl hover:bg-red-800 transition-all duration-300  hover:-translate-y-1"
         >
           Inquire Now <ArrowRight className="w-4 h-4 ml-3" />

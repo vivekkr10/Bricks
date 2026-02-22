@@ -2,10 +2,8 @@ import React, { useState, useEffect, useMemo } from "react";
 import {
   Plus, EyeOff, Eye, Pencil, Trash2, Search, Package, 
   CheckCircle, XCircle, LayoutGrid, List, Filter, 
-  TrendingUp, Thermometer, Droplets, HardHat, 
-  Settings2, Download, Image as ImageIcon, ArrowUpRight,
-  Info, AlertTriangle, ShieldCheck, X,
-  Edit
+  ArrowUpRight, ImageIcon, Settings2, HardHat, X, Edit,
+  ChevronLeft, ChevronRight // Naye icons
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -47,6 +45,10 @@ const Dashboard = ({ onAddClick, onEditClick ,onViewClick }) => {
   const [viewMode, setViewMode] = useState("grid"); 
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
+  // --- PAGINATION LOGIC (Naya Add Kiya Gaya) ---
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 6; 
+
   const filteredProducts = useMemo(() => {
     return products.filter((p) => {
       const matchesSearch = p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -55,6 +57,17 @@ const Dashboard = ({ onAddClick, onEditClick ,onViewClick }) => {
       return matchesSearch && matchesCategory;
     });
   }, [products, searchTerm, activeCategory]);
+
+  // Current page ke items nikalne ke liye
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = filteredProducts.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
+
+  // Search ya category badalne par page 1 par reset karein
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm, activeCategory]);
 
   const stats = {
     total: products.length,
@@ -80,78 +93,65 @@ const Dashboard = ({ onAddClick, onEditClick ,onViewClick }) => {
   };
 
   return (
-    <div className="min-h-screen text-[#44403C] font-sarif">
-      <div className="relative max-w-[100%] mx-auto p-4 lg:p-2">
+    <div className="min-h-screen text-[#44403C] font-sans">
+      <div className="relative max-w-full mx-auto p-2 lg:p-2">
         
-        {/* --- TOP BRANDING --- */}
-        <header className="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-5 mb-12">
+        {/* --- HEADER --- */}
+        <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-10 md:mb-8">
           <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} className="space-y-2">
-            <h1 className="text-5xl font-black text-[#1C1917] tracking-tight leading-none">
+            <h1 className="text-4xl md:text-5xl font-black text-[#1C1917] tracking-tight leading-tight font-serif">
               Bricks <span className="text-orange-600">Catalog</span>
             </h1>
-            <p className="text-[#78716C] font-medium max-w-md">Real-time inventory and product monitoring.</p>
+            <p className="text-[#78716C] font-medium max-w-md text-sm md:text-base font-sans">Real-time inventory and product monitoring.</p>
           </motion.div>
 
           <motion.button
             whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}
             onClick={onAddClick}
-            className="text-white px-8 py-4 rounded-[1rem] font-black flex items-center gap-3 shadow-2xl bg-orange-600"
+            className="w-full md:w-auto text-white px-8 py-4 rounded-[1rem] font-black flex items-center justify-center gap-3 shadow-xl bg-orange-600 transition-shadow hover:shadow-orange-200"
           >
             <Plus size={20} /> Add New Product
           </motion.button>
         </header>
 
-        {/* --- 3 CARDS STATS (UPDATED COMPACT LAYOUT) --- */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+        {/* --- STATS --- */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
            <StatCard label="Total Products" value={stats.total} icon={<Package />} color="stone" />
            <StatCard label="Active Products" value={stats.active} icon={<CheckCircle />} color="green" />
            <StatCard label="Inactive Products" value={stats.inactive} icon={<XCircle />} color="orange" />
         </div>
 
-        {/* --- SEARCH & VIEW TOGGLE BAR --- */}
+        {/* --- SEARCH BAR --- */}
         <div className="bg-white p-4 rounded-[1.5rem] border border-stone-200 shadow-xl mb-8 space-y-4">
-          <div className="flex flex-col xl:flex-row gap-4 items-center">
+          <div className="flex flex-col lg:flex-row gap-4 items-center">
             <div className="relative flex-1 group w-full">
-              <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-stone-400 group-focus-within:text-orange-500" size={20} />
+              <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-stone-400 group-focus-within:text-orange-500 transition-colors" size={20} />
               <input
                 type="text"
                 placeholder="Search products..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-14 pr-6 py-4 rounded-[1.5rem] bg-stone-50 outline-none focus:ring-4 focus:ring-orange-500/5 font-bold"
+                className="w-full pl-14 pr-6 py-4 rounded-[1.5rem] bg-stone-50 outline-none border border-transparent focus:border-orange-200 focus:bg-white font-bold transition-all"
               />
             </div>
             
-            <div className="flex bg-stone-100 p-1.5 rounded-[1rem] border border-stone-200">
-               <button 
-                 onClick={() => setViewMode('grid')}
-                 className={`p-3 rounded-[1rem] transition-all ${viewMode === 'grid' ? "bg-white text-orange-600 shadow-md" : "text-stone-400"}`}
-               >
-                 <LayoutGrid size={20} />
-               </button>
-               <button 
-                 onClick={() => setViewMode('list')}
-                 className={`p-3 rounded-[1rem] transition-all ${viewMode === 'list' ? "bg-white text-orange-600 shadow-md" : "text-stone-400"}`}
-               >
-                 <List size={20} />
-               </button>
-            </div>
+            <div className="flex items-center gap-4 w-full lg:w-auto">
+              <div className="flex bg-stone-100 p-1.5 rounded-[1rem] border border-stone-200 flex-1 lg:flex-none">
+                 <button onClick={() => setViewMode('grid')} className={`flex-1 lg:flex-none p-3 rounded-[1rem] transition-all flex justify-center ${viewMode === 'grid' ? "bg-white text-orange-600 shadow-md" : "text-stone-400"}`}><LayoutGrid size={20} /></button>
+                 <button onClick={() => setViewMode('list')} className={`flex-1 lg:flex-none p-3 rounded-[1rem] transition-all flex justify-center ${viewMode === 'list' ? "bg-white text-orange-600 shadow-md" : "text-stone-400"}`}><List size={20} /></button>
+              </div>
 
-            <button 
-              onClick={() => setIsFilterOpen(!isFilterOpen)}
-              className={`flex items-center gap-2 px-6 py-4 rounded-[1rem] font-black text-sm transition-all border ${
-                isFilterOpen ? "bg-orange-600 text-white border-orange-600" : "bg-white text-stone-600 border-stone-200"
-              }`}
-            >
-              {isFilterOpen ? <X size={20} /> : <Filter size={20} />}
-              Filter
-            </button>
+              <button onClick={() => setIsFilterOpen(!isFilterOpen)} className={`flex-1 lg:flex-none flex items-center justify-center gap-2 px-6 py-4 rounded-[1rem] font-black text-sm transition-all border ${isFilterOpen ? "bg-orange-600 text-white border-orange-600" : "bg-white text-stone-600 border-stone-200 hover:bg-stone-50"}`}>
+                {isFilterOpen ? <X size={20} /> : <Filter size={20} />}
+                <span className="hidden sm:inline">Filter</span>
+              </button>
+            </div>
           </div>
 
           <AnimatePresence>
             {isFilterOpen && (
               <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="overflow-hidden border-t pt-4">
-                <div className="flex flex-wrap gap-2 justify-center">
+                <div className="flex flex-wrap gap-2 justify-center lg:justify-start">
                   {CATEGORIES.map(cat => (
                     <CategoryPill key={cat} label={cat} active={activeCategory === cat} onClick={() => setActiveCategory(cat)} />
                   ))}
@@ -161,10 +161,10 @@ const Dashboard = ({ onAddClick, onEditClick ,onViewClick }) => {
           </AnimatePresence>
         </div>
 
-        {/* --- PRODUCTS LIST/GRID --- */}
+        {/* --- PRODUCTS LIST (Using currentItems for Pagination) --- */}
         <div className={viewMode === 'grid' ? "grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6" : "space-y-6"}>
           <AnimatePresence mode="popLayout">
-            {filteredProducts.map((p, idx) => (
+            {currentItems.map((p) => (
               <motion.div layout key={p.id} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, scale: 0.9 }}>
                 {viewMode === 'list' ? (
                   <ListViewCard p={p} toggleStatus={toggleStatus} onEdit={onEditClick} onDelete={deleteProduct} onView={onViewClick} />
@@ -174,13 +174,58 @@ const Dashboard = ({ onAddClick, onEditClick ,onViewClick }) => {
               </motion.div>
             ))}
           </AnimatePresence>
+          
+          {filteredProducts.length === 0 && (
+            <div className="col-span-full py-20 text-center">
+              <Package size={48} className="mx-auto text-stone-200 mb-4" />
+              <p className="text-stone-400 font-bold uppercase tracking-widest text-sm">No products found</p>
+            </div>
+          )}
         </div>
+
+        {/* --- PAGINATION CONTROLS (Naya UI Section) --- */}
+        {totalPages > 1 && (
+          <div className="flex justify-center items-center gap-3 mt-12 pb-10">
+            <button 
+              disabled={currentPage === 1}
+              onClick={() => setCurrentPage(prev => prev - 1)}
+              className="p-3 rounded-xl border border-stone-200 bg-white disabled:opacity-30 hover:bg-orange-50 transition-colors"
+            >
+              <ChevronLeft size={20} />
+            </button>
+            
+            <div className="flex gap-2">
+              {[...Array(totalPages)].map((_, index) => (
+                <button
+                  key={index + 1}
+                  onClick={() => setCurrentPage(index + 1)}
+                  className={`w-10 h-10 rounded-xl font-bold transition-all border ${
+                    currentPage === index + 1 
+                    ? "bg-orange-600 text-white border-orange-600 shadow-lg shadow-orange-100" 
+                    : "bg-white text-stone-600 border-stone-200 hover:border-orange-600"
+                  }`}
+                >
+                  {index + 1}
+                </button>
+              ))}
+            </div>
+
+            <button 
+              disabled={currentPage === totalPages}
+              onClick={() => setCurrentPage(prev => prev + 1)}
+              className="p-3 rounded-xl border border-stone-200 bg-white disabled:opacity-30 hover:bg-orange-50 transition-colors"
+            >
+              <ChevronRight size={20} />
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
 };
 
-// --- UPDATED STAT CARD COMPONENT ---
+// --- AAPKE BAAKI COMPONENTS (StatCard, ListViewCard, GridViewCard, etc. - NO CHANGE) ---
+
 const StatCard = ({ label, value, icon, color }) => {
   const themes = {
     orange: "text-orange-600 bg-orange-50 border-orange-100",
@@ -188,7 +233,7 @@ const StatCard = ({ label, value, icon, color }) => {
     stone: "text-stone-600 bg-stone-50 border-stone-200",
   };
   return (
-    <div className="bg-white p-4 rounded-[1.5rem] border border-stone-200 shadow-sm flex items-center gap-4">
+    <div className="bg-white p-4 rounded-[1.5rem] border border-stone-200 shadow-sm flex items-center gap-4 hover:shadow-md transition-shadow">
       <div className={`p-3 rounded-xl ${themes[color]} border shrink-0`}>
         {React.cloneElement(icon, { size: 20 })}
       </div>
@@ -201,8 +246,8 @@ const StatCard = ({ label, value, icon, color }) => {
 };
 
 const ListViewCard = ({ p, toggleStatus, onEdit, onDelete, onView }) => (
-  <div className="bg-white p-6 rounded-[2.5rem] border border-stone-200 flex flex-col lg:flex-row gap-8 items-center hover:shadow-2xl hover:shadow-stone-200/40 hover:border-orange-200 transition-all group relative">
-    <div className="w-32 h-32 bg-stone-50 rounded-[2rem] flex items-center justify-center shrink-0 overflow-hidden border border-stone-100 shadow-inner group-hover:scale-105 transition-transform duration-500">
+  <div className="bg-white p-5 md:p-6 rounded-[2rem] border border-stone-200 flex flex-col md:flex-row gap-6 md:gap-8 items-start md:items-center hover:shadow-xl hover:border-orange-200 transition-all group relative">
+    <div className="w-full md:w-32 h-40 md:h-32 bg-stone-50 rounded-[1.5rem] md:rounded-[2rem] flex items-center justify-center shrink-0 overflow-hidden border border-stone-100 shadow-inner group-hover:scale-[1.02] transition-transform duration-500">
       {p.image ? (
         <img src={p.image} alt="" className="w-full h-full object-cover" />
       ) : (
@@ -211,30 +256,31 @@ const ListViewCard = ({ p, toggleStatus, onEdit, onDelete, onView }) => (
     </div>
 
     <div className="flex-1 w-full space-y-4">
-      <div className="flex flex-col md:flex-row justify-between items-start gap-4">
+      <div className="flex flex-col sm:flex-row justify-between items-start gap-4">
         <div>
           <div className="flex flex-wrap items-center gap-3">
-            <h3 className="text-2xl font-black text-[#1C1917] tracking-tight">{p.name}</h3>
+            <h3 className="text-xl md:text-2xl font-black text-[#1C1917] tracking-tight">{p.name}</h3>
             <span className={`px-3 py-1 rounded-xl text-[9px] font-black uppercase tracking-widest border ${
               p.status === "Active" ? "bg-green-50 text-green-700 border-green-100" : "bg-stone-50 text-stone-500 border-stone-200"
             }`}>
               {p.status}
             </span>
           </div>
-          <p className="text-stone-500 font-medium text-sm mt-1">{p.shortDesc}</p>
+          <p className="text-stone-500 font-medium text-sm mt-1 line-clamp-1">{p.shortDesc}</p>
         </div>
 
-        <div className="flex gap-2">
-           <ActionButton onClick={() => toggleStatus(p.id)} icon={p.status === "Inactive" ? <EyeOff size={18}/> : <Eye size={18}/>} tooltip="Toggle Visibility" />
-           <ActionButton onClick={() => onEdit(p.id)} icon={<Pencil size={18}/>} tooltip="Modify Asset" />
+        <div className="flex gap-2 w-full sm:w-auto">
+           <ActionButton onClick={() => toggleStatus(p.id)} icon={p.status === "Active" ? <Eye size={18}/> : <EyeOff size={18}/>} tooltip="Toggle Visibility" />
+           <ActionButton onClick={() => onEdit(p.id)} icon={<Edit size={18}/>} tooltip="Modify Asset" />
            <ActionButton onClick={() => onDelete(p.id)} icon={<Trash2 size={18}/>} variant="danger" tooltip="Decommission" />
         </div>
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-6 pt-6 border-t border-stone-100">
-         <InfoBlock label="Batch Specs" value={p.specs} icon={<Settings2 size={12}/>} />
-         <InfoBlock label="Application" value={p.usage} icon={<HardHat size={12}/>} />
-         <button onClick={() => onView(p)} className="ml-auto p-3 bg-orange-600 text-white rounded-xl hover:bg-orange-700 hover:scale-110 transition-all border border-orange-100">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 pt-4 border-t border-stone-100 items-end">
+         <InfoBlock label="Batch Size" value={p.size} icon={<Settings2 size={12}/>} />
+         <InfoBlock label="Application" value={p.application} icon={<HardHat size={12}/>} />
+         <button onClick={() => onView(p)} className="sm:ml-auto w-full sm:w-fit p-3 bg-orange-600 text-white rounded-xl hover:bg-orange-700 md:hover:scale-110 transition-all border border-orange-100 flex items-center justify-center gap-2">
+            <span className="sm:hidden font-bold text-xs uppercase tracking-widest">View Details</span>
             <ArrowUpRight size={16} />
         </button>
       </div>
@@ -244,7 +290,7 @@ const ListViewCard = ({ p, toggleStatus, onEdit, onDelete, onView }) => (
 
 const GridViewCard = ({ p, toggleStatus, onEdit, onDelete, onView }) => (
   <div className="bg-white p-4 rounded-[1.5rem] border border-stone-200 hover:shadow-2xl transition-all group h-full flex flex-col">
-    <div className="w-full h-48 bg-stone-50 rounded-[1.5rem] mb-3 overflow-hidden border border-stone-100 relative shadow-inner">
+    <div className="w-full h-48 bg-stone-50 rounded-[1.5rem] mb-4 overflow-hidden border border-stone-100 relative shadow-inner">
        {p.image ? (
         <img src={p.image} alt="" className="w-full h-full object-cover" />
       ) : (
@@ -255,28 +301,22 @@ const GridViewCard = ({ p, toggleStatus, onEdit, onDelete, onView }) => (
       </div>
     </div>
     
-    <div className="flex-1 space-y-2 mb-6">
-      <h3 className="text-2xl font-black text-[#1C1917] tracking-tight group-hover:text-orange-600 transition-colors line-clamp-1">{p.name}</h3>
+    <div className="flex-1 space-y-2 mb-6 px-1">
+      <h3 className="text-xl md:text-xl font-black text-[#1C1917] tracking-tight group-hover:text-orange-600 transition-colors line-clamp-1 uppercase font-sarif">{p.name}</h3>
       <p className="text-stone-500 text-sm font-medium line-clamp-2 leading-relaxed">{p.shortDesc}</p>
     </div>
 
-    <div className="space-y-4">
-         <InfoBlock label="Batch Specs" value={p.specs} icon={<Settings2 size={12}/>} />
-         <InfoBlock label="Application" value={p.usage} icon={<HardHat size={12}/>} />
-      
+    <div className="space-y-4 px-1 pb-1">
+      <div className="grid grid-cols-2 gap-2">
+        <InfoBlock label="Batch Size" value={p.size} icon={<Settings2 size={12}/>} />
+        <InfoBlock label="Application" value={p.application} icon={<HardHat size={12}/>} />
+      </div>
 
-      <div className="flex gap-8">
-          <button onClick={() => toggleStatus(p.id)} className={`p-3 rounded-xl border transition-all ${p.status === "Inactive" ? "bg-orange-50 text-orange-600 border-orange-100 hover:bg-orange-600 hover:text-white" : "bg-orange-50 text-orange-600 border-orange-100 hover:bg-orange-600 hover:text-white"}`}>
-            {p.status === "Inactive" ? <EyeOff size={16} /> : <Eye size={16} />}
-          </button>
-        <button onClick={() => onEdit(p.id)} className="p-3 bg-red-50 text-red-600 rounded-xl hover:scale-110 transition-all border border-red-100">
-          <Edit size={16} tooltip="Modify Asset" /></button>
-        <button onClick={() => onDelete(p.id)} className="p-3 bg-red-50 text-red-600 rounded-xl hover:bg-red-600 hover:text-white hover:scale-110 transition-all border border-red-100">
-           <Trash2 size={16} />
-        </button>
-        <button onClick={() => onView(p)} className="ml-auto p-3 bg-orange-600 text-white rounded-xl hover:bg-orange-700 hover:scale-110 transition-all border border-orange-100">
-            <ArrowUpRight size={16} />
-        </button>
+      <div className="flex justify-between gap-2 pt-2">
+        <ActionButton onClick={() => toggleStatus(p.id)} icon={p.status === "Active" ? <Eye size={18}/> : <EyeOff size={18}/>} tooltip="Toggle Visibility" />
+           <ActionButton onClick={() => onEdit(p.id)} icon={<Edit size={18}/>} tooltip="Modify Asset" />
+           <ActionButton onClick={() => onDelete(p.id)} icon={<Trash2 size={18}/>} variant="danger" tooltip="Decommission" />
+        <ActionButton onClick={() => onView(p)} icon={<ArrowUpRight size={18}/>} tooltip="View Details" />
       </div>
     </div>
   </div>
@@ -285,9 +325,9 @@ const GridViewCard = ({ p, toggleStatus, onEdit, onDelete, onView }) => (
 const CategoryPill = ({ label, active, onClick }) => (
   <button
     onClick={onClick}
-    className={`px-6 py-2.5 rounded-xl text-[9px] font-black uppercase tracking-widest transition-all border
+    className={`px-4 md:px-6 py-2 md:py-2.5 rounded-xl text-[9px] font-black uppercase tracking-widest transition-all border whitespace-nowrap
       ${active 
-        ? "bg-orange-600 text-white border-orange-600 shadow-lg shadow-orange-200" 
+        ? "bg-orange-600 text-white border-orange-600 shadow-lg shadow-orange-100" 
         : "bg-white text-stone-500 border-stone-100 hover:border-orange-600 hover:text-stone-600"
       }`}
   >
@@ -297,10 +337,10 @@ const CategoryPill = ({ label, active, onClick }) => (
 
 const InfoBlock = ({ label, value, icon }) => (
   <div className="space-y-1">
-    <p className="text-[9px] font-black text-stone-400 uppercase tracking-widest flex items-center gap-1.5">
+    <p className="text-[9px] font-black text-stone-400 uppercase tracking-widest flex items-center gap-1.5 leading-none">
        {icon} {label}
     </p>
-    <p className="text-xs font-bold text-stone-800">{value}</p>
+    <p className="text-xs font-bold text-stone-800 line-clamp-1">{value}</p>
   </div>
 );
 
@@ -310,10 +350,10 @@ const ActionButton = ({ icon, onClick, variant = "default", tooltip }) => (
     whileTap={{ scale: 0.9 }}
     onClick={onClick}
     title={tooltip}
-    className={`p-3 rounded-2xl border transition-all shadow-sm ${
+    className={`flex-1 sm:flex-none p-3 rounded-xl border transition-all shadow-sm flex items-center justify-center ${
       variant === "danger" 
-      ? "bg-red-50 border-red-100 text-red-600 hover:bg-red-600 hover:text-white hover:shadow-red-200" 
-      : "bg-white border-stone-200 text-stone-500 hover:border-orange-600 hover:text-orange-600 hover:shadow-orange-100"
+      ? "bg-red-50 border-red-100 text-red-600 hover:bg-red-600 hover:text-white" 
+      : "bg-white border-stone-200 text-stone-500 hover:border-orange-600 hover:text-orange-600"
     }`}
   >
     {icon}

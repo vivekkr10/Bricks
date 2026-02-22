@@ -2,6 +2,40 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Helmet } from 'react-helmet';
+import {
+  Home,
+  Building2,
+  Landmark,
+  Palette,
+  Layers,
+  Zap,
+  Columns,
+  Castle,
+  PanelTop,
+  Sparkles,
+  Warehouse,
+  Store,
+  Factory,
+  Hammer,
+  Wrench,
+  Lightbulb,
+  Grid3x3,
+  Briefcase,
+  Sofa,
+  Crown,
+  Waves,
+  Eye,
+  Award,
+  Wind,
+  Maximize2,
+  Clock,
+  TreePine,
+  Pickaxe,
+  Compass,
+  Leaf,
+  Trees,
+  Shovel
+} from 'lucide-react';
 import productsData from './productsData';
 import Header from '../../Components/header';
 import Footer from '../../Components/footer';
@@ -18,6 +52,76 @@ const BrickWall = ({ opacity = 0.06, color = "#8B4513" }) => (
     <rect width="100%" height="100%" fill={`url(#bwall-${color.replace("#", "")})`} opacity={opacity} />
   </svg>
 );
+
+// Icon mapping for application areas
+const getApplicationIcon = (applicationArea) => {
+  const iconProps = {
+    size: 40,
+    strokeWidth: 1.5,
+    className: 'text-red-600'
+  };
+
+  const iconMap = {
+    // Product 1 (Classic Red Premium)
+    'Residential Buildings': <Home {...iconProps} />,
+    'Heritage Projects': <Castle {...iconProps} />,
+    'Classic Architecture': <Columns {...iconProps} />,
+    'Face Brickwork': <PanelTop {...iconProps} />,
+    'Decorative Walls': <Palette {...iconProps} />,
+    'Premium Exteriors': <Landmark {...iconProps} />,
+    // Product 2 (Multicolor Blend)
+    'Traditional Architecture': <Wrench {...iconProps} />,
+    'Heritage Properties': <Warehouse {...iconProps} />,
+    'Artistic Projects': <Sparkles {...iconProps} />,
+    'Feature Walls': <Layers {...iconProps} />,
+    'Gallery Spaces': <Store {...iconProps} />,
+    'Character Buildings': <Building2 {...iconProps} />,
+    // Product 3 (Dark Grey)
+    'Modern Commercial': <Factory {...iconProps} />,
+    'Contemporary Homes': <Sofa {...iconProps} />,
+    'Urban Architecture': <Grid3x3 {...iconProps} />,
+    'Accent Walls': <Hammer {...iconProps} />,
+    'Industrial Lofts': <Briefcase {...iconProps} />,
+    'Contemporary Design': <Lightbulb {...iconProps} />,
+    // Product 4 (Hamptons Light)
+    'Premium Residences': <Crown {...iconProps} />,
+    'Coastal Projects': <Waves {...iconProps} />,
+    'Luxury Developments': <Eye {...iconProps} />,
+    'Upscale Exteriors': <Award {...iconProps} />,
+    'Elegant Facades': <Wind {...iconProps} />,
+    'Designer Buildings': <Maximize2 {...iconProps} />,
+    // Product 5 (Yellow Gold)
+    'Luxury Projects': <Crown {...iconProps} />,
+    'High-end Residences': <Sofa {...iconProps} />,
+    'Premium Commercial': <Factory {...iconProps} />,
+    'Showcase Buildings': <Eye {...iconProps} />,
+    'High-visibility Projects': <Award {...iconProps} />,
+    'Signature Architecture': <Sparkles {...iconProps} />,
+    // Product 6 (Rumbled Texture)
+    'Heritage Restoration': <Clock {...iconProps} />,
+    'Country Estates': <TreePine {...iconProps} />,
+    'Artisan Projects': <Pickaxe {...iconProps} />,
+    'Historic Buildings': <Landmark {...iconProps} />,
+    'Character Properties': <Castle {...iconProps} />,
+    'Rustic Architecture': <Trees {...iconProps} />,
+    // Product 7 (Reclaimed Vintage)
+    'Historic Restoration': <Compass {...iconProps} />,
+    'Period Properties': <Castle {...iconProps} />,
+    'Heritage Conservation': <Leaf {...iconProps} />,
+    'Antique Preservation': <Clock {...iconProps} />,
+    'Listed Buildings': <Landmark {...iconProps} />,
+    'Museum Projects': <Store {...iconProps} />,
+    // Product 8 (Red Paver)
+    'Outdoor Landscapes': <Trees {...iconProps} />,
+    'Garden Design': <Leaf {...iconProps} />,
+    'Patio Construction': <Hammer {...iconProps} />,
+    'Driveway Installation': <Shovel {...iconProps} />,
+    'Pathway Creation': <Grid3x3 {...iconProps} />,
+    'Outdoor Living Spaces': <Sofa {...iconProps} />
+  };
+
+  return iconMap[applicationArea] || <Building2 {...iconProps} />;
+};
 
 const ProductDetailPage = () => {
   const { id } = useParams();
@@ -218,7 +322,8 @@ const ProductDetailPage = () => {
       <div className="min-h-screen bg-stone-50 text-stone-800" style={{ fontFamily: "'Jost', sans-serif" }}>
         <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600;1,700&family=Jost:wght@300;400;500;600;700&display=swap');
-        .font-serif { font-family: 'Cormorant Garamond', Georgia, serif !important; }
+        .font-serif { font-family: 'Cormorant Garamond', serif; }
+        .font-sans { font-family: 'Jost', sans-serif; }
         html { scroll-behavior: smooth; }
         @keyframes floatA { 0%,100%{transform:translateY(0) rotate(0deg)} 50%{transform:translateY(-14px) rotate(3deg)} }
         @keyframes floatB { 0%,100%{transform:translateY(0) rotate(0deg)} 50%{transform:translateY(-10px) rotate(-2deg)} }
@@ -279,9 +384,10 @@ const ProductDetailPage = () => {
           </button>
         </div>
 
-        <div className={`${pageContainerClass} py-12`}>
+        <div className={`${pageContainerClass} py-12 relative`}>
+          <BrickWall opacity={0.05} color="#8B4513" />
           {/* Main Product Section */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 mb-20">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 mb-20 relative z-10">
             {/* Image Gallery */}
             <motion.div
               initial={{ opacity: 0, x: -40 }}
@@ -342,20 +448,13 @@ const ProductDetailPage = () => {
               transition={{ duration: 0.6, delay: 0.2 }}
             >
               <div className="bg-white rounded-2xl shadow-2xl shadow-red-200/50 p-10">
-                {/* Title & Rating */}
+                {/* Title */}
                 <h1 className="text-5xl font-serif font-bold text-stone-900 mb-2">{product.name}</h1>
 
                 <div className="flex items-center gap-4 mb-8 pb-8 border-b border-red-100">
-                  <div className="flex items-center gap-1">
-                    {[1, 2, 3, 4, 5].map((star) => (
-                      <svg key={star} className="w-5 h-5 text-yellow-500 fill-current" viewBox="0 0 20 20">
-                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                      </svg>
-                    ))}
-                  </div>
-                  <span className="text-stone-600 font-medium">(124 reviews)</span>
-                  <span className="text-stone-300">|</span>
-                  <span className="text-emerald-600 font-semibold tracking-wide">In Stock</span>
+                  <span className={`font-semibold tracking-wide ${product.inStock ? 'text-emerald-600' : 'text-red-600'}`}>
+                    {product.inStock ? 'In Stock' : 'Out of Stock'}
+                  </span>
                 </div>
 
                 {/* Quick Specs */}
@@ -452,12 +551,13 @@ const ProductDetailPage = () => {
           </div>
 
           {/* Tabs Section */}
-          <div>
+          <div className="relative">
+            <BrickWall opacity={0.05} color="#8B4513" />
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.4 }}
-              className="bg-white rounded-2xl shadow-2xl shadow-red-200/50 overflow-hidden mb-20"
+              className="bg-white rounded-2xl shadow-2xl shadow-red-200/50 overflow-hidden mb-20 relative z-10"
             >
               {/* Tab Headers */}
               <div className="flex border-b-2 border-red-100">
@@ -468,15 +568,6 @@ const ProductDetailPage = () => {
                     icon: (
                       <svg className="w-5 h-5 inline mr-2" fill="currentColor" viewBox="0 0 20 20">
                         <path d="M4 4a2 2 0 012-2h8a2 2 0 012 2v12a1 1 0 110 2h-3.5a1 1 0 01-.82-.4l-2.09-2.59a1 1 0 00-.78-.4H4a2 2 0 01-2-2V4z" />
-                      </svg>
-                    )
-                  },
-                  {
-                    id: 'specifications',
-                    label: 'Specifications',
-                    icon: (
-                      <svg className="w-5 h-5 inline mr-2" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h1a1 1 0 001-1v-6a1 1 0 00-1-1h-1z" />
                       </svg>
                     )
                   },
@@ -545,7 +636,7 @@ const ProductDetailPage = () => {
                             'Environmentally sustainable'
                           ].map((benefit, index) => (
                             <li key={index} className="flex items-center gap-3 text-stone-700 p-3 bg-red-50 rounded-xl border border-red-100">
-                              <svg className="w-6 h-6 text-red-600 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                              <svg className="w-6 h-6 text-emerald-600 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                                 <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                               </svg>
                               {benefit}
@@ -555,29 +646,21 @@ const ProductDetailPage = () => {
                       </div>
                     )}
 
-                    {activeTab === 'specifications' && (
-                      <div>
-                        <h3 className="text-3xl font-serif font-bold text-stone-900 mb-8">Technical Specifications</h3>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                          {Object.entries(product.specifications).map(([key, value]) => (
-                            <div key={key} className="flex justify-between items-center p-6 bg-gradient-to-br from-red-50 to-yellow-50 rounded-2xl border border-red-100">
-                              <span className="text-stone-700 font-medium capitalize">{key.replace(/([A-Z])/g, ' $1')}</span>
-                              <span className="font-bold text-stone-900 text-lg">{value}</span>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-
                     {activeTab === 'applications' && (
                       <div>
                         <h3 className="text-3xl font-serif font-bold text-stone-900 mb-8">Ideal Applications</h3>
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
                           {product.applicationAreas.map((area, index) => (
-                            <div key={index} className="text-center p-8 bg-gradient-to-br from-red-50 to-yellow-50 rounded-2xl hover:shadow-xl transition-all border border-red-100 hover:border-red-300">
-                              <div className="text-4xl mb-4">🏗️</div>
-                              <span className="font-semibold text-stone-900">{area}</span>
-                            </div>
+                            <motion.div
+                              key={index}
+                              whileHover={{ y: -8 }}
+                              className="text-center p-8 bg-gradient-to-br from-red-50 to-yellow-50 rounded-2xl hover:shadow-xl transition-all duration-300 border border-red-100 hover:border-red-300 group"
+                            >
+                              <div className="flex items-center justify-center mb-4 h-16 transition-transform duration-300 group-hover:scale-110">
+                                {getApplicationIcon(area)}
+                              </div>
+                              <span className="font-semibold text-stone-900 text-sm md:text-base leading-tight">{area}</span>
+                            </motion.div>
                           ))}
                         </div>
                         <p className="mt-8 text-sm text-stone-500 italic text-center">
@@ -630,98 +713,17 @@ const ProductDetailPage = () => {
             </motion.div>
           </div>
 
-          {/* Reviews Section */}
-          <div className="mb-20">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.5 }}
-              className="bg-white rounded-2xl shadow-2xl shadow-red-200/50 p-12"
-            >
-              <h2 className="text-4xl font-serif font-bold text-stone-900 mb-10">Customer Reviews</h2>
 
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
-                {/* Rating Summary */}
-                <div className="flex flex-col items-center justify-center p-8 bg-gradient-to-br from-red-50 to-yellow-50 rounded-2xl border border-red-100">
-                  <div className="text-6xl font-serif font-bold text-red-600 mb-4">{product.rating}</div>
-                  <div className="flex items-center gap-1 mb-4">
-                    {[...Array(5)].map((_, i) => (
-                      <span key={i} className={`text-3xl ${i < Math.floor(product.rating) ? 'text-yellow-500' : 'text-stone-300'}`}>
-                        ★
-                      </span>
-                    ))}
-                  </div>
-                  <p className="text-stone-700 text-center font-medium">Based on {product.reviews} reviews</p>
-
-                  {/* Rating Breakdown */}
-                  <div className="mt-8 w-full space-y-3">
-                    {[5, 4, 3, 2, 1].map((rating) => {
-                      const percentage = Math.random() * 100 | 0; // Simulate percentages
-                      return (
-                        <div key={rating} className="flex items-center gap-3">
-                          <span className="text-sm font-medium text-stone-700 w-8">{rating}★</span>
-                          <div className="flex-1 h-2 bg-stone-200 rounded-full overflow-hidden">
-                            <div
-                              className="h-full bg-yellow-500 transition-all duration-300"
-                              style={{ width: `${percentage}%` }}
-                            ></div>
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-
-                {/* Reviews List */}
-                <div className="lg:col-span-2 space-y-6">
-                  {[
-                    { name: 'Rajesh Kumar', rating: 5, date: '2 weeks ago', text: 'Excellent quality bricks! Perfect for our residential project. Highly recommended.' },
-                    { name: 'Amit Singh', rating: 5, date: '1 month ago', text: 'Best bricks in the market. Strong, durable, and great customer support.' },
-                    { name: 'Priya Patel', rating: 4, date: '1.5 months ago', text: 'Good quality and reasonable prices. Delivery was on time.' }
-                  ].map((review, index) => (
-                    <motion.div
-                      key={index}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: index * 0.1 }}
-                      className="border-b-2 border-red-100 pb-8 last:border-b-0"
-                    >
-                      <div className="flex items-start justify-between mb-4">
-                        <div>
-                          <h4 className="font-semibold text-stone-900 text-lg">{review.name}</h4>
-                          <p className="text-sm text-stone-600">{review.date}</p>
-                        </div>
-                        <div className="flex gap-1">
-                          {[...Array(5)].map((_, i) => (
-                            <span key={i} className={`text-xl ${i < review.rating ? 'text-yellow-500' : 'text-stone-300'}`}>
-                              ★
-                            </span>
-                          ))}
-                        </div>
-                      </div>
-                      <p className="text-stone-700 leading-relaxed">{review.text}</p>
-                    </motion.div>
-                  ))}
-
-                  {/* <motion.button
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    className="w-full mt-8 px-6 py-4 border-2 border-red-300 text-red-600 rounded-2xl hover:bg-red-50 transition-all font-semibold text-lg tracking-wide"
-                  >
-                    View All Reviews
-                  </motion.button> */}
-                </div>
-              </div>
-            </motion.div>
-          </div>
 
           {/* Related Products */}
           {relatedProducts.length > 0 && (
-            <div className="mb-20">
+            <div className="mb-20 relative">
+              <BrickWall opacity={0.05} color="#8B4513" />
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.6 }}
+                className="relative z-10"
               >
                 <h2 className="text-4xl font-serif font-bold text-stone-900 mb-12">Related Products</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">

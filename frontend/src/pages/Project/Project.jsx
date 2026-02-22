@@ -549,11 +549,12 @@ export default function ProjectPage() {
 
         {/* Filter Section */}
         <motion.div
-          className="sticky top-16 z-40 bg-white/80 backdrop-blur-xl border-b border-slate-200 shadow-lg"
+          className="sticky top-16 z-40 bg-red/800 backdrop-blur-xl border-b border-slate-200 shadow-lg"
           initial={{ y: -100 }}
           animate={{ y: 0 }}
           transition={{ duration: 0.5 }}
         >
+        <BrickWall opacity={0.02} color="#8B4513" />
           <div className="container mx-auto px-6 lg:px-8 py-6">
             <div className="flex flex-wrap justify-center gap-3">
               {filters.map((filter) => {
@@ -592,26 +593,6 @@ export default function ProjectPage() {
                     )}
 
                     <span className="relative z-10">{filter}</span>
-
-                    {/* Count badge */}
-                    <motion.span
-                      className={`absolute -top-1 -right-1 w-5 h-5 rounded-full text-xs flex items-center justify-center ${
-                        isActive
-                          ? "bg-white text-orange-700"
-                          : "bg-orange-100 text-orange-600"
-                      }`}
-                      initial={{ scale: 0 }}
-                      animate={{ scale: 1 }}
-                      transition={{
-                        type: "spring",
-                        stiffness: 500,
-                        delay: 0.1,
-                      }}
-                    >
-                      {filter === "All"
-                        ? projects.length
-                        : projects.filter((p) => p.category === filter).length}
-                    </motion.span>
                   </motion.button>
                 );
               })}
@@ -620,62 +601,13 @@ export default function ProjectPage() {
         </motion.div>
 
         {/* Enhanced Projects Grid with Padding */}
-        <div className="container mx-auto px-4 py-16 relative">
+        <div className="container mx-auto px-15 py-16 relative">
           {/* Card Section Background */}
-          <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            {/* Your Brick Pattern - More Visible */}
-            <BrickWall opacity={0.25} color="#8B4513" />
-
-            {/* Gradient Orbs for Depth */}
-            <div className="absolute top-20 left-0 w-96 h-96 bg-orange-200/20 rounded-full blur-3xl"></div>
-            <div className="absolute bottom-20 right-0 w-96 h-96 bg-blue-200/20 rounded-full blur-3xl"></div>
-            <div className="absolute top-1/2 left-1/3 w-64 h-64 bg-purple-200/20 rounded-full blur-3xl"></div>
-
-            {/* Subtle Grid Overlay */}
-            <svg className="absolute inset-0 w-full h-full opacity-[0.05]">
-              <defs>
-                <pattern
-                  id="grid-overlay"
-                  x="0"
-                  y="0"
-                  width="40"
-                  height="40"
-                  patternUnits="userSpaceOnUse"
-                >
-                  <path
-                    d="M 40 0 L 0 0 0 40"
-                    fill="none"
-                    stroke="#8B4513"
-                    strokeWidth="0.8"
-                  />
-                </pattern>
-              </defs>
-              <rect width="100%" height="100%" fill="url(#grid-overlay)" />
-            </svg>
-
-            {/* Floating Architectural Elements */}
-            <div className="absolute top-40 left-10 w-20 h-20 border border-[#8B4513]/20 rotate-45"></div>
-            <div className="absolute bottom-40 right-10 w-32 h-32 border border-[#8B4513]/20 rounded-full"></div>
-            <div className="absolute top-60 right-40 w-16 h-16 border border-[#8B4513]/20 rotate-12"></div>
-
-            {/* Decorative Line */}
-            <svg
-              className="absolute bottom-0 left-0 w-full opacity-[0.1]"
-              viewBox="0 0 100 20"
-              preserveAspectRatio="none"
-            >
-              <path
-                d="M0,20 L20,5 L40,15 L60,0 L80,10 L100,3"
-                stroke="#8B4513"
-                fill="none"
-                strokeWidth="2"
-              />
-            </svg>
-          </div>
+          <BrickWall opacity={0.04} color="#8B4513" />
           {/* <AnimatePresence mode="wait"> */}
           <motion.div
             key={activeFilter}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10"
+            className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 lg:gap-8"
             variants={containerVariants}
             initial="hidden"
             animate="visible"
@@ -742,7 +674,7 @@ export default function ProjectPage() {
                     transition={{ delay: index * 0.1 + 0.1 }}
                   >
                     {project.details.year && (
-                      <span className="px-3 py-1 bg-blue-600 text-white rounded-full text-xs font-semibold shadow-lg">
+                      <span className="px-3 py-1 bg-white text-black rounded-full text-xs font-semibold shadow-lg">
                         {project.details.year}
                       </span>
                     )}
