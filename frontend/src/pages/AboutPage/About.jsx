@@ -488,7 +488,7 @@ export default function AboutPage() {
           <BrickWall opacity={0.05} color="#8B4513" />
 
           {/* Main Content Container */}
-          <div className="max-w-7xl mx-auto w-full relative z-10 px-4 sm:px-6 lg:px-16">
+          <div className="max-w-8xl mx-auto w-full relative z-10 px-4 sm:px-6 lg:px-16">
             <div className="grid lg:grid-cols-2 gap-8 lg:gap-6 items-center">
               {/* Left Content */}
               <div className="max-w-3xl">
@@ -502,34 +502,34 @@ export default function AboutPage() {
                   <motion.span
                     animate={{ scale: [1, 1.2, 1] }}
                     transition={{ duration: 2, repeat: Infinity }}
-                    className="w-1.5 h-1.5 rounded-full bg-orange-600 block flex-shrink-0"
+                    className="w-1.5 h-1.5 rounded-full bg-red-600 block flex-shrink-0"
                   />
-                  <span className="text-[9px] sm:text-xs font-bold tracking-widest uppercase text-orange-600">
+                  <span className="text-[9px] sm:text-xs font-bold tracking-widest uppercase text-red-600">
                     Trusted Since 1986 · Residential · Commercial · Industrial
                   </span>
                 </motion.div>
 
                 {/* Headline with enhanced animations - REDUCED TEXT SIZES */}
-                <h1 className="font-serif leading-none mb-4 sm:mb-6">
+                <h1 className="font-serif leading-none mb-4  sm:mb-6">
                   {[
                     {
-                      text: "Built on",
-                      cls: "text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-light text-stone-700",
+                      text: "Built on Strength",
+                      cls: "text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-semibold text-stone-700",
                       delay: 0.2,
                     },
-                    {
-                      text: "Strength,",
-                      cls: "text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold text-stone-900",
-                      delay: 0.4,
-                    },
+                    // {
+                    //   text: "Strength,",
+                    //   cls: "text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold text-stone-900",
+                    //   delay: 0.4,
+                    // },
                     {
                       text: "Fired with",
-                      cls: "text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-light text-stone-700",
-                      delay: 0.6,
+                      cls: "text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-semibold text-stone-700",
+                      delay: 0.5,
                     },
                     {
                       text: "Purpose.",
-                      cls: "text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold italic text-orange-600",
+                      cls: "text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold italic text-red-600",
                       delay: 0.8,
                     },
                   ].map(({ text, cls, delay }) => (
@@ -596,7 +596,7 @@ export default function AboutPage() {
                   <motion.button
                     whileHover={{ scale: 1.03, y: -2 }}
                     whileTap={{ scale: 0.98 }}
-                    className="group w-full sm:w-auto cursor-pointer px-5 py-2.5 border-2 border-stone-300 text-stone-600 font-semibold text-sm tracking-wide rounded-xl hover:border-orange-400 hover:text-orange-600 hover:bg-orange-50/50 transition-all duration-300 flex items-center justify-center gap-2"
+                    className="group w-full sm:w-auto cursor-pointer px-5 py-2.5 border-2 border-stone-300 text-stone-600 font-semibold text-sm tracking-wide rounded-xl hover:border-red-400 hover:text-red-600 hover:bg-red-50/50 transition-all duration-300 flex items-center justify-center gap-2"
                   >
                     <GiBrickWall className="w-3.5 h-3.5 group-hover:rotate-12 transition-transform" />
                     <span>Our Products</span>
@@ -623,7 +623,7 @@ export default function AboutPage() {
                     },
                     {
                       icon: <FaAward className="w-3 h-3" />,
-                      text: "35+ Years of Trust",
+                      text: "40+ Years of Trust",
                       color: "from-blue-500 to-blue-600",
                     },
                   ].map(({ icon, text, color }, index) => (
@@ -695,7 +695,7 @@ export default function AboutPage() {
                       repeat: Infinity,
                       ease: "linear",
                     }}
-                    className="absolute -z-10 -top-6 -right-6 w-24 h-24 border border-orange-200 rounded-full"
+                    className="absolute -z-10 -top-6 -right-6 w-24 h-24 border border-red-200 rounded-full"
                   />
                   <motion.div
                     animate={{ rotate: -360 }}
@@ -704,7 +704,7 @@ export default function AboutPage() {
                       repeat: Infinity,
                       ease: "linear",
                     }}
-                    className="absolute -z-10 -bottom-6 -left-6 w-20 h-20 border border-dashed border-orange-200 rounded-full"
+                    className="absolute -z-10 -bottom-6 -left-6 w-20 h-20 border border-dashed border-red-200 rounded-full"
                   />
                 </div>
               </motion.div>
@@ -714,9 +714,9 @@ export default function AboutPage() {
           {/* 1986 watermark - SMALLER */}
           <motion.div
             initial={{ opacity: 0 }}
-            animate={{ opacity: 0.04 }}
+            animate={{ opacity: 0.05 }}
             transition={{ delay: 1.5 }}
-            className="absolute bottom-2 right-2 sm:right-4 font-serif text-[5rem] sm:text-[7rem] lg:text-[10rem] font-bold text-orange-600 leading-none pointer-events-none select-none hidden sm:block"
+            className="absolute bottom-2 right-2 sm:right-4 font-serif text-[5rem] sm:text-[7rem] lg:text-[10rem] font-bold text-red-600 leading-none pointer-events-none select-none hidden sm:block"
           >
             1986
           </motion.div>
@@ -935,7 +935,7 @@ export default function AboutPage() {
           <BrickWall opacity={0.08} color="#8B4513" />
 
           {/* Gradient overlay - more subtle */}
-          <div className="absolute top-0 right-0 w-2/5 h-full bg-gradient-to-l from-orange-50/50 via-orange-50/20 to-transparent hidden lg:block" />
+          <div className="absolute top-0 right-0 w-2/5 h-full bg-gradient-to-l from-red-50/50 via-red-50/20 to-transparent hidden lg:block" />
 
           {/* Decorative element - subtle brick texture overlay */}
           <div
@@ -951,10 +951,10 @@ export default function AboutPage() {
               <div className="space-y-8">
                 {/* Badge */}
                 <div
-                  className={`inline-flex items-center gap-2.5 bg-orange-50 border border-orange-200 rounded-full px-4 py-2 reveal-left ${storyInView ? "visible" : ""}`}
+                  className={`inline-flex items-center gap-2.5 bg-red-50 border border-red-200 rounded-full px-4 py-2 reveal-left ${storyInView ? "visible" : ""}`}
                 >
-                  <span className="w-2 h-2 rounded-full bg-orange-500 animate-pulse" />
-                  <span className="text-[11px] sm:text-xs font-bold tracking-[0.2em] uppercase text-orange-600">
+                  <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
+                  <span className="text-[11px] sm:text-xs font-bold tracking-[0.2em] uppercase text-red-600">
                     Established 1986
                   </span>
                 </div>
@@ -967,8 +967,8 @@ export default function AboutPage() {
                   <br />
                   in{" "}
                   <span className="relative">
-                    <span className="text-orange-600 relative z-10">Clay</span>
-                    <span className="absolute bottom-2 left-0 w-full h-3 bg-orange-200/50 -z-0 rounded-full" />
+                    <span className="text-red-600 relative z-10">Clay</span>
+                    <span className="absolute bottom-2 left-0 w-full h-3 bg-red-200/50 -z-0 rounded-full" />
                   </span>
                   <br />
                   Written in Stone.
@@ -1012,7 +1012,7 @@ export default function AboutPage() {
                         {label}
                       </div>
                       {/* Decorative dot */}
-                      <div className="absolute -left-4 top-1/2 -translate-y-1/2 w-1 h-1 bg-orange-300 rounded-full hidden sm:block" />
+                      <div className="absolute -left-4 top-1/2 -translate-y-1/2 w-1 h-1 bg-red-300 rounded-full hidden sm:block" />
                     </div>
                   ))}
                 </div>
@@ -1027,7 +1027,7 @@ export default function AboutPage() {
                     ["Industrial", "Facilities"],
                   ].map(([category, type]) => (
                     <div key={category} className="group cursor-default">
-                      <div className="border-l-4 border-orange-500 pl-4 transition-all duration-300 group-hover:border-orange-600 group-hover:pl-5">
+                      <div className="border-l-4 border-red-500 pl-4 transition-all duration-300 group-hover:border-red-600 group-hover:pl-5">
                         <div className="font-serif text-lg sm:text-xl font-bold text-stone-900">
                           {category}
                         </div>
@@ -1045,7 +1045,7 @@ export default function AboutPage() {
                 className={`space-y-5 reveal-right ${storyInView ? "visible" : ""}`}
               >
                 {/* Main Feature Card */}
-                <div className="group relative bg-gradient-to-br from-stone-900 to-stone-800 rounded-3xl overflow-hidden shadow-2xl shadow-orange-900/20 transform transition-all duration-500 hover:scale-[1.02] hover:shadow-orange-600/25">
+                <div className="group relative bg-gradient-to-br from-stone-900 to-stone-800 rounded-3xl overflow-hidden shadow-2xl shadow-red-900/20 transform transition-all duration-500 hover:scale-[1.02] hover:shadow-red-600/25">
                   {/* Decorative pattern */}
                   <div
                     className="absolute inset-0 opacity-10"
@@ -1058,8 +1058,8 @@ export default function AboutPage() {
                   <div className="relative p-6 sm:p-8">
                     <div className="flex items-center justify-between">
                       <div className="space-y-2">
-                        <div className="flex items-center gap-2 text-orange-300/80 text-xs font-medium tracking-wider">
-                          <span className="w-1.5 h-1.5 bg-orange-400 rounded-full" />
+                        <div className="flex items-center gap-2 text-red-300/80 text-xs font-medium tracking-wider">
+                          <span className="w-1.5 h-1.5 bg-red-400 rounded-full" />
                           Premium Collection
                         </div>
                         <div>
@@ -1074,7 +1074,7 @@ export default function AboutPage() {
 
                       {/* Year Badge */}
                       <div className="relative">
-                        <div className="w-16 h-16 sm:w-20 sm:h-20 bg-orange-600 rounded-2xl flex flex-col items-center justify-center shadow-lg transform rotate-3 transition-transform group-hover:rotate-6">
+                        <div className="w-16 h-16 sm:w-20 sm:h-20 bg-red-600 rounded-2xl flex flex-col items-center justify-center shadow-lg transform rotate-3 transition-transform group-hover:rotate-6">
                           <div className="font-serif text-3xl sm:text-4xl font-bold text-white leading-none">
                             40
                           </div>
@@ -1083,7 +1083,7 @@ export default function AboutPage() {
                           </div>
                         </div>
                         {/* Decorative ring */}
-                        <div className="absolute -inset-1 border border-orange-500/30 rounded-2xl -z-10" />
+                        <div className="absolute -inset-1 border border-red-500/30 rounded-2xl -z-10" />
                       </div>
                     </div>
 
@@ -1091,10 +1091,10 @@ export default function AboutPage() {
                     <div className="mt-6 pt-4 border-t border-stone-700">
                       <div className="flex justify-between text-xs text-stone-400 mb-2">
                         <span>Quality Index</span>
-                        <span className="text-orange-400">98.5%</span>
+                        <span className="text-red-400">98.5%</span>
                       </div>
                       <div className="h-1.5 bg-stone-700 rounded-full overflow-hidden">
-                        <div className="h-full w-[98.5%] bg-gradient-to-r from-orange-500 to-orange-400 rounded-full" />
+                        <div className="h-full w-[98.5%] bg-gradient-to-r from-red-500 to-red-400 rounded-full" />
                       </div>
                     </div>
                   </div>
@@ -1103,12 +1103,12 @@ export default function AboutPage() {
                 {/* Bottom Cards Grid */}
                 <div className="grid grid-cols-2 gap-5">
                   {/* Trust Card */}
-                  <div className="group bg-white border border-stone-200 rounded-2xl p-5 sm:p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:border-orange-200">
+                  <div className="group bg-white border border-stone-200 rounded-2xl p-5 sm:p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:border-red-200">
                     <div className="flex gap-1 mb-3">
                       {[...Array(5)].map((_, i) => (
                         <FaStar
                           key={i}
-                          className="w-4 h-4 text-orange-500 fill-current"
+                          className="w-4 h-4 text-red-500 fill-current"
                         />
                       ))}
                     </div>
@@ -1126,8 +1126,8 @@ export default function AboutPage() {
                           className="w-6 h-6 rounded-full bg-stone-200 border-2 border-white"
                         />
                       ))}
-                      <div className="w-6 h-6 rounded-full bg-orange-100 border-2 border-white flex items-center justify-center">
-                        <span className="text-[8px] font-bold text-orange-600">
+                      <div className="w-6 h-6 rounded-full bg-red-100 border-2 border-white flex items-center justify-center">
+                        <span className="text-[8px] font-bold text-red-600">
                           +
                         </span>
                       </div>
@@ -1145,7 +1145,7 @@ export default function AboutPage() {
                     />
 
                     <div className="relative">
-                      <TbBuildingFactory2 className="w-8 h-8 sm:w-10 sm:h-10 text-orange-400 mb-4" />
+                      <TbBuildingFactory2 className="w-8 h-8 sm:w-10 sm:h-10 text-red-400 mb-4" />
                       <div>
                         <div className="text-white text-lg font-bold font-serif mb-1">
                           Est. 1986
@@ -1158,8 +1158,8 @@ export default function AboutPage() {
 
                       {/* Floating indicator */}
                       <div className="absolute top-0 right-0 w-12 h-12">
-                        <div className="absolute inset-0 bg-orange-500/10 rounded-full animate-ping" />
-                        <div className="absolute top-2 right-2 w-2 h-2 bg-orange-500 rounded-full" />
+                        <div className="absolute inset-0 bg-red-500/10 rounded-full animate-ping" />
+                        <div className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full" />
                       </div>
                     </div>
                   </div>
@@ -1168,11 +1168,11 @@ export default function AboutPage() {
                 {/* Achievement Badge */}
                 <div className="flex items-center gap-3 text-xs text-stone-500 pt-2">
                   <div className="flex items-center gap-1">
-                    <span className="w-1 h-1 bg-orange-500 rounded-full" />
+                    <span className="w-1 h-1 bg-red-500 rounded-full" />
                     <span>ISO 9001:2023</span>
                   </div>
                   <div className="flex items-center gap-1">
-                    <span className="w-1 h-1 bg-orange-500 rounded-full" />
+                    <span className="w-1 h-1 bg-red-500 rounded-full" />
                     <span>Green Building Certified</span>
                   </div>
                 </div>
@@ -1189,7 +1189,7 @@ export default function AboutPage() {
           <div className="absolute inset-0 opacity-[0.07] pointer-events-none">
             <div className="grid grid-cols-12 grid-rows-8 gap-1 p-2 h-full">
               {Array.from({ length: 96 }).map((_, i) => (
-                <div key={i} className="bg-orange-600 rounded-sm" />
+                <div key={i} className="bg-red-600 rounded-sm" />
               ))}
             </div>
           </div>
@@ -1197,26 +1197,26 @@ export default function AboutPage() {
             <div
               className={`text-center mb-10 sm:mb-16 section-reveal ${missionInView ? "visible" : ""}`}
             >
-              <div className="inline-flex items-center gap-2 bg-orange-900/50 border border-orange-700/50 rounded-full px-4 py-1.5 mb-4 sm:mb-5">
-                <span className="w-1.5 h-1.5 rounded-full bg-orange-400 block" />
-                <span className="text-[10px] sm:text-xs font-bold tracking-widest uppercase text-orange-400">
+              <div className="inline-flex items-center gap-2 bg-red-900/50 border border-red-700/50 rounded-full px-4 py-1.5 mb-4 sm:mb-5">
+                <span className="w-1.5 h-1.5 rounded-full bg-red-400 block" />
+                <span className="text-[10px] sm:text-xs font-bold tracking-widest uppercase text-red-400">
                   Our Foundation
                 </span>
               </div>
               <h2 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight">
-                Mission &amp; <em className="text-orange-400">Vision</em>
+                Mission &amp; <em className="text-red-400">Vision</em>
               </h2>
             </div>
 
             <div className="grid sm:grid-cols-2 gap-4 sm:gap-6">
               {/* Mission */}
               <div
-                className={`bg-white/5 border border-white/10 rounded-2xl sm:rounded-3xl p-6 sm:p-10 hover:border-orange-500/40 transition-all duration-500 group reveal-left ${missionInView ? "visible" : ""}`}
+                className={`bg-white/5 border border-white/10 rounded-2xl sm:rounded-3xl p-6 sm:p-10 hover:border-red-500/40 transition-all duration-500 group reveal-left ${missionInView ? "visible" : ""}`}
               >
-                <div className="w-12 h-12 sm:w-14 sm:h-14 bg-orange-600/20 border border-orange-600/40 rounded-xl sm:rounded-2xl flex items-center justify-center mb-5 sm:mb-6">
-                  <FaHardHat className="w-5 h-5 sm:w-6 sm:h-6 text-orange-400" />
+                <div className="w-12 h-12 sm:w-14 sm:h-14 bg-red-600/20 border border-red-600/40 rounded-xl sm:rounded-2xl flex items-center justify-center mb-5 sm:mb-6">
+                  <FaHardHat className="w-5 h-5 sm:w-6 sm:h-6 text-red-400" />
                 </div>
-                <div className="text-orange-400 text-[10px] sm:text-xs font-bold tracking-widest uppercase mb-2 sm:mb-3">
+                <div className="text-red-400 text-[10px] sm:text-xs font-bold tracking-widest uppercase mb-2 sm:mb-3">
                   Our Mission
                 </div>
                 <h3 className="font-serif text-2xl sm:text-3xl font-bold text-white mb-4 sm:mb-5">
@@ -1233,7 +1233,7 @@ export default function AboutPage() {
                       key={i}
                       className="flex items-start gap-2.5 sm:gap-3 text-stone-300 text-xs sm:text-sm leading-relaxed"
                     >
-                      <FaCheckCircle className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-orange-500 flex-shrink-0 mt-0.5" />
+                      <FaCheckCircle className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-500 flex-shrink-0 mt-0.5" />
                       <span>{item}</span>
                     </li>
                   ))}
@@ -1242,7 +1242,7 @@ export default function AboutPage() {
 
               {/* Vision */}
               <div
-                className={`bg-orange-600 rounded-2xl sm:rounded-3xl p-6 sm:p-10 relative overflow-hidden reveal-right ${missionInView ? "visible" : ""}`}
+                className={`bg-red-800 rounded-2xl sm:rounded-3xl p-6 sm:p-10 relative overflow-hidden reveal-right ${missionInView ? "visible" : ""}`}
               >
                 <div className="absolute inset-0 opacity-10 pointer-events-none">
                   <div className="grid grid-cols-6 grid-rows-6 gap-0.5 p-1 h-full">
@@ -1444,8 +1444,8 @@ export default function AboutPage() {
                 <div
                   className={`inline-flex items-center gap-2 bg-orange-50 border border-orange-200 rounded-full px-4 py-1.5 mb-4 sm:mb-5 reveal-left ${coverageInView ? "visible" : ""}`}
                 >
-                  <span className="w-1.5 h-1.5 rounded-full bg-orange-600 block" />
-                  <span className="text-[10px] sm:text-xs font-bold tracking-widest uppercase text-orange-600">
+                  <span className="w-1.5 h-1.5 rounded-full bg-red-700 block" />
+                  <span className="text-[10px] sm:text-xs font-bold tracking-widest uppercase text-red-700">
                     Service Reach
                   </span>
                 </div>
@@ -1454,7 +1454,7 @@ export default function AboutPage() {
                 >
                   Serving Builders
                   <br />
-                  Across <em className="text-orange-600">India.</em>
+                  Across <em className="text-red-700">India.</em>
                 </h2>
                 <p
                   className={`text-stone-500 text-sm sm:text-base leading-relaxed font-light mb-5 sm:mb-6 reveal-left d2 ${coverageInView ? "visible" : ""}`}
@@ -1473,7 +1473,7 @@ export default function AboutPage() {
                   ].map(([v, l]) => (
                     <div
                       key={v}
-                      className="border-l-4 border-orange-500 pl-3 sm:pl-4"
+                      className="border-l-4 border-red-600 pl-3 sm:pl-4"
                     >
                       <div className="font-serif text-base sm:text-lg font-bold text-stone-900">
                         {v}
@@ -1487,7 +1487,7 @@ export default function AboutPage() {
                 <div
                   className={`reveal-left d4 ${coverageInView ? "visible" : ""}`}
                 >
-                  <button className="w-full cursor-pointer sm:w-auto px-6 sm:px-8 py-3.5 sm:py-4 bg-orange-600 text-white font-bold text-xs tracking-widest uppercase rounded-xl shadow-xl shadow-orange-200 glow-btn hover:bg-orange-700 hover:-translate-y-1 transition-all duration-300 flex items-center justify-center gap-2">
+                  <button className="w-full cursor-pointer sm:w-auto px-6 sm:px-8 py-3 sm:py-4 bg-red-700 text-white font-bold text-xs tracking-widest uppercase rounded-xl shadow-xl  hover:bg-red-800 hover:-translate-y-1 transition-all duration-300 flex items-center justify-center gap-2">
                     <FaTruck className="w-4 h-4" />
                     <span>Get a Quote</span>
                   </button>
@@ -1497,7 +1497,7 @@ export default function AboutPage() {
               <div
                 className={`reveal-right ${coverageInView ? "visible" : ""}`}
               >
-                <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-6 border border-orange-100 shadow-2xl shadow-orange-100/30">
+                <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-6 border border-red-100 shadow-2xl shadow-red-100/30">
                   <div className="mb-4 sm:mb-5">
                     <div className="text-[10px] sm:text-xs font-bold tracking-widest uppercase text-stone-400 mb-3">
                       Brick Tone Palette
@@ -1511,9 +1511,9 @@ export default function AboutPage() {
                       ))}
                     </div>
                   </div>
-                  <div className="border-t border-orange-100 pt-4 sm:pt-5">
+                  <div className="border-t border-red-100 pt-4 sm:pt-5">
                     <div className="text-[10px] sm:text-xs font-bold tracking-widest uppercase text-stone-400 mb-3 flex items-center gap-2">
-                      <FaTruck className="text-orange-500 flex-shrink-0" />{" "}
+                      <FaTruck className="text-red-500 flex-shrink-0" />{" "}
                       Active Service Cities
                     </div>
                     <div className="flex flex-wrap gap-1.5 sm:gap-2">
@@ -1522,10 +1522,10 @@ export default function AboutPage() {
                           key={city}
                           onMouseEnter={() => setHoveredCity(city)}
                           onMouseLeave={() => setHoveredCity(null)}
-                          className={`flex items-center gap-1 sm:gap-1.5 border rounded-lg px-2 sm:px-3 py-1 sm:py-1.5 text-[10px] sm:text-xs font-semibold transition-all duration-300 cursor-default ${hoveredCity === city ? "bg-orange-600 text-white border-orange-600 shadow-md shadow-orange-200 scale-105" : "bg-stone-50 text-stone-600 border-stone-200 hover:border-orange-300"}`}
+                          className={`flex items-center gap-1 sm:gap-1.5 border rounded-lg px-2 sm:px-3 py-1 sm:py-1.5 text-[10px] sm:text-xs font-semibold transition-all duration-300 cursor-default ${hoveredCity === city ? "bg-red-600 text-white border-red-600 shadow-md shadow-orange-200 scale-105" : "bg-stone-50 text-stone-600 border-stone-200 hover:border-red-300"}`}
                         >
                           <span
-                            className={`w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full ${hoveredCity === city ? "bg-white" : "bg-orange-500"} transition-colors flex-shrink-0`}
+                            className={`w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full ${hoveredCity === city ? "bg-white" : "bg-red-600"} transition-colors flex-shrink-0`}
                           />
                           {city}
                         </div>
