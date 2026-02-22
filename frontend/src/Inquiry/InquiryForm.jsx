@@ -207,7 +207,7 @@ const InquiryPage = () => {
               </div>
 
               <div className="md:col-span-2 pt-6">
-                <button type="submit" disabled={loading} className="w-full bg-red-700  text-white font-bold py-6 rounded-2xl hover:bg-red-800 transition-all duration-300 hover:translate-y-1 hover:shadow-xl active:scale-[0.98] uppercase tracking-[0.4em] text-[12px]">
+                <button type="submit" disabled={loading} className="w-full bg-red-700 cursor-pointer text-white font-bold py-6 rounded-2xl hover:bg-red-800 transition-all duration-300 hover:translate-y-1 hover:shadow-xl active:scale-[0.98] uppercase tracking-[0.4em] text-[12px]">
                   {loading ? "Processing..." : "Submit Inquiry"}
                 </button>
               </div>

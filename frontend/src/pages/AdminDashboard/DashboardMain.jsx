@@ -3,12 +3,14 @@ import Sidebar from './Sidebar';
 import Navbar from './Nav';   
 import Dashboard from './Dashboard';   
 import ProductForm from './ProductForm'; 
+import AddCategory from './Category';
 import ProfileSettings from './profile'; 
 import ProductDetails from './View'; 
 
 function MainDashboard() {
   const [activePage, setActivePage] = useState('dashboard');
   const [editId, setEditId] = useState(null);
+  const [catId, setCatId] = useState(null);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
 
@@ -53,7 +55,15 @@ function MainDashboard() {
                 setSelectedProduct(product); 
                 setActivePage('view');        
               }}
+              onCatClick={(category) => {
+                setActivePage('category');
+              }}
             />
+          )}
+
+          {activePage === 'category' && (
+            <AddCategory 
+            onBack={() => { setActivePage('dashboard'); setEditId(null); }} />
           )}
 
           {(activePage === 'add' || activePage === 'edit') && (

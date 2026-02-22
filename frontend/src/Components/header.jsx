@@ -75,18 +75,18 @@ const Header = () => {
           </Link>
 
           {/* DESKTOP NAVIGATION */}
-          <nav className="hidden md:flex items-center gap-8 ml-2">
-            {navLinks.map((link) => (
+<nav className="hidden lg:flex items-center gap-6 ml-2">
+                {navLinks.map((link) => (
               <Link 
                 key={link.name}
                 to={link.path} 
-                className={`text-m font-semibold  tracking-[0.15em] transition-colors duration-300 ${
-                  location.pathname === link.path 
-                    ? 'text-red-700' 
-                    : shouldBeSolid 
-                      ? 'text-stone-700 hover:text-red-700  ' 
-                      : 'text-white/80 hover:text-white'
-                }`}
+               className={`relative text-m font-semibold tracking-[0.15em] transition-colors duration-300  after:content-[''] after:absolute after:left-0 after:-bottom-0.5 after:h-[2px] after:w-full after:transition-transform after:duration-300 ${
+  location.pathname === link.path
+    ? 'text-red-700 after:scale-x-100 after:bg-red-700'
+    : shouldBeSolid
+      ? 'text-stone-700 hover:text-red-700 after:bg-red-700 after:scale-x-0 hover:after:scale-x-100'
+      : 'text-white/80 hover:text-white after:bg-white after:scale-x-0 hover:after:scale-x-100'
+}`}
               >
                 {link.name}
               </Link>
@@ -94,15 +94,14 @@ const Header = () => {
             
             <Link 
               to="/contact" 
-              className="bg-red-700 hover:bg-red-800 text-white px-6 py-3 rounded-xl text-sm font-semibold  tracking-wide transition-all shadow-md hover:shadow-xl  active:scale-95"
-            >
+className="bg-red-700 hover:bg-red-800 text-white px-4 lg:px-6 py-2.5 lg:py-3 rounded-xl text-sm font-semibold tracking-wide transition-all shadow-md hover:shadow-xl active:scale-95 whitespace-nowrap"            >
               Contact Us
             </Link>
           </nav>
 
           {/* MOBILE TOGGLE */}
           <button 
-            className={`md:hidden p-2 transition-colors ${
+            className={`lg:hidden p-2 transition-colors ${
               shouldBeSolid ? 'text-stone-900 hover:text-red-800' : 'text-white hover:text-red-800'
             }`}
             onClick={() => setIsOpen(!isOpen)}
@@ -114,7 +113,7 @@ const Header = () => {
 
       {/* MOBILE DRAWER */}
       <div 
-        className={`md:hidden absolute left-0 right-0 top-full mt-0 mx-auto w-full bg-white border-b border-stone-200 overflow-hidden transition-all duration-400 ease-in-out origin-top shadow-xl ${
+        className={`lg:hidden absolute left-0 right-0 top-full mt-0 mx-auto w-full bg-white border-b border-stone-200 overflow-hidden transition-all duration-400 ease-in-out origin-top shadow-xl ${
           isOpen ? 'translate-y-0 opacity-100 visible' : '-translate-y-4 opacity-0 invisible'
         }`}
       >
