@@ -10,8 +10,7 @@ import Home from "./Home/home.jsx";
 import Dashboard from "./pages/AdminDashboard/DashboardMain.jsx";
 import ProductForm from "./pages/AdminDashboard/ProductForm.jsx"
 import Profile from "./pages/AdminDashboard/profile.jsx"
-
-
+import BlogDetail from "./pages/blog/blogDetail.jsx"
 
 // 3. The Temporary Fix
 import ComingSoon from "./Components/commingsoon.jsx";
@@ -52,6 +51,7 @@ function App() {
         <Route path="/products" element={<ProductsPage />} />
         <Route path="/products/:id" element={<ProductDetails />} />
         <Route path="/blog" element={<FeaturedArticle />} />
+        <Route path="/blog/:id" element={<BlogDetail />} />
         <Route path="/contact" element={<Contact />} />
         {/* <Route path="/inquiry" element={<Inquiry />} /> */}
         <Route path="/terms" element={<Terms />} />
