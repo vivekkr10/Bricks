@@ -7,6 +7,7 @@ import Header from '../Components/header';
 import Footer from '../Components/footer';
 import { heroImg, brick1, brick2, brick3, brick4, brick5, brick6, brick7 ,G1, G2, G3, G4, G5, G6, G7, G8, G9, G10, G11, G12,P1,P2,P3} from "../assets/homeAssets";
 // --- HOOKS ---
+
 const useScrollReveal = (threshold = 0.3) => {
   const [isVisible, setIsVisible] = useState(false);
   const ref = useRef(null);
