@@ -53,7 +53,7 @@ const Footer = () => {
               Quick Links
             </h4>
             <ul className="space-y-3 text-sm">
-              {['Home', 'About Us', 'Products', 'Projects',, 'Services' , 'Blog', 'Contact Us' ].map((item) => (
+              {['Home', 'About', 'Products', 'Projects',, 'Services' , 'Blog', 'Contact' ].map((item) => (
                 <li key={item}>
                   <Link 
                     to={item === 'Home' ? '/' : `/${item.toLowerCase().replace(' ', '')}`} 
@@ -72,18 +72,22 @@ const Footer = () => {
             <h4 className="text-white font-bold mb-6 text-xs uppercase tracking-[0.2em] border-l-2 border-red-600 pl-3">
               Legal
             </h4>
-            <ul className="space-y-3 text-sm">
-              <li>
-                <Link to="/terms" className="text-stone-300 hover:text-red-600 transition-all  duration-300 group-hover:w-3 ">
-                  Terms & Conditions
-                </Link>
-              </li>
-              <li>
-                <Link to="/privacy" className="text-stone-300 hover:text-red-600 transition-all  duration-300 group-hover:w-3 ">
-                  Privacy Policy
-                </Link>
-              </li>
-            </ul>
+          <ul className="space-y-3 text-sm">
+  {[
+    { name: "Terms & Conditions", path: "/terms" },
+    { name: "Privacy Policy", path: "/privacy" },
+  ].map((item) => (
+    <li key={item.name}>
+      <Link
+        to={item.path}
+        className="text-stone-300 hover:text-red-600 transition-colors flex items-center gap-2 group font-light"
+      >
+        <span className="h-[1px] w-0 bg-red-600 transition-all duration-300 group-hover:w-3"></span>
+        {item.name}
+      </Link>
+    </li>
+  ))}
+</ul>
           </div>
 
           {/* 4. Contact Details */}

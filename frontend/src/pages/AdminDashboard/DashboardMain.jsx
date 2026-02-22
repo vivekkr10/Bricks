@@ -22,7 +22,7 @@ const handleLogout = async () => {
     // Call backend to clear the httpOnly cookie
     await axios.get('http://localhost:5000/api/auth/logout', {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem('adminToken')}`
+        Authorization: `Bearer ${localStorage.getItem('token')}`
       },
       withCredentials: true
     });
@@ -31,7 +31,7 @@ const handleLogout = async () => {
     console.error('Logout error:', err);
   } finally {
     // Always clear localStorage and redirect
-    localStorage.removeItem('adminToken');
+    localStorage.removeItem('token');
     localStorage.removeItem('admin');
     delete axios.defaults.headers.common['Authorization'];
     navigate('/admin-login');

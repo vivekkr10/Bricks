@@ -39,11 +39,9 @@ function App() {
         <Route path="/" element={<Home />} />
 
         {/* Admin Auth Routes */}
-        {/* <Route path="/dashboard" element={<ProtectedRoute><Dashboard/></ProtectedRoute>} />  */}
-        <Route path="/dashboard" element={<Dashboard/>} /> 
-         <Route path="/profile" element={<Profile/>} /> 
-        {/* <Route path="/ProductForm" element={<ProtectedRoute><ProductForm/></ProtectedRoute>} /> */}
-        <Route path="/ProductForm" element={<ProductForm/>} />
+        <Route path="/dashboard" element={<ProtectedRoute><Dashboard/></ProtectedRoute>} /> 
+         <Route path="/profile" element={<ProtectedRoute><Profile/></ProtectedRoute>} /> 
+        <Route path="/ProductForm" element={<ProtectedRoute><ProductForm/></ProtectedRoute>} />
         <Route path="/admin-login" element={<AdminLogin />} />
         <Route path="/admin-register" element={<AdminRegister />} />
         <Route path="/forgot-password" element={<ForgotPasswordOTP />} />
