@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Helmet } from 'react-helmet';
 import { AlignCenter } from "lucide-react";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate ,useSearchParams} from 'react-router-dom';
 import ProductCard from './ProductCard';
 import ProductFilters from './ProductFilters';
 import ProductSkeleton from './ProductSkeleton';
@@ -76,6 +76,7 @@ const BrickWall = ({ opacity = 0.06, color = "#8B4513" }) => (
 
 const ProductsPage = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -319,6 +320,21 @@ const ProductsPage = () => {
       subtitleClass: "text-stone-200"
     }
   ];
+
+  useEffect(() => {
+    const categoryQuery = searchParams.get('category');
+    if (categoryQuery) {
+      // This uses your existing handleFilterChange function
+      handleFilterChange('category', categoryQuery);
+      
+      // Optional: Scroll to products section immediately when a category is selected via URL
+      setTimeout(() => {
+        if (productsRef.current) {
+          productsRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 100);
+    }
+  }, [searchParams]);
 
   return (
     <><Header />

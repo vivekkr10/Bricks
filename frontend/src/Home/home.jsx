@@ -505,7 +505,9 @@ const ProductOverview = () => {
 
         <div className="flex animate-marquee-horizontal gap-6 ">
           {[...products, ...products, ...products].map((p, i) => (
-            <div key={i} className="w-64 md:w-72 flex-shrink-0 group cursor-pointer">
+            <Link key={i} 
+            to={`/products?category=${encodeURIComponent(p.title)}`}
+            className="w-64 md:w-72 flex-shrink-0 group cursor-pointer">
               <div className="h-56 overflow-hidden rounded-2xl mb-4 shadow-sm border border-stone-300 bg-white group-hover:shadow-xl group-hover:border-orange-300 transition-all duration-500">
                 <img
                   src={p.img}
@@ -516,7 +518,7 @@ const ProductOverview = () => {
               <h3 className="text-xl font-serif font-medium text-stone-900 group-hover:text-orange-700 transition-colors text-center">
                 {p.title}
               </h3>
-            </div>
+            </Link>
           ))}
         </div>
       </div>
@@ -609,7 +611,7 @@ const col3 = [G9, G10, G11, G12];
 
             {/* Text colors adjusted for dark background */}
             {/* <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif font-medium text-white mt-2 mb-8 leading-tight"> */}
-             Building Dreams with Quality and Strength <br /> <span className="italic text-red-700">Brick Impressions.</span>
+             Building Dreams with Quality and Strength <br /> <span className="italic text-red-500">Brick Impressions.</span>
             {/* </h2> */}
        </motion.h2>     
             <p className="text-lg text-stone-400 leading-relaxed mb-10 max-w-xl font-sans font-light mx-auto lg:mx-0">

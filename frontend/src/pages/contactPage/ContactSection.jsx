@@ -150,9 +150,9 @@ export default function ContactSection() {
 
                 <div className="grid md:grid-cols-4 gap-8">
                   {[
-                    { icon: Award, number: "30+", label: "Years Experience" },
+                    { icon: Award, number: "40+", label: "Years Experience" },
                     { icon: Truck, number: "All India", label: "Supply Network" },
-                    { icon: ClipboardCheck, number: "5000+", label: "Projects Delivered" },
+                    { icon: ClipboardCheck, number: "312+", label: "Projects Delivered" },
                     { icon: ShieldCheck, number: "100%", label: "Quality Assured" },
                   ].map((item, i) => (
                     <motion.div
