@@ -17,7 +17,7 @@ const ProfileSettings = ({ onCancel }) => {
     department: "Operations",
     designation: "Senior Manager",
     address: "123 Industrial Area, Phase-II",
-    district: "Gorakhpur",
+    district: "Goa",
     state: "Uttar Pradesh",
     pinCode: "273001",
     country: "India",
@@ -242,7 +242,7 @@ const ProfileSettings = ({ onCancel }) => {
             </Section>
 
             {/* STATUS ALERT */}
-            {isDirty && (
+            {/* {isDirty && (
               <div className="flex items-center gap-4 bg-orange-50 p-5 rounded-3xl border border-orange-100 text-orange-800 animate-pulse">
                 <div className="p-2 bg-orange-600 text-white rounded-full">
                   <AlertCircle size={18} />
@@ -252,7 +252,7 @@ const ProfileSettings = ({ onCancel }) => {
                   <p className="text-[11px] font-medium opacity-80">Sync the cloud database to apply these profile updates.</p>
                 </div>
               </div>
-            )}
+            )} */}
           </div>
         </div>
       </div>
