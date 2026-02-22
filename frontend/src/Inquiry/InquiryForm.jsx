@@ -62,8 +62,8 @@ const InquiryPage = () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)
       });
-      alert("Inquiry Sent Successfully!");
-      navigate(-1);
+     
+      navigate("/thankyou");
     } catch (error) {
       alert("Submission failed. Please try again.");
     } finally {

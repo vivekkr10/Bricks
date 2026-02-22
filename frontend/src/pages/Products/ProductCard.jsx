@@ -124,7 +124,7 @@ const ProductCard = ({ product, viewMode }) => {
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                onClick={() => navigate('/contact', { state: { productId: product.id, productName: product.name } })}
+                onClick={() => navigate('/inquiry', { state: { productId: product.id, productName: product.name } })}
                 className="flex-1 px-3 py-2 border-2 border-red-700 text-red-700 rounded-lg hover:bg-red-50 transition-colors font-bold text-xs whitespace-nowrap"
               >
                 Inquire
@@ -222,7 +222,7 @@ const ProductCard = ({ product, viewMode }) => {
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            onClick={() => navigate('/contact', { state: { productId: product.id, productName: product.name } })}
+            onClick={() => navigate('/inquiry', { state: { productId: product.id, productName: product.name } })}
             className="flex-1 px-3 py-2.5 border-2 border-red-700 text-red-700 rounded-lg hover:bg-red-50 transition-colors font-bold text-xs whitespace-nowrap"
           >
             Inquire
