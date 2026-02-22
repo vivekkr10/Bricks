@@ -139,7 +139,7 @@ const ProductForm = ({ editId, onCancel }) => {
                     </div>
                 </div>
 
-                <button type="submit" className="w-full text-white py-5 rounded-[1.5rem] font-black bg-[#EA580C] transition-all shadow-xl shadow-orange-900/10 flex items-center justify-center gap-3 group hover:scale-105">
+                <button type="submit" className="w-full text-white py-3 rounded-[1rem] font-black bg-[#EA580C] transition-all shadow-xl shadow-orange-900/10 flex items-center justify-center gap-3 group hover:scale-105">
                     <Save size={20} className="group-hover:rotate-12 transition-transform" />
                     {isEditMode ? "UPDATE PRODUCT" : "ADD PRODUCT"}
                 </button>

@@ -16,7 +16,7 @@ const Sidebar = ({ activePage, setActivePage, handleLogout, isCollapsed, setIsCo
       {/* MOBILE HEADER (Sirf phone view me dikhega) */}
       <div className="lg:hidden fixed top-0 left-0 right-0 h-16 bg-[#292524] flex items-center justify-between px-6 z-[60] border-b border-[#EA580C]/30">
         <div className="flex items-center gap-3">
-          <BrickWall size={24} className="text-[#EA580C]" />
+          <BrickWall size={20} className="text-[#EA580C]" />
           <h1 className="font-black text-sm text-[#F5F5F4]">VR & SONS</h1>
         </div>
         <button 

@@ -1,351 +1,249 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   ArrowLeft,
-  Tag,
   Layers,
-  Settings,
-  Box,
-  ShieldCheck,
-  HardHat,
-  FileText,
-  HelpCircle,
-  CheckCircle2,
-  Info,
-  Package,
-  Calendar,
   Factory,
+  HardHat,
+  Settings,
+  FileText,
   Truck,
-  BadgeCheck,
   Image as ImageIcon
 } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 
-/* =========================================================
-   ROOT COMPONENT
-========================================================= */
+/* ================= ANIMATION VARIANTS ================= */
+
+const page = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1 }
+};
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 24 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5, ease: "easeOut" }
+  }
+};
+
+const stagger = {
+  hidden: {},
+  visible: {
+    transition: { staggerChildren: 0.12 }
+  }
+};
+
+const imageZoom = {
+  hidden: { scale: 1.15, opacity: 0 },
+  visible: {
+    scale: 1,
+    opacity: 1,
+    transition: { duration: 0.6, ease: "easeOut" }
+  }
+};
+
+/* ================= COMPONENT ================= */
 
 const ProductDetails = ({ product, onBack }) => {
-  const [activeImg, setActiveImg] = useState(
-    product?.images?.[0] || product?.image
-  );
-  const [activeTab, setActiveTab] = useState("overview");
 
-  if (!product) {
-    return <ProductNotFound onBack={onBack} />;
-  }
+  /* ✅ Always open page from TOP */
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "instant" });
+  }, []);
+
+  if (!product) return <ProductNotFound onBack={onBack} />;
+
+  const [activeImg, setActiveImg] = useState(
+    product.images?.[0] || product.image
+  );
 
   return (
-    <div className="min-h-screen bg-[#0A0A0A] text-stone-300 font-sans">
-      <div className="flex flex-col-reverse lg:flex-row h-screen overflow-hidden">
+    <motion.div
+      className="min-h-screen bg-stone-100 p-4 text-black"
+      variants={page}
+      initial="hidden"
+      animate="visible"
+      transition={{ duration: 0.35 }}
+    >
+      <div className="rounded-xl overflow-hidden bg-white border border-stone-200">
 
-        {/* ================= LEFT IMAGE PANEL ================= */}
-        <ImagePanel
-          product={product}
-          activeImg={activeImg}
-          setActiveImg={setActiveImg}
-          onBack={onBack}
-        />
+        {/* ================= HERO IMAGE ================= */}
+        <div className="relative h-[55vh] w-full overflow-hidden">
+          <motion.img
+            key={activeImg}
+            src={activeImg}
+            className="w-full h-full object-cover"
+            variants={imageZoom}
+            initial="hidden"
+            animate="visible"
+          />
 
-        {/* ================= RIGHT DETAILS PANEL ================= */}
-        <div className="w-full  lg:w-[50%] overflow-y-auto bg-[#0D0D0D]">
+          {/* Back Button */}
+          <motion.button
+            onClick={onBack}
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            whileHover={{ scale: 1.05 }}
+            transition={{ duration: 0.3 }}
+            className="absolute top-6 left-6 flex items-center gap-2 px-4 py-2 rounded-lg bg-orange-600 text-black text-xs font-bold uppercase tracking-widest"
+          >
+            <ArrowLeft size={14} /> Back
+          </motion.button>
 
-         
-
-          <div className="px-6 md:px-8 lg:px-5 pb-20">
-
-            <HeaderSection product={product} />
-
-            <InfoGrid product={product} />
-
-            <Tabs activeTab={activeTab} setActiveTab={setActiveTab} />
-
-            <AnimatePresence mode="wait">
-              {activeTab === "overview" && (
-                <TabWrapper key="overview">
-                  <OverviewTab product={product} />
-                </TabWrapper>
-              )}
-
-              {activeTab === "specs" && (
-                <TabWrapper key="specs">
-                  <SpecsTab product={product} />
-                </TabWrapper>
-              )}
-
-              {activeTab === "usage" && (
-                <TabWrapper key="usage">
-                  <UsageTab product={product} />
-                </TabWrapper>
-              )}
-
-              {activeTab === "logistics" && (
-                <TabWrapper key="logistics">
-                  <LogisticsTab product={product} />
-                </TabWrapper>
-              )}
-            </AnimatePresence>
-
-            <FooterBadges />
+          {/* Thumbnails */}
+          <div className="absolute bottom-6 right-6 flex gap-2">
+            {product.images?.map((img, i) => (
+              <motion.button
+                key={i}
+                whileHover={{ scale: 1.12 }}
+                whileTap={{ scale: 0.96 }}
+                onClick={() => setActiveImg(img)}
+                className={`w-14 h-14 rounded-lg overflow-hidden border-2 transition ${
+                  activeImg === img
+                    ? "border-orange-500"
+                    : "border-stone-300 opacity-70"
+                }`}
+              >
+                <img src={img} className="w-full h-full object-cover" />
+              </motion.button>
+            ))}
           </div>
         </div>
+
+        {/* ================= HEADER ================= */}
+        <motion.div
+          className="bg-white px-6 py-6 border-b border-stone-200"
+          variants={stagger}
+          initial="hidden"
+          animate="visible"
+        >
+          <div className="max-w-6xl mx-auto space-y-2">
+            <motion.span variants={fadeUp} className="text-[10px] uppercase tracking-widest font-black text-orange-600">
+              {product.status || "Active"}
+            </motion.span>
+
+            <motion.h1 variants={fadeUp} className="text-3xl md:text-4xl font-black uppercase">
+              {product.name}
+            </motion.h1>
+
+            <motion.p variants={fadeUp} className="text-sm text-stone-600 max-w-3xl">
+              {product.shortDesc || "High quality construction material"}
+            </motion.p>
+          </div>
+        </motion.div>
+
+        {/* ================= CONTENT ================= */}
+        <motion.div
+          className="max-w-6xl mx-auto px-6 py-10 space-y-14"
+          variants={stagger}
+          initial="hidden"
+          animate="visible"
+        >
+
+          {/* INFO GRID */}
+          <motion.div
+            className="grid grid-cols-2 md:grid-cols-4 gap-4"
+            variants={stagger}
+          >
+            <AnimatedCard ><InfoCard icon={<Layers />} label="Category" value={product.type} /></AnimatedCard>
+            <AnimatedCard><InfoCard icon={<HardHat />} label="Application" value={product.application} /></AnimatedCard>
+            <AnimatedCard><InfoCard icon={<Factory />} label="Manufacturer" value={product.brand || "In-House"} /></AnimatedCard>
+          </motion.div>
+
+          {/* DESCRIPTION */}
+          <AnimatedSection title="Product Overview" icon={<FileText />}>
+            <p className="text-sm leading-loose text-stone-700 max-w-4xl">
+              {product.detailedDesc || "Detailed description not available."}
+            </p>
+          </AnimatedSection>
+
+          {/* SPECIFICATIONS */}
+          <AnimatedSection title="Technical Specifications" icon={<Settings />}>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+              {[
+                ["Brick Type", product.brickType || "Fly Ash"],
+                ["Size", product.size || "190 × 90 × 90 mm"],
+                ["Strength", product.strength || "10 N/mm²"],
+                ["Water Absorption", product.waterAbsorption || "< 15%"],
+                ["Finish", product.finish || "Smooth"],
+                ["Color", product.color || "Natural Grey"]
+              ].map(([label, value], i) => (
+                <AnimatedCard key={i}>
+                  <Spec label={label} value={value} />
+                </AnimatedCard>
+              ))}
+            </div>
+          </AnimatedSection>
+
+          {/* LOGISTICS */}
+          <AnimatedSection title="Logistics & Packaging" icon={<Truck />}>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {[
+                ["Packaging", product.packaging || "Palletized"],
+                ["Dispatch Time", product.dispatchTime || "2–3 Days"],
+                ["Transport", product.transport || "Truck / Container"],
+                ["Stock", product.stock || "Available"]
+              ].map(([label, value], i) => (
+                <AnimatedCard key={i}>
+                  <Spec label={label} value={value} />
+                </AnimatedCard>
+              ))}
+            </div>
+          </AnimatedSection>
+
+        </motion.div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
-/* =========================================================
-   IMAGE PANEL
-========================================================= */
+/* ================= REUSABLE ANIMATED UI ================= */
 
-const ImagePanel = ({ product, activeImg, setActiveImg, onBack }) => (
-  <div className="relative w-full lg:w-[50%] h-[45vh] lg:h-full bg-stone-900 border-r border-white/5">
-
-    <AnimatePresence mode="wait">
-      <motion.img
-        key={activeImg}
-        src={activeImg}
-        alt={product.name}
-        initial={{ opacity: 0, scale: 1.05 }}
-        animate={{ opacity: 1, scale: 1 }}
-        exit={{ opacity: 0 }}
-        transition={{ duration: 0.4 }}
-        className="w-full h-full object-cover"
-      />
-    </AnimatePresence>
-
-    {/* Back */}
-    <button
-      onClick={onBack}
-      className="absolute top-6 left-6 flex items-center gap-2 px-3 py-2  backdrop-blur-md rounded-lg border border-white/10 bg-orange-600 hover:scale-105 transition"
-    >
-      <ArrowLeft size={14} className="text-white" />
-      <span className="text-[10px] font-bold uppercase tracking-widest text-white">
-        Back
-      </span>
-    </button>
-
-    {/* Image Counter */}
-    {product.images?.length > 0 && (
-      <div className="absolute bottom-6 right-6 px-3 py-1 bg-black/60 rounded text-[10px] text-white uppercase tracking-widest">
-        {product.images.indexOf(activeImg) + 1} / {product.images.length}
-      </div>
-    )}
-
-    {/* Thumbnails */}
-    <div className="absolute bottom-6 left-6 flex gap-2">
-      {product.images?.map((img, i) => (
-        <button
-          key={i}
-          onClick={() => setActiveImg(img)}
-          className={`w-14 h-14 rounded-lg overflow-hidden border-2 transition ${
-            activeImg === img
-              ? "border-orange-500 scale-105"
-              : "border-transparent opacity-40"
-          }`}
-        >
-          <img src={img} className="w-full h-full object-cover" />
-        </button>
-      ))}
-    </div>
-  </div>
+const AnimatedSection = ({ title, icon, children }) => (
+  <motion.div variants={fadeUp} className="space-y-6">
+    <h3 className="flex items-center gap-3 text-xs font-black uppercase tracking-[0.3em] text-orange-600 border-l-2 border-orange-600 pl-3">
+      {icon} {title}
+    </h3>
+    {children}
+  </motion.div>
 );
 
-/* =========================================================
-   STICKY ACTION BAR
-========================================================= */
-
-
-
-
-
-/* =========================================================
-   HEADER
-========================================================= */
-
-const HeaderSection = ({ product }) => (
-  <header className="mt-10 mb-12 space-y-4">
-    <div className="flex justify-between items-center">
-      <StatusBadge status={product.status} />
-    </div>
-
-    <h1 className="text-xl md:text-1.5xl font-black text-white uppercase tracking-tight">
-      {product.name}
-    </h1>
-
-    <p className="text-sm italic text-stone-500 max-w-2xl">
-      {product.shortDesc || "No short description available."}
-    </p>
-  </header>
-);
-
-const StatusBadge = ({ status }) => (
-  <span className="text-[10px] uppercase tracking-widest font-black px-3 py-1 rounded bg-orange-500/10 text-orange-500">
-    {status || "Active"}
-  </span>
-);
-
-/* =========================================================
-   INFO GRID
-========================================================= */
-
-const InfoGrid = ({ product }) => (
-  <div className="grid grid-cols-2 md:grid-rows-2 md:grid-cols-2 gap-px bg-white/5 border border-white/5 rounded-xl overflow-hidden mb-14">
-    <InfoBlock label="Category" value={product.type} icon={<Layers size={14} />} />
-    <InfoBlock label="Application" value={product.application} icon={<HardHat size={14} />} />
-    <InfoBlock label="Product Code" value={`#${product.id}`} icon={<Tag size={14} />} />
-    <InfoBlock label="Manufacturer" value={product.brand || "In-House"} icon={<Factory size={14} />} />
-  </div>
-);
-
-/* =========================================================
-   TABS
-========================================================= */
-
-const Tabs = ({ activeTab, setActiveTab }) => {
-  const tabs = [
-    { id: "overview", label: "Overview", icon: <Info size={14} /> },
-    { id: "specs", label: "Specifications", icon: <Settings size={14} /> },
-    { id: "logistics", label: "Logistics", icon: <Truck size={14} /> }
-  ];
-
-  return (
-    <div className="flex gap-6 mb-6 border-b border-white/5">
-      {tabs.map(tab => (
-        <button
-          key={tab.id}
-          onClick={() => setActiveTab(tab.id)}
-          className={`flex items-center gap-2 pb-4 text-xs font-bold uppercase  transition ${
-            activeTab === tab.id
-              ? "text-orange-500 border-b-2 border-orange-500"
-              : "text-stone-500 hover:text-white"
-          }`}
-        >
-          {tab.icon}
-          {tab.label}
-        </button>
-      ))}
-    </div>
-  );
-};
-
-const TabWrapper = ({ children }) => (
+const AnimatedCard = ({ children }) => (
   <motion.div
-    initial={{ opacity: 0, y: 10 }}
-    animate={{ opacity: 1, y: 0 }}
-    exit={{ opacity: 0, y: -10 }}
-    transition={{ duration: 0.3 }}
+    variants={fadeUp}
+    whileHover={{ y: -6 }}
+    transition={{ duration: 0.25 }}
   >
     {children}
   </motion.div>
 );
 
-/* =========================================================
-   TABS CONTENT
-========================================================= */
+/* ================= UI PARTS ================= */
 
-const OverviewTab = ({ product }) => (
-  <Section title="Product Overview" icon={<FileText size={14} />}>
-    <p className="text-sm leading-loose text-stone-400">
-      {product.detailedDesc || "Detailed description not available."}
-    </p>
-  </Section>
-);
-
-const SpecsTab = ({ product }) => (
-  <Section title="Technical Specifications" icon={<Settings size={14} />}>
-    <div className="grid grid-cols-2 gap-4">
-      <SpecItem label="Brick Type" value={product.brickType || "Clay Brick"} />
-      <SpecItem label="Dimensions" value={product.size || "190 × 90 × 90 mm"} />
-      <SpecItem label="Compressive Strength" value="10 N/mm²" />
-      <SpecItem label="Water Absorption" value="< 15%" />
-      <SpecItem label="Finish" value="Smooth" />
-      <SpecItem label="Color" value="Red" />
-    </div>
-  </Section>
-);
-
-const UsageTab = ({ product }) => (
-  <Section title="Usage Guidelines" icon={<HelpCircle size={14} />}>
-    <div className="flex gap-3 p-4 rounded-xl bg-orange-500/5 border border-orange-500/20">
-      <HelpCircle size={16} className="text-orange-500 mt-1" />
-      <p className="text-xs italic leading-relaxed text-stone-400">
-        {product.usage || "Usage guidelines not specified."}
-      </p>
-    </div>
-  </Section>
-);
-
-const LogisticsTab = () => (
-  <Section title="Logistics & Packaging" icon={<Package size={14} />}>
-    <div className="grid grid-cols-2 gap-4">
-      <SpecItem label="Packaging" value="Palletized" />
-      <SpecItem label="Dispatch Time" value="2–3 Working Days" />
-      <SpecItem label="Transport" value="Truck / Container" />
-      <SpecItem label="Stock Status" value="Available" />
-    </div>
-  </Section>
-);
-
-/* =========================================================
-   UI BUILDING BLOCKS
-========================================================= */
-
-const Section = ({ title, icon, children }) => (
-  <section className="mb-14 space-y-6">
-    <h3 className="flex items-center gap-2 text-xs font-black uppercase tracking-[0.3em] text-orange-500 border-l-2 border-orange-500 pl-3">
-      {icon}
-      {title}
-    </h3>
-    {children}
-  </section>
-);
-
-const InfoBlock = ({ label, value, icon }) => (
-  <div className="bg-[#0D0D0D] p-5 hover:bg-white/[0.03] transition">
-    <div className="flex items-center gap-2 mb-2 text-stone-600">
+const InfoCard = ({ icon, label, value }) => (
+  <div className="bg-white border border-stone-200 p-5 rounded-xl">
+    <div className="flex items-center gap-2 text-stone-500 mb-2">
       {icon}
       <span className="text-[9px] uppercase tracking-widest font-black">
         {label}
       </span>
     </div>
-    <p className="text-xs font-bold text-white truncate">{value}</p>
+    <p className="text-sm font-bold truncate">{value}</p>
   </div>
 );
 
-const SpecItem = ({ label, value }) => (
-  <div className="p-4 rounded-xl bg-white/[0.03] border border-white/5">
-    <p className="text-[10px] uppercase tracking-widest text-stone-500">
+const Spec = ({ label, value }) => (
+  <div className="bg-stone-100 border border-stone-200 p-4 rounded-xl">
+    <p className="text-[10px] uppercase tracking-widest text-stone-600">
       {label}
     </p>
-    <p className="text-sm font-bold text-white mt-1">{value}</p>
+    <p className="text-sm font-bold mt-1">{value}</p>
   </div>
 );
-
-/* =========================================================
-   FOOTER
-========================================================= */
-
-const FooterBadges = () => (
-  <footer className="grid  h-1 grid-cols-3 gap-4 text-center text-[9px] uppercase tracking-widest opacity-60 border-t border-white/5 pt-13 ">
-    <Badge icon={<ShieldCheck size={12} />} label="ISO Certified" />
-    <Badge icon={<CheckCircle2 size={12} />} label="Quality Tested" />
-    <Badge icon={<Box size={12} />} label="Ready Stock" />
-  </footer>
-);
-
-const Badge = ({ icon, label }) => (
-  <div className="flex justify-center gap-2 items-center">
-    {icon}
-    {label}
-  </div>
-);
-
-/* =========================================================
-   NOT FOUND
-========================================================= */
 
 const ProductNotFound = ({ onBack }) => (
-  <div className="min-h-screen flex items-center justify-center bg-black text-white">
+  <div className="min-h-screen flex items-start justify-center pt-20">
     <div className="text-center space-y-6">
       <ImageIcon size={48} className="mx-auto opacity-20" />
       <h2 className="text-sm uppercase tracking-widest font-black">
