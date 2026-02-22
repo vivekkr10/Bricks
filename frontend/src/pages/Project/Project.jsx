@@ -482,7 +482,7 @@ export default function ProjectPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.2 }}
               >
-                <span className="bg-clip-text text-transparent bg-gradient-to-r from-white via-orange-200 to-white">
+                <span className="bg-clip-text font-serif text-transparent bg-gradient-to-r from-white via-orange-200 to-white">
                   Our Projects
                 </span>
               </motion.h1>
@@ -509,7 +509,7 @@ export default function ProjectPage() {
                 transition={{ duration: 0.8, delay: 0.6 }}
               >
                 {[
-                  { label: "Projects", value: "500+" },
+                  { label: "Projects", value: "312+" },
                   { label: "Cities", value: "50+" },
                   { label: "Happy Clients", value: "300+" },
                 ].map((stat, index) => (
@@ -519,7 +519,7 @@ export default function ProjectPage() {
                     whileHover={{ scale: 1.1 }}
                     transition={{ type: "spring", stiffness: 300 }}
                   >
-                    <div className="text-4xl font-bold text-orange-400">
+                    <div className="text-4xl font-bold text-red-500">
                       {stat.value}
                     </div>
                     <div className="text-sm text-white/70 mt-1">
@@ -567,7 +567,7 @@ export default function ProjectPage() {
                     className={`
                       relative px-8 py-3 rounded-full text-sm font-medium
                       transition-all duration-300 cursor-pointer overflow-hidden
-                      ${isActive ? "text-orange-700" : "text-slate-700 hover:text-orange-600"}
+                      ${isActive ? "text-red-700" : "text-stone-700 hover:text-red-600"}
                     `}
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
@@ -576,7 +576,7 @@ export default function ProjectPage() {
                     <motion.div
                       className={`absolute inset-0 rounded-full ${
                         isActive
-                          ? "bg-gradient-to-r from-orange-400 to-orange-500"
+                          ? "bg-gradient-to-r from-red-400 to-red-500"
                           : "bg-gradient-to-r from-slate-100 to-slate-200"
                       }`}
                       animate={isActive ? { scale: 1 } : { scale: 0.95 }}
@@ -658,10 +658,10 @@ export default function ProjectPage() {
                     transition={{ delay: index * 0.1 }}
                   >
                     <motion.span
-                      className="px-4 py-2 bg-white/95 backdrop-blur-sm text-slate-800 rounded-full text-sm font-semibold shadow-lg flex items-center gap-2"
+                      className="px-4 py-2 bg-white/95 backdrop-blur-sm text-stone-800 rounded-full text-sm font-semibold shadow-lg flex items-center gap-2"
                       whileHover={{ scale: 1.05 }}
                     >
-                      <span className="w-2 h-2 bg-orange-500 rounded-full animate-pulse"></span>
+                      <span className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
                       {project.category}
                     </motion.span>
                   </motion.div>
@@ -674,7 +674,7 @@ export default function ProjectPage() {
                     transition={{ delay: index * 0.1 + 0.1 }}
                   >
                     {project.details.year && (
-                      <span className="px-3 py-1 bg-white text-black rounded-full text-xs font-semibold shadow-lg">
+                      <span className="px-3 py-1 bg-white text-stone-900 rounded-full text-xs font-semibold shadow-lg">
                         {project.details.year}
                       </span>
                     )}
@@ -811,12 +811,12 @@ export default function ProjectPage() {
                     {project.title}
                   </motion.h3>
 
-                  <p className="text-slate-600 text-sm line-clamp-2 mb-4">
+                  <p className="text-stone-400 text-sm line-clamp-2 mb-4">
                     {project.description}
                   </p>
 
                   <div className="flex items-center justify-between pt-4 border-t border-slate-100">
-                    <div className="flex items-center gap-2 text-slate-500 text-sm">
+                    <div className="flex items-center gap-2 text-stone-500 text-sm">
                       <svg
                         className="w-4 h-4"
                         fill="none"
@@ -837,11 +837,11 @@ export default function ProjectPage() {
                       className="flex items-center gap-1"
                       animate={{ x: isHoveringCard === project.id ? 5 : 0 }}
                     >
-                      <span className="text-orange-400 font-semibold text-sm">
+                      <span className="text-red-700 font-semibold text-sm">
                         Details
                       </span>
                       <motion.svg
-                        className="w-4 h-4 text-orange-400"
+                        className="w-4 h-4 text-red-700"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
