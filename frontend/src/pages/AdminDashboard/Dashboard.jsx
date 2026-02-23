@@ -42,12 +42,14 @@ const Dashboard = ({ onAddClick, onEditClick ,onViewClick, onCatClick }) => {
   // --- 2. IMPROVED SEARCH FILTER ---
   const filteredProducts = useMemo(() => {
     return products.filter((p) => {
-      const s = searchTerm.toLowerCase();
-      // Search matches name, type, OR application
-      const matchesSearch = 
-        p.name.toLowerCase().includes(s) ||
-        p.type?.toLowerCase().includes(s) ||
-        p.application?.toLowerCase().includes(s);
+      const s = (searchTerm || "").toLowerCase();
+      
+      
+      const nameMatch = (p.name || "").toLowerCase().includes(s);
+      const typeMatch = (p.type || "").toLowerCase().includes(s);
+      const appMatch = (p.application || "").toLowerCase().includes(s);
+      
+      const matchesSearch = nameMatch || typeMatch || appMatch;
       
       const matchesCategory = activeCategory === "All Bricks" || p.type === activeCategory;
       return matchesSearch && matchesCategory;
@@ -348,14 +350,6 @@ const ActionButton = ({ icon, onClick, variant = "default", tooltip }) => (
 );
 
 export default Dashboard;
-
-
-
-
-
-
-
-
 
 
 
