@@ -32,7 +32,7 @@ const ServiceHero = () => (
     <div className="absolute inset-0 bg-gradient-to-b from-stone-950/70 via-stone-950/50 to-stone-950/80" />
     <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
       <motion.div initial={{ y: 30, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.8, delay: 0.2 }}>
-        <span className="inline-block py-1 px-4 border border-orange-500/40 rounded-full text-xs font-bold text-orange-300 uppercase tracking-[0.2em] mb-6 backdrop-blur-md font-sans">
+        <span className="inline-block py-1 px-4 border border-red-500/40 rounded-full text-xs font-bold text-red-300 uppercase tracking-[0.2em] mb-6 backdrop-blur-md font-sans">
           Our Capabilities
         </span>
         <h1 className="text-4xl sm:text-5xl md:text-7xl font-serif font-semibold text-white mb-6 leading-tight drop-shadow-2xl">
@@ -51,12 +51,12 @@ const ServiceSection = ({ id, title, content, image, icon: Icon }) => (
   <div id={id} className="scroll-mt-24 mb-16 md:mb-24 border-b border-stone-200 pb-12 md:pb-16 last:border-0 last:mb-0 last:pb-0">
     <div className="max-w-3xl mb-8">
       <div className="flex items-center gap-3 mb-5">
-        <div className="p-2.5 bg-orange-50 rounded-lg border border-orange-200 shadow-sm flex-shrink-0">
-          <Icon className="w-5 h-5 text-orange-600" />
+        <div className="p-2.5 bg-red-50 rounded-lg border border-red-200 shadow-sm flex-shrink-0">
+          <Icon className="w-5 h-5 text-red-600" />
         </div>
         <h2 className="text-2xl sm:text-3xl md:text-4xl font-serif font-medium text-stone-900">{title}</h2>
       </div>
-      <div className="text-stone-600 leading-relaxed space-y-4 text-base md:text-lg sm:pl-12 sm:border-l-2 border-orange-100 font-sans font-light">
+      <div className="text-stone-600 leading-relaxed space-y-4 text-base md:text-lg sm:pl-12 sm:border-l-2 border-red-100 font-sans font-light">
         {content.split('\n').filter(p => p.trim()).map((paragraph, index) => (
           <p key={index}>{paragraph.trim()}</p>
         ))}
@@ -71,7 +71,7 @@ const ServiceSection = ({ id, title, content, image, icon: Icon }) => (
     >
       <img src={image} alt={title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 ease-out" />
       <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-500" />
-      <div className="absolute bottom-0 left-0 right-0 h-1 bg-orange-600 scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
+      <div className="absolute bottom-0 left-0 right-0 h-1 bg-red-600 scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
     </motion.div>
   </div>
 );
@@ -110,7 +110,7 @@ export default function Services() {
   };
 
   return (
-    <div className="antialiased bg-white selection:bg-orange-200 selection:text-orange-900 relative">
+    <div className="antialiased bg-white selection:bg-orange-200 selection:text-red-900 relative">
       <style>{`
         .font-serif { font-family: 'Cormorant Garamond', serif; }
         .font-sans { font-family: 'Jost', sans-serif; }
@@ -127,7 +127,7 @@ export default function Services() {
           className="w-full flex items-center justify-between px-5 py-3 font-sans text-sm font-bold uppercase tracking-widest text-stone-700"
         >
           <span className="flex items-center gap-2">
-            <div className="w-2 h-2 bg-orange-600 rounded-full" />
+            <div className="w-2 h-2 bg-red-600 rounded-full" />
             {services.find(s => s.id === activeSection)?.label || 'Index'}
           </span>
           {mobileNavOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
@@ -140,7 +140,7 @@ export default function Services() {
                 onClick={() => scrollTo(item.id)}
                 className={`w-full flex items-center justify-between px-5 py-3 text-sm font-sans text-left border-l-2 transition-all
                   ${activeSection === item.id
-                    ? 'border-orange-600 text-orange-700 font-bold bg-orange-50'
+                    ? 'border-red-600 text-red-700 font-bold bg-red-50'
                     : 'border-transparent text-stone-500 hover:text-stone-900 hover:bg-stone-50'
                   }`}
               >
@@ -155,7 +155,7 @@ export default function Services() {
       {/* ── BRICKWALL BACKGROUND WRAPPER ── */}
       <div className="relative w-full">
         <div className="absolute inset-0 z-0 pointer-events-none">
-          <BrickWallBg opacity={0.06} color="#8B4513" />
+          <BrickWallBg opacity={0.1} color="#8B4513" />
         </div>
 
         <div className="relative z-10">
@@ -167,7 +167,7 @@ export default function Services() {
             <aside className="hidden lg:flex flex-col gap-16 w-64 xl:w-72 flex-shrink-0 sticky top-0 h-screen border-r border-stone-200 pt-24 pb-8 pr-8">
               <div>
                 <div className="flex items-center gap-2 mb-6 opacity-60">
-                  <div className="w-2 h-2 bg-orange-600 rounded-full" />
+                  <div className="w-2 h-2 bg-red-600 rounded-full" />
                   <h3 className="text-xs font-black uppercase tracking-widest text-stone-900 font-sans">Index</h3>
                 </div>
                 <nav className="space-y-1 border-l border-stone-200 ml-1">
@@ -177,12 +177,12 @@ export default function Services() {
                       onClick={() => scrollTo(item.id)}
                       className={`group flex items-center justify-between w-full pl-6 py-2.5 text-left text-sm font-sans transition-all border-l-2 -ml-[2px]
                         ${activeSection === item.id
-                          ? 'border-orange-600 text-orange-700 font-bold bg-orange-50/50'
+                          ? 'border-red-600 text-red-700 font-bold bg-red-50/50'
                           : 'border-transparent text-stone-500 hover:text-stone-900 hover:border-stone-300'
                         }`}
                     >
                       {item.label}
-                      {activeSection === item.id && <ChevronRight className="w-4 h-4 text-orange-600" />}
+                      {activeSection === item.id && <ChevronRight className="w-4 h-4 text-red-600" />}
                     </button>
                   ))}
                 </nav>
@@ -191,20 +191,20 @@ export default function Services() {
               <div className="border-t border-stone-200 pt-8 space-y-6">
                 <h4 className="text-xs font-bold uppercase tracking-widest text-stone-400 font-sans">Explore More</h4>
                 <Link to="/about" className="flex items-center gap-4 group">
-                  <div className="p-3 bg-white border border-stone-200 rounded-lg group-hover:bg-orange-600 group-hover:border-orange-600 group-hover:text-white transition-all shadow-sm text-stone-600">
+                  <div className="p-3 bg-white border border-stone-200 rounded-lg group-hover:bg-red-600 group-hover:border-red-600 group-hover:text-white transition-all shadow-sm text-stone-600">
                     <History className="w-5 h-5" />
                   </div>
                   <div>
-                    <span className="block text-sm font-bold text-stone-900 group-hover:text-orange-700 transition-colors font-sans">Our History</span>
+                    <span className="block text-sm font-bold text-stone-900 group-hover:text-red-700 transition-colors font-sans">Our History</span>
                     <span className="text-xs text-stone-400 block mt-0.5 font-sans">Legacy since 1978</span>
                   </div>
                 </Link>
                 <Link to="/products" className="flex items-center gap-4 group">
-                  <div className="p-3 bg-white border border-stone-200 rounded-lg group-hover:bg-orange-600 group-hover:border-orange-600 group-hover:text-white transition-all shadow-sm text-stone-600">
+                  <div className="p-3 bg-white border border-stone-200 rounded-lg group-hover:bg-red-600 group-hover:border-red-600 group-hover:text-white transition-all shadow-sm text-stone-600">
                     <LayoutGrid className="w-5 h-5" />
                   </div>
                   <div>
-                    <span className="block text-sm font-bold text-stone-900 group-hover:text-orange-700 transition-colors font-sans">The Collection</span>
+                    <span className="block text-sm font-bold text-stone-900 group-hover:text-red-700 transition-colors font-sans">The Collection</span>
                     <span className="text-xs text-stone-400 block mt-0.5 font-sans">Browse 100+ Variants</span>
                   </div>
                 </Link>
