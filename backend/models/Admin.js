@@ -34,6 +34,34 @@ const AdminSchema = new mongoose.Schema({
     type: String,
     default: 'VR & SONS'
   },
+  phone: {
+    type: String,
+    default: ''
+  },
+  dob: {
+    type: String,
+    default: ''
+  },
+  address: {
+    type: String,
+    default: ''
+  },
+  district: {
+    type: String,
+    default: ''
+  },
+  state: {
+    type: String,
+    default: ''
+  },
+  pinCode: {
+    type: String,
+    default: ''
+  },
+  country: {
+    type: String,
+    default: ''
+  },
   createdAt: {
     type: Date,
     default: Date.now
@@ -49,7 +77,7 @@ const AdminSchema = new mongoose.Schema({
 });
 
 // Encrypt password using bcrypt
-AdminSchema.pre('save', async function(next) {
+AdminSchema.pre('save', async function (next) {
   if (!this.isModified('password')) {
     next();
   }
@@ -58,7 +86,7 @@ AdminSchema.pre('save', async function(next) {
 });
 
 // Sign JWT and return
-AdminSchema.methods.getSignedJwtToken = function() {
+AdminSchema.methods.getSignedJwtToken = function () {
   return jwt.sign(
     { id: this._id, email: this.email, role: this.role },
     process.env.JWT_SECRET,
@@ -67,7 +95,7 @@ AdminSchema.methods.getSignedJwtToken = function() {
 };
 
 // Match user entered password to hashed password in database
-AdminSchema.methods.matchPassword = async function(enteredPassword) {
+AdminSchema.methods.matchPassword = async function (enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
 };
 

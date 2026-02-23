@@ -15,6 +15,7 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import Header from "../../Components/header";
 import Footer from "../../Components/footer";
+import { useNavigate } from "react-router-dom";
 
 /* ================= BRICK WALL ================= */
 const BrickWall = ({ opacity = 0.06, color = "#8B4513" }) => {
@@ -90,6 +91,60 @@ export default function ContactSection() {
 
   const [openIndex, setOpenIndex] = React.useState(null);
 
+// For Google sheet Connection///////////////////////////////////////
+
+function doPost(e) {
+  var sheet = SpreadsheetApp.openById("YOUR_SHEET_ID").getActiveSheet();
+  
+  var data = JSON.parse(e.postData.contents);
+
+  sheet.appendRow([
+    data.name,
+    data.phone,
+    data.location,
+    data.details,
+    new Date()
+  ]);
+
+  return ContentService
+    .createTextOutput(JSON.stringify({ status: "success" }))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
+const navigate = useNavigate();
+
+const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  const data = {
+    name: e.target.name.value,
+    phone: e.target.phone.value,
+    location: e.target.location.value,
+    details: e.target.details.value,
+  };
+
+  try {
+    const response = await fetch("YOUR_WEB_APP_URL", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+
+    const result = await response.json();
+
+    if (result.status === "success") {
+      navigate("/thankyou"); // make sure route matches
+    } else {
+      alert("Submission failed");
+    }
+  } catch (error) {
+    alert("Something went wrong");
+  }
+};
+//////////////////////////////////////////////////////////
+
   return (
     <div className="bg-stone-50 min-h-screen flex flex-col">
       <Header />
@@ -150,9 +205,9 @@ export default function ContactSection() {
 
                 <div className="grid md:grid-cols-4 gap-8">
                   {[
-                    { icon: Award, number: "30+", label: "Years Experience" },
+                    { icon: Award, number: "40+", label: "Years Experience" },
                     { icon: Truck, number: "All India", label: "Supply Network" },
-                    { icon: ClipboardCheck, number: "5000+", label: "Projects Delivered" },
+                    { icon: ClipboardCheck, number: "312+", label: "Projects Delivered" },
                     { icon: ShieldCheck, number: "100%", label: "Quality Assured" },
                   ].map((item, i) => (
                     <motion.div
@@ -265,17 +320,74 @@ export default function ContactSection() {
                     className="bg-white p-10 rounded-3xl shadow-xl border border-stone-100"
                   >
                     <h3 className="text-2xl font-serif mb-8 text-stone-900">Quick Inquiry</h3>
-                    <form className="space-y-6">
-                      <div className="grid md:grid-cols-2 gap-6">
-                        <input className="border border-stone-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600" placeholder="Your Name" />
-                        <input className="border border-stone-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600" placeholder="Phone Number" />
-                      </div>
-                      <input className="border border-stone-300 p-3 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-red-600" placeholder="Project Location" />
-                      <textarea rows="4" className="border border-stone-300 p-3 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-red-600" placeholder="Project Details" />
-                      <button type="submit" className="w-full bg-red-700 text-white py-3 rounded-lg uppercase tracking-widest text-sm hover:bg-red-800 transition">
-                        Submit Inquiry
-                      </button>
-                    </form>
+     <form onSubmit={handleSubmit} className="space-y-6">
+  <div className="grid md:grid-cols-2 gap-6">
+    <input
+      name="name"
+      className="border border-stone-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
+      placeholder="Your Name"
+      required
+    />
+
+    <input
+      type="email"
+      name="email"
+      className="border border-stone-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
+      placeholder="Email Address"
+      required
+    />
+  </div>
+
+  <div className="grid md:grid-cols-2 gap-6">
+    <input
+      name="phone"
+      className="border border-stone-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
+      placeholder="Phone Number"
+      required
+    />
+
+    <input
+      name="location"
+      className="border border-stone-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
+      placeholder="Project Location"
+      required
+    />
+  </div>
+
+  <div className="grid md:grid-cols-2 gap-6">
+     <input
+      type="product"
+      name="product"
+      className="border border-stone-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
+      placeholder="Product Name"
+      required
+    />
+
+    <input
+      type="number"
+      name="quantity"
+      className="border border-stone-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
+      placeholder="Quantity (in units)"
+      required
+    />
+  </div>
+
+  <textarea
+    name="additionalRequirements"
+    rows="3"
+    className="border border-stone-300 p-3 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-red-600"
+    placeholder="Additional Requirements"
+  />
+
+ 
+
+  <button
+    type="submit"
+    className="w-full cursor-pointer bg-red-700 text-white py-3 rounded-xl uppercase tracking-widest text-sm hover:bg-red-800 hover:shadow-lg transition-all duration-300"
+  >
+    Submit Inquiry
+  </button>
+</form>
                   </motion.div>
                 </div>
               </div>

@@ -13,7 +13,7 @@ const ProductFilters = ({
   totalProducts,
   totalAvailable,
   isSidebar = false,
-  brickTypes = ["Classic Reds", "Multis", "Darks", "Hamptons", "Yellows", "Rumbled", "Reclaimed"]
+  brickTypes = ["Classic Reds", "Multies", "Darks", "Hamptons", "Yellows", "Rumbled", "Reclaimed"]
 }) => {
   const [isFiltersOpen, setIsFiltersOpen] = React.useState(false);
   const [priceRange, setPriceRange] = React.useState([0, 100000]);

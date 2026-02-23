@@ -6,8 +6,8 @@ const TopNavbar = ({ onProfileClick }) => {
       
       {/* LEFT: Branding */}
       <div className="flex items-center gap-4">
-        <h2 className="text-lg font-bold tracking-widest text-[#1C1917]">
-          <>Admin <span className="text-orange-600">Dashboard</span></>
+        <h2 className="text-lg  font-bold tracking-widest text-stone-900">
+          <>Admin <span className="text-red-700">Dashboard</span></>
         </h2>
       </div>
 
@@ -20,12 +20,12 @@ const TopNavbar = ({ onProfileClick }) => {
 
         {/* Profile Button */}
         <button
-          className="flex items-center gap-3 pl-2 py-1 pr-1 rounded-full hover:bg-[#F5F5F4] transition-all"
+          className="flex items-center gap-3 pl-2 py-1 pr-1 rounded-full cursor-pointer hover:bg-stone-300 bg-stone-200 transition-all"
           // Yahan navigate ki jagah prop function call hoga
           onClick={onProfileClick}
         >
           <div className="text-right hidden sm:block">
-            <p className="text-xs font-semibold text-[#1C1917]">Admin User</p>
+            <p className="text-xs font-semibold text-stone-800">Admin User</p>
             {/* <p className="text-[10px] text-stone-500">Super Admin</p> */}
           </div>
           <UserCircle className="text-stone-800" size={32} strokeWidth={1.5} />

@@ -10,8 +10,8 @@ import Home from "./Home/home.jsx";
 import Dashboard from "./pages/AdminDashboard/DashboardMain.jsx";
 import ProductForm from "./pages/AdminDashboard/ProductForm.jsx"
 import Profile from "./pages/AdminDashboard/profile.jsx"
-
-
+import BlogDetail from "./pages/blog/blogDetail.jsx"
+import ProtectedRoute from "./Components/ProtectedRoute.jsx";
 
 // 3. The Temporary Fix
 import ComingSoon from "./Components/commingsoon.jsx";
@@ -39,9 +39,9 @@ function App() {
         <Route path="/" element={<Home />} />
 
         {/* Admin Auth Routes */}
-        <Route path="/dashboard" element={<Dashboard/>} /> 
-         <Route path="/profile" element={<Profile/>} /> 
-        <Route path="/ProductForm" element={<ProductForm/>} />
+        <Route path="/dashboard" element={<ProtectedRoute><Dashboard/></ProtectedRoute>} /> 
+         <Route path="/profile" element={<ProtectedRoute><Profile/></ProtectedRoute>} /> 
+        <Route path="/ProductForm" element={<ProtectedRoute><ProductForm/></ProtectedRoute>} />
         <Route path="/admin-login" element={<AdminLogin />} />
         <Route path="/admin-register" element={<AdminRegister />} />
         <Route path="/forgot-password" element={<ForgotPasswordOTP />} />
@@ -52,6 +52,7 @@ function App() {
         <Route path="/products" element={<ProductsPage />} />
         <Route path="/products/:id" element={<ProductDetails />} />
         <Route path="/blog" element={<FeaturedArticle />} />
+        <Route path="/blog/:id" element={<BlogDetail />} />
         <Route path="/contact" element={<Contact />} />
         {/* <Route path="/inquiry" element={<Inquiry />} /> */}
         <Route path="/terms" element={<Terms />} />

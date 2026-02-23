@@ -38,6 +38,7 @@ import {
   P3,
 } from "../assets/homeAssets";
 // --- HOOKS ---
+
 const useScrollReveal = (threshold = 0.3) => {
   const [isVisible, setIsVisible] = useState(false);
   const ref = useRef(null);
@@ -398,25 +399,19 @@ const FloatingStatsBar = () => {
           </div>
         </div>
 
-        <div className="hidden md:block w-px h-16 bg-stone-200"></div>
-        <div className="md:hidden h-px w-full bg-stone-200"></div>
-
-        <div
-          ref={expRef}
-          className="group flex flex-col items-center text-center w-full md:w-1/3 cursor-default"
-        >
-          <ShieldCheck className="w-8 -ml-3 h-8 text-red-700 mb-3 opacity-90 transition-transform duration-700 ease-in-out group-hover:rotate-[360deg]" />
-          <div className="text-4xl md:text-4xl font-sans font-semibold text-stone-900 mb-2">
-            {exp}+
-          </div>
-          <div className="text-sm font-serif font-bold uppercase tracking-widest text-stone-600">
-            Years Experience
-          </div>
-        </div>
+         <div ref={expRef} className="group flex flex-col items-center text-center w-full md:w-1/3 cursor-default">
+            <ShieldCheck className="w-8 -ml-3 h-8 text-red-700 mb-3 opacity-90 transition-transform duration-700 ease-in-out group-hover:rotate-[360deg]" />
+            <div className="text-4xl font-sans font-semibold text-stone-900 mb-2">{exp}+</div>
+            <div className="text-sm font-serif font-bold uppercase tracking-widest text-stone-600">
+              Years Experience
+            </div>
+         </div>
       </div>
     </div>
   );
 };
+
+
 const headingVariant = {
   hidden: { opacity: 0, x: -150, scale: 0.95 },
   visible: {
@@ -598,10 +593,9 @@ const ProductOverview = () => {
 
         <div className="flex animate-marquee-horizontal gap-6 ">
           {[...products, ...products, ...products].map((p, i) => (
-            <div
-              key={i}
-              className="w-64 md:w-72 flex-shrink-0 group cursor-pointer"
-            >
+            <Link key={i} 
+            to={`/products?category=${encodeURIComponent(p.title)}`}
+            className="w-64 md:w-72 flex-shrink-0 group cursor-pointer">
               <div className="h-56 overflow-hidden rounded-2xl mb-4 shadow-sm border border-stone-300 bg-white group-hover:shadow-xl group-hover:border-orange-300 transition-all duration-500">
                 <img
                   src={p.img}
@@ -612,7 +606,7 @@ const ProductOverview = () => {
               <h3 className="text-xl font-serif font-medium text-stone-900 group-hover:text-orange-700 transition-colors text-center">
                 {p.title}
               </h3>
-            </div>
+            </Link>
           ))}
         </div>
       </div>

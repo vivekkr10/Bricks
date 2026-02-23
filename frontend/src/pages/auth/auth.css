@@ -1162,54 +1162,162 @@
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 640px) {
+  /* Fix mobile viewport height issue */
+.admin-auth .auth-container {
+  min-height: 100dvh !important;
+  height: auto !important;
+  max-height: none !important;
+}
+
+.admin-auth .auth-brand-section,
+.admin-auth .auth-form-section {
+  height: auto !important;
+  max-height: none !important;
+}
+  .admin-auth .auth-brand-section {
+    display: none !important;
+  }
+  
+  /* Make form section take full width */
   .admin-auth .auth-form-section {
-    padding: 20px;
-  }
-
-  .admin-auth .auth-form-card {
-    padding: 25px;
-  }
-
-  .admin-auth .auth-form-header h2 {
-    font-size: 30px;
-  }
-
-  .admin-auth .form-options {
-    flex-direction: column;
-    gap: 15px;
-    align-items: flex-start;
-  }
-  
-  .admin-auth .step {
+    flex: none;
     width: 100%;
-    flex-direction: row;
-    justify-content: center;
-    gap: 15px;
+    padding: 20px 16px;
+    box-shadow: none;
   }
   
-  .admin-auth .step-number {
-    width: 35px;
-    height: 35px;
-    font-size: 16px;
+  /* Adjust container for mobile */
+  .admin-auth .auth-container {
+    background: #F3F0EA;
+    overflow-y: auto !important;
   }
   
-  .admin-auth .otp-container {
-    gap: 6px;
+  /* Make form card full width with proper padding */
+  .admin-auth .auth-form-card {
+    max-width: 100%;
+    padding: 25px 20px;
+    margin: 10px auto;
+    border-radius: 24px;
   }
   
-  .admin-auth .otp-input {
-    width: 40px;
-    height: 50px;
-    font-size: 20px;
-  }
-  
-  .admin-auth .timer-container::before {
+  /* Remove corner decorations on mobile for cleaner look */
+  .admin-auth .auth-form-card::before,
+  .admin-auth .auth-form-card::after {
     display: none;
   }
   
-  .admin-auth .timer-text {
-    padding-left: 0;
+  /* Adjust typography for mobile */
+  .admin-auth .auth-form-header h2 {
+    font-size: 28px;
+  }
+  
+  .admin-auth .auth-form-header p {
+    font-size: 14px;
+    margin-top: 10px;
+  }
+  
+  /* Make form inputs more touch-friendly */
+  .admin-auth .form-group input {
+    padding: 14px 16px;
+    font-size: 16px; /* Prevents zoom on iOS */
+  }
+  
+  /* Adjust password toggle position */
+  .admin-auth .password-toggle {
+    padding: 10px;
+  }
+  
+  /* Stack form rows on mobile */
+  .admin-auth .form-row {
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .admin-auth .half-width {
+    width: 100%;
+  }
+  
+  /* Make buttons larger for touch */
+  .admin-auth .auth-button {
+    padding: 16px;
+    font-size: 16px;
+  }
+  
+  /* Adjust back to login button */
+  .admin-auth .back-to-login {
+    margin-bottom: 20px;
+    padding: 12px 20px !important;
+    font-size: 15px;
+  }
+  
+  /* Form options stack on mobile */
+  .admin-auth .form-options {
+    flex-direction: column;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  
+  /* Checkbox container adjustment */
+  .admin-auth .checkbox-container {
+    padding-left: 26px;
+  }
+  
+  /* Forgot link adjustment */
+  .admin-auth .forgot-link {
+    padding: 8px 0;
+  }
+  
+  /* Divider adjustment */
+  .admin-auth .auth-divider {
+    margin: 20px 0 15px;
+  }
+  
+  .admin-auth .auth-divider span {
+    font-size: 13px;
+    padding: 0 15px;
+  }
+  
+  /* Terms text adjustment */
+  .admin-auth .auth-terms {
+    padding: 12px;
+    font-size: 12px;
+    margin: 10px 0;
+  }
+  
+  /* Field hint adjustment */
+  .admin-auth .field-hint {
+    font-size: 11px;
+    margin-top: 4px;
+  }
+  
+  /* Error message adjustment */
+  .admin-auth .error-message {
+    font-size: 11px;
+    margin-top: 4px;
+  }
+  
+  /* Security badge adjustment */
+  .admin-auth .security-badge {
+    padding-top: 20px;
+    margin-top: 10px;
+    font-size: 12px;
+  }
+}
+
+/* Small phones (under 400px) - Only for auth pages */
+@media (max-width: 400px) {
+  .admin-auth .auth-form-card {
+    padding: 20px 16px;
+  }
+  
+  .admin-auth .auth-form-header h2 {
+    font-size: 24px;
+  }
+  
+  .admin-auth .back-to-login {
+    padding: 10px 16px !important;
+    font-size: 14px;
   }
 }
 

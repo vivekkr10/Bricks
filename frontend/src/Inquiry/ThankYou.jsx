@@ -107,7 +107,7 @@ const ThankYouPage = () => {
                   hover:-translate-y-1 
                   transition-all duration-300 
                   flex items-center justify-center gap-3
-                  text-sm uppercase
+                  text-sm uppercase cursor-pointer
                 "
               >
                 View Products <ArrowRight className="w-4 h-4" />
