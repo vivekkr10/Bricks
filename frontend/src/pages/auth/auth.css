@@ -1098,7 +1098,7 @@
 }
 
 /* ================= RESPONSIVE DESIGN ================= */
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
   .admin-auth .auth-container {
     flex-direction: column;
   }
@@ -1137,7 +1137,7 @@
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1024) {
   .admin-auth .step-indicator {
     flex-wrap: wrap;
     gap: 15px;
@@ -1162,7 +1162,7 @@
   }
 }
 
-@media (max-width: 767px) {
+@media (max-width: 1024px) {
   /* Fix mobile viewport height issue */
 .admin-auth .auth-container {
   min-height: 100dvh !important;
