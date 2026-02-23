@@ -7,7 +7,7 @@ const ProtectedRoute = ({ children }) => {
 
   useEffect(() => {
     const checkAdmin = async () => {
-      const token = localStorage.getItem("adminToken"); // Must match the key used in AdminLogin.jsx
+      const token = localStorage.getItem("token"); // Must match the key used in AdminLogin.jsx
 
       if (!token) {
         setAuthState("unauthorized");
@@ -30,7 +30,7 @@ const ProtectedRoute = ({ children }) => {
         if (res.data.success && role === "admin") {
           setAuthState("admin");
         } else {
-          localStorage.removeItem("adminToken");
+          localStorage.removeItem("token");
           setAuthState("unauthorized");
         }
 

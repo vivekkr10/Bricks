@@ -1,11 +1,42 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import { motion, useTransform, useSpring, useMotionValue } from "framer-motion";
-import { ArrowRight, Star, ShieldCheck, Building2, ChevronDown } from 'lucide-react';
-import { Helmet } from 'react-helmet';
-import Header from '../Components/header';
-import Footer from '../Components/footer';
-import { heroImg, brick1, brick2, brick3, brick4, brick5, brick6, brick7 ,G1, G2, G3, G4, G5, G6, G7, G8, G9, G10, G11, G12,P1,P2,P3} from "../assets/homeAssets";
+import { AnimatePresence } from "framer-motion";
+import {
+  ArrowRight,
+  Star,
+  ShieldCheck,
+  Building2,
+  ChevronDown,
+} from "lucide-react";
+import { Helmet } from "react-helmet";
+import Header from "../Components/header";
+import Footer from "../Components/footer";
+import {
+  heroImg,
+  brick1,
+  brick2,
+  brick3,
+  brick4,
+  brick5,
+  brick6,
+  brick7,
+  G1,
+  G2,
+  G3,
+  G4,
+  G5,
+  G6,
+  G7,
+  G8,
+  G9,
+  G10,
+  G11,
+  G12,
+  P1,
+  P2,
+  P3,
+} from "../assets/homeAssets";
 // --- HOOKS ---
 
 const useScrollReveal = (threshold = 0.3) => {
@@ -20,7 +51,7 @@ const useScrollReveal = (threshold = 0.3) => {
           observer.unobserve(entry.target);
         }
       },
-      { threshold }
+      { threshold },
     );
     if (ref.current) observer.observe(ref.current);
     return () => observer.disconnect();
@@ -35,13 +66,13 @@ const useCounter = (end, duration = 2000) => {
 
   useEffect(() => {
     if (!isVisible) return;
-    
+
     let startTime;
     const animate = (time) => {
       if (!startTime) startTime = time;
       const progress = Math.min((time - startTime) / duration, 1);
       const easeOutQuart = 1 - Math.pow(1 - progress, 4);
-      
+
       setCount(Math.floor(easeOutQuart * end));
 
       if (progress < 1) {
@@ -50,7 +81,7 @@ const useCounter = (end, duration = 2000) => {
         setCount(end);
       }
     };
-    
+
     requestAnimationFrame(animate);
   }, [isVisible, end, duration]);
 
@@ -78,12 +109,47 @@ const BrickWall = ({ opacity = 0.06, color = "#8B4513" }) => (
         height="44"
         patternUnits="userSpaceOnUse"
       >
-        <rect x="2" y="2" width="84" height="20" fill="none" stroke={color} strokeWidth="1" rx="2" opacity={opacity * 12} />
-        <rect x="46" y="24" width="42" height="18" fill="none" stroke={color} strokeWidth="1" rx="2" opacity={opacity * 12} />
-        <rect x="2" y="24" width="42" height="18" fill="none" stroke={color} strokeWidth="1" rx="2" opacity={opacity * 12} />
+        <rect
+          x="2"
+          y="2"
+          width="84"
+          height="20"
+          fill="none"
+          stroke={color}
+          strokeWidth="1"
+          rx="2"
+          opacity={opacity * 12}
+        />
+        <rect
+          x="46"
+          y="24"
+          width="42"
+          height="18"
+          fill="none"
+          stroke={color}
+          strokeWidth="1"
+          rx="2"
+          opacity={opacity * 12}
+        />
+        <rect
+          x="2"
+          y="24"
+          width="42"
+          height="18"
+          fill="none"
+          stroke={color}
+          strokeWidth="1"
+          rx="2"
+          opacity={opacity * 12}
+        />
       </pattern>
     </defs>
-    <rect width="100%" height="100%" fill={`url(#bwall-${color.replace("#", "")})`} opacity={opacity} />
+    <rect
+      width="100%"
+      height="100%"
+      fill={`url(#bwall-${color.replace("#", "")})`}
+      opacity={opacity}
+    />
   </svg>
 );
 
@@ -102,7 +168,7 @@ const Hero = () => {
   // Background moves slightly opposite to create depth
   const bgMoveX = useTransform(mouseXSpring, [-0.5, 0.5], ["30px", "-30px"]);
   const bgMoveY = useTransform(mouseYSpring, [-0.5, 0.5], ["30px", "-30px"]);
-  
+
   // Foreground glow moves with the mouse
   const glowMoveX = useTransform(mouseXSpring, [-0.5, 0.5], ["-50px", "50px"]);
   const glowMoveY = useTransform(mouseYSpring, [-0.5, 0.5], ["-50px", "50px"]);
@@ -181,7 +247,7 @@ const Hero = () => {
         {/* Gradient Overlays */}
         <div className="absolute inset-0 bg-gradient-to-r from-stone-950/100 via-stone-950/80 via-20% to-transparent to-60%"></div>
         <div className="absolute inset-0 opacity-[0.03] pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/stardust.png')]"></div>
-        
+
         {/* Animated Dust Particles */}
         {particles.map((_, i) => (
           <motion.div
@@ -301,33 +367,37 @@ const FloatingStatsBar = () => {
   const { count: exp, ref: expRef } = useCounter(40, 1500);
 
   return (
-    <div className="relative z-30 mt-10 md:-mt-14 mb-10 
-                    mx-4 sm:mx-8 md:mx-16 lg:mx-36">
-      
-      <div className="bg-white/95 backdrop-blur-xl border border-stone-200 shadow-2xl rounded-2xl py-6 
-                      flex flex-col md:flex-row items-center justify-around gap-8">
-         
-         <div ref={projRef} className="group flex flex-col items-center text-center w-full md:w-1/3 cursor-default">
-            <Building2 className="w-8 -ml-4 h-8 text-red-700 mb-3 opacity-90 transition-transform duration-700 ease-in-out group-hover:rotate-[360deg]" />
-            <div className="text-4xl font-sans font-semibold text-stone-900 mb-2">{projects}+</div>
-            <div className="text-sm font-serif font-bold uppercase tracking-widest text-stone-600">
-              Projects Served
-            </div>
-         </div>
-         
-         <div className="hidden md:block w-px h-16 bg-stone-200"></div>
-         <div className="md:hidden h-px w-full bg-stone-200"></div>
+    // Increased max-w-5xl to max-w-6xl so it perfectly matches the grid width below it
+    <div className="relative z-30  mx-36 px-4 -mt-14 mb-10">
+      <div className="bg-white/95 backdrop-blur-xl border border-stone-200 shadow-2xl rounded-2xl py-6  flex flex-col md:flex-row items-center justify-around gap-8">
+        <div
+          ref={projRef}
+          className="group flex flex-col items-center text-center w-full md:w-1/3 cursor-default"
+        >
+          <Building2 className="w-8 -ml-4 h-8  text-red-700 mb-3 opacity-90 transition-transform duration-700 ease-in-out group-hover:rotate-[360deg]" />
+          <div className="text-4xl md:text-4xl font-sans font-semibold text-stone-900 mb-2">
+            {projects}+
+          </div>
+          <div className="text-sm font-serif font-bold uppercase tracking-widest text-stone-600">
+            Projects Served
+          </div>
+        </div>
 
-         <div ref={satRef} className="group flex flex-col items-center text-center w-full md:w-1/3 cursor-default">
-            <Star className="w-8 -ml-4 h-8 text-red-700 mb-3 opacity-90 transition-transform duration-700 ease-in-out group-hover:rotate-[360deg]" />
-            <div className="text-4xl font-sans font-semibold text-stone-900 mb-2">{sat}%</div>
-            <div className="text-sm font-serif font-bold uppercase tracking-widest text-stone-600">
-              Satisfaction Rate
-            </div>
-         </div>
+        <div className="hidden md:block w-px h-16 bg-stone-200"></div>
+        <div className="md:hidden h-px w-full bg-stone-200"></div>
 
-         <div className="hidden md:block w-px h-16 bg-stone-200"></div>
-         <div className="md:hidden h-px w-full bg-stone-200"></div>
+        <div
+          ref={satRef}
+          className="group flex flex-col items-center text-center w-full md:w-1/3 cursor-default"
+        >
+          <Star className="w-8 -ml-4 h-8 text-red-700 mb-3 opacity-90 transition-transform duration-700 ease-in-out group-hover:rotate-[360deg]" />
+          <div className="text-4xl md:text-4xl font-sans font-semibold text-stone-900 mb-2">
+            {sat}%
+          </div>
+          <div className="text-sm font-serif font-bold uppercase tracking-widest text-stone-600">
+            Satisfaction Rate
+          </div>
+        </div>
 
          <div ref={expRef} className="group flex flex-col items-center text-center w-full md:w-1/3 cursor-default">
             <ShieldCheck className="w-8 -ml-3 h-8 text-red-700 mb-3 opacity-90 transition-transform duration-700 ease-in-out group-hover:rotate-[360deg]" />
@@ -344,34 +414,32 @@ const FloatingStatsBar = () => {
 
 const headingVariant = {
   hidden: { opacity: 0, x: -150, scale: 0.95 },
-  visible: { 
-    opacity: 1, 
+  visible: {
+    opacity: 1,
     x: 0,
     scale: 1,
-    transition: { duration: 1.25, ease: "easeOut" }
-  }
+    transition: { duration: 1.25, ease: "easeOut" },
+  },
 };
 
 const paragraphVariant = {
   hidden: { opacity: 0, x: 150, scale: 0.95 },
-  visible: { 
-    opacity: 1, 
+  visible: {
+    opacity: 1,
     x: 0,
     scale: 1,
-    transition: { duration: 1.5, delay: 0.4, ease: "easeOut" }
-  }
+    transition: { duration: 1.5, delay: 0.4, ease: "easeOut" },
+  },
 };
 
 const imageVariant = {
   hidden: { opacity: 0, scale: 0.8, y: 50 },
-  visible: { 
-    opacity: 1, 
+  visible: {
+    opacity: 1,
     scale: 1,
     y: 0,
-    transition: { duration: 2, 
-      delay: 0.6,        
-      ease: [0.25, 1, 0.5, 1] }
-  }
+    transition: { duration: 2, delay: 0.6, ease: [0.25, 1, 0.5, 1] },
+  },
 };
 
 const AboutShort = () => {
@@ -386,76 +454,86 @@ const AboutShort = () => {
     >
       <div className="container mx-auto px-6 relative z-10">
         <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
-          
           <div className="lg:col-span-5 text-center lg:text-left">
             <div className="inline-flex items-center gap-2 mb-4 justify-center lg:justify-start">
-                <span className="w-8 h-[2px] bg-red-600"></span>
-                <span className="text-red-700 font-bold uppercase tracking-widest text-xs font-sans">
-                  The Legacy
-                </span>
+              <span className="w-8 h-[2px] bg-red-600"></span>
+              <span className="text-red-700 font-bold uppercase tracking-widest text-xs font-sans">
+                The Legacy
+              </span>
             </div>
-          
-              {/* <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif font-medium text-stone-950 mb-6 leading-tight">
+
+            {/* <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif font-medium text-stone-950 mb-6 leading-tight">
               Welcome to <br className="hidden lg:block"/> VR & Sons
             </h2> */}
-           <motion.h2
-           viewport={{ once: true, amount: 0.7 }}
-  variants={headingVariant}
-  initial="hidden"
-  animate={isVisible ? "visible" : "hidden"}
-  className="text-4xl md:text-5xl lg:text-6xl font-serif font-medium text-stone-950 mb-6 leading-tight"
->
-  Welcome to <br className="hidden lg:block"/> VR & Sons
-</motion.h2>
-            
-            
+            <motion.h2
+              viewport={{ once: true, amount: 0.7 }}
+              variants={headingVariant}
+              initial="hidden"
+              animate={isVisible ? "visible" : "hidden"}
+              className="text-4xl md:text-5xl lg:text-6xl font-serif font-medium text-stone-950 mb-6 leading-tight"
+            >
+              Welcome to <br className="hidden lg:block" /> VR & Sons
+            </motion.h2>
+
             {/* <div className="rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.1)] border border-stone-200 w-full h-48 md:h-64 mt-6 hidden lg:block overflow-hidden group border border-stone-200"> */}
-             <motion.div
+            <motion.div
               viewport={{ once: true, amount: 1 }}
-  variants={imageVariant}
-  initial="hidden"
-  animate={isVisible ? "visible" : "hidden"}
-  className="rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.1)] border border-stone-200 w-full h-48 md:h-64 mt-6 hidden lg:block overflow-hidden group"
->
-              <img 
-                src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&q=80" 
-                alt="Craftsmanship" 
+              variants={imageVariant}
+              initial="hidden"
+              animate={isVisible ? "visible" : "hidden"}
+              className="rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.1)] border border-stone-200 w-full h-48 md:h-64 mt-6 hidden lg:block overflow-hidden group"
+            >
+              <img
+                src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&q=80"
+                alt="Craftsmanship"
                 className="w-full h-full object-cover grayscale-[30%] transition-all duration-700 group-hover:scale-110 group-hover:grayscale-0"
               />
-              </motion.div>
+            </motion.div>
             {/* </div> */}
           </div>
 
           <div className="lg:col-span-7 flex flex-col justify-center h-full lg:pt-4 lg:mt-6 ">
             <motion.p
-             viewport={{ once: true, amount: 0.8 }}
-  variants={paragraphVariant}
-  initial="hidden"
-  animate={isVisible ? "visible" : "hidden"}
-  className="text-xl md:text-2xl text-stone-800 font-serif leading-relaxed mb-6 text-center lg:text-left"
->
-  We are a leading brick manufacturer committed to delivering 
-  <strong className="text-red-700 font-bold"> durable</strong>, 
-  <strong className="text-red-700 font-bold"> eco-friendly</strong>, and 
-  <strong className="text-red-700 font-bold"> high-performance</strong> bricks.
-</motion.p>
-
-            <motion.p
-  variants={paragraphVariant}
-  initial="hidden"
-  animate={isVisible ? "visible" : "hidden"}
-  // className="text-xl md:text-2xl text-stone-800 font-serif leading-relaxed mb-6 text-center lg:text-left"
->
-            <p className="text-base md:text-lg text-stone-600 leading-relaxed font-sans font-light text-center lg:text-left mb-8">
-              With over 30 years of industry experience, we supply the foundation for builders, contractors, and visionaries. Our commitment to quality ensures that every brick fired in our kilns meets the highest architectural standards. 
-              <br />From residential homes to large-scale commercial developments, our products are engineered for strength, consistency, and long-lasting performance.
-            </p>
-            <p className="text-base md:text-lg text-stone-600 leading-relaxed font-sans font-light text-center lg:text-left mb-8">
-              Trusted by architects, engineers, and construction experts, we continue to build structures that shape skylines and communities.
-            </p>
+              viewport={{ once: true, amount: 0.8 }}
+              variants={paragraphVariant}
+              initial="hidden"
+              animate={isVisible ? "visible" : "hidden"}
+              className="text-xl md:text-2xl text-stone-800 font-serif leading-relaxed mb-6 text-center lg:text-left"
+            >
+              We are a leading brick manufacturer committed to delivering
+              <strong className="text-red-700 font-bold"> durable</strong>,
+              <strong className="text-red-700 font-bold"> eco-friendly</strong>,
+              and
+              <strong className="text-red-700 font-bold">
+                {" "}
+                high-performance
+              </strong>{" "}
+              bricks.
             </motion.p>
 
-            
+            <motion.p
+              variants={paragraphVariant}
+              initial="hidden"
+              animate={isVisible ? "visible" : "hidden"}
+              // className="text-xl md:text-2xl text-stone-800 font-serif leading-relaxed mb-6 text-center lg:text-left"
+            >
+              <p className="text-base md:text-lg text-stone-600 leading-relaxed font-sans font-light text-center lg:text-left mb-8">
+                With over 30 years of industry experience, we supply the
+                foundation for builders, contractors, and visionaries. Our
+                commitment to quality ensures that every brick fired in our
+                kilns meets the highest architectural standards.
+                <br />
+                From residential homes to large-scale commercial developments,
+                our products are engineered for strength, consistency, and
+                long-lasting performance.
+              </p>
+              <p className="text-base md:text-lg text-stone-600 leading-relaxed font-sans font-light text-center lg:text-left mb-8">
+                Trusted by architects, engineers, and construction experts, we
+                continue to build structures that shape skylines and
+                communities.
+              </p>
+            </motion.p>
+
             <div className="text-center lg:right-left">
               <Link
                 to="/about"
@@ -465,7 +543,6 @@ const AboutShort = () => {
               </Link>
             </div>
           </div>
-
         </div>
       </div>
     </section>
@@ -477,12 +554,12 @@ const ProductOverview = () => {
 
   const products = [
     { title: "Classic Reds", img: brick1 },
-    { title: "Yellows", img:  brick5 }, 
-    { title: "Multies", img:  brick2},
+    { title: "Yellows", img: brick5 },
+    { title: "Multies", img: brick2 },
     { title: "Darks", img: brick3 },
-    { title: "Hamptons", img:  brick4 },
-    { title: "Rumbled", img:  brick6},  
-    { title: "Reclaimed", img:  brick7},   
+    { title: "Hamptons", img: brick4 },
+    { title: "Rumbled", img: brick6 },
+    { title: "Reclaimed", img: brick7 },
   ];
 
   return (
@@ -495,14 +572,14 @@ const ProductOverview = () => {
       {/* Title Centered */}
       <div className="container mx-auto px-6 mb-10 relative z-10 flex flex-col items-center text-center">
         <div className="inline-flex items-center gap-2 mb-3">
-            <span className="w-8 h-[2px] bg-red-600"></span>
-            <span className="text-red-700 font-bold uppercase tracking-widest text-xs font-sans">
-              Our Products
-            </span>
-            <span className="w-8 h-[2px] bg-red-600"></span>
+          <span className="w-8 h-[2px] bg-red-600"></span>
+          <span className="text-red-700 font-bold uppercase tracking-widest text-xs font-sans">
+            Our Products
+          </span>
+          <span className="w-8 h-[2px] bg-red-600"></span>
         </div>
         <h2 className="text-4xl md:text-5xl font-serif font-medium text-stone-900 mb-4">
-         Top<span className="mx-0.5 font-sans">-</span>tier Bricks
+          Top<span className="mx-0.5 font-sans">-</span>tier Bricks
         </h2>
         <p className="text-stone-600 font-sans font-light text-lg">
           High-grade clay crafted for modern architectural needs.
@@ -544,7 +621,6 @@ const ProductOverview = () => {
           View Collection
           <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
         </Link>
-        
       </div>
 
       <style>{`
@@ -569,19 +645,32 @@ const ProductOverview = () => {
 const BrickImpressions = () => {
   const { ref, isVisible } = useScrollReveal();
 
- const col1 = [G1, G2, G3, G4];
-const col2 = [G5, G6, G7, G8];
-const col3 = [G9, G10, G11, G12];
+  const col1 = [G1, G2, G3, G4];
+  const col2 = [G5, G6, G7, G8];
+  const col3 = [G9, G10, G11, G12];
 
-  const ImageColumn = ({ images, direction = "up", offset = 0, className = "" }) => (
+  const ImageColumn = ({
+    images,
+    direction = "up",
+    offset = 0,
+    className = "",
+  }) => (
     <div className={`relative overflow-hidden w-64 group ${className}`}>
       <div
         className={`flex flex-col gap-6 ${direction === "up" ? "animate-marquee-up" : "animate-marquee-down"}`}
         style={{ transform: `translateY(${offset}px)` }}
       >
         {[...images, ...images].map((src, i) => (
-          <div key={i} className="rounded-2xl overflow-hidden shadow-2xl border border-white/5">
-            <img src={src} alt="Brick Texture" className="w-full h-72 object-cover hover:scale-110 transition-transform duration-700" loading="lazy" />
+          <div
+            key={i}
+            className="rounded-2xl overflow-hidden shadow-2xl border border-white/5"
+          >
+            <img
+              src={src}
+              alt="Brick Texture"
+              className="w-full h-72 object-cover hover:scale-110 transition-transform duration-700"
+              loading="lazy"
+            />
           </div>
         ))}
       </div>
@@ -603,35 +692,34 @@ const col3 = [G9, G10, G11, G12];
 
       <div className="container mx-auto px-6 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-          
           <div className="text-center lg:text-left">
             <div className="inline-flex items-center gap-2 mb-4 justify-center lg:justify-start">
-                <span className="w-8 h-[2px] bg-red-500"></span>
-                <span className="text-red-400 font-bold uppercase tracking-widest text-[10px] font-sans">
-                  Visual Mastery
-                </span>
+              <span className="w-8 h-[2px] bg-red-500"></span>
+              <span className="text-red-400 font-bold uppercase tracking-widest text-[10px] font-sans">
+                Visual Mastery
+              </span>
             </div>
-            
- <motion.h2
-           viewport={{ once: true, amount: 0.7 }}
-  variants={headingVariant}
-  initial="hidden"
-  animate={isVisible ? "visible" : "hidden"}
-  className="text-4xl md:text-5xl lg:text-6xl font-serif font-medium text-white mt-2 mb-8 leading-tight"
->
 
-            {/* Text colors adjusted for dark background */}
-            {/* <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif font-medium text-white mt-2 mb-8 leading-tight"> */}
-             Building Dreams with Quality and Strength <br /> <span className="italic text-red-500">Brick Impressions.</span>
-            {/* </h2> */}
-       </motion.h2>     
+            <motion.h2
+              viewport={{ once: true, amount: 0.7 }}
+              variants={headingVariant}
+              initial="hidden"
+              animate={isVisible ? "visible" : "hidden"}
+              className="text-4xl md:text-5xl lg:text-6xl font-serif font-medium text-white mt-2 mb-8 leading-tight"
+            >
+              {/* Text colors adjusted for dark background */}
+              {/* <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif font-medium text-white mt-2 mb-8 leading-tight"> */}
+              Building Dreams with Quality and Strength <br />{" "}
+              <span className="italic text-red-700">Brick Impressions.</span>
+              {/* </h2> */}
+            </motion.h2>
             <p className="text-lg text-stone-400 leading-relaxed mb-10 max-w-xl font-sans font-light mx-auto lg:mx-0">
-              Step into the world of timeless craftsmanship with
-VR & Sons Bricks, where every brick is more than just a construction
-material - it is a statement of strength, sophistication, and
-architectural excellence.
+              Step into the world of timeless craftsmanship with VR & Sons
+              Bricks, where every brick is more than just a construction
+              material - it is a statement of strength, sophistication, and
+              architectural excellence.
             </p>
-            
+
             <Link
               to="/projects"
               className="inline-flex items-center font-bold text-xs uppercase tracking-widest text-white hover:text-red-400 group font-sans border-b border-white/20 pb-2 hover:border-red-500 transition-all mt-4"
@@ -643,12 +731,21 @@ architectural excellence.
 
           <div className="relative">
             {/* The card is now semi-transparent glass to blend with the dark background */}
-            <div className="bg-stone-800/40 backdrop-blur-xl rounded-[2.5rem] p-4 md:p-6 border border-white/10 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] relative h-[520px] overflow-hidden flex justify-center gap-4 md:gap-6">
-              
+            <div className="backdrop-blur-xl rounded-[2.5rem] p-4 md:p-6 relative h-[520px] overflow-hidden flex justify-center gap-4 md:gap-6">
               <ImageColumn images={col1} direction="up" />
-              <ImageColumn images={col2} direction="down" offset={-120} className="hidden sm:block" />
-              <ImageColumn images={col3} direction="up" offset={-60} className="hidden md:block" />
-              
+              <ImageColumn
+                images={col2}
+                direction="down"
+                offset={-120}
+                className="hidden sm:block"
+              />
+              <ImageColumn
+                images={col3}
+                direction="up"
+                offset={-60}
+                className="hidden md:block"
+              />
+
               {/* Dark Fade masks to match the bg-stone-900 background */}
               <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-stone-900 to-transparent pointer-events-none" />
               <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-stone-900 to-transparent pointer-events-none" />
@@ -656,7 +753,6 @@ architectural excellence.
           </div>
         </div>
       </div>
-      
 
       <style>{`
         @keyframes marquee-up { 0% { transform: translateY(0); } 100% { transform: translateY(-50%); } }
@@ -670,119 +766,72 @@ architectural excellence.
 };
 
 const Projects = () => {
-  const { ref, isVisible } = useScrollReveal();
+  const [index, setIndex] = useState(0);
 
   const projects = [
     {
       title: "Crystal Heights Tower",
-      desc: "A luxury residential complex built for longevity using our Red Clay Bricks.",
-      images: ["https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80",
-        "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80"],
+      desc: "Luxury residential complex built for longevity.",
+      image:
+        "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1200&q=80",
     },
-
     {
       title: "Green Valley Villas",
-      desc: "Sustainable housing project featuring our premium exposed brickwork.",
-      images: ["https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&q=80",
-        "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&q=80"]
+      desc: "Premium exposed brick sustainable villas.",
+      image:
+        "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=1200&q=80",
     },
     {
       title: "Tech Park One",
-      desc: "Commercial hub utilizing Fly Ash Blocks for superior thermal insulation.",
-      images:["https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80",
-        "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80"],
-    }
-   
+      desc: "Commercial hub with thermal efficiency.",
+      image:
+        "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1200&q=80",
+    },
   ];
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIndex((prev) => (prev + 1) % projects.length);
+    }, 3500);
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
-    <section
-      ref={ref}
-      className={`py-12 md:py-16 bg-transparent transition-all duration-1000 ${
-        isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-      }`}
-    >
-      <div className="container mx-auto px-6 relative z-10">
-        {/* <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-10 gap-4">
-          <div>
-             <span className="text-orange-700 font-bold uppercase tracking-widest text-xs font-sans mb-2 block">Experiences</span>
-             <h2 className="text-4xl md:text-5xl font-serif font-medium text-stone-900">
-               Featured Projects
-             </h2>
-          </div>
-          <Link
-            to="/projects"
-            className="text-orange-700 font-bold font-sans uppercase tracking-widest text-xs hover:text-orange-900 transition-colors"
-          >
-            View All Projects →
-          </Link>
-        </div> */}
-
-         <div className="container mx-auto px-6 mb-10 relative z-10 flex flex-col items-center text-center">
-        <div className="inline-flex items-center gap-2 mb-3">
-            <span className="w-8 h-[2px] bg-red-600"></span>
-            <span className="text-red-700 font-bold uppercase tracking-widest text-xs font-sans">
-              Our Experiences
-            </span>
-            <span className="w-8 h-[2px] bg-red-600"></span>
-        </div>
-        <h2 className="text-4xl md:text-5xl font-serif font-medium text-stone-900 mb-4">Featured Projects
-         
+    <section className="py-24 bg-transparent">
+      <div className="container mx-auto px-6 max-w-4xl text-center">
+        <h2 className="text-4xl md:text-5xl font-serif font-medium text-stone-900 mb-16">
+          Featured Projects
         </h2>
-        <p className="text-stone-600 font-sans font-light text-lg">
-        Engineering strength and timeless design into every structure we build.
-        </p>
-      </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {projects.map((p, i) => (
-            <div
-              key={i}
-              className="group relative overflow-hidden rounded-3xl bg-white shadow-lg hover:shadow-xl transition-all duration-500 border border-stone-200"
-            >
-              <div className="h-56 w-full overflow-hidden relative">
-                <div className="absolute inset-0 flex w-[200%] animate-slide-project">
-                  {[...p.images, ...p.images].map((img, idx) => (
-                    <div key={idx} className="w-full h-full flex-shrink-0">
-                      <img src={img} alt={p.title} className="w-full h-full object-cover grayscale-[10%] group-hover:grayscale-0 transition-all duration-500" />
-                    </div>
-                  ))}
-                </div>
-              </div>
+        <div className="relative h-[500px] rounded-3xl overflow-hidden shadow-2xl">
+          <AnimatePresence mode="sync">
+            <motion.img
+              key={projects[index].image}
+              src={projects[index].image}
+              alt=""
+              initial={{ y: 500 }}
+              animate={{ y: 0 }}
+              exit={{ y: -500 }}
+              transition={{
+                duration: 2,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+              className="absolute inset-0 w-full h-full object-cover"
+            />
+          </AnimatePresence>
 
-              <div className="p-6 relative z-20 bg-white">
-                <h3 className="text-xl font-serif font-medium text-stone-900 mb-2 transition-colors">
-                  {p.title}
-                </h3>
-                <p className="text-stone-500 text-sm font-sans leading-relaxed mb-5 line-clamp-2">
-                  {p.desc}
-                </p>
-                <span className="inline-flex items-center text-red-700 text-[10px] font-bold uppercase tracking-widest group-hover:text-red-800 transition-all duration-300 cursor-pointer border-b-2 border-red-200 pb-0.5 hover:border-red-700 hover:scale-105">
-                  View Case Study <ArrowRight className="w-3 h-3 ml-1 group-hover:translate-x-1 transition-transform" />
-                </span>
-              </div>
-            </div>
-          ))}
+          {/* TEXT CARD (STAYS FIXED) */}
+          <div className="absolute right-10 bottom-10 bg-white p-8 rounded-2xl shadow-xl max-w-md border border-stone-200 text-left z-10">
+            <h3 className="text-2xl font-serif text-stone-900 mb-3">
+              {projects[index].title}
+            </h3>
+            <p className="text-stone-600 text-sm font-sans">
+              {projects[index].desc}
+            </p>
+          </div>
         </div>
- {/* side nav */}
-            <div className="container mx-auto px-6 mt-10 flex justify-center relative z-10">
-        <Link
-          to="/projects"
-          className="inline-flex items-center text-red-700 font-semibold font-sans uppercase tracking-wide text-xs hover:text-red-800 transition-colors group border-b-2 border-red-200 pb-1 hover:border-red-700 hover:scale-105"
-        >
-          View All Projects
-          <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-        </Link>
       </div>
-
-      </div>
-          
-
-      <style>{`
-        @keyframes slide-proj { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-        .animate-slide-project { animation: slide-proj 30s linear infinite; }
-        .group:hover .animate-slide-project { animation-play-state: paused; }
-      `}</style>
     </section>
   );
 };
@@ -791,8 +840,8 @@ const CtaSection = () => {
   const { ref, isVisible } = useScrollReveal();
 
   return (
-    <section 
-      ref={ref} 
+    <section
+      ref={ref}
       className={`py-16 md:py-20 relative z-10 transition-all duration-1000 ${
         isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
       }`}
@@ -802,10 +851,12 @@ const CtaSection = () => {
           Ready to Build Your Legacy?
         </h2>
         <p className="text-base md:text-lg text-stone-600 font-sans font-light mb-8 leading-relaxed mx-auto">
-          Whether you're an architect designing a modern masterpiece or a builder seeking reliable materials, our experts are here to help you select the perfect bricks for your vision.
+          Whether you're an architect designing a modern masterpiece or a
+          builder seeking reliable materials, our experts are here to help you
+          select the perfect bricks for your vision.
         </p>
-        <Link 
-          to="/inquiry" 
+        <Link
+          to="/inquiry"
           className="inline-flex items-center px-6 py-3 bg-red-700 text-white font-bold font-sans text-xs uppercase tracking-wide rounded-xl hover:bg-red-800 transition-all duration-300  hover:-translate-y-1"
         >
           Inquire Now <ArrowRight className="w-4 h-4 ml-3" />
@@ -817,56 +868,59 @@ const CtaSection = () => {
 
 // --- MAIN PAGE ---
 
-
-
-
-
 export default function Home() {
   return (
     <div className="antialiased bg-stone-50 selection:bg-orange-200 selection:text-orange-900 relative">
       <Helmet>
         <title>VR & Sons | Premium Bricks Since 1986</title>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="true" />
-        <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="true"
+        />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Jost:wght@300;400;500;600;700&display=swap"
+          rel="stylesheet"
+        />
       </Helmet>
 
       <style>{`
         .font-serif { font-family: 'Cormorant Garamond', serif; }
         .font-sans { font-family: 'Jost', sans-serif; }
       `}</style>
-      
+
       <Header />
-     
+
       <Hero />
-      
+
       <div className="relative w-full">
-         <div className="absolute inset-0 z-0 pointer-events-none">
-            <BrickWall opacity={0.1} color="#8B4513" />
-            <div className="absolute inset-0 bg-stone-50/70"></div>
-         </div>
-         <div className="relative z-10 flex flex-col">
-            <FloatingStatsBar />
-            <AboutShort />
-            <ProductOverview />
-         </div>
+        <div className="absolute inset-0 z-0 pointer-events-none">
+          <BrickWall opacity={0.1} color="#8B4513" />
+          <div className="absolute inset-0 bg-stone-50/70"></div>
+        </div>
+        <div className="relative z-10 flex flex-col">
+          <FloatingStatsBar />
+          <AboutShort />
+          <ProductOverview />
+        </div>
       </div>
 
       <div className="relative w-full bg-white">
-         <BrickImpressions />
+        <BrickImpressions />
       </div>
 
       <div className="relative w-full">
-         <div className="absolute inset-0 z-0 pointer-events-none">
-            <BrickWall opacity={0.1} color="#8B4513" />
-            <div className="absolute inset-0 bg-stone-50/70"></div>
-         </div>
-         <div className="relative z-10 flex flex-col">
-            <Projects />
-            <CtaSection />
-         </div>
+        <div className="absolute inset-0 z-0 pointer-events-none">
+          <BrickWall opacity={0.1} color="#8B4513" />
+          <div className="absolute inset-0 bg-stone-50/70"></div>
+        </div>
+        <div className="relative z-10 flex flex-col">
+          <Projects />
+          <CtaSection />
+        </div>
       </div>
-      
+
       <Footer />
     </div>
   );

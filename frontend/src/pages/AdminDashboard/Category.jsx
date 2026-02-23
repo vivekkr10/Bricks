@@ -118,7 +118,7 @@ const AddCategory = ({ onBack }) => {
         
         {/* Header */}
         <div className="flex items-center gap-4 mb-4">
-          <button onClick={onBack} className="p-2 hover:bg-orange-600 border border-orange-600 group rounded-full transition-colors">
+          <button onClick={onBack} className="p-2 hover:bg-red-600 border border-red-600 group rounded-full transition-colors">
             <ArrowLeft size={24} className="text-stone-600 group-hover:text-white" />
           </button>
           <p className="text-orange-600 font-bold">back to dashboard</p>
