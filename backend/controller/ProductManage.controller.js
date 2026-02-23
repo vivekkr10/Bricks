@@ -153,30 +153,7 @@ exports.editProduct = async (req, res) => {
   }
 };
 
-exports.getCategories = async (req, res) => {
-  try {
-    const predefinedCategories = [
-      "Darks", 
-      "Hamptopns", 
-      "Classic Reds", 
-      "Multies",
-      "Rumbled", 
-      "Yellows",
-      "Reclaimed"
-    ];
 
-    const dynamicCategories = await Product.distinct("productType");
-
-    const allCategories = [...new Set([...predefinedCategories, ...dynamicCategories])];
-
-    res.status(200).json({
-      success: true,
-      categories: allCategories.sort() 
-    });
-  } catch (error) {
-    res.status(500).json({ success: false, error: error.message });
-  }
-};
 
 exports.toggleStatus = async (req, res) => {
   try {

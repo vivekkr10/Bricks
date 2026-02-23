@@ -2,17 +2,25 @@ const express = require("express");
 const router = express.Router();
 const multer = require("multer");
 
-const {addProduct, getProducts, deleteProduct, toggleStatus, getProductById, editProduct, getCategories} = require("../controller/ProductManage.controller")
+const {addProduct, getProducts, deleteProduct, toggleStatus, getProductById, editProduct} = require("../controller/ProductManage.controller")
+const { addCategory, getAllCategories, deleteCategory } = require('../controller/Category.controller');
+const { protect } = require('../middleware/auth');
+
 const storage = multer.diskStorage({});
 const upload = multer({ storage });
 
-router.post("/add-product", upload.array("images", 10), addProduct);
+router.post("/add-product", upload.array("images", 10), protect, addProduct);
 router.get("/all-products", getProducts); 
-router.get("/all-categories", getCategories);
+router.get('/all-categories', getAllCategories);
+router.post('/categories',protect, addCategory);
 
+router.delete('/categories/:id',protect, deleteCategory);
 
-router.delete("/delete-product/:id", deleteProduct);
-router.patch("/toggle-status/:id", toggleStatus);
-router.put("/edit-product/:id", editProduct);
+router.delete("/delete-product/:id",protect, deleteProduct);
+router.patch("/toggle-status/:id",protect, toggleStatus);
+router.put("/edit-product/:id",protect, editProduct);
 router.get("/:id", getProductById);
+
+
+
 module.exports = router;

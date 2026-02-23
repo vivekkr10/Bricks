@@ -4,20 +4,29 @@ const submitInquiry = async (req, res) => {
   try {
     const { name, email, phone, message, productName, requiredQty, deliveryLoc, } = req.body;
 
+    const inquiryId = `VR-${Date.now().toString().slice(-5)}`;
+
+    const formattedDate = new Date().toLocaleDateString('en-GB', {
+      day: '2-digit',
+      month: 'short',
+      year: 'numeric'
+    });
+
     await sheets.spreadsheets.values.append({
       spreadsheetId: process.env.GOOGLE_SHEET_ID,
-      range: "Inquiries!A:H",   
+      range: "Inquiries!A:I",   
       valueInputOption: "USER_ENTERED",
       requestBody: {
         values: [[
-          name,
-          email,
-          phone,
-          message,
-          productName,
-          requiredQty,
-          deliveryLoc,
-          new Date().toLocaleString()
+          inquiryId,       
+          formattedDate,   
+          name,            
+          phone,           
+          email,           
+          productName,     
+          requiredQty,     
+          deliveryLoc,     
+          message
         ]],
       },
     });

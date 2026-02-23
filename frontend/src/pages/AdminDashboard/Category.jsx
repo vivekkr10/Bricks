@@ -11,10 +11,19 @@ const AddCategory = ({ onBack }) => {
   // Slider ke liye Ref
   const scrollRef = useRef(null);
 
+  // useEffect(() => {
+  //   const saved = localStorage.getItem("brick_categories");
+  //   if (saved) setCategories(JSON.parse(saved));
+  // }, []);
+
   useEffect(() => {
-    const saved = localStorage.getItem("brick_categories");
-    if (saved) setCategories(JSON.parse(saved));
-  }, []);
+  const fetchCategories = async () => {
+    const response = await fetch("http://localhost:5000/api/products/all-categories");
+    const data = await response.json();
+    if (data.success) setCategories(data.categories);
+  };
+  fetchCategories();
+}, []);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -25,29 +34,74 @@ const AddCategory = ({ onBack }) => {
     }
   };
 
-  const handleAddCategory = () => {
-     setTitle("");
-    setImage(null);
-    if (!title || !image) {
-      alert("Please add both title and image!");
-      return;
-    }
+  // const handleAddCategory = () => {
+  //    setTitle("");
+  //   setImage(null);
+  //   if (!title || !image) {
+  //     alert("Please add both title and image!");
+  //     return;
+  //   }
 
-    const newCategory = { id: Date.now(), title, image };
-    const updated = [...categories, newCategory];
-    setCategories(updated);
-    localStorage.setItem("brick_categories", JSON.stringify(updated));
+  //   const newCategory = { id: Date.now(), title, image };
+  //   const updated = [...categories, newCategory];
+  //   setCategories(updated);
+  //   localStorage.setItem("brick_categories", JSON.stringify(updated));
     
    
-    setIsSuccess(true);
-    setTimeout(() => setIsSuccess(false), 3000);
-  };
+  //   setIsSuccess(true);
+  //   setTimeout(() => setIsSuccess(false), 3000);
+  // };
 
-  const handleDelete = (id) => {
-    const updated = categories.filter((cat) => cat.id !== id);
-    setCategories(updated);
-    localStorage.setItem("brick_categories", JSON.stringify(updated));
-  };
+  const handleAddCategory = async () => {
+  if (!title || !image) return alert("Title and image required!");
+
+  try {
+    const token = localStorage.getItem('token');
+    const response = await fetch("http://localhost:5000/api/products/categories", {
+      method: "POST",
+      headers: { 
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}` 
+      },
+      body: JSON.stringify({ title, image }) // image should be a base64 string or URL
+    });
+
+    const data = await response.json();
+
+  if (data.success) {
+      setCategories([...categories, data.category]);
+      setTitle("");
+      setImage(null);
+      setIsSuccess(true);
+      setTimeout(() => setIsSuccess(false), 3000);
+    } else {
+      alert(data.message || "Failed to add category");
+    }
+  } catch (error) {
+    console.error("Connection Error:", error);
+  }
+  finally {
+      setIsLoading(false); 
+    }
+};
+
+ const handleDelete = async (id) => {
+  if (!window.confirm("Are you sure you want to delete this category?")) return;
+
+  try {
+    const token = localStorage.getItem('token');
+    const response = await fetch(`http://localhost:5000/api/products/categories/${id}`, {
+      method: "DELETE",
+      headers: { "Authorization": `Bearer ${token}` }
+    });
+
+    if (response.ok) {
+      setCategories(categories.filter((cat) => cat._id !== id));
+    }
+  } catch (error) {
+    console.error("Delete Error:", error);
+  }
+};
 
   // --- Scroll Logic ---
   const scroll = (direction) => {
