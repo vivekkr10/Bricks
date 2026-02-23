@@ -5,6 +5,9 @@ const ProductForm = ({ editId, onCancel }) => {
   const isEditMode = Boolean(editId);
 
   const [previewImages, setPreviewImages] = useState([]); 
+  const [dynamicCategories, setDynamicCategories] = useState([]);
+  const [isLoadingCats, setIsLoadingCats] = useState(true);
+
   const [formData, setFormData] = useState({
     name: "",
     type: "",
@@ -20,16 +23,29 @@ const ProductForm = ({ editId, onCancel }) => {
   });
 
   // --- DYNAMIC CATEGORIES LOGIC ---
-  const dynamicCategories = useMemo(() => {
-    // Ye aapki permanent categories hain
-    const baseCategories = ["Darks", "Hamptons", "Classic Reds", "Multies", "Rumbled", "Yellows", "Reclaimed"];
-    
-    // Ye wo hain jo aapne Category page se add ki hain
-    const savedCats = JSON.parse(localStorage.getItem("brick_categories")) || [];
-    const customTitles = savedCats.map(cat => cat.title);
-    
-    // Dono ko merge karke duplicate hatana
-    return [...new Set([...baseCategories, ...customTitles])];
+
+  useEffect(() => {
+    const fetchCats = async () => {
+      try {
+        const response = await fetch("http://localhost:5000/api/products/all-categories");
+        const data = await response.json();
+        
+        const baseCategories = ["Darks", "Hamptons", "Classic Reds", "Multies", "Rumbled", "Yellows", "Reclaimed"];
+        
+        if (data.success) {
+          const backendTitles = data.categories.map(cat => cat.title);
+          const merged = [...new Set([...baseCategories, ...backendTitles])];
+          setDynamicCategories(merged);
+        } else {
+          setDynamicCategories(baseCategories);
+        }
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      } finally {
+        setIsLoadingCats(false);
+      }
+    };
+    fetchCats();
   }, []);
 
   useEffect(() => {
@@ -165,7 +181,7 @@ const ProductForm = ({ editId, onCancel }) => {
                 {/* --- DYNAMIC TYPE DROPDOWN --- */}
                 <FormInput label="Category / Type" icon={<Layers size={16} className="text-orange-600"/>}>
                     <select required name="type" value={formData.type} onChange={handleChange} className="form-input-style appearance-none cursor-pointer">
-                        <option value="">Select Type</option>
+                        <option value="">{isLoadingCats ? "Loading Categories..." : "Select Type"}</option>
                         {dynamicCategories.map((cat, idx) => (
                           <option key={idx} value={cat}>{cat}</option>
                         ))}

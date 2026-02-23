@@ -562,6 +562,20 @@ const ProductOverview = () => {
     { title: "Reclaimed", img: brick7 },
   ];
 
+  // const [products, setProducts] = useState([]);
+
+  // useEffect(() => {
+  //   fetch("http://localhost:5000/api/products/all-categories")
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       const arrayData = Array.isArray(data) ? data : (data.categories || []);
+  //       setProducts(arrayData)
+  //     })
+  //     .catch((err) => console.error("Error:", err));
+  // }, []);
+
+  if (products.length === 0) return null;
+
   return (
     <section
       ref={ref}

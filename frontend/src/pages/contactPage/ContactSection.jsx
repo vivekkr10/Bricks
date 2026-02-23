@@ -1,4 +1,5 @@
 import React from "react";
+import { useState } from "react";
 import {
   MapPin,
   Phone,
@@ -90,59 +91,59 @@ export default function ContactSection() {
   ];
 
   const [openIndex, setOpenIndex] = React.useState(null);
+const [loading, setLoading] = useState(false);
 
-// For Google sheet Connection///////////////////////////////////////
 
-function doPost(e) {
-  var sheet = SpreadsheetApp.openById("YOUR_SHEET_ID").getActiveSheet();
-  
-  var data = JSON.parse(e.postData.contents);
-
-  sheet.appendRow([
-    data.name,
-    data.phone,
-    data.location,
-    data.details,
-    new Date()
-  ]);
-
-  return ContentService
-    .createTextOutput(JSON.stringify({ status: "success" }))
-    .setMimeType(ContentService.MimeType.JSON);
-}
+ const [formData, setFormData] = useState({ 
+    productName: '',
+    fullName: '',
+    mobile: '',
+    email: '',
+    quantity: '',
+    location: '',
+    message: ''
+  });
 
 const navigate = useNavigate();
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
 
-  const data = {
-    name: e.target.name.value,
-    phone: e.target.phone.value,
-    location: e.target.location.value,
-    details: e.target.details.value,
+ const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  try {
-    const response = await fetch("YOUR_WEB_APP_URL", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
+const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    setLoading(true);
+    try {
+      const BACKEND_URL = "http://localhost:5000/api/inquiry/";
+      
+      const response = await fetch(BACKEND_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name: formData.fullName,
+        email: formData.email,
+        phone: formData.mobile,
+        message: formData.message,
+        productName: formData.productName,
+        requiredQty: formData.quantity,
+        deliveryLoc: formData.location
+      })
     });
-
     const result = await response.json();
-
-    if (result.status === "success") {
-      navigate("/thankyou"); // make sure route matches
-    } else {
-      alert("Submission failed");
+     
+     if (result.success) {
+      navigate("/thankyou");
+      } else {
+      throw new Error(result.error);
     }
-  } catch (error) {
-    alert("Something went wrong");
-  }
-};
+    } catch (error) {
+      alert("Submission failed. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
 //////////////////////////////////////////////////////////
 
   return (
@@ -323,9 +324,10 @@ const handleSubmit = async (e) => {
      <form onSubmit={handleSubmit} className="space-y-6">
   <div className="grid md:grid-cols-2 gap-6">
     <input
-      name="name"
+      name="fullName"
       className="border border-stone-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
       placeholder="Your Name"
+      onChange={handleChange}
       required
     />
 
@@ -334,15 +336,17 @@ const handleSubmit = async (e) => {
       name="email"
       className="border border-stone-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
       placeholder="Email Address"
+       onChange={handleChange}
       required
     />
   </div>
 
   <div className="grid md:grid-cols-2 gap-6">
     <input
-      name="phone"
+      name="mobile"
       className="border border-stone-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
       placeholder="Phone Number"
+       onChange={handleChange}
       required
     />
 
@@ -350,16 +354,18 @@ const handleSubmit = async (e) => {
       name="location"
       className="border border-stone-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
       placeholder="Project Location"
+       onChange={handleChange}
       required
     />
   </div>
 
   <div className="grid md:grid-cols-2 gap-6">
      <input
-      type="product"
-      name="product"
+      type="text"
+      name="productName"
       className="border border-stone-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
       placeholder="Product Name"
+       onChange={handleChange}
       required
     />
 
@@ -368,15 +374,17 @@ const handleSubmit = async (e) => {
       name="quantity"
       className="border border-stone-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
       placeholder="Quantity (in units)"
+       onChange={handleChange}
       required
     />
   </div>
 
   <textarea
-    name="additionalRequirements"
+    name="message"
     rows="3"
     className="border border-stone-300 p-3 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-red-600"
     placeholder="Additional Requirements"
+     onChange={handleChange}
   />
 
  

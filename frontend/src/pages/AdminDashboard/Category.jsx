@@ -7,6 +7,7 @@ const AddCategory = ({ onBack }) => {
   const [title, setTitle] = useState("");
   const [image, setImage] = useState(null);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   
   // Slider ke liye Ref
   const scrollRef = useRef(null);
@@ -63,7 +64,7 @@ const AddCategory = ({ onBack }) => {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${token}` 
       },
-      body: JSON.stringify({ title, image }) // image should be a base64 string or URL
+      body: JSON.stringify({ title, image })
     });
 
     const data = await response.json();
@@ -152,7 +153,7 @@ const AddCategory = ({ onBack }) => {
                 <label className="block text-xs font-black uppercase tracking-widest text-stone-400">Category Name</label>
                 <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} placeholder="e.g. Classic Reds" className="w-full px-6 py-4 rounded-[1rem] bg-stone-50 border border-stone-200 focus:border-orange-500 focus:bg-white outline-none font-bold transition-all" />
               </div>
-              <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} onClick={handleAddCategory} className="w-full bg-orange-600 text-white py-4 rounded-[1rem] font-black shadow-lg shadow-orange-100 flex items-center justify-center gap-2"><Plus size={20} /> Add Category</motion.button>
+              <motion.button disabled={isLoading} whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} onClick={handleAddCategory} className="w-full bg-orange-600 text-white py-4 rounded-[1rem] font-black shadow-lg shadow-orange-100 flex items-center justify-center gap-2"><Plus size={20} /> Add Category</motion.button>
               {isSuccess && <div className="flex items-center justify-center gap-2 text-green-600 font-bold text-sm"><CheckCircle size={18} /> Category added successfully!</div>}
             </div>
           </div>
@@ -187,7 +188,7 @@ const AddCategory = ({ onBack }) => {
               {categories.map((cat) => (
                 <motion.div 
                   layout
-                  key={cat.id}
+                  key={cat._id}
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.5 }}
@@ -200,7 +201,7 @@ const AddCategory = ({ onBack }) => {
                   <div className="p-3">
                     <h3 className="text-sm font-black text-stone-800 truncate">{cat.title}</h3>
                   </div>
-                  <button onClick={() => handleDelete(cat.id)} className="absolute top-0 -right-2 bg-red-500 text-white p-2 rounded-xl shadow-lg opacity-0 group-hover:opacity-100 transition-opacity">
+                  <button onClick={() => handleDelete(cat._id)} className="absolute top-0 -right-2 bg-red-500 text-white p-2 rounded-xl shadow-lg opacity-0 group-hover:opacity-100 transition-opacity">
                     <Trash2 size={14} />
                   </button>
                 </motion.div>
