@@ -54,16 +54,28 @@ const InquiryPage = () => {
     
     setLoading(true);
     try {
-      const SCRIPT_URL = "YOUR_GOOGLE_APPS_SCRIPT_URL_HERE";
+      const BACKEND_URL = "http://localhost:5000/api/inquiry/";
       
-      await fetch(SCRIPT_URL, {
-        method: 'POST',
-        mode: 'no-cors', 
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
-      });
+      const response = await fetch(BACKEND_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name: formData.fullName,
+        email: formData.email,
+        phone: formData.mobile,
+        message: formData.message,
+        productName: formData.productName,
+        requiredQty: formData.quantity,
+        deliveryLoc: formData.location
+      })
+    });
+    const result = await response.json();
      
+     if (result.success) {
       navigate("/thankyou");
+      } else {
+      throw new Error(result.error);
+    }
     } catch (error) {
       alert("Submission failed. Please try again.");
     } finally {
