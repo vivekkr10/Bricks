@@ -176,8 +176,8 @@ support@vrandsons.com | +91 98254 74047 | +91 98252 66811
                 transition={{ duration: 0.6 }}
                 className="inline-flex items-center gap-2 px-3 py-1.5 bg-orange-600/10 backdrop-blur-sm rounded-full border border-orange-600/30 mb-6"
               >
-                <BrickWall className="w-3 h-3 text-orange-500" />
-                <span className="text-orange-400 text-xs font-medium uppercase tracking-wider">Terms & Conditions</span>
+                <BrickWall className="w-3 h-3 text-red-700" />
+                <span className="text-red-700 text-xs font-medium uppercase tracking-wider">Terms & Conditions</span>
               </motion.div>
 
               {/* Title */}
@@ -188,7 +188,7 @@ support@vrandsons.com | +91 98254 74047 | +91 98252 66811
                 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-4 font-serif"
               >
                 Terms of{' '}
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-amber-400">
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-400 to-amber-400">
                   Service
                 </span>
               </motion.h1>
@@ -198,7 +198,7 @@ support@vrandsons.com | +91 98254 74047 | +91 98252 66811
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
-                className="text-base md:text-lg text-stone-300 max-w-2xl leading-relaxed mb-8"
+                className="text-base md:text-lg  text-stone-300 max-w-2xl leading-relaxed mb-8"
               >
                 Please review our comprehensive terms carefully. We believe in complete transparency and building lasting trust with our clients.
               </motion.p>
@@ -211,15 +211,15 @@ support@vrandsons.com | +91 98254 74047 | +91 98252 66811
                 className="flex flex-wrap gap-4 mb-8"
               >
                 <div className="flex items-center gap-2 bg-white/5 backdrop-blur-sm rounded-lg px-3 py-1.5 border border-white/10">
-                  <Award className="w-4 h-4 text-orange-400" />
+                  <Award className="w-4 h-4 text-red-400" />
                   <span className="text-xs text-stone-300">Version 2.4</span>
                 </div>
                 <div className="flex items-center gap-2 bg-white/5 backdrop-blur-sm rounded-lg px-3 py-1.5 border border-white/10">
-                  <Clock className="w-4 h-4 text-orange-400" />
+                  <Clock className="w-4 h-4 text-red-400" />
                   <span className="text-xs text-stone-300">Updated Feb 2026</span>
                 </div>
                 <div className="flex items-center gap-2 bg-white/5 backdrop-blur-sm rounded-lg px-3 py-1.5 border border-white/10">
-                  <Shield className="w-4 h-4 text-orange-400" />
+                  <Shield className="w-4 h-4 text-red-400" />
                   <span className="text-xs text-stone-300">Legally Binding</span>
                 </div>
               </motion.div>
@@ -230,7 +230,7 @@ support@vrandsons.com | +91 98254 74047 | +91 98252 66811
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.4 }}
               >
-                <button 
+                {/* <button 
                   onClick={downloadPDF}
                   disabled={downloading}
                   className="group relative overflow-hidden bg-orange-600 hover:bg-orange-700 text-white px-6 py-3 rounded-lg font-medium transition-all disabled:opacity-50 text-sm inline-flex items-center gap-2 shadow-lg"
@@ -246,7 +246,7 @@ support@vrandsons.com | +91 98254 74047 | +91 98252 66811
                       <FileDown size={18} /> Download Terms
                     </>
                   )}
-                </button>
+                </button> */}
               </motion.div>
             </div>
           </div>
@@ -261,7 +261,7 @@ support@vrandsons.com | +91 98254 74047 | +91 98252 66811
               <div className="sticky top-24 space-y-4">
                 <div className="bg-white rounded-xl shadow-lg p-4 border border-stone-200">
                   <h3 className="text-xs font-bold uppercase tracking-wider text-stone-400 mb-3 flex items-center gap-2">
-                    <FileText className="w-4 h-4 text-orange-600" />
+                    <FileText className="w-4 h-4 text-red-600" />
                     Contents
                   </h3>
                   <nav className="space-y-1">
@@ -273,13 +273,13 @@ support@vrandsons.com | +91 98254 74047 | +91 98252 66811
                           onClick={() => scrollToSection(link.id)}
                           className={`w-full flex items-center gap-3 p-2.5 rounded-lg transition-all text-sm ${
                             isActive 
-                              ? "bg-orange-50 text-orange-700 border-l-3 border-orange-600" 
+                              ? "bg-orange-50 text-red-700 border-l-3 border-red-600" 
                               : "text-stone-600 hover:bg-stone-50"
                           }`}
                         >
-                          <link.icon className={`w-4 h-4 ${isActive ? "text-orange-600" : "text-stone-400"}`} />
+                          <link.icon className={`w-4 h-4 ${isActive ? "text-red-600" : "text-stone-400"}`} />
                           {link.label}
-                          {isActive && <ChevronRight className="w-3 h-3 ml-auto text-orange-600" />}
+                          {isActive && <ChevronRight className="w-3 h-3 ml-auto text-red-600" />}
                         </button>
                       );
                     })}
@@ -289,21 +289,21 @@ support@vrandsons.com | +91 98254 74047 | +91 98252 66811
                 {/* Stats Card */}
                 <div className="bg-gradient-to-br from-stone-800 to-stone-900 rounded-xl p-4 text-white border border-stone-700">
                   <h4 className="text-xs font-bold uppercase tracking-wider text-stone-400 mb-3 flex items-center gap-2">
-                    <Users className="w-4 h-4 text-orange-500" />
+                    <Users className="w-4 h-4 text-red-500" />
                     TRUSTED BY
                   </h4>
                   <div className="space-y-3">
                     <div className="flex items-center justify-between">
                       <span className="text-xs text-stone-300">Projects Completed</span>
-                      <span className="text-sm font-bold text-orange-500">312+</span>
+                      <span className="text-sm font-bold text-red-500">312+</span>
                     </div>
                     <div className="flex items-center justify-between">
                       <span className="text-xs text-stone-300">Happy Clients</span>
-                      <span className="text-sm font-bold text-orange-500">1000+</span>
+                      <span className="text-sm font-bold text-red-500">1000+</span>
                     </div>
                     <div className="flex items-center justify-between">
                       <span className="text-xs text-stone-300">Years of Trust</span>
-                      <span className="text-sm font-bold text-orange-500">40+</span>
+                      <span className="text-sm font-bold text-red-500">40+</span>
                     </div>
                   </div>
                 </div>
