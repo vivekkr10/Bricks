@@ -94,16 +94,16 @@ const Dashboard = ({ onAddClick, onEditClick ,onViewClick, onCatClick }) => {
         <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-10 md:mb-8">
           <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} className="space-y-2">
             <h1 className="text-4xl md:text-5xl font-black text-[#1C1917] tracking-tight leading-tight font-serif">
-              Bricks <span className="text-orange-600">Catalog</span>
+              Bricks <span className="text-red-700">Catalog</span>
             </h1>
-            <p className="text-[#78716C] font-medium max-w-md text-sm md:text-base font-sans">Real-time inventory and product monitoring.</p>
+            <p className="text-stone-500 font-medium max-w-md text-sm md:text-base font-sans">Real-time inventory and product monitoring.</p>
           </motion.div>
 
           <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
             <motion.button
               whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}
               onClick={onCatClick}
-              className="w-full md:w-auto text-orange-600 border-2 border-orange-600 px-6 py-3 rounded-[1rem] font-black flex items-center justify-center gap-2 transition-all hover:bg-orange-50"
+              className="w-full cursor-pointer md:w-auto text-red-700 border-2 border-red-700 px-6 py-3 rounded-xl font-semibold flex items-center justify-center gap-2 transition-all hover:shadow-xl shadow-md hover:-translate-y-1 duration-300 hover:bg-red-50"
             >
               <Plus size={20} /> Categories
             </motion.button>
@@ -111,7 +111,7 @@ const Dashboard = ({ onAddClick, onEditClick ,onViewClick, onCatClick }) => {
             <motion.button
               whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}
               onClick={onAddClick}
-              className="w-full md:w-auto text-white px-6 py-3 rounded-[1rem] font-black flex items-center justify-center gap-2 shadow-xl bg-orange-600 transition-shadow hover:shadow-orange-200"
+              className="w-full md:w-auto cursor-pointer text-white px-6 py-3 rounded-xl font-semibold flex items-center justify-center gap-2  bg-red-700 transition-all hover:shadow-xl  shadow-md hover:-translate-y-1 duration-300"
             >
               <Plus size={20} /> Add Product
             </motion.button>
@@ -126,26 +126,26 @@ const Dashboard = ({ onAddClick, onEditClick ,onViewClick, onCatClick }) => {
         </div>
 
         {/* --- SEARCH BAR --- */}
-        <div className="bg-white p-4 rounded-[1.5rem] border border-stone-200 shadow-xl mb-8 space-y-4">
+        <div className="bg-stone-200 p-4 rounded-xl border border-stone-200 shadow-xl mb-8 space-y-4">
           <div className="flex flex-col lg:flex-row gap-4 items-center">
             <div className="relative flex-1 group w-full">
-              <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-stone-400 group-focus-within:text-orange-500 transition-colors" size={20} />
+              <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-stone-500 group-focus-within:text-red-500 transition-colors" size={20} />
               <input
                 type="text"
                 placeholder="Search name, type or application..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-14 pr-6 py-4 rounded-[1.5rem] bg-stone-50 outline-none border border-transparent focus:border-orange-200 focus:bg-white font-bold transition-all"
+                className="w-full pl-14 pr-6 py-4 rounded-xl bg-stone-50 outline-none border border-transparent focus:border-orange-200 focus:bg-white font-bold transition-all"
               />
             </div>
             
             <div className="flex items-center gap-4 w-full lg:w-auto">
               <div className="flex bg-stone-100 p-1.5 rounded-[1rem] border border-stone-200 flex-1 lg:flex-none">
-                 <button onClick={() => setViewMode('grid')} className={`flex-1 lg:flex-none p-3 rounded-[1rem] transition-all flex justify-center ${viewMode === 'grid' ? "bg-white text-orange-600 shadow-md" : "text-stone-400"}`}><LayoutGrid size={20} /></button>
-                 <button onClick={() => setViewMode('list')} className={`flex-1 lg:flex-none p-3 rounded-[1rem] transition-all flex justify-center ${viewMode === 'list' ? "bg-white text-orange-600 shadow-md" : "text-stone-400"}`}><List size={20} /></button>
+                 <button onClick={() => setViewMode('grid')} className={`flex-1 cursor-pointer lg:flex-none p-3 rounded-xl transition-all flex justify-center ${viewMode === 'grid' ? "bg-white text-red-700 shadow-md" : "text-stone-400"}`}><LayoutGrid size={20} /></button>
+                 <button onClick={() => setViewMode('list')} className={`flex-1 cursor-pointer lg:flex-none p-3 rounded-xl transition-all flex justify-center ${viewMode === 'list' ? "bg-white text-red-700 shadow-md" : "text-stone-400"}`}><List size={20} /></button>
               </div>
 
-              <button onClick={() => setIsFilterOpen(!isFilterOpen)} className={`flex-1 lg:flex-none flex items-center justify-center gap-2 px-6 py-4 rounded-[1rem] font-black text-sm transition-all border ${isFilterOpen ? "bg-orange-600 text-white border-orange-600" : "bg-white text-stone-600 border-stone-200 hover:bg-stone-50"}`}>
+              <button onClick={() => setIsFilterOpen(!isFilterOpen)} className={`flex-1 cursor-pointer lg:flex-none flex items-center justify-center gap-2 px-6 py-4 rounded-xl font-semibold text-sm transition-all border ${isFilterOpen ? "bg-red-700 text-white border-red-700" : "bg-white/90 text-stone-800 border-stone-300 hover:bg-stone-50"}`}>
                 {isFilterOpen ? <X size={20} /> : <Filter size={20} />}
                 <span className="hidden sm:inline">Filter</span>
               </button>
@@ -215,18 +215,18 @@ const Dashboard = ({ onAddClick, onEditClick ,onViewClick, onCatClick }) => {
 
 const StatCard = ({ label, value, icon, color }) => {
   const themes = {
-    orange: "text-orange-600 bg-orange-50 border-orange-100",
+    orange: "text-red-600 bg-red-50 border-red-100",
     green: "text-green-600 bg-green-50 border-green-100",
     stone: "text-stone-600 bg-stone-50 border-stone-200",
   };
   return (
-    <div className="bg-white p-4 rounded-[1.5rem] border border-stone-200 shadow-sm flex items-center gap-4 hover:shadow-md transition-shadow">
+    <div className="bg-white p-4 rounded-xl border border-stone-200 shadow-md flex items-center gap-4 hover:shadow-md transition-shadow">
       <div className={`p-3 rounded-xl ${themes[color]} border shrink-0`}>
         {React.cloneElement(icon, { size: 20 })}
       </div>
       <div className="flex flex-col">
         <p className="text-[10px] font-black text-stone-400 uppercase tracking-widest leading-none mb-1">{label}</p>
-        <h3 className="text-2xl font-black text-[#1C1917] tracking-tighter leading-none">{value}</h3>
+        <h3 className="text-2xl font-black text-stone-800 tracking-tighter leading-none">{value}</h3>
       </div>
     </div>
   );
@@ -266,7 +266,7 @@ const ListViewCard = ({ p, toggleStatus, onEdit, onDelete, onView }) => (
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 pt-4 border-t border-stone-100 items-end">
          <InfoBlock label="Batch Size" value={p.size} icon={<Settings2 size={12}/>} />
          <InfoBlock label="Application" value={p.application} icon={<HardHat size={12}/>} />
-         <button onClick={() => onView(p)} className="sm:ml-auto w-full sm:w-fit p-3 bg-orange-600 text-white rounded-xl hover:bg-orange-700 md:hover:scale-110 transition-all border border-orange-100 flex items-center justify-center gap-2">
+         <button onClick={() => onView(p)} className="sm:ml-auto w-full sm:w-fit p-3 text-red-700  rounded-xl hover:text-red-800  md:hover:scale-105  border-b-2 border-red-200 font-semibold hover:border-red-700 pb-1 flex transition-all duration-300 items-center justify-center gap-2">
             <span className="sm:hidden font-bold text-xs uppercase tracking-widest">View Details</span>
             <ArrowUpRight size={16} />
         </button>
@@ -283,13 +283,13 @@ const GridViewCard = ({ p, toggleStatus, onEdit, onDelete, onView }) => (
       ) : (
         <ImageIcon size={48} className="text-stone-200 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
       )}
-      <div className="absolute top-4 right-4 px-3 py-1 bg-white/90 backdrop-blur rounded-[1rem] text-[9px] font-black uppercase tracking-widest border border-stone-100 shadow-sm">
+      <div className="absolute top-4 right-4 px-3 py-1 bg-white/90 backdrop-blur rounded-xl text-[9px] font-black uppercase tracking-widest border border-stone-100 shadow-sm">
         {p.type}
       </div>
     </div>
     
     <div className="flex-1 space-y-2 mb-6 px-1">
-      <h3 className="text-xl md:text-xl font-black text-[#1C1917] tracking-tight group-hover:text-orange-600 transition-colors line-clamp-1 uppercase font-sarif">{p.name}</h3>
+      <h3 className="text-xl md:text-xl font-black text-[#1C1917] tracking-tight group-hover:text-red-600 transition-colors line-clamp-1 uppercase font-sarif">{p.name}</h3>
       <p className="text-stone-500 text-sm font-medium line-clamp-2 leading-relaxed">{p.shortDesc}</p>
     </div>
 
@@ -314,8 +314,8 @@ const CategoryPill = ({ label, active, onClick }) => (
     onClick={onClick}
     className={`px-4 md:px-6 py-2 md:py-2.5 rounded-xl text-[9px] font-black uppercase tracking-widest transition-all border whitespace-nowrap
       ${active 
-        ? "bg-orange-600 text-white border-orange-600 shadow-lg shadow-orange-100" 
-        : "bg-white text-stone-500 border-stone-100 hover:border-orange-600 hover:text-stone-600"
+        ? "bg-red-600 text-white border-red-600 shadow-lg shadow-red-100" 
+        : "bg-white text-stone-500 border-stone-100 hover:border-red-600 hover:text-stone-600"
       }`}
   >
     {label}
@@ -340,7 +340,7 @@ const ActionButton = ({ icon, onClick, variant = "default", tooltip }) => (
     className={`flex-1 sm:flex-none p-3 rounded-xl border transition-all shadow-sm flex items-center justify-center ${
       variant === "danger" 
       ? "bg-red-50 border-red-100 text-red-600 hover:bg-red-600 hover:text-white" 
-      : "bg-white border-stone-200 text-stone-500 hover:border-orange-600 hover:text-orange-600"
+      : "bg-white border-stone-200 text-stone-500 hover:border-orange-600 hover:text-red-600"
     }`}
   >
     {icon}
