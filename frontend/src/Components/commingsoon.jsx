@@ -3,12 +3,12 @@ import not from "../assets/PageNotFound.png"
 const NotFound = () => {
   return (
     <div className="min-h-screen bg-white/90 flex flex-col items-center justify-center p-6 text-center">
-      <div className="max-w-2xl w-full">
+      <div className="w-full">
         {/* Ensure PageNotFound.jpg is in your /public folder */}
         <img 
           src={not}
           alt="404 Page Not Found" 
-          className="w-full max-w-md mx-auto mb-8 drop-shadow-xl"
+          className="w-full max-w-md mx-auto"
         />
 
         <h1 className="text-4xl font-bold text-gray-800 mb-4">
