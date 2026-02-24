@@ -10,6 +10,8 @@ export default function ProjectPage() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [heroTextIndex, setHeroTextIndex] = useState(0);
   const [isHoveringCard, setIsHoveringCard] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [projectsPerPage] = useState(8); // Number of projects per page
   const heroRef = useRef(null);
   const navigate = useNavigate();
 
@@ -47,6 +49,11 @@ export default function ProjectPage() {
         heroElement.removeEventListener("mousemove", handleMouseMove);
     }
   }, []);
+
+  // Reset to first page when filter changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [activeFilter]);
 
   const BrickWall = ({ opacity = 0.06, color = "#8B4513" }) => (
     <svg
@@ -374,10 +381,50 @@ export default function ProjectPage() {
     },
   ];
 
+  // Get current projects based on filter and pagination
   const filteredProjects =
     activeFilter === "All"
       ? projects
       : projects.filter((project) => project.category === activeFilter);
+
+  // Pagination logic
+  const indexOfLastProject = currentPage * projectsPerPage;
+  const indexOfFirstProject = indexOfLastProject - projectsPerPage;
+  const currentProjects = filteredProjects.slice(
+    indexOfFirstProject,
+    indexOfLastProject,
+  );
+  const totalPages = Math.ceil(filteredProjects.length / projectsPerPage);
+
+  // Change page
+  const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
+    // Smooth scroll to top of projects section
+    document.getElementById("projects-grid")?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+  };
+
+  const goToPreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+      document.getElementById("projects-grid")?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+  };
+
+  const goToNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+      document.getElementById("projects-grid")?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+  };
 
   // Animation variants
   const containerVariants = {
@@ -442,8 +489,6 @@ export default function ProjectPage() {
             style={{
               backgroundImage:
                 "url(https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1600&q=80)",
-              // x: mousePosition.x,
-              // y: mousePosition.y,
             }}
             animate={heroVariants}
             initial="initial"
@@ -554,7 +599,7 @@ export default function ProjectPage() {
           animate={{ y: 0 }}
           transition={{ duration: 0.5 }}
         >
-        <BrickWall opacity={0.02} color="#8B4513" />
+          <BrickWall opacity={0.02} color="#8B4513" />
           <div className="container mx-auto px-6 lg:px-8 py-6">
             <div className="flex flex-wrap justify-center gap-3">
               {filters.map((filter) => {
@@ -601,19 +646,34 @@ export default function ProjectPage() {
         </motion.div>
 
         {/* Enhanced Projects Grid with Padding */}
-        <div className="container mx-auto px-15 py-16 relative">
+        <div
+          id="projects-grid"
+          className="container mx-auto px-5 lg:px-10 py-10 lg:py-16 relative"
+        >
           {/* Card Section Background */}
           <BrickWall opacity={0.04} color="#8B4513" />
-          {/* <AnimatePresence mode="wait"> */}
+
+          {/* Projects count and pagination info */}
+          <div className="flex justify-between items-center mb-8">
+            <div className="text-stone-600">
+              Showing {indexOfFirstProject + 1}-
+              {Math.min(indexOfLastProject, filteredProjects.length)} of{" "}
+              {filteredProjects.length} projects
+            </div>
+            <div className="text-stone-600">
+              Page {currentPage} of {totalPages}
+            </div>
+          </div>
+
           <motion.div
-            key={activeFilter}
-            className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 lg:gap-8"
+            key={activeFilter + currentPage}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8"
             variants={containerVariants}
             initial="hidden"
             animate="visible"
             exit={{ opacity: 0, y: 20 }}
           >
-            {filteredProjects.map((project, index) => (
+            {currentProjects.map((project, index) => (
               <motion.div
                 key={project.id}
                 variants={itemVariants}
@@ -860,7 +920,129 @@ export default function ProjectPage() {
               </motion.div>
             ))}
           </motion.div>
-          {/* </AnimatePresence> */}
+
+          {/* Pagination Controls */}
+          {totalPages > 1 && (
+            <motion.div
+              className="flex justify-center items-center gap-4 mt-12"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+            >
+              <motion.button
+                onClick={goToPreviousPage}
+                disabled={currentPage === 1}
+                className={`px-6 py-3 rounded-lg font-semibold flex items-center gap-2 transition-all ${
+                  currentPage === 1
+                    ? "bg-gray-200 text-gray-400 cursor-not-allowed"
+                    : "bg-red-500 text-white hover:bg-red-600 cursor-pointer"
+                }`}
+                whileHover={currentPage !== 1 ? { scale: 1.05 } : {}}
+                whileTap={currentPage !== 1 ? { scale: 0.95 } : {}}
+              >
+                <svg
+                  className="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M15 19l-7-7 7-7"
+                  />
+                </svg>
+                Previous
+              </motion.button>
+
+              <div className="flex gap-2">
+                {[...Array(totalPages)].map((_, index) => {
+                  const pageNumber = index + 1;
+                  // Show first page, last page, and pages around current page
+                  if (
+                    pageNumber === 1 ||
+                    pageNumber === totalPages ||
+                    (pageNumber >= currentPage - 1 &&
+                      pageNumber <= currentPage + 1)
+                  ) {
+                    return (
+                      <motion.button
+                        key={pageNumber}
+                        onClick={() => paginate(pageNumber)}
+                        className={`w-12 h-12 rounded-lg font-semibold transition-all ${
+                          currentPage === pageNumber
+                            ? "bg-red-500 text-white shadow-lg scale-110"
+                            : "bg-white text-gray-700 hover:bg-red-100 cursor-pointer"
+                        }`}
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.95 }}
+                      >
+                        {pageNumber}
+                      </motion.button>
+                    );
+                  } else if (
+                    pageNumber === currentPage - 2 ||
+                    pageNumber === currentPage + 2
+                  ) {
+                    return (
+                      <span
+                        key={pageNumber}
+                        className="w-12 h-12 flex items-center justify-center"
+                      >
+                        ...
+                      </span>
+                    );
+                  }
+                  return null;
+                })}
+              </div>
+
+              <motion.button
+                onClick={goToNextPage}
+                disabled={currentPage === totalPages}
+                className={`px-6 py-3 rounded-lg font-semibold flex items-center gap-2 transition-all ${
+                  currentPage === totalPages
+                    ? "bg-gray-200 text-gray-400 cursor-not-allowed"
+                    : "bg-red-500 text-white hover:bg-red-600 cursor-pointer"
+                }`}
+                whileHover={currentPage !== totalPages ? { scale: 1.05 } : {}}
+                whileTap={currentPage !== totalPages ? { scale: 0.95 } : {}}
+              >
+                Next
+                <svg
+                  className="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 5l7 7-7 7"
+                  />
+                </svg>
+              </motion.button>
+            </motion.div>
+          )}
+
+          {/* Items per page selector (optional) */}
+          <div className="flex justify-center mt-6">
+            <select
+              value={projectsPerPage}
+              onChange={(e) => {
+                setProjectsPerPage(Number(e.target.value));
+                setCurrentPage(1);
+              }}
+              className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
+            >
+              <option value={4}>4 per page</option>
+              <option value={8}>8 per page</option>
+              <option value={12}>12 per page</option>
+              <option value={16}>16 per page</option>
+            </select>
+          </div>
         </div>
 
         <style>{`
