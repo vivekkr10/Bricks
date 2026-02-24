@@ -6,7 +6,6 @@ import { useNavigate ,useSearchParams} from 'react-router-dom';
 import ProductCard from './ProductCard';
 import ProductFilters from './ProductFilters';
 import ProductSkeleton from './ProductSkeleton';
-import productsData from './productsData';
 import Header from '../../Components/header.jsx';
 import Footer from '../../Components/footer.jsx';
 
@@ -87,20 +86,34 @@ const ProductsPage = () => {
   });
   const [viewMode, setViewMode] = useState('grid'); // grid or list
   const [sortBy, setSortBy] = useState('default');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(12);
   const productsRef = useRef(null);
 
   useEffect(() => {
-    // Simulate API fetch with loading state
-    setTimeout(() => {
-      const activeProducts = productsData.filter(p => p.active);
-      setProducts(activeProducts);
-      setFilteredProducts(activeProducts);
-      setLoading(false);
-    }, 1500);
+    const fetchProducts = async () => {
+      try {
+        const res = await fetch("http://localhost:5000/api/products/all-products");
+        const data = await res.json();
+
+        const activeProducts = data.filter(p => p.status === "Active");
+
+        setProducts(activeProducts);
+        setFilteredProducts(activeProducts);
+
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
   }, []);
 
   useEffect(() => {
     filterProducts();
+    setCurrentPage(1); // Reset to first page when filters change
   }, [filters, products, sortBy]);
 
   const filterProducts = () => {
@@ -108,7 +121,7 @@ const ProductsPage = () => {
 
     // Filter by category
     if (filters.category) {
-      filtered = filtered.filter(p => p.category === filters.category);
+      filtered = filtered.filter(p => p.productType === filters.category);
     }
 
     // Filter by application type
@@ -124,19 +137,19 @@ const ProductsPage = () => {
     if (filters.searchQuery) {
       const query = filters.searchQuery.toLowerCase();
       filtered = filtered.filter(p => 
-        p.name.toLowerCase().includes(query) ||
+        p.productName.toLowerCase().includes(query) ||
         p.shortDescription.toLowerCase().includes(query) ||
-        p.category.toLowerCase().includes(query)
+        p.productType.toLowerCase().includes(query)
       );
     }
 
     // Apply sorting
     switch(sortBy) {
       case 'name-asc':
-        filtered.sort((a, b) => a.name.localeCompare(b.name));
+        filtered.sort((a, b) => a.productName.localeCompare(b.productName));
         break;
       case 'name-desc':
-        filtered.sort((a, b) => b.name.localeCompare(a.name));
+        filtered.sort((a, b) => b.productName.localeCompare(a.productName));
         break;
       case 'strength-desc':
         filtered.sort((a, b) => {
@@ -147,7 +160,7 @@ const ProductsPage = () => {
         break;
       default:
         // Default sorting (by id)
-        filtered.sort((a, b) => a.id - b.id);
+        filtered.sort((a, b) => a._id.localeCompare(b._id));
     }
 
     setFilteredProducts(filtered);
@@ -169,8 +182,19 @@ const ProductsPage = () => {
     setSortBy('default');
   };
 
+  // Pagination calculations
+  const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const paginatedProducts = filteredProducts.slice(startIndex, endIndex);
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+    productsRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
   // Get unique categories for filter
-  const categories = [...new Set(products.map(p => p.category))];
+  const categories = [...new Set(products.map(p => p.productType))];
 
   // Animation variants
   const containerVariants = {
@@ -437,6 +461,24 @@ const ProductsPage = () => {
           }
         }
         @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.4;transform:scale(1.6)} }
+        
+        /* Button hover effects */
+        button:not(:disabled) {
+          cursor: pointer;
+          transition: all 0.3s ease;
+        }
+        button:disabled {
+          cursor: not-allowed;
+        }
+        .hover-scale {
+          transition: transform 0.2s ease;
+        }
+        .hover-scale:hover {
+          transform: scale(1.05);
+        }
+        .hover-scale:active {
+          transform: scale(0.95);
+        }
       `}</style>
 
       {/* Hero Section */}
@@ -519,7 +561,7 @@ const ProductsPage = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.86, duration: 0.75, ease: "easeOut" }}
-                className="flex flex-col sm:flex-row gap-8 mb-10"
+                className="flex flex-col sm:flex-row gap-8 mb-10 stats-container"
               >
                 <div className="flex items-start gap-3">
                   <div className="w-12 h-12 rounded-lg bg-red-100 flex items-center justify-center flex-shrink-0">
@@ -546,7 +588,7 @@ const ProductsPage = () => {
                 </div>
               </motion.div>
 
-              {/* CTA Buttons */}
+              {/* CTA Buttons with hover effects */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -559,7 +601,7 @@ const ProductsPage = () => {
                       productsRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
                     }
                   }}
-                  className="group relative px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-red-600 to-red-700 text-white font-bold text-xs sm:text-sm tracking-wide rounded-xl shadow-lg shadow-red-600/30 hover:shadow-red-600/50 hover:-translate-y-1 transition-all duration-300 overflow-hidden whitespace-nowrap">
+                  className="group relative px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-red-600 to-red-700 text-white font-bold text-xs sm:text-sm tracking-wide rounded-xl shadow-lg shadow-red-600/30 hover:shadow-red-600/50 hover:scale-105 active:scale-95 transition-all duration-300 overflow-hidden whitespace-nowrap">
                   <span className="relative z-10 flex items-center justify-center gap-2">
                     Explore All Products
                     <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -567,26 +609,19 @@ const ProductsPage = () => {
                     </svg>
                   </span>
                 </button>
-               <button 
-  onClick={() => navigate('/contact')}
-  className="group w-full sm:w-auto
-             px-6 py-4 
-             bg-white text-red-700 
-             font-bold text-sm tracking-wide 
-             rounded-xl shadow-xl shadow-black/20
-             hover:bg-red-600 hover:text-white 
-             transition-all duration-300
-             flex items-center justify-center gap-2">
-  Request Catalog
-  <svg 
-    className="w-4 h-4 group-hover:translate-x-1 transition-transform"
-    fill="none"
-    stroke="currentColor"
-    viewBox="0 0 24 24"
-  >
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-  </svg>
-</button>
+                <button 
+                  onClick={() => navigate('/contact')}
+                  className="group w-full sm:w-auto px-6 py-4 bg-white text-red-700 font-bold text-sm tracking-wide rounded-xl shadow-xl shadow-black/20 hover:bg-red-600 hover:text-white hover:scale-105 active:scale-95 transition-all duration-300 flex items-center justify-center gap-2">
+                  Request Catalog
+                  <svg 
+                    className="w-4 h-4 group-hover:translate-x-1 transition-transform"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                  </svg>
+                </button>
               </motion.div>
             </motion.div>
 
@@ -756,7 +791,7 @@ const ProductsPage = () => {
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                       onClick={clearFilters}
-                      className="px-6 py-3 bg-red-600 text-white rounded-xl hover:bg-red-700 transition-colors font-semibold"
+                      className="px-6 py-3 bg-red-600 text-white rounded-xl hover:bg-red-700 transition-colors font-semibold hover:scale-105 active:scale-95"
                     >
                       Clear All Filters
                     </motion.button>
@@ -778,9 +813,9 @@ const ProductsPage = () => {
                           : 'flex flex-col gap-6 w-full'
                       }
                     >
-                      {filteredProducts.map((product) => (
+                      {paginatedProducts.map((product) => (
                         <motion.div
-                          key={product.id}
+                          key={product._id}
                           variants={itemVariants}
                           layout
                           transition={{ layout: { duration: 0.3 } }}
@@ -811,6 +846,69 @@ const ProductsPage = () => {
                     </motion.div>
                   )}
                 </AnimatePresence>
+
+                {/* Pagination with hover effects */}
+                {filteredProducts.length > 0 && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="flex items-center justify-center gap-3 mt-12 flex-wrap"
+                  >
+                    {/* Previous Button */}
+                    <motion.button
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
+                      disabled={currentPage === 1}
+                      className={`px-4 py-2 rounded-lg font-semibold transition-all ${
+                        currentPage === 1
+                          ? 'bg-stone-200 text-stone-400 cursor-not-allowed'
+                          : 'bg-red-600 text-white hover:bg-red-700 hover:scale-105 active:scale-95'
+                      }`}
+                    >
+                      ← Previous
+                    </motion.button>
+
+                    {/* Page Numbers */}
+                    <div className="flex items-center gap-1 flex-wrap justify-center">
+                      {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
+                        <motion.button
+                          key={pageNum}
+                          whileHover={{ scale: 1.1 }}
+                          whileTap={{ scale: 0.95 }}
+                          onClick={() => handlePageChange(pageNum)}
+                          className={`w-10 h-10 rounded-lg font-semibold transition-all ${
+                            currentPage === pageNum
+                              ? 'bg-red-600 text-white shadow-lg shadow-red-200 hover:scale-110 active:scale-95'
+                              : 'bg-stone-100 text-stone-800 hover:bg-stone-200 hover:scale-110 active:scale-95'
+                          }`}
+                        >
+                          {pageNum}
+                        </motion.button>
+                      ))}
+                    </div>
+
+                    {/* Next Button */}
+                    <motion.button
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      onClick={() => handlePageChange(Math.min(totalPages, currentPage + 1))}
+                      disabled={currentPage === totalPages}
+                      className={`px-4 py-2 rounded-lg font-semibold transition-all ${
+                        currentPage === totalPages
+                          ? 'bg-stone-200 text-stone-400 cursor-not-allowed'
+                          : 'bg-red-600 text-white hover:bg-red-700 hover:scale-105 active:scale-95'
+                      }`}
+                    >
+                      Next →
+                    </motion.button>
+
+                    {/* Page Info */}
+                    <div className="text-stone-600 font-medium ml-4 text-sm md:text-base">
+                      Page {currentPage} of {totalPages} ({filteredProducts.length} products)
+                    </div>
+                  </motion.div>
+                )}
               </div>
             </div>
           )}
