@@ -402,7 +402,7 @@ export default function ProjectDetails() {
           >
             <div className="w-7 h-12 border-2 border-white/30 rounded-full flex justify-center">
               <motion.div
-                className="w-1.5 h-3 bg-red-700 rounded-full mt-2"
+                className="w-1.5 h-3 bg-red-500 rounded-full mt-2"
                 animate={{ opacity: [0.3, 1, 0.3] }}
                 transition={{ duration: 2, repeat: Infinity }}
               />
@@ -427,8 +427,8 @@ export default function ProjectDetails() {
                 transition={{ duration: 0.6 }}
               >
                 <div className="flex items-center gap-4 mb-6">
-                  <div className="h-px flex-1 bg-gradient-to-r from-red-700 to-transparent" />
-                  <span className="text-xs tracking-[0.3em] uppercase font-semibold text-red-700">
+                  <div className="h-px flex-1 bg-gradient-to-r from-red-500 to-transparent" />
+                  <span className="text-xs tracking-[0.3em] uppercase font-semibold text-red-600">
                     VR & SONS
                   </span>
                 </div>
@@ -440,7 +440,7 @@ export default function ProjectDetails() {
                 initial={{ opacity: 0, x: -20 }}
                 animate={aboutVisible ? { opacity: 1, x: 0 } : {}}
                 transition={{ delay: 0.1, duration: 0.6 }}
-                className="py-4 pl-8 border-l-4 border-red-700 bg-gradient-to-r from-red-50/50 to-transparent rounded-r-2xl"
+                className="py-4 pl-8 border-l-4 border-red-500 bg-gradient-to-r from-red-50/50 to-transparent rounded-r-2xl"
               >
                 <p className="font-serif text-2xl italic text-stone-700">
                   "Architecture is the thoughtful making of space — every line, a decision."
@@ -472,7 +472,7 @@ export default function ProjectDetails() {
                   >
                     <div className="flex justify-between text-sm mb-2">
                       <span className="text-stone-600">{p.label}</span>
-                      <span className="font-semibold text-red-700">
+                      <span className="font-semibold text-red-600">
                         {p.pct}%
                       </span>
                     </div>
@@ -481,7 +481,7 @@ export default function ProjectDetails() {
                         initial={{ width: 0 }}
                         animate={aboutVisible ? { width: `${p.pct}%` } : {}}
                         transition={{ delay: 0.4 + i * 0.1, duration: 1.2, ease: "easeOut" }}
-                        className="h-full bg-gradient-to-r from-red-700 to-orange-500 rounded-full"
+                        className="h-full bg-gradient-to-r from-red-500 to-orange-400 rounded-full"
                       />
                     </div>
                   </motion.div>
@@ -501,7 +501,7 @@ export default function ProjectDetails() {
                 <div className="space-y-6">
                   {/* Category */}
                   <div className="flex items-start gap-4">
-                    <span className="text-red-700 w-6 h-6 flex-shrink-0">
+                    <span className="text-red-600 w-6 h-6 flex-shrink-0">
                       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
                       </svg>
@@ -514,7 +514,7 @@ export default function ProjectDetails() {
 
                   {/* Architect */}
                   <div className="flex items-start gap-4">
-                    <span className="text-red-700 w-6 h-6 flex-shrink-0">
+                    <span className="text-red-600 w-6 h-6 flex-shrink-0">
                       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                       </svg>
@@ -527,7 +527,7 @@ export default function ProjectDetails() {
 
                   {/* Client */}
                   <div className="flex items-start gap-4">
-                    <span className="text-red-700 w-6 h-6 flex-shrink-0">
+                    <span className="text-red-600 w-6 h-6 flex-shrink-0">
                       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                       </svg>
@@ -540,7 +540,7 @@ export default function ProjectDetails() {
 
                   {/* Area */}
                   <div className="flex items-start gap-4">
-                    <span className="text-red-700 w-6 h-6 flex-shrink-0">
+                    <span className="text-red-600 w-6 h-6 flex-shrink-0">
                       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 5a1 1 0 011-1h14a1 1 0 011 1v14a1 1 0 01-1 1H5a1 1 0 01-1-1V5z" />
                       </svg>
@@ -553,7 +553,7 @@ export default function ProjectDetails() {
 
                   {/* Year */}
                   <div className="flex items-start gap-4">
-                    <span className="text-red-700 w-6 h-6 flex-shrink-0">
+                    <span className="text-red-600 w-6 h-6 flex-shrink-0">
                       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                       </svg>
@@ -572,7 +572,7 @@ export default function ProjectDetails() {
                 animate={aboutVisible ? { opacity: 1, y: 0 } : {}}
                 transition={{ delay: 0.4, duration: 0.6 }}
                 whileHover={{ y: -5 }}
-                className="bg-gradient-to-br from-red-700 to-orange-700 rounded-3xl p-8 text-white shadow-xl"
+                className="bg-gradient-to-br from-red-500 to-orange-500 rounded-3xl p-8 text-white shadow-xl"
               >
                 <div className="flex items-start gap-4">
                   <div className="w-14 h-14 bg-white/20 backdrop-blur rounded-2xl flex items-center justify-center flex-shrink-0">
