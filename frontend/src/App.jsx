@@ -34,6 +34,7 @@ function App() {
   return (
     <>
       <ScrollToTop />
+      <Route path="/" element={<Home />} />
 
       <Routes>
         {/* ================= ADMIN ROUTES (NO LAYOUT) ================= */}
