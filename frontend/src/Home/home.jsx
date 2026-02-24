@@ -871,7 +871,7 @@ const CtaSection = () => {
         </p>
         <Link
           to="/inquiry"
-          className="inline-flex items-center px-6 py-3 bg-red-700 text-white font-bold font-sans text-xs uppercase tracking-wide rounded-xl hover:bg-red-800 transition-all duration-300  hover:-translate-y-1"
+          className="inline-flex items-center cursor-pointer px-6 py-3 bg-red-700 text-white font-bold font-sans text-xs uppercase tracking-wide rounded-xl hover:bg-red-800 transition-all duration-300  hover:-translate-y-1"
         >
           Inquire Now <ArrowRight className="w-4 h-4 ml-3" />
         </Link>

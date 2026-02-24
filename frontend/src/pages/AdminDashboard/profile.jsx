@@ -176,7 +176,7 @@ const ProfileSettings = ({ onCancel }) => {
     return (
       <div className="min-h-screen flex items-center justify-center bg-[#F4F7FE]">
         <div className="flex flex-col items-center gap-4">
-          <div className="w-10 h-10 border-4 border-orange-600/30 border-t-orange-600 rounded-full animate-spin" />
+          <div className="w-10 h-10 border-4 border-red-600/30 border-t-red-600 rounded-full animate-spin" />
           <p className="text-sm font-bold text-stone-500 uppercase tracking-widest">Loading Profile...</p>
         </div>
       </div>
@@ -203,15 +203,15 @@ const ProfileSettings = ({ onCancel }) => {
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white/70 backdrop-blur-md p-6 rounded-[1.5rem] top-16 z-40 border border-white shadow-sm">
           <div className="flex items-center gap-4">
             <button
-              className="w-10 h-10 rounded-full hover:bg-orange-600 border border-orange-600 text-orange-600 hover:text-white flex items-center justify-center hover:scale-110 transition-transform"
+              className="w-10 h-10 rounded-full hover:bg-red-700 border border-red-700 text-red-700 hover:text-white flex items-center justify-center hover:scale-110 transition-transform"
               onClick={handleBack}
             >
               <ArrowLeft size={18} />
             </button>
             <div>
               <h1 className="text-2xl font-black tracking-tight flex items-center gap-2">
-                Admin<span className="text-orange-600"> Profile</span>
-                {isDirty && <span className="w-2 h-2 bg-orange-500 rounded-full animate-pulse" />}
+                Admin<span className="text-red-700"> Profile</span>
+                {isDirty && <span className="w-2 h-2 bg-red-700 rounded-full animate-pulse" />}
               </h1>
               <p className="text-[10px] uppercase font-bold text-stone-400 tracking-widest">
                 Master Identity Control
@@ -224,7 +224,7 @@ const ProfileSettings = ({ onCancel }) => {
             disabled={!isDirty || loading}
             className={`flex items-center gap-2 px-8 py-3 rounded-2xl font-bold transition-all shadow-lg
               ${isDirty
-                ? "hover:bg-stone-900 text-white bg-orange-600 scale-105"
+                ? "hover:bg-red-800 text-white bg-red-700 scale-105 cursor-pointer"
                 : "bg-stone-200 text-stone-400 cursor-not-allowed"}`}
           >
             {loading ? (
@@ -248,14 +248,14 @@ const ProfileSettings = ({ onCancel }) => {
           </div>
 
           <div className="px-4">
-            <div className="h-[3px] bg-[#EA580C]" />
+            <div className="h-[3px] bg-red-700" />
           </div>
 
           {/* ── FORM CONTENT ── */}
           <div className="p-6 md:p-8 space-y-8">
 
             {/* PERSONAL IDENTIFICATION */}
-            <Section title="Personal Identification" icon={<User size={16} className="text-orange-600" />}>
+            <Section title="Personal Identification" icon={<User size={16} className="text-red-700" />}>
               <Grid>
                 <InputField
                   label="Display Name"
@@ -290,11 +290,11 @@ const ProfileSettings = ({ onCancel }) => {
             </Section>
 
             <div className="px-4">
-              <div className="h-[3px] bg-[#EA580C]" />
+              <div className="h-[3px] bg-rd-700" />
             </div>
 
             {/* LOCATION DETAILS */}
-            <Section title="Location Details" icon={<MapPin size={16} className="text-orange-600" />}>
+            <Section title="Location Details" icon={<MapPin size={16} className="text-red-700" />}>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="md:col-span-2">
                   <InputField
@@ -337,15 +337,15 @@ const ProfileSettings = ({ onCancel }) => {
             </Section>
 
             <div className="px-4">
-              <div className="h-[3px] bg-[#EA580C]" />
+              <div className="h-[3px] bg-red-700" />
             </div>
 
             {/* SECURITY & AUTHENTICATION */}
-            <Section title="Security & Authentication" icon={<Lock size={16} className="text-orange-600" />}>
+            <Section title="Security & Authentication" icon={<Lock size={16} className="text-red-700" />}>
               <div className="bg-stone-50 p-6 md:p-8 rounded-2xl border border-stone-100 shadow-inner">
                 <div className="flex items-center gap-3 mb-6">
                   <div className="p-2 bg-white rounded-xl shadow-sm border border-stone-100">
-                    <KeyRound size={18} className="text-orange-600" />
+                    <KeyRound size={18} className="text-red-700" />
                   </div>
                   <h4 className="text-[11px] font-black uppercase tracking-[0.2em] text-stone-700">
                     Credential Refresh
@@ -382,8 +382,8 @@ const ProfileSettings = ({ onCancel }) => {
 
             {/* UNSAVED CHANGES ALERT */}
             {isDirty && (
-              <div className="flex items-center gap-4 bg-orange-50 p-5 rounded-3xl border border-orange-100 text-orange-800">
-                <div className="p-2 bg-orange-600 text-white rounded-full">
+              <div className="flex items-center gap-4 bg-orange-50 p-5 rounded-3xl border border-orange-100 text-red-700">
+                <div className="p-2 bg-red-700 text-white rounded-full">
                   <AlertCircle size={18} />
                 </div>
                 <div className="flex-1">
@@ -424,7 +424,7 @@ const Grid = ({ children }) => (
 
 const InputField = ({ label, disabled = false, ...props }) => (
   <div className="space-y-2 group">
-    <label className="text-[10px] font-black text-stone-500 uppercase tracking-widest ml-1 transition-colors group-focus-within:text-orange-600">
+    <label className="text-[10px] font-black text-stone-500 uppercase tracking-widest ml-1 transition-colors group-focus-within:text-red-700">
       {label}
     </label>
     <input
@@ -433,7 +433,7 @@ const InputField = ({ label, disabled = false, ...props }) => (
       className={`w-full border rounded-[1.2rem] px-6 py-4 text-sm font-bold text-stone-800 outline-none transition-all placeholder:text-stone-300
         ${disabled
           ? "bg-stone-100 border-stone-200 text-stone-400 cursor-not-allowed"
-          : "bg-[#FAF9F8] border-stone-200 focus:border-orange-500 focus:ring-8 focus:ring-orange-500/5 focus:bg-white"
+          : "bg-[#FAF9F8] border-stone-200 focus:border-red-500 focus:ring-8 focus:ring-red-500/5 focus:bg-white"
         }`}
     />
     {disabled && (

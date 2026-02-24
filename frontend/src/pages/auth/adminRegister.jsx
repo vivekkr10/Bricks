@@ -312,8 +312,8 @@ const AdminRegister = () => {
             <div className="auth-terms">
               <p>
                 By registering, you agree to our{' '}
-                <a href="#">Terms of Service</a> and{' '}
-                <a href="#">Privacy Policy</a>
+                <a href="/terms">Terms of Service</a> and{' '}
+                <a href="/privacy">Privacy Policy</a>
               </p>
             </div>
 

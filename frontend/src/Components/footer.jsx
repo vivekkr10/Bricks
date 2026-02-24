@@ -53,7 +53,7 @@ const Footer = () => {
               Quick Links
             </h4>
             <ul className="space-y-3 text-sm">
-              {['Home', 'About', 'Products', 'Projects',, 'Services' , 'Blog', 'Contact' ].map((item) => (
+              {['Home','Products', 'Projects',, 'Services', 'Contact' ].map((item) => (
                 <li key={item}>
                   <Link 
                     to={item === 'Home' ? '/' : `/${item.toLowerCase().replace(' ', '')}`} 
@@ -114,7 +114,7 @@ const Footer = () => {
 
               <li className="flex items-center gap-3">
                 <Mail className="w-5 h-5 text-red-600 flex-shrink-0" />
-                <a href="mailto:support@vrandsons.com" className="text-stone-300 hover:text-orange-500 transition-colors font-light">
+                <a href="mailto:support@vrandsons.com" className="text-stone-300 hover:text-red-600 transition-colors font-light">
                   support@vrandsons.com
                 </a>
               </li>
