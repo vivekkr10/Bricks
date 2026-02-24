@@ -10,8 +10,8 @@ import {
   ChevronDown,
 } from "lucide-react";
 import { Helmet } from "react-helmet";
-import Header from "../Components/header";
-import Footer from "../Components/footer";
+// import Header from "../Components/header";
+// import Footer from "../Components/footer";
 import {
   heroImg,
   brick1,
@@ -910,7 +910,7 @@ export default function Home() {
         .font-sans { font-family: 'Jost', sans-serif; }
       `}</style>
 
-      <Header />
+      {/* <Header /> */}
 
       <Hero />
 
@@ -941,7 +941,7 @@ export default function Home() {
         </div>
       </div>
 
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 }

@@ -13,8 +13,8 @@ import {
   CheckCircle2,
   ArrowLeft,
 } from "lucide-react";
-import Header from "../Components/header";
-import Footer from "../Components/footer";
+// import Header from "../Components/header";
+// import Footer from "../Components/footer";
 
 const BrickWall = ({ opacity = 0.04, color = "#8B4513" }) => (
   <svg
@@ -155,7 +155,7 @@ const InquiryPage = () => {
 
   return (
     <div className="bg-stone-50 min-h-screen flex flex-col font-sans selection:bg-red-100">
-      <Header />
+      {/* <Header /> */}
 
       <main className="relative flex-grow flex flex-col items-center pt-24 pb-24 px-6 overflow-hidden">
         <div className="absolute inset-0 z-0">
@@ -378,7 +378,7 @@ const InquiryPage = () => {
           </div>
         </div>
       </main>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 };

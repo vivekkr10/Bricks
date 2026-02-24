@@ -1,7 +1,7 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import Header from "../../Components/header.jsx";
+// import Header from "../../Components/header.jsx";
 import { useState, useEffect, useRef } from "react";
-import Footer from "../../Components/footer.jsx";
+// import Footer from "../../Components/footer.jsx";
 import { motion, AnimatePresence } from "framer-motion";
 
 // hooks fires when element view
@@ -125,7 +125,7 @@ export default function ProjectDetails() {
 
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <div
         className="min-h-screen bg-stone-50 text-stone-800"
         style={{ fontFamily: "'Jost', sans-serif" }}
@@ -280,8 +280,19 @@ export default function ProjectDetails() {
               boxShadow: "0 4px 16px rgba(0,0,0,0.1)",
             }}
           >
-            <svg className="w-4 h-4" style={{ color: "#ef4444" }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            <svg
+              className="w-4 h-4"
+              style={{ color: "#ef4444" }}
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M10 19l-7-7m0 0l7-7m-7 7h18"
+              />
             </svg>
             Back to Projects
           </motion.button>
@@ -337,9 +348,25 @@ export default function ProjectDetails() {
                 textShadow: "0 2px 14px rgba(0,0,0,0.4)",
               }}
             >
-              <svg className="w-5 h-5" style={{ color: "#ef4444" }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+              <svg
+                className="w-5 h-5"
+                style={{ color: "#ef4444" }}
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                />
               </svg>
               {project.location}
             </motion.p>
@@ -354,7 +381,11 @@ export default function ProjectDetails() {
               {[
                 { label: "Area", val: project.details?.area, icon: "square" },
                 { label: "Year", val: project.details?.year, icon: "calendar" },
-                { label: "Client", val: project.details?.client, icon: "building" },
+                {
+                  label: "Client",
+                  val: project.details?.client,
+                  icon: "building",
+                },
               ]
                 .filter((s) => s.val)
                 .map((s, index) => (
@@ -372,21 +403,56 @@ export default function ProjectDetails() {
                     }}
                   >
                     {s.icon === "square" && (
-                      <svg className="w-4 h-4" style={{ color: "#ef4444" }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 5a1 1 0 011-1h14a1 1 0 011 1v14a1 1 0 01-1 1H5a1 1 0 01-1-1V5z" />
+                      <svg
+                        className="w-4 h-4"
+                        style={{ color: "#ef4444" }}
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M4 5a1 1 0 011-1h14a1 1 0 011 1v14a1 1 0 01-1 1H5a1 1 0 01-1-1V5z"
+                        />
                       </svg>
                     )}
                     {s.icon === "calendar" && (
-                      <svg className="w-4 h-4" style={{ color: "#ef4444" }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                      <svg
+                        className="w-4 h-4"
+                        style={{ color: "#ef4444" }}
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                        />
                       </svg>
                     )}
                     {s.icon === "building" && (
-                      <svg className="w-4 h-4" style={{ color: "#ef4444" }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                      <svg
+                        className="w-4 h-4"
+                        style={{ color: "#ef4444" }}
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
+                        />
                       </svg>
                     )}
-                    <span style={{ color: "#ef4444", fontWeight: 600 }}>{s.val}</span>
+                    <span style={{ color: "#ef4444", fontWeight: 600 }}>
+                      {s.val}
+                    </span>
                     <span style={{ color: "#d4d4d4" }}>·</span>
                     <span style={{ color: "#78716c" }}>{s.label}</span>
                   </motion.div>
@@ -413,13 +479,10 @@ export default function ProjectDetails() {
         {/* Main Content */}
         <main className="max-w-7xl mx-auto px-6 py-20 relative">
           <BrickWall opacity={0.03} color="#8B4513" />
-          
+
           <div className="grid md:grid-cols-5 gap-12 lg:gap-16">
             {/* Left Column - About */}
-            <div
-              ref={aboutRef}
-              className="md:col-span-3 space-y-12"
-            >
+            <div ref={aboutRef} className="md:col-span-3 space-y-12">
               {/* VR & SONS Header */}
               <motion.div
                 initial={{ opacity: 0 }}
@@ -443,7 +506,8 @@ export default function ProjectDetails() {
                 className="py-4 pl-8 border-l-4 border-red-500 bg-gradient-to-r from-red-50/50 to-transparent rounded-r-2xl"
               >
                 <p className="font-serif text-2xl italic text-stone-700">
-                  "Architecture is the thoughtful making of space — every line, a decision."
+                  "Architecture is the thoughtful making of space — every line,
+                  a decision."
                 </p>
               </motion.div>
 
@@ -457,7 +521,7 @@ export default function ProjectDetails() {
                 <span className="text-xs tracking-[0.3em] uppercase font-semibold text-stone-400">
                   PROJECT SCORES
                 </span>
-                
+
                 {[
                   { label: "Design Innovation", pct: 92 },
                   { label: "Sustainability", pct: 78 },
@@ -480,7 +544,11 @@ export default function ProjectDetails() {
                       <motion.div
                         initial={{ width: 0 }}
                         animate={aboutVisible ? { width: `${p.pct}%` } : {}}
-                        transition={{ delay: 0.4 + i * 0.1, duration: 1.2, ease: "easeOut" }}
+                        transition={{
+                          delay: 0.4 + i * 0.1,
+                          duration: 1.2,
+                          ease: "easeOut",
+                        }}
                         className="h-full bg-gradient-to-r from-red-500 to-orange-400 rounded-full"
                       />
                     </div>
@@ -502,65 +570,135 @@ export default function ProjectDetails() {
                   {/* Category */}
                   <div className="flex items-start gap-4">
                     <span className="text-red-600 w-6 h-6 flex-shrink-0">
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                      <svg
+                        className="w-5 h-5"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
+                        />
                       </svg>
                     </span>
                     <div className="flex-1">
-                      <p className="text-xs tracking-wider uppercase text-stone-400 mb-1">CATEGORY</p>
-                      <p className="font-medium text-stone-800">{project.category}</p>
+                      <p className="text-xs tracking-wider uppercase text-stone-400 mb-1">
+                        CATEGORY
+                      </p>
+                      <p className="font-medium text-stone-800">
+                        {project.category}
+                      </p>
                     </div>
                   </div>
 
                   {/* Architect */}
                   <div className="flex items-start gap-4">
                     <span className="text-red-600 w-6 h-6 flex-shrink-0">
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                      <svg
+                        className="w-5 h-5"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                        />
                       </svg>
                     </span>
                     <div className="flex-1">
-                      <p className="text-xs tracking-wider uppercase text-stone-400 mb-1">ARCHITECT</p>
-                      <p className="font-medium text-stone-800">{project.architect}</p>
+                      <p className="text-xs tracking-wider uppercase text-stone-400 mb-1">
+                        ARCHITECT
+                      </p>
+                      <p className="font-medium text-stone-800">
+                        {project.architect}
+                      </p>
                     </div>
                   </div>
 
                   {/* Client */}
                   <div className="flex items-start gap-4">
                     <span className="text-red-600 w-6 h-6 flex-shrink-0">
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                      <svg
+                        className="w-5 h-5"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
+                        />
                       </svg>
                     </span>
                     <div className="flex-1">
-                      <p className="text-xs tracking-wider uppercase text-stone-400 mb-1">CLIENT</p>
-                      <p className="font-medium text-stone-800">{project.details?.client}</p>
+                      <p className="text-xs tracking-wider uppercase text-stone-400 mb-1">
+                        CLIENT
+                      </p>
+                      <p className="font-medium text-stone-800">
+                        {project.details?.client}
+                      </p>
                     </div>
                   </div>
 
                   {/* Area */}
                   <div className="flex items-start gap-4">
                     <span className="text-red-600 w-6 h-6 flex-shrink-0">
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 5a1 1 0 011-1h14a1 1 0 011 1v14a1 1 0 01-1 1H5a1 1 0 01-1-1V5z" />
+                      <svg
+                        className="w-5 h-5"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M4 5a1 1 0 011-1h14a1 1 0 011 1v14a1 1 0 01-1 1H5a1 1 0 01-1-1V5z"
+                        />
                       </svg>
                     </span>
                     <div className="flex-1">
-                      <p className="text-xs tracking-wider uppercase text-stone-400 mb-1">AREA</p>
-                      <p className="font-medium text-stone-800">{project.details?.area}</p>
+                      <p className="text-xs tracking-wider uppercase text-stone-400 mb-1">
+                        AREA
+                      </p>
+                      <p className="font-medium text-stone-800">
+                        {project.details?.area}
+                      </p>
                     </div>
                   </div>
 
                   {/* Year */}
                   <div className="flex items-start gap-4">
                     <span className="text-red-600 w-6 h-6 flex-shrink-0">
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                      <svg
+                        className="w-5 h-5"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                        />
                       </svg>
                     </span>
                     <div className="flex-1">
-                      <p className="text-xs tracking-wider uppercase text-stone-400 mb-1">YEAR</p>
-                      <p className="font-medium text-stone-800">{project.details?.year}</p>
+                      <p className="text-xs tracking-wider uppercase text-stone-400 mb-1">
+                        YEAR
+                      </p>
+                      <p className="font-medium text-stone-800">
+                        {project.details?.year}
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -576,8 +714,18 @@ export default function ProjectDetails() {
               >
                 <div className="flex items-start gap-4">
                   <div className="w-14 h-14 bg-white/20 backdrop-blur rounded-2xl flex items-center justify-center flex-shrink-0">
-                    <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                    <svg
+                      className="w-7 h-7"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                      />
                     </svg>
                   </div>
                   <div>
@@ -588,8 +736,18 @@ export default function ProjectDetails() {
                       {project.architect || "Studio Architect"}
                     </p>
                     <p className="text-white/80 text-sm flex items-center gap-2">
-                      <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      <svg
+                        className="w-4 h-4 flex-shrink-0"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                        />
                       </svg>
                       <span>Principal Architect • 20+ years experience</span>
                     </p>
@@ -600,7 +758,7 @@ export default function ProjectDetails() {
           </div>
         </main>
       </div>
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 }

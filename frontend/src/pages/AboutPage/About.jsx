@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
-import Navbar from "../../Components/header.jsx";
-import Footer from "../../Components/footer.jsx";
+// import Navbar from "../../Components/header.jsx";
+// import Footer from "../../Components/footer.jsx";
 import { Link } from "react-router-dom";
 import {
   FaTrophy,
@@ -416,7 +416,7 @@ export default function AboutPage() {
 
   return (
     <div>
-      <Navbar />
+      {/* <Navbar /> */}
       <div
         className="bg-stone-50 text-stone-800 overflow-x-hidden"
         style={{ fontFamily: "'Jost', sans-serif" }}
@@ -563,14 +563,14 @@ export default function AboutPage() {
                 </motion.p>
 
                 {/* Buttons with hover effects - SMALLER BUTTONS */}
-                
+
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={heroInView ? { opacity: 1, y: 0 } : {}}
                   transition={{ duration: 0.6, delay: 1.2 }}
                   className="flex flex-col sm:flex-row gap-2 sm:gap-3 mb-5 sm:mb-8"
                 >
-                 {/* <Link to="/about"> <motion.button
+                  {/* <Link to="/about"> <motion.button
                     whileHover={{ scale: 1.03 }}
                     whileTap={{ scale: 0.97 }}
                     className="
@@ -592,15 +592,15 @@ export default function AboutPage() {
                   </motion.button>
                   </Link> */}
 
-                <Link to="/products">
-                  <motion.button
-                   
-                    whileTap={{ scale: 0.98 }}
-                    className="group w-full sm:w-auto cursor-pointer px-6 py-3 border-2  text-white/95 font-semibold text-sm tracking-wide rounded-xl hover:bg-red-800 bg-red-700 transition-all hover:-translate-y-1 duration-300 flex items-center justify-center gap-2"
-                  >
-                    <GiBrickWall className="w-3.5 h-3.5 group-hover:rotate-12 transition-transform" />
-                    <span>Our Products</span>
-                  </motion.button></Link>
+                  <Link to="/products">
+                    <motion.button
+                      whileTap={{ scale: 0.98 }}
+                      className="group w-full sm:w-auto cursor-pointer px-6 py-3 border-2  text-white/95 font-semibold text-sm tracking-wide rounded-xl hover:bg-red-800 bg-red-700 transition-all hover:-translate-y-1 duration-300 flex items-center justify-center gap-2"
+                    >
+                      <GiBrickWall className="w-3.5 h-3.5 group-hover:rotate-12 transition-transform" />
+                      <span>Our Products</span>
+                    </motion.button>
+                  </Link>
                 </motion.div>
 
                 {/* Trust indicators with stagger - SMALLER TEXT */}
@@ -1656,10 +1656,10 @@ export default function AboutPage() {
                   className={`reveal-left d4 ${coverageInView ? "visible" : ""}`}
                 >
                   <Link to="/inquiry">
-                  <button className="w-full cursor-pointer sm:w-auto px-6 sm:px-8 py-3 sm:py-4 bg-red-700 text-white font-bold text-xs tracking-widest uppercase rounded-xl shadow-xl  hover:bg-red-800 hover:-translate-y-1 transition-all duration-300 flex items-center justify-center gap-2">
-                    <FaTruck className="w-4 h-4" />
-                    <span>Get a Quote</span>
-                  </button>
+                    <button className="w-full cursor-pointer sm:w-auto px-6 sm:px-8 py-3 sm:py-4 bg-red-700 text-white font-bold text-xs tracking-widest uppercase rounded-xl shadow-xl  hover:bg-red-800 hover:-translate-y-1 transition-all duration-300 flex items-center justify-center gap-2">
+                      <FaTruck className="w-4 h-4" />
+                      <span>Get a Quote</span>
+                    </button>
                   </Link>
                 </div>
               </div>
@@ -1701,7 +1701,6 @@ export default function AboutPage() {
                         </div>
                       ))}
                     </div>
-
                   </div>
                 </div>
               </div>
@@ -1709,7 +1708,7 @@ export default function AboutPage() {
           </div>
         </section>
       </div>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 }

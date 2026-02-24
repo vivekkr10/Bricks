@@ -40,8 +40,8 @@ import {
   FolderOpen
 } from "lucide-react";
 
-import Header from "../../components/Header";
-import Footer from "../../components/Footer";
+// import Header from "../../components/Header";
+// import Footer from "../../components/Footer";
 import { blogPosts } from "./blogData";
 
 /* ================= BRICK WALL PATTERN ================= */
@@ -571,7 +571,7 @@ export default function Blog() {
           style={{ width: `${scrollProgress}%` }}
         />
 
-        <Header />
+        {/* {/* <Header /> */} */}
 
         {/* ================= HERO SECTION ================= */}
         <section className="relative min-h-[70vh] md:min-h-[80vh] lg:h-screen flex items-center justify-center overflow-hidden pt-16 md:pt-20">
@@ -797,7 +797,7 @@ export default function Blog() {
             </>
           )}
         </section>
-        <Footer />
+        {/* {/* <Footer /> */} */}
       </div>
 
     

@@ -6,8 +6,8 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import ProductCard from "./ProductCard";
 import ProductFilters from "./ProductFilters";
 import ProductSkeleton from "./ProductSkeleton";
-import Header from "../../Components/header.jsx";
-import Footer from "../../Components/footer.jsx";
+// import Header from "../../Components/header.jsx";
+// import Footer from "../../Components/footer.jsx";
 
 // BrickWall pattern background
 const BrickWall = ({ opacity = 0.06, color = "#8B4513" }) => (
@@ -377,7 +377,7 @@ const ProductsPage = () => {
 
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <div
         className="min-h-screen bg-stone-50 text-stone-800"
         style={{ fontFamily: "'Jost', sans-serif" }}
@@ -1036,7 +1036,7 @@ const ProductsPage = () => {
           </div>
         </section>
       </div>
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 };

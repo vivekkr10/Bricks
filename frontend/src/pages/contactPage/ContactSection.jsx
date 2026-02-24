@@ -14,8 +14,8 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import Header from "../../Components/header";
-import Footer from "../../Components/footer";
+// import Header from "../../Components/header";
+// import Footer from "../../Components/footer";
 import { useNavigate } from "react-router-dom";
 
 /* ================= BRICK WALL ================= */
@@ -182,7 +182,7 @@ export default function ContactSection() {
 
   return (
     <div className="bg-stone-50 min-h-screen flex flex-col">
-      <Header />
+      {/* <Header /> */}
 
       <main className="flex-grow">
         {/* HERO */}
@@ -507,7 +507,7 @@ export default function ContactSection() {
         </section>
       </main>
 
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 }

@@ -34,11 +34,10 @@ function App() {
   return (
     <>
       <ScrollToTop />
-      <Routes>
-        {/* Home Route */}
-        <Route path="/" element={<Home />} />
 
-        {/* Admin Auth Routes */}
+      <Routes>
+        {/* ================= ADMIN ROUTES (NO LAYOUT) ================= */}
+
         <Route
           path="/dashboard"
           element={
@@ -47,6 +46,7 @@ function App() {
             </ProtectedRoute>
           }
         />
+
         <Route
           path="/profile"
           element={
@@ -55,6 +55,7 @@ function App() {
             </ProtectedRoute>
           }
         />
+
         <Route
           path="/ProductForm"
           element={
@@ -63,37 +64,30 @@ function App() {
             </ProtectedRoute>
           }
         />
+
         <Route path="/admin-login" element={<AdminLogin />} />
         <Route path="/admin-register" element={<AdminRegister />} />
         <Route path="/forgot-password" element={<ForgotPasswordOTP />} />
-        {/* Other Routes */}
-        <Route path="/services" element={<Services />} />
-        {/* <Route path="/admin-register" element={<AdminRegister />} /> */}
 
-        <Route path="/products" element={<ProductsPage />} />
-        <Route path="/products/:id" element={<ProductDetails />} />
-        <Route path="/blog" element={<FeaturedArticle />} />
-        <Route
-          path="/blog/:id"
-          element={
-            <Layout>
-              <BlogDetail />
-            </Layout>
-          }
-        />
-        <Route path="/contact" element={<Contact />} />
-        {/* <Route path="/inquiry" element={<Inquiry />} /> */}
-        <Route path="/terms" element={<Terms />} />
-        <Route path="/privacy" element={<Privacy />} />
-        <Route path="/about" element={<AboutPage />} />
-        <Route path="/projects" element={<ProjectPage />} />
-        <Route path="/projects/:id" element={<ProjectDetailsPage />} />
-        <Route path="/contact" element={<ContactSection />} />
+        {/* ================= PUBLIC ROUTES (WITH LAYOUT) ================= */}
 
-        <Route path="/inquiry" element={<InquiryPage />} />
-        <Route path="/thankyou" element={<ThankYouPage />} />
-        {/* 404 Fallback - Keep this at the end */}
-        <Route path="*" element={<ComingSoon />} />
+        <Route element={<Layout />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/services" element={<Services />} />
+          <Route path="/products" element={<ProductsPage />} />
+          <Route path="/products/:id" element={<ProductDetails />} />
+          <Route path="/blog" element={<FeaturedArticle />} />
+          <Route path="/blog/:id" element={<BlogDetail />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/terms" element={<Terms />} />
+          <Route path="/privacy" element={<Privacy />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/projects" element={<ProjectPage />} />
+          <Route path="/projects/:id" element={<ProjectDetailsPage />} />
+          <Route path="/inquiry" element={<InquiryPage />} />
+          <Route path="/thankyou" element={<ThankYouPage />} />
+          <Route path="*" element={<ComingSoon />} />
+        </Route>
       </Routes>
     </>
   );

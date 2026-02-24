@@ -85,7 +85,7 @@ export default function BlogDetail() {
   if (!post) {
     return (
       <div className="min-h-screen bg-gray-50 flex flex-col">
-        <Header />
+        {/* {/* <Header /> */} */}
         <main className="flex-grow flex items-center justify-center">
           <div className="text-center">
             <h1 className="text-3xl font-bold text-gray-800 mb-4">Article Not Found</h1>
@@ -94,14 +94,14 @@ export default function BlogDetail() {
             </PrimaryButton>
           </div>
         </main>
-        <Footer />
+        {/* {/* <Footer /> */} */}
       </div>
     );
   }
 
   return (
     <div className="min-h-screen bg-gray-50 text-gray-800 flex flex-col">
-      <Header />
+      {/* <Header /> */}
 
       <main className="flex-grow">
         {/* Breadcrumb */}
@@ -347,7 +347,7 @@ export default function BlogDetail() {
         )}
       </main>
 
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 }

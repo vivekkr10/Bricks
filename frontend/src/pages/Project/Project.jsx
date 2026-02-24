@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
-import Header from "../../Components/header.jsx";
-import Footer from "../../Components/footer.jsx";
+// import Header from "../../Components/header.jsx";
+// import Footer from "../../Components/footer.jsx";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -376,7 +376,9 @@ export default function ProjectPage() {
   // Handle page change
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
-    document.getElementById('projects-grid').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    document
+      .getElementById("projects-grid")
+      .scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
   // Animation variants
@@ -416,8 +418,11 @@ export default function ProjectPage() {
 
   return (
     <>
-      <Header />
-      <div className="min-h-screen bg-stone-50 text-stone-800" style={{ fontFamily: "'Jost', sans-serif" }}>
+      {/* <Header /> */}
+      <div
+        className="min-h-screen bg-stone-50 text-stone-800"
+        style={{ fontFamily: "'Jost', sans-serif" }}
+      >
         <style>{`
           @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600;1,700&family=Jost:wght@300;400;500;600;700&display=swap');
           .font-serif { font-family: 'Cormorant Garamond', serif; }
@@ -580,20 +585,24 @@ export default function ProjectPage() {
         `}</style>
 
         {/* Unique Centered Hero Section */}
-        <section className="relative min-h-[90vh] overflow-hidden flex items-center justify-center" style={{
-          backgroundImage: 'url(https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1600&q=80)',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundAttachment: 'fixed'
-        }}>
+        <section
+          className="relative min-h-[90vh] overflow-hidden flex items-center justify-center"
+          style={{
+            backgroundImage:
+              "url(https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1600&q=80)",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            backgroundAttachment: "fixed",
+          }}
+        >
           {/* Animated gradient overlay */}
           <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/80" />
-          
+
           {/* Animated glow background */}
           <div className="absolute inset-0 glow-background" />
-          
+
           <BrickWall opacity={0.15} color="#8B4513" />
-          
+
           {/* Floating decorative shapes */}
           {floatingShapes.map((shape, index) => (
             <motion.div
@@ -602,8 +611,8 @@ export default function ProjectPage() {
               style={{
                 left: `${shape.x}%`,
                 top: `${shape.y}%`,
-                '--duration': `${shape.duration}s`,
-                '--delay': `${shape.delay}s`,
+                "--duration": `${shape.duration}s`,
+                "--delay": `${shape.delay}s`,
               }}
               initial={{ opacity: 0, scale: 0 }}
               animate={{ opacity: 0.15, scale: 1 }}
@@ -676,31 +685,55 @@ export default function ProjectPage() {
               transition={{ delay: 0.6, duration: 0.8 }}
               className="flex flex-wrap justify-center gap-4"
             >
-              <button 
-                onClick={() => document.getElementById('projects-grid').scrollIntoView({ behavior: 'smooth' })}
+              <button
+                onClick={() =>
+                  document
+                    .getElementById("projects-grid")
+                    .scrollIntoView({ behavior: "smooth" })
+                }
                 className="group relative px-8 py-4 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-full font-semibold hover:from-red-700 hover:to-red-800 hover:scale-105 active:scale-95 transition-all duration-300 shadow-lg shadow-red-600/30 overflow-hidden"
               >
                 <span className="relative z-10 flex items-center gap-2">
                   Explore Portfolio
-                  <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                  <svg
+                    className="w-5 h-5 group-hover:translate-x-1 transition-transform"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M13 7l5 5m0 0l-5 5m5-5H6"
+                    />
                   </svg>
                 </span>
                 <motion.div
                   className="absolute inset-0 bg-white/20"
-                  initial={{ x: '-100%' }}
+                  initial={{ x: "-100%" }}
                   whileHover={{ x: 0 }}
                   transition={{ duration: 0.3 }}
                 />
               </button>
-              
-              <button 
-                onClick={() => navigate('/contact')}
+
+              <button
+                onClick={() => navigate("/contact")}
                 className="group px-8 py-4 bg-white/10 backdrop-blur-md text-white rounded-full font-semibold border border-white/20 hover:bg-white/20 hover:scale-105 active:scale-95 transition-all duration-300 flex items-center gap-2"
               >
                 Let's Talk
-                <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                <svg
+                  className="w-5 h-5 group-hover:translate-x-1 transition-transform"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+                  />
                 </svg>
               </button>
             </motion.div>
@@ -716,7 +749,7 @@ export default function ProjectPage() {
                 { value: "300+", label: "Projects Delivered" },
                 { value: "50+", label: "Cities" },
                 { value: "25", label: "Awards Won" },
-                { value: "40+", label: "Years Legacy" }
+                { value: "40+", label: "Years Legacy" },
               ].map((stat, i) => (
                 <motion.div
                   key={stat.label}
@@ -725,8 +758,12 @@ export default function ProjectPage() {
                   transition={{ delay: 0.9 + i * 0.1, duration: 0.5 }}
                   className="text-center"
                 >
-                  <div className="text-3xl md:text-4xl font-bold text-white mb-1">{stat.value}</div>
-                  <div className="text-xs md:text-sm text-white/60 tracking-wide">{stat.label}</div>
+                  <div className="text-3xl md:text-4xl font-bold text-white mb-1">
+                    {stat.value}
+                  </div>
+                  <div className="text-xs md:text-sm text-white/60 tracking-wide">
+                    {stat.label}
+                  </div>
                 </motion.div>
               ))}
             </motion.div>
@@ -757,15 +794,27 @@ export default function ProjectPage() {
                 onClick={() => setIsFilterOpen(!isFilterOpen)}
                 className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-red-50 to-red-100 rounded-xl text-red-700 font-medium hover:scale-105 active:scale-95 transition-all duration-300"
               >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+                <svg
+                  className="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"
+                  />
                 </svg>
                 <span>Filter Projects</span>
               </button>
-              
+
               {/* Mobile Results */}
               <div className="flex items-center gap-2">
-                <span className="text-2xl font-bold text-red-600">{filteredProjects.length}</span>
+                <span className="text-2xl font-bold text-red-600">
+                  {filteredProjects.length}
+                </span>
                 <span className="text-sm text-stone-600">projects</span>
               </div>
             </div>
@@ -779,13 +828,27 @@ export default function ProjectPage() {
                 className="flex items-center gap-3"
               >
                 <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-red-500 to-red-600 flex items-center justify-center shadow-lg shadow-red-200">
-                  <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+                  <svg
+                    className="w-5 h-5 text-white"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"
+                    />
                   </svg>
                 </div>
                 <div>
-                  <span className="text-sm font-medium text-stone-500">Browse by</span>
-                  <h3 className="font-serif text-lg font-bold text-stone-800">Project Category</h3>
+                  <span className="text-sm font-medium text-stone-500">
+                    Browse by
+                  </span>
+                  <h3 className="font-serif text-lg font-bold text-stone-800">
+                    Project Category
+                  </h3>
                 </div>
               </motion.div>
 
@@ -793,9 +856,10 @@ export default function ProjectPage() {
               <div className="flex items-center gap-2 bg-stone-100/80 p-1.5 rounded-2xl backdrop-blur-sm">
                 {filters.map((filter, index) => {
                   const isActive = activeFilter === filter;
-                  const count = filter === 'All' 
-                    ? projects.length 
-                    : projects.filter(p => p.category === filter).length;
+                  const count =
+                    filter === "All"
+                      ? projects.length
+                      : projects.filter((p) => p.category === filter).length;
 
                   return (
                     <motion.button
@@ -810,9 +874,9 @@ export default function ProjectPage() {
                     >
                       <motion.div
                         className={`filter-chip relative px-5 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 ${
-                          isActive 
-                            ? 'bg-gradient-to-r from-red-500 to-red-600 text-white shadow-lg shadow-red-200 active' 
-                            : 'bg-white text-stone-700 hover:bg-red-50 hover:text-red-600'
+                          isActive
+                            ? "bg-gradient-to-r from-red-500 to-red-600 text-white shadow-lg shadow-red-200 active"
+                            : "bg-white text-stone-700 hover:bg-red-50 hover:text-red-600"
                         }`}
                         whileHover={{ y: -2 }}
                         whileTap={{ scale: 0.95 }}
@@ -824,8 +888,16 @@ export default function ProjectPage() {
                             animate={{ scale: 1 }}
                             className="absolute -top-1 -right-1 w-4 h-4 bg-white rounded-full flex items-center justify-center shadow-md"
                           >
-                            <svg className="w-3 h-3 text-red-600" fill="currentColor" viewBox="0 0 20 20">
-                              <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                            <svg
+                              className="w-3 h-3 text-red-600"
+                              fill="currentColor"
+                              viewBox="0 0 20 20"
+                            >
+                              <path
+                                fillRule="evenodd"
+                                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                clipRule="evenodd"
+                              />
                             </svg>
                           </motion.div>
                         )}
@@ -834,13 +906,16 @@ export default function ProjectPage() {
                           <span>{filter}</span>
                           <motion.span
                             className={`px-2 py-0.5 rounded-lg text-xs font-semibold ${
-                              isActive 
-                                ? 'bg-white/30 text-white' 
-                                : 'bg-stone-200 text-stone-600 group-hover:bg-red-100'
+                              isActive
+                                ? "bg-white/30 text-white"
+                                : "bg-stone-200 text-stone-600 group-hover:bg-red-100"
                             }`}
-                            animate={{ 
+                            animate={{
                               scale: hoveredFilter === filter ? 1.1 : 1,
-                              backgroundColor: hoveredFilter === filter && !isActive ? '#fee2e2' : ''
+                              backgroundColor:
+                                hoveredFilter === filter && !isActive
+                                  ? "#fee2e2"
+                                  : "",
                             }}
                           >
                             {count}
@@ -863,15 +938,29 @@ export default function ProjectPage() {
                 {/* Results Counter */}
                 <div className="flex items-center gap-3 px-4 py-2 bg-gradient-to-r from-red-50 to-red-100 rounded-xl">
                   <div className="flex items-baseline gap-1">
-                    <span className="text-2xl font-bold text-red-600">{filteredProjects.length}</span>
+                    <span className="text-2xl font-bold text-red-600">
+                      {filteredProjects.length}
+                    </span>
                     <span className="text-sm text-red-700/70">projects</span>
                   </div>
                   <div className="w-px h-6 bg-red-200" />
                   <div className="flex items-center gap-1">
-                    <svg className="w-4 h-4 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    <svg
+                      className="w-4 h-4 text-red-500"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
                     </svg>
-                    <span className="text-sm text-red-700">{totalPages} pages</span>
+                    <span className="text-sm text-red-700">
+                      {totalPages} pages
+                    </span>
                   </div>
                 </div>
               </motion.div>
@@ -882,16 +971,18 @@ export default function ProjectPage() {
               {isFilterOpen && (
                 <motion.div
                   initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: 'auto' }}
+                  animate={{ opacity: 1, height: "auto" }}
                   exit={{ opacity: 0, height: 0 }}
                   className="lg:hidden mt-4 overflow-hidden"
                 >
                   <div className="grid grid-cols-2 gap-2 p-2 bg-stone-100 rounded-2xl">
                     {filters.map((filter) => {
                       const isActive = activeFilter === filter;
-                      const count = filter === 'All' 
-                        ? projects.length 
-                        : projects.filter(p => p.category === filter).length;
+                      const count =
+                        filter === "All"
+                          ? projects.length
+                          : projects.filter((p) => p.category === filter)
+                              .length;
 
                       return (
                         <motion.button
@@ -901,14 +992,16 @@ export default function ProjectPage() {
                             setIsFilterOpen(false);
                           }}
                           className={`relative p-4 rounded-xl text-center transition-all ${
-                            isActive 
-                              ? 'bg-gradient-to-r from-red-500 to-red-600 text-white shadow-lg' 
-                              : 'bg-white text-stone-700 hover:bg-red-50 hover:scale-105 active:scale-95'
+                            isActive
+                              ? "bg-gradient-to-r from-red-500 to-red-600 text-white shadow-lg"
+                              : "bg-white text-stone-700 hover:bg-red-50 hover:scale-105 active:scale-95"
                           }`}
                           whileTap={{ scale: 0.95 }}
                         >
                           <div className="font-medium">{filter}</div>
-                          <div className={`text-sm mt-1 ${isActive ? 'text-white/80' : 'text-stone-500'}`}>
+                          <div
+                            className={`text-sm mt-1 ${isActive ? "text-white/80" : "text-stone-500"}`}
+                          >
                             {count} projects
                           </div>
                         </motion.button>
@@ -924,7 +1017,7 @@ export default function ProjectPage() {
         {/* Projects Grid Section */}
         <section id="projects-grid" className="py-16 relative">
           <BrickWall opacity={0.05} color="#8B4513" />
-          
+
           <div className="max-w-[1500px] mx-auto px-6 sm:px-8 lg:px-10 xl:px-12 relative z-10">
             {/* Section Header */}
             <motion.div
@@ -935,11 +1028,16 @@ export default function ProjectPage() {
               transition={{ duration: 0.6 }}
             >
               <h2 className="font-serif text-4xl md:text-5xl font-bold text-stone-900 mb-4">
-                {activeFilter === "All" ? "All Projects" : `${activeFilter} Projects`}
+                {activeFilter === "All"
+                  ? "All Projects"
+                  : `${activeFilter} Projects`}
               </h2>
               <div className="w-24 h-1 bg-gradient-to-r from-red-500 to-red-600 mx-auto rounded-full mb-6" />
               <p className="text-stone-600 max-w-2xl mx-auto">
-                Discover our finest work across {activeFilter === "All" ? "all sectors" : `the ${activeFilter.toLowerCase()} sector`}
+                Discover our finest work across{" "}
+                {activeFilter === "All"
+                  ? "all sectors"
+                  : `the ${activeFilter.toLowerCase()} sector`}
               </p>
             </motion.div>
 
@@ -962,7 +1060,9 @@ export default function ProjectPage() {
                       onHoverStart={() => setIsHoveringCard(project.id)}
                       onHoverEnd={() => setIsHoveringCard(null)}
                       className="group relative bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer"
-                      onClick={() => navigate(`/projects/${project.id}`, { state: project })}
+                      onClick={() =>
+                        navigate(`/projects/${project.id}`, { state: project })
+                      }
                     >
                       {/* Image Container */}
                       <div className="relative h-64 overflow-hidden">
@@ -995,11 +1095,28 @@ export default function ProjectPage() {
 
                         {/* Location Badge */}
                         <div className="absolute bottom-4 left-4 flex items-center gap-2 text-white">
-                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                          <svg
+                            className="w-4 h-4"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                            />
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                            />
                           </svg>
-                          <span className="text-sm font-medium">{project.location}</span>
+                          <span className="text-sm font-medium">
+                            {project.location}
+                          </span>
                         </div>
                       </div>
 
@@ -1008,15 +1125,25 @@ export default function ProjectPage() {
                         <h3 className="font-serif text-xl font-bold text-stone-900 mb-2 group-hover:text-red-600 transition-colors line-clamp-1">
                           {project.title}
                         </h3>
-                        
+
                         <p className="text-stone-600 text-sm line-clamp-2 mb-4">
                           {project.description}
                         </p>
 
                         {/* Architect */}
                         <div className="flex items-center gap-2 mb-4 text-sm text-stone-500">
-                          <svg className="w-4 h-4 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                          <svg
+                            className="w-4 h-4 text-red-500"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                            />
                           </svg>
                           <span className="truncate">{project.architect}</span>
                         </div>
@@ -1024,11 +1151,17 @@ export default function ProjectPage() {
                         {/* Project Stats */}
                         <div className="grid grid-cols-2 gap-3 mb-4">
                           <div className="bg-gradient-to-br from-red-50 to-amber-50 p-3 rounded-xl">
-                            <div className="text-xs text-stone-500 mb-1">Area</div>
-                            <div className="font-bold text-stone-900 text-sm">{project.details.area}</div>
+                            <div className="text-xs text-stone-500 mb-1">
+                              Area
+                            </div>
+                            <div className="font-bold text-stone-900 text-sm">
+                              {project.details.area}
+                            </div>
                           </div>
                           <div className="bg-gradient-to-br from-blue-50 to-indigo-50 p-3 rounded-xl">
-                            <div className="text-xs text-stone-500 mb-1">Client</div>
+                            <div className="text-xs text-stone-500 mb-1">
+                              Client
+                            </div>
                             <div className="font-bold text-stone-900 text-sm truncate">
                               {project.details.client}
                             </div>
@@ -1042,12 +1175,24 @@ export default function ProjectPage() {
                           className="w-full px-4 py-3 bg-gradient-to-r from-red-500 to-red-600 text-white rounded-xl text-sm font-semibold flex items-center justify-center gap-2 hover:from-red-600 hover:to-red-700 hover:scale-105 active:scale-95 transition-all duration-300 group/btn"
                           onClick={(e) => {
                             e.stopPropagation();
-                            navigate(`/projects/${project.id}`, { state: project });
+                            navigate(`/projects/${project.id}`, {
+                              state: project,
+                            });
                           }}
                         >
                           <span>View Details</span>
-                          <svg className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                          <svg
+                            className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M14 5l7 7m0 0l-7 7m7-7H3"
+                            />
                           </svg>
                         </motion.button>
                       </div>
@@ -1064,11 +1209,23 @@ export default function ProjectPage() {
                 >
                   <div className="relative inline-block">
                     <div className="absolute inset-0 bg-red-100 rounded-full blur-3xl opacity-20"></div>
-                    <svg className="w-32 h-32 mx-auto text-stone-400 relative" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                    <svg
+                      className="w-32 h-32 mx-auto text-stone-400 relative"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={1}
+                        d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
+                      />
                     </svg>
                   </div>
-                  <h3 className="font-serif text-3xl font-bold text-stone-900 mt-6">No Projects Found</h3>
+                  <h3 className="font-serif text-3xl font-bold text-stone-900 mt-6">
+                    No Projects Found
+                  </h3>
                   <p className="text-stone-600 mt-2 max-w-md mx-auto">
                     Try adjusting your filters or explore our other categories.
                   </p>
@@ -1094,51 +1251,67 @@ export default function ProjectPage() {
                     disabled={currentPage === 1}
                     className={`pagination-item px-4 py-2 rounded-xl text-sm font-medium flex items-center gap-1 transition-all ${
                       currentPage === 1
-                        ? 'bg-stone-100 text-stone-400 cursor-not-allowed'
-                        : 'bg-white text-stone-700 hover:bg-red-50 hover:text-red-600 hover:scale-105 shadow-sm'
+                        ? "bg-stone-100 text-stone-400 cursor-not-allowed"
+                        : "bg-white text-stone-700 hover:bg-red-50 hover:text-red-600 hover:scale-105 shadow-sm"
                     }`}
                   >
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                    <svg
+                      className="w-4 h-4"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M15 19l-7-7 7-7"
+                      />
                     </svg>
                     <span>Prev</span>
                   </motion.button>
 
                   {/* Page Numbers */}
                   <div className="flex items-center gap-1">
-                    {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => {
-                      if (
-                        pageNum === 1 ||
-                        pageNum === totalPages ||
-                        (pageNum >= currentPage - 1 && pageNum <= currentPage + 1)
-                      ) {
-                        return (
-                          <motion.button
-                            key={pageNum}
-                            whileHover={{ scale: 1.1, y: -2 }}
-                            whileTap={{ scale: 0.95 }}
-                            onClick={() => handlePageChange(pageNum)}
-                            className={`pagination-item w-10 h-10 rounded-xl text-sm font-semibold transition-all ${
-                              currentPage === pageNum
-                                ? 'bg-gradient-to-r from-red-500 to-red-600 text-white shadow-lg shadow-red-200'
-                                : 'bg-white text-stone-700 hover:bg-red-50 hover:text-red-600 hover:scale-110 shadow-sm'
-                            }`}
-                          >
-                            {pageNum}
-                          </motion.button>
-                        );
-                      } else if (
-                        pageNum === currentPage - 2 ||
-                        pageNum === currentPage + 2
-                      ) {
-                        return (
-                          <span key={pageNum} className="w-4 text-center text-stone-400">
-                            ...
-                          </span>
-                        );
-                      }
-                      return null;
-                    })}
+                    {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+                      (pageNum) => {
+                        if (
+                          pageNum === 1 ||
+                          pageNum === totalPages ||
+                          (pageNum >= currentPage - 1 &&
+                            pageNum <= currentPage + 1)
+                        ) {
+                          return (
+                            <motion.button
+                              key={pageNum}
+                              whileHover={{ scale: 1.1, y: -2 }}
+                              whileTap={{ scale: 0.95 }}
+                              onClick={() => handlePageChange(pageNum)}
+                              className={`pagination-item w-10 h-10 rounded-xl text-sm font-semibold transition-all ${
+                                currentPage === pageNum
+                                  ? "bg-gradient-to-r from-red-500 to-red-600 text-white shadow-lg shadow-red-200"
+                                  : "bg-white text-stone-700 hover:bg-red-50 hover:text-red-600 hover:scale-110 shadow-sm"
+                              }`}
+                            >
+                              {pageNum}
+                            </motion.button>
+                          );
+                        } else if (
+                          pageNum === currentPage - 2 ||
+                          pageNum === currentPage + 2
+                        ) {
+                          return (
+                            <span
+                              key={pageNum}
+                              className="w-4 text-center text-stone-400"
+                            >
+                              ...
+                            </span>
+                          );
+                        }
+                        return null;
+                      },
+                    )}
                   </div>
 
                   {/* Next Button */}
@@ -1149,13 +1322,23 @@ export default function ProjectPage() {
                     disabled={currentPage === totalPages}
                     className={`pagination-item px-4 py-2 rounded-xl text-sm font-medium flex items-center gap-1 transition-all ${
                       currentPage === totalPages
-                        ? 'bg-stone-100 text-stone-400 cursor-not-allowed'
-                        : 'bg-white text-stone-700 hover:bg-red-50 hover:text-red-600 hover:scale-105 shadow-sm'
+                        ? "bg-stone-100 text-stone-400 cursor-not-allowed"
+                        : "bg-white text-stone-700 hover:bg-red-50 hover:text-red-600 hover:scale-105 shadow-sm"
                     }`}
                   >
                     <span>Next</span>
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    <svg
+                      className="w-4 h-4"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M9 5l7 7-7 7"
+                      />
                     </svg>
                   </motion.button>
                 </div>
@@ -1164,11 +1347,23 @@ export default function ProjectPage() {
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                  onClick={() =>
+                    window.scrollTo({ top: 0, behavior: "smooth" })
+                  }
                   className="mt-4 text-sm text-stone-500 hover:text-red-600 hover:scale-105 active:scale-95 transition-all duration-300 flex items-center gap-1"
                 >
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18" />
+                  <svg
+                    className="w-4 h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M5 10l7-7m0 0l7 7m-7-7v18"
+                    />
                   </svg>
                   <span>Back to top</span>
                 </motion.button>
@@ -1177,7 +1372,7 @@ export default function ProjectPage() {
           </div>
         </section>
 
-        <Footer />
+        {/* <Footer /> */}
       </div>
     </>
   );
