@@ -40,8 +40,8 @@ import {
   FolderOpen
 } from "lucide-react";
 
-import Header from "../../components/Header";
-import Footer from "../../components/Footer";
+import Header from "../../Components/header";
+import Footer from "../../Components/footer";
 import { blogPosts } from "./blogData";
 
 /* ================= BRICK WALL PATTERN ================= */
