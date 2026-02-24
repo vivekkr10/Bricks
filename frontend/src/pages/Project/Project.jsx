@@ -8,9 +8,10 @@ export default function ProjectPage() {
   const [activeFilter, setActiveFilter] = useState("All");
   const [heroTextIndex, setHeroTextIndex] = useState(0);
   const [isHoveringCard, setIsHoveringCard] = useState(null);
+  const [hoveredFilter, setHoveredFilter] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const [projectsPerPage] = useState(8); // Number of projects per page
-  const heroRef = useRef(null);
+  const [itemsPerPage] = useState(8);
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
   const navigate = useNavigate();
 
   const filters = ["All", "Industrial", "Commercial", "Residential"];
@@ -34,11 +35,7 @@ export default function ProjectPage() {
     setCurrentPage(1);
   }, [activeFilter]);
 
-  // Reset to first page when filter changes
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [activeFilter]);
-
+  // BrickWall pattern
   const BrickWall = ({ opacity = 0.06, color = "#8B4513" }) => (
     <svg
       style={{
@@ -365,49 +362,21 @@ export default function ProjectPage() {
     },
   ];
 
-  // Get current projects based on filter and pagination
   const filteredProjects =
     activeFilter === "All"
       ? projects
       : projects.filter((project) => project.category === activeFilter);
 
-  // Pagination logic
-  const indexOfLastProject = currentPage * projectsPerPage;
-  const indexOfFirstProject = indexOfLastProject - projectsPerPage;
-  const currentProjects = filteredProjects.slice(
-    indexOfFirstProject,
-    indexOfLastProject,
-  );
-  const totalPages = Math.ceil(filteredProjects.length / projectsPerPage);
+  // Pagination calculations
+  const totalPages = Math.ceil(filteredProjects.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const paginatedProjects = filteredProjects.slice(startIndex, endIndex);
 
-  // Change page
-  const paginate = (pageNumber) => {
+  // Handle page change
+  const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
-    // Smooth scroll to top of projects section
-    document.getElementById("projects-grid")?.scrollIntoView({
-      behavior: "smooth",
-      block: "start",
-    });
-  };
-
-  const goToPreviousPage = () => {
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
-      document.getElementById("projects-grid")?.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
-    }
-  };
-
-  const goToNextPage = () => {
-    if (currentPage < totalPages) {
-      setCurrentPage(currentPage + 1);
-      document.getElementById("projects-grid")?.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
-    }
+    document.getElementById('projects-grid').scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
   // Animation variants
@@ -448,26 +417,185 @@ export default function ProjectPage() {
   return (
     <>
       <Header />
-      <div className="mt-16 min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50">
-        <BrickWall opacity={0.07} color="#8B4513" />
+      <div className="min-h-screen bg-stone-50 text-stone-800" style={{ fontFamily: "'Jost', sans-serif" }}>
+        <style>{`
+          @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600;1,700&family=Jost:wght@300;400;500;600;700&display=swap');
+          .font-serif { font-family: 'Cormorant Garamond', serif; }
+          .font-sans { font-family: 'Jost', sans-serif; }
+          
+          @keyframes float {
+            0%, 100% { transform: translateY(0) translateX(0) rotate(0deg); }
+            25% { transform: translateY(-15px) translateX(10px) rotate(5deg); }
+            50% { transform: translateY(-25px) translateX(-5px) rotate(0deg); }
+            75% { transform: translateY(-10px) translateX(-15px) rotate(-5deg); }
+          }
+          
+          @keyframes glowPulse {
+            0%, 100% { opacity: 0.3; filter: blur(20px); }
+            50% { opacity: 0.6; filter: blur(30px); }
+          }
+          
+          @keyframes textShimmer {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+          }
+          
+          @keyframes borderRotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+          }
+          
+          @keyframes filterSlide {
+            0% { transform: translateX(-10px); opacity: 0; }
+            100% { transform: translateX(0); opacity: 1; }
+          }
+          
+          @keyframes ripple {
+            0% { transform: scale(1); opacity: 0.4; }
+            100% { transform: scale(2); opacity: 0; }
+          }
+          
+          .floating-shape {
+            animation: float var(--duration) ease-in-out infinite;
+            animation-delay: var(--delay);
+          }
+          
+          .glow-background {
+            background: radial-gradient(circle at 30% 50%, rgba(239,68,68,0.15) 0%, transparent 50%);
+            animation: glowPulse 4s ease-in-out infinite;
+          }
+          
+          .hero-text-shimmer {
+            background: linear-gradient(90deg, #fef2f2, #fee2e2, #fecaca, #fee2e2, #fef2f2);
+            background-size: 200% 200%;
+            animation: textShimmer 6s ease-in-out infinite;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+          }
+          
+          .rotating-border {
+            position: relative;
+            overflow: hidden;
+          }
+          
+          .rotating-border::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(from 0deg, transparent, #ef4444, transparent 70%);
+            animation: borderRotate 8s linear infinite;
+            opacity: 0.3;
+          }
+          
+          .filter-chip {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+          }
+          
+          .filter-chip:hover {
+            transform: translateY(-2px);
+          }
+          
+          .filter-chip::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, transparent 70%);
+            transform: translate(-50%, -50%) scale(0);
+            opacity: 0;
+            transition: transform 0.4s ease-out, opacity 0.3s ease;
+            pointer-events: none;
+            border-radius: inherit;
+          }
+          
+          .filter-chip:active::after {
+            transform: translate(-50%, -50%) scale(2);
+            opacity: 0.3;
+            transition: transform 0.2s ease-out, opacity 0.1s ease;
+          }
+          
+          .filter-chip.active {
+            box-shadow: 0 10px 25px -5px rgba(239,68,68,0.4);
+          }
+          
+          .ripple-effect {
+            position: relative;
+            overflow: hidden;
+          }
+          
+          .ripple-effect::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 5px;
+            height: 5px;
+            background: rgba(255,255,255,0.5);
+            opacity: 0;
+            border-radius: 100%;
+            transform: scale(1, 1) translate(-50%, -50%);
+            transform-origin: 50% 50%;
+          }
+          
+          .ripple-effect:focus:not(:active)::after {
+            animation: ripple 0.6s ease-out;
+          }
+          
+          .filter-container {
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            background: linear-gradient(to right, rgba(255,255,255,0.95), rgba(255,255,255,0.98));
+            border-bottom: 1px solid rgba(239,68,68,0.1);
+          }
 
-        {/* Main Hero Section */}
-        <div ref={heroRef} className="relative h-[80vh] overflow-hidden">
-          {/* Parallax Background */}
-          <motion.div
-            className="absolute inset-0 bg-cover bg-center"
-            style={{
-              backgroundImage:
-                "url(https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1600&q=80)",
-            }}
-            animate={heroVariants}
-            initial="initial"
-          >
-            <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/70"></div>
-          </motion.div>
+          /* Remove cursor from stats */
+          .stats-container {
+            cursor: default;
+          }
+          
+          .stats-container div {
+            cursor: default;
+          }
+          
+          /* Ensure buttons have proper cursor */
+          button:not(:disabled) {
+            cursor: pointer;
+          }
+          
+          button:disabled {
+            cursor: not-allowed;
+          }
+          
+          .filter-chip, .pagination-item, .group, .group\\/btn {
+            cursor: pointer;
+          }
+        `}</style>
 
-          {/* Animated Particles */}
-          {[...Array(20)].map((_, i) => (
+        {/* Unique Centered Hero Section */}
+        <section className="relative min-h-[90vh] overflow-hidden flex items-center justify-center" style={{
+          backgroundImage: 'url(https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1600&q=80)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundAttachment: 'fixed'
+        }}>
+          {/* Animated gradient overlay */}
+          <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/80" />
+          
+          {/* Animated glow background */}
+          <div className="absolute inset-0 glow-background" />
+          
+          <BrickWall opacity={0.15} color="#8B4513" />
+          
+          {/* Floating decorative shapes */}
+          {floatingShapes.map((shape, index) => (
             <motion.div
               key={index}
               className="absolute text-white/10 text-6xl md:text-7xl font-serif floating-shape"
@@ -514,7 +642,7 @@ export default function ProjectPage() {
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.9, ease: heroEase }}
-              className="font-serif text-6xl md:text-8xl lg:text-9xl font-bold text-white mb-6 leading-[1.1]"
+              className="font-serif text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-[1.1]"
             >
               <span className="block">Architecture</span>
               <span className="hero-text-shimmer block">That Inspires</span>
@@ -604,19 +732,7 @@ export default function ProjectPage() {
             </motion.div>
 
             {/* Scroll Indicator */}
-            <motion.div
-              animate={{ y: [0, 10, 0] }}
-              transition={{ duration: 2, repeat: Infinity }}
-              className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
-            >
-              <div className="w-7 h-12 border-2 border-white/30 rounded-full flex justify-center">
-                <motion.div
-                  className="w-1.5 h-3 bg-red-500 rounded-full mt-2"
-                  animate={{ opacity: [0.3, 1, 0.3] }}
-                  transition={{ duration: 2, repeat: Infinity }}
-                />
-              </div>
-            </motion.div>
+          
           </div>
         </section>
 
@@ -660,22 +776,6 @@ export default function ProjectPage() {
                   <h3 className="font-serif text-lg font-bold text-stone-800">Project Category</h3>
                 </div>
               </motion.div>
-            </div>
-          </div>
-        </div>
-
-        {/* Filter Section */}
-        <motion.div
-          className="sticky top-16 z-40 bg-red/800 backdrop-blur-xl border-b border-slate-200 shadow-lg"
-          initial={{ y: -100 }}
-          animate={{ y: 0 }}
-          transition={{ duration: 0.5 }}
-        >
-          <BrickWall opacity={0.02} color="#8B4513" />
-          <div className="container mx-auto px-6 lg:px-8 py-6">
-            <div className="flex flex-wrap justify-center gap-3">
-              {filters.map((filter) => {
-                const isActive = activeFilter === filter;
 
               {/* Center - Filter Chips */}
               <div className="flex items-center gap-2 bg-stone-100/80 p-1.5 rounded-2xl backdrop-blur-sm">
@@ -685,89 +785,16 @@ export default function ProjectPage() {
                     ? projects.length 
                     : projects.filter(p => p.category === filter).length;
 
-                    <span className="relative z-10">{filter}</span>
-                  </motion.button>
-                );
-              })}
-            </div>
-          </div>
-        </motion.div>
-
-        {/* Enhanced Projects Grid with Padding */}
-        <div
-          id="projects-grid"
-          className="container mx-auto px-5 lg:px-10 py-10 lg:py-16 relative"
-        >
-          {/* Card Section Background */}
-          <BrickWall opacity={0.04} color="#8B4513" />
-
-          {/* Projects count and pagination info */}
-          <div className="flex justify-between items-center mb-8">
-            <div className="text-stone-600">
-              Showing {indexOfFirstProject + 1}-
-              {Math.min(indexOfLastProject, filteredProjects.length)} of{" "}
-              {filteredProjects.length} projects
-            </div>
-            <div className="text-stone-600">
-              Page {currentPage} of {totalPages}
-            </div>
-          </div>
-
-          <motion.div
-            key={activeFilter + currentPage}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8"
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
-            exit={{ opacity: 0, y: 20 }}
-          >
-            {currentProjects.map((project, index) => (
-              <motion.div
-                key={project.id}
-                variants={itemVariants}
-                whileHover={{
-                  y: -8,
-                  transition: { type: "spring", stiffness: 300 },
-                }}
-                onHoverStart={() => setIsHoveringCard(project.id)}
-                onHoverEnd={() => setIsHoveringCard(null)}
-                className="group relative bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer"
-                onClick={() =>
-                  navigate(`/projects/${project.id}`, { state: project })
-                }
-              >
-                {/* Image Container with 3D Effect */}
-                <div className="relative h-80 overflow-hidden">
-                  <motion.img
-                    src={project.image}
-                    alt={project.title}
-                    className="w-full h-full object-cover"
-                    animate={{
-                      scale: isHoveringCard === project.id ? 1.1 : 1,
-                    }}
-                    transition={{ duration: 0.6 }}
-                  />
-
-                  {/* Gradient Overlay */}
-                  <motion.div
-                    className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"
-                    initial={{ opacity: 0 }}
-                    animate={{
-                      opacity: isHoveringCard === project.id ? 1 : 0,
-                    }}
-                    transition={{ duration: 0.3 }}
-                  />
-
-                  {/* Category Badge with Animation */}
-                  <motion.div
-                    className="absolute top-4 left-4"
-                    initial={{ x: -20, opacity: 0 }}
-                    animate={{ x: 0, opacity: 1 }}
-                    transition={{ delay: index * 0.1 }}
-                  >
-                    <motion.span
-                      className="px-4 py-2 bg-white/95 backdrop-blur-sm text-stone-800 rounded-full text-sm font-semibold shadow-lg flex items-center gap-2"
-                      whileHover={{ scale: 1.05 }}
+                  return (
+                    <motion.button
+                      key={filter}
+                      onClick={() => setActiveFilter(filter)}
+                      onHoverStart={() => setHoveredFilter(filter)}
+                      onHoverEnd={() => setHoveredFilter(null)}
+                      className="relative outline-none"
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: index * 0.1 }}
                     >
                       <motion.div
                         className={`filter-chip relative px-5 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 ${
@@ -1029,134 +1056,13 @@ export default function ProjectPage() {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
                     </svg>
                   </div>
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
-
-          {/* Pagination Controls */}
-          {totalPages > 1 && (
-            <motion.div
-              className="flex justify-center items-center gap-4 mt-12"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 }}
-            >
-              <motion.button
-                onClick={goToPreviousPage}
-                disabled={currentPage === 1}
-                className={`px-6 py-3 rounded-lg font-semibold flex items-center gap-2 transition-all ${
-                  currentPage === 1
-                    ? "bg-gray-200 text-gray-400 cursor-not-allowed"
-                    : "bg-red-500 text-white hover:bg-red-600 cursor-pointer"
-                }`}
-                whileHover={currentPage !== 1 ? { scale: 1.05 } : {}}
-                whileTap={currentPage !== 1 ? { scale: 0.95 } : {}}
-              >
-                <svg
-                  className="w-5 h-5"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M15 19l-7-7 7-7"
-                  />
-                </svg>
-                Previous
-              </motion.button>
-
-              <div className="flex gap-2">
-                {[...Array(totalPages)].map((_, index) => {
-                  const pageNumber = index + 1;
-                  // Show first page, last page, and pages around current page
-                  if (
-                    pageNumber === 1 ||
-                    pageNumber === totalPages ||
-                    (pageNumber >= currentPage - 1 &&
-                      pageNumber <= currentPage + 1)
-                  ) {
-                    return (
-                      <motion.button
-                        key={pageNumber}
-                        onClick={() => paginate(pageNumber)}
-                        className={`w-12 h-12 rounded-lg font-semibold transition-all ${
-                          currentPage === pageNumber
-                            ? "bg-red-500 text-white shadow-lg scale-110"
-                            : "bg-white text-gray-700 hover:bg-red-100 cursor-pointer"
-                        }`}
-                        whileHover={{ scale: 1.1 }}
-                        whileTap={{ scale: 0.95 }}
-                      >
-                        {pageNumber}
-                      </motion.button>
-                    );
-                  } else if (
-                    pageNumber === currentPage - 2 ||
-                    pageNumber === currentPage + 2
-                  ) {
-                    return (
-                      <span
-                        key={pageNumber}
-                        className="w-12 h-12 flex items-center justify-center"
-                      >
-                        ...
-                      </span>
-                    );
-                  }
-                  return null;
-                })}
-              </div>
-
-              <motion.button
-                onClick={goToNextPage}
-                disabled={currentPage === totalPages}
-                className={`px-6 py-3 rounded-lg font-semibold flex items-center gap-2 transition-all ${
-                  currentPage === totalPages
-                    ? "bg-gray-200 text-gray-400 cursor-not-allowed"
-                    : "bg-red-500 text-white hover:bg-red-600 cursor-pointer"
-                }`}
-                whileHover={currentPage !== totalPages ? { scale: 1.05 } : {}}
-                whileTap={currentPage !== totalPages ? { scale: 0.95 } : {}}
-              >
-                Next
-                <svg
-                  className="w-5 h-5"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M9 5l7 7-7 7"
-                  />
-                </svg>
-              </motion.button>
-            </motion.div>
-          )}
-
-          {/* Items per page selector (optional) */}
-          <div className="flex justify-center mt-6">
-            <select
-              value={projectsPerPage}
-              onChange={(e) => {
-                setProjectsPerPage(Number(e.target.value));
-                setCurrentPage(1);
-              }}
-              className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
-            >
-              <option value={4}>4 per page</option>
-              <option value={8}>8 per page</option>
-              <option value={12}>12 per page</option>
-              <option value={16}>16 per page</option>
-            </select>
-          </div>
-        </div>
+                  <h3 className="font-serif text-3xl font-bold text-stone-900 mt-6">No Projects Found</h3>
+                  <p className="text-stone-600 mt-2 max-w-md mx-auto">
+                    Try adjusting your filters or explore our other categories.
+                  </p>
+                </motion.div>
+              )}
+            </AnimatePresence>
 
             {/* Pagination */}
             {filteredProjects.length > 0 && (
