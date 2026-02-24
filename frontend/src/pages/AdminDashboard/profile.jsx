@@ -1,9 +1,17 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import {
-  ArrowLeft, Save, User, Mail, Phone, Lock,
-  Upload, MapPin, CheckCircle2,
-  AlertCircle, KeyRound
+  ArrowLeft,
+  Save,
+  User,
+  Mail,
+  Phone,
+  Lock,
+  Upload,
+  MapPin,
+  CheckCircle2,
+  AlertCircle,
+  KeyRound,
 } from "lucide-react";
 
 const ProfileSettings = ({ onCancel }) => {
@@ -21,7 +29,7 @@ const ProfileSettings = ({ onCancel }) => {
     currentPassword: "",
     newPassword: "",
     confirmPassword: "",
-    photo: null
+    photo: null,
   };
 
   const [profile, setProfile] = useState(initialProfile);
@@ -29,7 +37,9 @@ const ProfileSettings = ({ onCancel }) => {
   const [loading, setLoading] = useState(false);
   const [fetching, setFetching] = useState(true);
   const [showToast, setShowToast] = useState(false);
-  const [toastMsg, setToastMsg] = useState("Profile synchronized successfully!");
+  const [toastMsg, setToastMsg] = useState(
+    "Profile synchronized successfully!",
+  );
   const [toastType, setToastType] = useState("success"); // "success" | "error"
 
   // ── Fetch real admin data from backend on mount ──────────────────────────
@@ -37,7 +47,7 @@ const ProfileSettings = ({ onCancel }) => {
     const fetchProfile = async () => {
       try {
         const token = localStorage.getItem("token");
-        const res = await axios.get("http://localhost:5000/api/profile/me", {
+        const res = await axios.get("/api/profile/me", {
           headers: { Authorization: `Bearer ${token}` },
           withCredentials: true,
         });
@@ -45,16 +55,16 @@ const ProfileSettings = ({ onCancel }) => {
           const data = res.data.admin;
           const loaded = {
             ...initialProfile,
-            name:     data.name     || "",
-            email:    data.email    || "",
-            role:     data.role     || "admin",
-            phone:    data.phone    || "",
-            dob:      data.dob      || "",
-            address:  data.address  || "",
+            name: data.name || "",
+            email: data.email || "",
+            role: data.role || "admin",
+            phone: data.phone || "",
+            dob: data.dob || "",
+            address: data.address || "",
             district: data.district || "",
-            state:    data.state    || "",
-            pinCode:  data.pinCode  || "",
-            country:  data.country  || "",
+            state: data.state || "",
+            pinCode: data.pinCode || "",
+            country: data.country || "",
           };
           setProfile(loaded);
           setSavedProfile(loaded);
@@ -107,7 +117,10 @@ const ProfileSettings = ({ onCancel }) => {
 
   // ── Save to backend ───────────────────────────────────────────────────────
   const handleSave = async () => {
-    if (profile.newPassword && profile.newPassword !== profile.confirmPassword) {
+    if (
+      profile.newPassword &&
+      profile.newPassword !== profile.confirmPassword
+    ) {
       showToastMessage("New passwords do not match!", "error");
       return;
     }
@@ -118,36 +131,36 @@ const ProfileSettings = ({ onCancel }) => {
 
       // 1. Update profile fields
       await axios.put(
-        "http://localhost:5000/api/profile/update",
+        "/api/profile/update",
         {
-          name:     profile.name,
-          phone:    profile.phone,
-          dob:      profile.dob,
-          address:  profile.address,
+          name: profile.name,
+          phone: profile.phone,
+          dob: profile.dob,
+          address: profile.address,
           district: profile.district,
-          state:    profile.state,
-          pinCode:  profile.pinCode,
-          country:  profile.country,
+          state: profile.state,
+          pinCode: profile.pinCode,
+          country: profile.country,
         },
         {
           headers: { Authorization: `Bearer ${token}` },
           withCredentials: true,
-        }
+        },
       );
 
       // 2. Change password only if fields are filled
       if (profile.currentPassword && profile.newPassword) {
         await axios.post(
-          "http://localhost:5000/api/profile/change-password",
+          "/api/profile/change-password",
           {
             currentPassword: profile.currentPassword,
-            newPassword:     profile.newPassword,
+            newPassword: profile.newPassword,
             confirmPassword: profile.confirmPassword,
           },
           {
             headers: { Authorization: `Bearer ${token}` },
             withCredentials: true,
-          }
+          },
         );
       }
 
@@ -164,7 +177,7 @@ const ProfileSettings = ({ onCancel }) => {
     } catch (err) {
       showToastMessage(
         err.response?.data?.message || "Failed to save profile.",
-        "error"
+        "error",
       );
     } finally {
       setLoading(false);
@@ -177,7 +190,9 @@ const ProfileSettings = ({ onCancel }) => {
       <div className="min-h-screen flex items-center justify-center bg-[#F4F7FE]">
         <div className="flex flex-col items-center gap-4">
           <div className="w-10 h-10 border-4 border-red-600/30 border-t-red-600 rounded-full animate-spin" />
-          <p className="text-sm font-bold text-stone-500 uppercase tracking-widest">Loading Profile...</p>
+          <p className="text-sm font-bold text-stone-500 uppercase tracking-widest">
+            Loading Profile...
+          </p>
         </div>
       </div>
     );
@@ -185,20 +200,22 @@ const ProfileSettings = ({ onCancel }) => {
 
   return (
     <div className="min-h-screen p-2 md:p-5 text-[#1C1917]">
-
       {/* ── TOAST ── */}
       {showToast && (
-        <div className={`fixed top-10 right-10 px-6 py-4 rounded-2xl shadow-2xl flex items-center gap-3 z-[100] transition-all duration-300
-          ${toastType === "success" ? "bg-green-600 text-white" : "bg-red-500 text-white"}`}>
-          {toastType === "success"
-            ? <CheckCircle2 size={20} />
-            : <AlertCircle size={20} />}
+        <div
+          className={`fixed top-10 right-10 px-6 py-4 rounded-2xl shadow-2xl flex items-center gap-3 z-[100] transition-all duration-300
+          ${toastType === "success" ? "bg-green-600 text-white" : "bg-red-500 text-white"}`}
+        >
+          {toastType === "success" ? (
+            <CheckCircle2 size={20} />
+          ) : (
+            <AlertCircle size={20} />
+          )}
           <span className="font-bold text-sm">{toastMsg}</span>
         </div>
       )}
 
       <div className="max-w-5xl mx-auto space-y-6 pb-20">
-
         {/* ── STICKY HEADER ── */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white/70 backdrop-blur-md p-6 rounded-[1.5rem] top-16 z-40 border border-white shadow-sm">
           <div className="flex items-center gap-4">
@@ -211,7 +228,9 @@ const ProfileSettings = ({ onCancel }) => {
             <div>
               <h1 className="text-2xl font-black tracking-tight flex items-center gap-2">
                 Admin<span className="text-red-700"> Profile</span>
-                {isDirty && <span className="w-2 h-2 bg-red-700 rounded-full animate-pulse" />}
+                {isDirty && (
+                  <span className="w-2 h-2 bg-red-700 rounded-full animate-pulse" />
+                )}
               </h1>
               <p className="text-[10px] uppercase font-bold text-stone-400 tracking-widest">
                 Master Identity Control
@@ -223,9 +242,11 @@ const ProfileSettings = ({ onCancel }) => {
             onClick={handleSave}
             disabled={!isDirty || loading}
             className={`flex items-center gap-2 px-8 py-3 rounded-2xl font-bold transition-all shadow-lg
-              ${isDirty
-                ? "hover:bg-red-800 text-white bg-red-700 scale-105 cursor-pointer"
-                : "bg-stone-200 text-stone-400 cursor-not-allowed"}`}
+              ${
+                isDirty
+                  ? "hover:bg-red-800 text-white bg-red-700 scale-105 cursor-pointer"
+                  : "bg-stone-200 text-stone-400 cursor-not-allowed"
+              }`}
           >
             {loading ? (
               <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
@@ -238,12 +259,13 @@ const ProfileSettings = ({ onCancel }) => {
 
         {/* ── MAIN CARD ── */}
         <div className="bg-white rounded-[1.5rem] border border-stone-200 shadow-2xl overflow-hidden">
-
           {/* Card Header */}
           <div className="p-6 md:p-10 border-b border-stone-100 bg-gradient-to-b from-white to-[#FAF9F8]">
             <div className="flex items-center gap-3">
               <User size={22} className="text-stone-800" />
-              <h2 className="text-xl font-bold text-stone-800">Basic Details</h2>
+              <h2 className="text-xl font-bold text-stone-800">
+                Basic Details
+              </h2>
             </div>
           </div>
 
@@ -253,9 +275,11 @@ const ProfileSettings = ({ onCancel }) => {
 
           {/* ── FORM CONTENT ── */}
           <div className="p-6 md:p-8 space-y-8">
-
             {/* PERSONAL IDENTIFICATION */}
-            <Section title="Personal Identification" icon={<User size={16} className="text-red-700" />}>
+            <Section
+              title="Personal Identification"
+              icon={<User size={16} className="text-red-700" />}
+            >
               <Grid>
                 <InputField
                   label="Display Name"
@@ -294,7 +318,10 @@ const ProfileSettings = ({ onCancel }) => {
             </div>
 
             {/* LOCATION DETAILS */}
-            <Section title="Location Details" icon={<MapPin size={16} className="text-red-700" />}>
+            <Section
+              title="Location Details"
+              icon={<MapPin size={16} className="text-red-700" />}
+            >
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="md:col-span-2">
                   <InputField
@@ -341,7 +368,10 @@ const ProfileSettings = ({ onCancel }) => {
             </div>
 
             {/* SECURITY & AUTHENTICATION */}
-            <Section title="Security & Authentication" icon={<Lock size={16} className="text-red-700" />}>
+            <Section
+              title="Security & Authentication"
+              icon={<Lock size={16} className="text-red-700" />}
+            >
               <div className="bg-stone-50 p-6 md:p-8 rounded-2xl border border-stone-100 shadow-inner">
                 <div className="flex items-center gap-3 mb-6">
                   <div className="p-2 bg-white rounded-xl shadow-sm border border-stone-100">
@@ -387,14 +417,15 @@ const ProfileSettings = ({ onCancel }) => {
                   <AlertCircle size={18} />
                 </div>
                 <div className="flex-1">
-                  <p className="text-xs font-black uppercase tracking-widest">Unsaved Modifications</p>
+                  <p className="text-xs font-black uppercase tracking-widest">
+                    Unsaved Modifications
+                  </p>
                   <p className="text-[11px] font-medium opacity-80">
                     Sync the database to apply these profile updates.
                   </p>
                 </div>
               </div>
             )}
-
           </div>
         </div>
       </div>
@@ -410,7 +441,9 @@ const Section = ({ title, icon, children }) => (
       <div className="p-2.5 bg-[#FAF9F8] border border-stone-100 rounded-2xl shadow-sm">
         {icon}
       </div>
-      <h3 className="text-[11px] font-black uppercase tracking-[0.3em] text-stone-400">{title}</h3>
+      <h3 className="text-[11px] font-black uppercase tracking-[0.3em] text-stone-400">
+        {title}
+      </h3>
     </div>
     {children}
   </div>
@@ -431,9 +464,10 @@ const InputField = ({ label, disabled = false, ...props }) => (
       {...props}
       disabled={disabled}
       className={`w-full border rounded-[1.2rem] px-6 py-4 text-sm font-bold text-stone-800 outline-none transition-all placeholder:text-stone-300
-        ${disabled
-          ? "bg-stone-100 border-stone-200 text-stone-400 cursor-not-allowed"
-          : "bg-[#FAF9F8] border-stone-200 focus:border-red-500 focus:ring-8 focus:ring-red-500/5 focus:bg-white"
+        ${
+          disabled
+            ? "bg-stone-100 border-stone-200 text-stone-400 cursor-not-allowed"
+            : "bg-[#FAF9F8] border-stone-200 focus:border-red-500 focus:ring-8 focus:ring-red-500/5 focus:bg-white"
         }`}
     />
     {disabled && (

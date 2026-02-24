@@ -1,5 +1,14 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Plus, Trash2, ImageIcon, ArrowLeft, Upload, CheckCircle, ChevronLeft, ChevronRight } from "lucide-react";
+import {
+  Plus,
+  Trash2,
+  ImageIcon,
+  ArrowLeft,
+  Upload,
+  CheckCircle,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const AddCategory = ({ onBack }) => {
@@ -8,7 +17,7 @@ const AddCategory = ({ onBack }) => {
   const [image, setImage] = useState(null);
   const [isSuccess, setIsSuccess] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  
+
   // Slider ke liye Ref
   const scrollRef = useRef(null);
 
@@ -18,19 +27,21 @@ const AddCategory = ({ onBack }) => {
   // }, []);
 
   useEffect(() => {
-  const fetchCategories = async () => {
-    const response = await fetch("http://localhost:5000/api/products/all-categories");
-    const data = await response.json();
-    if (data.success) setCategories(data.categories);
-  };
-  fetchCategories();
-}, []);
+    const fetchCategories = async () => {
+      const response = await fetch("/api/products/all-categories");
+      const data = await response.json();
+      if (data.success) setCategories(data.categories);
+    };
+    fetchCategories();
+  }, []);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
-      reader.onloadend = () => { setImage(reader.result); };
+      reader.onloadend = () => {
+        setImage(reader.result);
+      };
       reader.readAsDataURL(file);
     }
   };
@@ -47,68 +58,70 @@ const AddCategory = ({ onBack }) => {
   //   const updated = [...categories, newCategory];
   //   setCategories(updated);
   //   localStorage.setItem("brick_categories", JSON.stringify(updated));
-    
-   
+
   //   setIsSuccess(true);
   //   setTimeout(() => setIsSuccess(false), 3000);
   // };
 
   const handleAddCategory = async () => {
-  if (!title || !image) return alert("Title and image required!");
+    if (!title || !image) return alert("Title and image required!");
 
-  try {
-    const token = localStorage.getItem('token');
-    const response = await fetch("http://localhost:5000/api/products/categories", {
-      method: "POST",
-      headers: { 
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}` 
-      },
-      body: JSON.stringify({ title, image })
-    });
+    try {
+      const token = localStorage.getItem("token");
+      const response = await fetch("/api/products/categories", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ title, image }),
+      });
 
-    const data = await response.json();
+      const data = await response.json();
 
-  if (data.success) {
-      setCategories([...categories, data.category]);
-      setTitle("");
-      setImage(null);
-      setIsSuccess(true);
-      setTimeout(() => setIsSuccess(false), 3000);
-    } else {
-      alert(data.message || "Failed to add category");
+      if (data.success) {
+        setCategories([...categories, data.category]);
+        setTitle("");
+        setImage(null);
+        setIsSuccess(true);
+        setTimeout(() => setIsSuccess(false), 3000);
+      } else {
+        alert(data.message || "Failed to add category");
+      }
+    } catch (error) {
+      console.error("Connection Error:", error);
+    } finally {
+      setIsLoading(false);
     }
-  } catch (error) {
-    console.error("Connection Error:", error);
-  }
-  finally {
-      setIsLoading(false); 
+  };
+
+  const handleDelete = async (id) => {
+    if (!window.confirm("Are you sure you want to delete this category?"))
+      return;
+
+    try {
+      const token = localStorage.getItem("token");
+      const response = await fetch(`/api/products/categories/${id}`, {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      if (response.ok) {
+        setCategories(categories.filter((cat) => cat._id !== id));
+      }
+    } catch (error) {
+      console.error("Delete Error:", error);
     }
-};
-
- const handleDelete = async (id) => {
-  if (!window.confirm("Are you sure you want to delete this category?")) return;
-
-  try {
-    const token = localStorage.getItem('token');
-    const response = await fetch(`http://localhost:5000/api/products/categories/${id}`, {
-      method: "DELETE",
-      headers: { "Authorization": `Bearer ${token}` }
-    });
-
-    if (response.ok) {
-      setCategories(categories.filter((cat) => cat._id !== id));
-    }
-  } catch (error) {
-    console.error("Delete Error:", error);
-  }
-};
+  };
 
   // --- Scroll Logic ---
   const scroll = (direction) => {
     if (scrollRef.current) {
       const { scrollLeft, clientWidth } = scrollRef.current;
-      const scrollTo = direction === "left" ? scrollLeft - clientWidth : scrollLeft + clientWidth;
+      const scrollTo =
+        direction === "left"
+          ? scrollLeft - clientWidth
+          : scrollLeft + clientWidth;
       scrollRef.current.scrollTo({ left: scrollTo, behavior: "smooth" });
     }
   };
@@ -116,33 +129,62 @@ const AddCategory = ({ onBack }) => {
   return (
     <div className="min-h-screen bg-white rounded-[2rem] p-4 md:p-8 font-sans">
       <div className="max-w-4xl mx-auto">
-        
         {/* Header */}
         <div className="flex items-center gap-4 mb-4">
-          <button onClick={onBack} className="p-2 hover:bg-red-600 border border-red-600 group rounded-full transition-colors">
-            <ArrowLeft size={24} className="text-stone-600 group-hover:text-white" />
+          <button
+            onClick={onBack}
+            className="p-2 hover:bg-red-600 border border-red-600 group rounded-full transition-colors"
+          >
+            <ArrowLeft
+              size={24}
+              className="text-stone-600 group-hover:text-white"
+            />
           </button>
           <p className="text-orange-600 font-bold">back to dashboard</p>
         </div>
 
-        <h1 className="text-3xl font-black text-[#1C1917] mb-4">Manage <span className="text-orange-600">Categories</span></h1>
+        <h1 className="text-3xl font-black text-[#1C1917] mb-4">
+          Manage <span className="text-orange-600">Categories</span>
+        </h1>
 
         {/* Form Card */}
         <div className="bg-white rounded-[2rem] border border-stone-200 p-6 md:p-8 shadow-xl mb-12">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="space-y-4">
-              <label className="block text-xs font-black uppercase tracking-widest text-stone-400">Category Thumbnail</label>
-              <div className={`relative h-56 rounded-[1.5rem] border-2 border-dashed flex flex-col items-center justify-center transition-all overflow-hidden ${image ? "border-orange-500" : "border-stone-200 hover:border-orange-300 bg-stone-50"}`}>
+              <label className="block text-xs font-black uppercase tracking-widest text-stone-400">
+                Category Thumbnail
+              </label>
+              <div
+                className={`relative h-56 rounded-[1.5rem] border-2 border-dashed flex flex-col items-center justify-center transition-all overflow-hidden ${image ? "border-orange-500" : "border-stone-200 hover:border-orange-300 bg-stone-50"}`}
+              >
                 {image ? (
                   <>
-                    <img src={image} alt="Preview" className="w-full h-full object-cover" />
-                    <button onClick={() => setImage(null)} className="absolute top-2 right-2 bg-red-500 text-white p-1.5 rounded-full shadow-lg"><Trash2 size={16} /></button>
+                    <img
+                      src={image}
+                      alt="Preview"
+                      className="w-full h-full object-cover"
+                    />
+                    <button
+                      onClick={() => setImage(null)}
+                      className="absolute top-2 right-2 bg-red-500 text-white p-1.5 rounded-full shadow-lg"
+                    >
+                      <Trash2 size={16} />
+                    </button>
                   </>
                 ) : (
                   <label className="cursor-pointer flex flex-col items-center group">
-                    <div className="p-4 bg-white rounded-full shadow-md group-hover:scale-110 transition-transform"><Upload className="text-orange-600" size={24} /></div>
-                    <span className="mt-3 text-sm font-bold text-stone-500">Click to upload photo</span>
-                    <input type="file" className="hidden" accept="image/*" onChange={handleImageChange} />
+                    <div className="p-4 bg-white rounded-full shadow-md group-hover:scale-110 transition-transform">
+                      <Upload className="text-orange-600" size={24} />
+                    </div>
+                    <span className="mt-3 text-sm font-bold text-stone-500">
+                      Click to upload photo
+                    </span>
+                    <input
+                      type="file"
+                      className="hidden"
+                      accept="image/*"
+                      onChange={handleImageChange}
+                    />
                   </label>
                 )}
               </div>
@@ -150,11 +192,31 @@ const AddCategory = ({ onBack }) => {
 
             <div className="flex flex-col justify-center space-y-6">
               <div className="space-y-2">
-                <label className="block text-xs font-black uppercase tracking-widest text-stone-400">Category Name</label>
-                <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} placeholder="e.g. Classic Reds" className="w-full px-6 py-4 rounded-[1rem] bg-stone-50 border border-stone-200 focus:border-orange-500 focus:bg-white outline-none font-bold transition-all" />
+                <label className="block text-xs font-black uppercase tracking-widest text-stone-400">
+                  Category Name
+                </label>
+                <input
+                  type="text"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                  placeholder="e.g. Classic Reds"
+                  className="w-full px-6 py-4 rounded-[1rem] bg-stone-50 border border-stone-200 focus:border-orange-500 focus:bg-white outline-none font-bold transition-all"
+                />
               </div>
-              <motion.button disabled={isLoading} whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} onClick={handleAddCategory} className="w-full bg-orange-600 text-white py-4 rounded-[1rem] font-black shadow-lg shadow-orange-100 flex items-center justify-center gap-2"><Plus size={20} /> Add Category</motion.button>
-              {isSuccess && <div className="flex items-center justify-center gap-2 text-green-600 font-bold text-sm"><CheckCircle size={18} /> Category added successfully!</div>}
+              <motion.button
+                disabled={isLoading}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                onClick={handleAddCategory}
+                className="w-full bg-orange-600 text-white py-4 rounded-[1rem] font-black shadow-lg shadow-orange-100 flex items-center justify-center gap-2"
+              >
+                <Plus size={20} /> Add Category
+              </motion.button>
+              {isSuccess && (
+                <div className="flex items-center justify-center gap-2 text-green-600 font-bold text-sm">
+                  <CheckCircle size={18} /> Category added successfully!
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -163,30 +225,39 @@ const AddCategory = ({ onBack }) => {
         <div className="space-y-6 relative">
           <div className="flex items-center justify-between">
             <h2 className="text-xl font-black text-[#1C1917] flex items-center gap-2">
-                All Categories <span className="bg-stone-200 text-stone-600 text-xs px-2 py-0.5 rounded-full">{categories.length}</span>
+              All Categories{" "}
+              <span className="bg-stone-200 text-stone-600 text-xs px-2 py-0.5 rounded-full">
+                {categories.length}
+              </span>
             </h2>
-            
+
             {/* Show controls only if more than 4 items */}
             {categories.length > 4 && (
               <div className="flex gap-2">
-                <button onClick={() => scroll("left")} className="p-2 bg-white border border-stone-200 rounded-full hover:bg-orange-600 hover:text-white transition-all shadow-sm">
+                <button
+                  onClick={() => scroll("left")}
+                  className="p-2 bg-white border border-stone-200 rounded-full hover:bg-orange-600 hover:text-white transition-all shadow-sm"
+                >
                   <ChevronLeft size={20} />
                 </button>
-                <button onClick={() => scroll("right")} className="p-2 bg-white border border-stone-200 rounded-full hover:bg-orange-600 hover:text-white transition-all shadow-sm">
+                <button
+                  onClick={() => scroll("right")}
+                  className="p-2 bg-white border border-stone-200 rounded-full hover:bg-orange-600 hover:text-white transition-all shadow-sm"
+                >
                   <ChevronRight size={20} />
                 </button>
               </div>
             )}
           </div>
-          
-          <div 
+
+          <div
             ref={scrollRef}
             className="flex gap-4 overflow-x-hidden scroll-smooth pb-4 px-2"
             style={{ scrollSnapType: "x mandatory" }}
           >
             <AnimatePresence>
               {categories.map((cat) => (
-                <motion.div 
+                <motion.div
                   layout
                   key={cat._id}
                   initial={{ opacity: 0, scale: 0.8 }}
@@ -196,12 +267,21 @@ const AddCategory = ({ onBack }) => {
                   style={{ scrollSnapAlign: "start" }}
                 >
                   <div className="h-32 w-full rounded-[1rem] overflow-hidden bg-stone-100 border border-stone-100">
-                    <img src={cat.image} alt="" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                    <img
+                      src={cat.image}
+                      alt=""
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    />
                   </div>
                   <div className="p-3">
-                    <h3 className="text-sm font-black text-stone-800 truncate">{cat.title}</h3>
+                    <h3 className="text-sm font-black text-stone-800 truncate">
+                      {cat.title}
+                    </h3>
                   </div>
-                  <button onClick={() => handleDelete(cat._id)} className="absolute top-0 -right-2 bg-red-500 text-white p-2 rounded-xl shadow-lg opacity-0 group-hover:opacity-100 transition-opacity">
+                  <button
+                    onClick={() => handleDelete(cat._id)}
+                    className="absolute top-0 -right-2 bg-red-500 text-white p-2 rounded-xl shadow-lg opacity-0 group-hover:opacity-100 transition-opacity"
+                  >
                     <Trash2 size={14} />
                   </button>
                 </motion.div>
@@ -216,7 +296,6 @@ const AddCategory = ({ onBack }) => {
             )}
           </div>
         </div>
-
       </div>
     </div>
   );

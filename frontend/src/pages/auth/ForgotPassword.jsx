@@ -23,10 +23,9 @@ const ForgotPassword = () => {
     setLoading(true);
 
     try {
-  const res = await axios.post(
-  "http://localhost:5000/api/auth/forgot-password/send-otp",
-  { email }
-);
+      const res = await axios.post("/api/auth/forgot-password/send-otp", {
+        email,
+      });
       toast.success(res.data.message || "OTP sent successfully!");
       navigate("/verify-otp", { state: { email } }); // next page
     } catch (error) {
@@ -49,9 +48,7 @@ const ForgotPassword = () => {
           <p className="brand-description">
             Secure password recovery with OTP verification.
           </p>
-          <div className="brand-quote">
-            "Security is our priority"
-          </div>
+          <div className="brand-quote">"Security is our priority"</div>
           <div className="brand-features">
             <div className="feature-item">
               <span className="feature-dot"></span>

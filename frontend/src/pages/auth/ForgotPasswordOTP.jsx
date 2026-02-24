@@ -1,19 +1,19 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  FiMail, 
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  FiMail,
   FiLock,
   FiEye,
   FiEyeOff,
   FiShield,
   FiArrowLeft,
   FiKey,
-  FiAlertCircle
-} from 'react-icons/fi';
-import { toast } from 'react-hot-toast';
-import './auth.css';
+  FiAlertCircle,
+} from "react-icons/fi";
+import { toast } from "react-hot-toast";
+import "./auth.css";
 
 // Configure axios defaults
 axios.defaults.withCredentials = true;
@@ -25,32 +25,32 @@ const ForgotPasswordOTP = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [showSecretKey, setShowSecretKey] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [email, setEmail] = useState('');
-  const [secretKey, setSecretKey] = useState('');
-  const [otp, setOtp] = useState(['', '', '', '', '', '']);
+  const [email, setEmail] = useState("");
+  const [secretKey, setSecretKey] = useState("");
+  const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const [timer, setTimer] = useState(60);
   const [canResend, setCanResend] = useState(false);
-  
+
   // Error states for each step
-  const [step1Error, setStep1Error] = useState('');
-  const [step2Error, setStep2Error] = useState('');
-  const [step3Error, setStep3Error] = useState('');
-  
+  const [step1Error, setStep1Error] = useState("");
+  const [step2Error, setStep2Error] = useState("");
+  const [step3Error, setStep3Error] = useState("");
+
   const [formData, setFormData] = useState({
-    newPassword: '',
-    confirmPassword: ''
+    newPassword: "",
+    confirmPassword: "",
   });
-  
+
   const [errors, setErrors] = useState({});
 
   // Handle OTP input
   const handleOtpChange = (index, value) => {
     if (value.length > 1) return;
-    
+
     const newOtp = [...otp];
     newOtp[index] = value;
     setOtp(newOtp);
-    setStep2Error(''); // Clear error when user types
+    setStep2Error(""); // Clear error when user types
 
     if (value && index < 5) {
       const nextInput = document.getElementById(`otp-${index + 1}`);
@@ -59,7 +59,7 @@ const ForgotPasswordOTP = () => {
   };
 
   const handleOtpKeyDown = (index, e) => {
-    if (e.key === 'Backspace' && !otp[index] && index > 0) {
+    if (e.key === "Backspace" && !otp[index] && index > 0) {
       const prevInput = document.getElementById(`otp-${index - 1}`);
       if (prevInput) prevInput.focus();
     }
@@ -68,13 +68,13 @@ const ForgotPasswordOTP = () => {
   const handleChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
-    setStep3Error(''); // Clear error when user types
+    setStep3Error(""); // Clear error when user types
     if (errors[e.target.name]) {
       setErrors({
         ...errors,
-        [e.target.name]: ''
+        [e.target.name]: "",
       });
     }
   };
@@ -82,21 +82,21 @@ const ForgotPasswordOTP = () => {
   const validateStep1 = () => {
     const newErrors = {};
     if (!email) {
-      newErrors.email = 'Email is required';
+      newErrors.email = "Email is required";
     } else if (!/\S+@\S+\.\S+/.test(email)) {
-      newErrors.email = 'Please enter a valid email';
+      newErrors.email = "Please enter a valid email";
     }
     if (!secretKey) {
-      newErrors.secretKey = 'Admin secret key is required';
+      newErrors.secretKey = "Admin secret key is required";
     }
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
   const validateOTP = () => {
-    const otpString = otp.join('');
+    const otpString = otp.join("");
     if (otpString.length !== 6) {
-      setStep2Error('Please enter complete 6-digit OTP');
+      setStep2Error("Please enter complete 6-digit OTP");
       return false;
     }
     return true;
@@ -105,14 +105,14 @@ const ForgotPasswordOTP = () => {
   const validatePassword = () => {
     const newErrors = {};
     if (!formData.newPassword) {
-      newErrors.newPassword = 'New password is required';
+      newErrors.newPassword = "New password is required";
     } else if (formData.newPassword.length < 6) {
-      newErrors.newPassword = 'Password must be at least 6 characters';
+      newErrors.newPassword = "Password must be at least 6 characters";
     }
     if (!formData.confirmPassword) {
-      newErrors.confirmPassword = 'Please confirm your password';
+      newErrors.confirmPassword = "Please confirm your password";
     } else if (formData.newPassword !== formData.confirmPassword) {
-      newErrors.confirmPassword = 'Passwords do not match';
+      newErrors.confirmPassword = "Passwords do not match";
     }
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -133,147 +133,146 @@ const ForgotPasswordOTP = () => {
     }, 1000);
   };
 
-const handleSendOTP = async (e) => {
-  e.preventDefault();
-  console.log('1️⃣ Form submitted');
-  setStep1Error('');
-  
-  if (!validateStep1()) {
-    console.log('2️⃣ Validation failed');
-    return;
-  }
+  const handleSendOTP = async (e) => {
+    e.preventDefault();
+    console.log("1️⃣ Form submitted");
+    setStep1Error("");
 
-  console.log('3️⃣ Validation passed, sending request...');
-  console.log('4️⃣ Data being sent:', { email, secretKey });
-  
-  setLoading(true);
-  
-  try {
-    const response = await axios.post('http://localhost:5000/api/auth/forgot-password/send-otp', {
-      email,
-      secretKey
-    });
-
-    console.log('5️⃣ Response received:', response);
-    console.log('6️⃣ Response data:', response.data);
-    console.log('7️⃣ Response status:', response.status);
-
-    if (response.data && response.data.success === true) {
-      console.log('8️⃣ Success! Moving to step 2');
-      toast.success('OTP sent to your email!');
-      setStep(2);
-      startTimer();
-    } else {
-      console.log('8️⃣ Success false in response');
-      setStep1Error(response.data?.message || 'Failed to send OTP');
+    if (!validateStep1()) {
+      console.log("2️⃣ Validation failed");
+      return;
     }
-    
-  } catch (error) {
-    console.log('❌ ERROR CAUGHT:');
-    console.log('Error object:', error);
-    console.log('Error response:', error.response);
-    console.log('Error response data:', error.response?.data);
-    console.log('Error response status:', error.response?.status);
-    console.log('Error message:', error.message);
-    
-    if (error.response) {
-      const status = error.response.status;
-      const message = error.response.data?.message;
-      
-      if (status === 401) {
-        setStep1Error('❌ Admin secret key is incorrect');
-      } else if (status === 404) {
-        setStep1Error('❌ This email is not registered');
+
+    console.log("3️⃣ Validation passed, sending request...");
+    console.log("4️⃣ Data being sent:", { email, secretKey });
+
+    setLoading(true);
+
+    try {
+      const response = await axios.post("/api/auth/forgot-password/send-otp", {
+        email,
+        secretKey,
+      });
+
+      console.log("5️⃣ Response received:", response);
+      console.log("6️⃣ Response data:", response.data);
+      console.log("7️⃣ Response status:", response.status);
+
+      if (response.data && response.data.success === true) {
+        console.log("8️⃣ Success! Moving to step 2");
+        toast.success("OTP sent to your email!");
+        setStep(2);
+        startTimer();
       } else {
-        setStep1Error(message || 'Failed to send OTP');
+        console.log("8️⃣ Success false in response");
+        setStep1Error(response.data?.message || "Failed to send OTP");
       }
-    } else if (error.request) {
-      console.log('No response received:', error.request);
-      setStep1Error('❌ No response from server. Please check your connection.');
-    } else {
-      console.log('Error setting up request:', error.message);
-      setStep1Error('❌ Error sending request. Please try again.');
-    }
-  } finally {
-    setLoading(false);
-    console.log('9️⃣ Loading finished');
-  }
-};
+    } catch (error) {
+      console.log("❌ ERROR CAUGHT:");
+      console.log("Error object:", error);
+      console.log("Error response:", error.response);
+      console.log("Error response data:", error.response?.data);
+      console.log("Error response status:", error.response?.status);
+      console.log("Error message:", error.message);
 
-const handleResendOTP = async () => {
-  if (!canResend) return;
-  
-  setLoading(true);
-  setStep2Error(''); // Clear previous error
-  
-  try {
-    const response = await axios.post('http://localhost:5000/api/auth/forgot-password/send-otp', {
-      email,
-      secretKey
-    });
+      if (error.response) {
+        const status = error.response.status;
+        const message = error.response.data?.message;
 
-    if (response.data && response.data.success === true) {
-      toast.success('New OTP sent to your email!');
-      startTimer();
-    } else {
-      setStep2Error(response.data?.message || 'Failed to resend OTP');
-    }
-    
-  } catch (error) {
-    console.error('Resend OTP error:', error);
-    
-    if (error.response) {
-      const status = error.response.status;
-      const message = error.response.data?.message;
-      
-      if (status === 401) {
-        setStep2Error('❌ Admin secret key is incorrect');
-      } else if (status === 404) {
-        setStep2Error('❌ This email is not registered');
+        if (status === 401) {
+          setStep1Error("❌ Admin secret key is incorrect");
+        } else if (status === 404) {
+          setStep1Error("❌ This email is not registered");
+        } else {
+          setStep1Error(message || "Failed to send OTP");
+        }
+      } else if (error.request) {
+        console.log("No response received:", error.request);
+        setStep1Error(
+          "❌ No response from server. Please check your connection.",
+        );
       } else {
-        setStep2Error(message || 'Failed to resend OTP');
+        console.log("Error setting up request:", error.message);
+        setStep1Error("❌ Error sending request. Please try again.");
       }
-    } else {
-      setStep2Error('❌ Network error. Please try again.');
+    } finally {
+      setLoading(false);
+      console.log("9️⃣ Loading finished");
     }
-  } finally {
-    setLoading(false);
-  }
-};
+  };
+
+  const handleResendOTP = async () => {
+    if (!canResend) return;
+
+    setLoading(true);
+    setStep2Error(""); // Clear previous error
+
+    try {
+      const response = await axios.post("/api/auth/forgot-password/send-otp", {
+        email,
+        secretKey,
+      });
+
+      if (response.data && response.data.success === true) {
+        toast.success("New OTP sent to your email!");
+        startTimer();
+      } else {
+        setStep2Error(response.data?.message || "Failed to resend OTP");
+      }
+    } catch (error) {
+      console.error("Resend OTP error:", error);
+
+      if (error.response) {
+        const status = error.response.status;
+        const message = error.response.data?.message;
+
+        if (status === 401) {
+          setStep2Error("❌ Admin secret key is incorrect");
+        } else if (status === 404) {
+          setStep2Error("❌ This email is not registered");
+        } else {
+          setStep2Error(message || "Failed to resend OTP");
+        }
+      } else {
+        setStep2Error("❌ Network error. Please try again.");
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleVerifyOTP = async (e) => {
     e.preventDefault();
-    setStep2Error(''); 
-    
+    setStep2Error("");
+
     if (!validateOTP()) return;
 
     setLoading(true);
 
     try {
-      const otpString = otp.join('');
+      const otpString = otp.join("");
 
       const response = await axios.post(
-        'http://localhost:5000/api/auth/forgot-password/verify-otp',
+        "/api/auth/forgot-password/verify-otp",
         {
           email,
-          otp: otpString
-        }
+          otp: otpString,
+        },
       );
 
       if (response.data.success) {
-        toast.success('OTP verified successfully!');
+        toast.success("OTP verified successfully!");
         setStep(3);
       }
-
     } catch (error) {
-      console.error('Verify OTP error:', error);
+      console.error("Verify OTP error:", error);
 
       const message = error.response?.data?.message;
 
       if (message === "Invalid OTP") {
-        setStep2Error('❌ Incorrect OTP. Please try again.');
+        setStep2Error("❌ Incorrect OTP. Please try again.");
       } else if (message === "OTP has expired. Please request a new OTP.") {
-        setStep2Error('⏰ OTP expired. Please request new OTP.');
+        setStep2Error("⏰ OTP expired. Please request new OTP.");
       } else {
         setStep2Error(message || "Verification failed");
       }
@@ -284,44 +283,44 @@ const handleResendOTP = async () => {
 
   const handleResetPassword = async (e) => {
     e.preventDefault();
-    setStep3Error(''); // Clear previous error
-    
+    setStep3Error(""); // Clear previous error
+
     if (!validatePassword()) return;
 
     setLoading(true);
-    
+
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/forgot-password/reset', {
+      const response = await axios.post("/api/auth/forgot-password/reset", {
         email,
         newPassword: formData.newPassword,
-        confirmPassword: formData.confirmPassword
+        confirmPassword: formData.confirmPassword,
       });
 
       if (response.data.success) {
-        toast.success('✅ Password changed successfully! Please login.', {
+        toast.success("✅ Password changed successfully! Please login.", {
           duration: 3000,
-          icon: '🔐'
+          icon: "🔐",
         });
-        
+
         // Clear any stored data
-        localStorage.removeItem('token');
-        localStorage.removeItem('admin');
-        
+        localStorage.removeItem("token");
+        localStorage.removeItem("admin");
+
         // Redirect to login page
         setTimeout(() => {
-          navigate('/admin-login');
+          navigate("/admin-login");
         }, 2000);
       }
     } catch (error) {
-      console.error('Reset password error:', error);
-      setStep3Error(error.response?.data?.message || 'Password reset failed');
+      console.error("Reset password error:", error);
+      setStep3Error(error.response?.data?.message || "Password reset failed");
     } finally {
       setLoading(false);
     }
   };
 
   const handleBackToLogin = () => {
-    navigate('/admin-login');
+    navigate("/admin-login");
   };
 
   return (
@@ -331,7 +330,7 @@ const handleResendOTP = async () => {
         <div className="auth-brand-section">
           <div className="brand-content">
             <div className="brand-logo">
-              <h1 style={{ color: 'white', fontSize: '48px' }}></h1>
+              <h1 style={{ color: "white", fontSize: "48px" }}></h1>
             </div>
             <h1 className="brand-title">VR & SONS</h1>
             <div className="brand-divider"></div>
@@ -354,7 +353,7 @@ const handleResendOTP = async () => {
 
         {/* Right Side - Form */}
         <div className="auth-form-section">
-          <motion.div 
+          <motion.div
             className="auth-form-card"
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
@@ -366,30 +365,30 @@ const handleResendOTP = async () => {
 
             <div className="auth-form-header">
               <h2>
-                {step === 1 && 'Forgot Password'}
-                {step === 2 && 'Verify OTP'}
-                {step === 3 && 'Reset Password'}
+                {step === 1 && "Forgot Password"}
+                {step === 2 && "Verify OTP"}
+                {step === 3 && "Reset Password"}
               </h2>
               <p>
-                {step === 1 && 'Enter your email and admin secret key'}
+                {step === 1 && "Enter your email and admin secret key"}
                 {step === 2 && `Enter the 6-digit OTP sent to ${email}`}
-                {step === 3 && 'Create a new password for your account'}
+                {step === 3 && "Create a new password for your account"}
               </p>
             </div>
 
             {/* Step Indicator */}
             <div className="step-indicator">
-              <div className={`step ${step >= 1 ? 'active' : ''}`}>
+              <div className={`step ${step >= 1 ? "active" : ""}`}>
                 <div className="step-number">1</div>
                 <span>Verify</span>
               </div>
-              <div className={`step-line ${step >= 2 ? 'active' : ''}`}></div>
-              <div className={`step ${step >= 2 ? 'active' : ''}`}>
+              <div className={`step-line ${step >= 2 ? "active" : ""}`}></div>
+              <div className={`step ${step >= 2 ? "active" : ""}`}>
                 <div className="step-number">2</div>
                 <span>OTP</span>
               </div>
-              <div className={`step-line ${step >= 3 ? 'active' : ''}`}></div>
-              <div className={`step ${step >= 3 ? 'active' : ''}`}>
+              <div className={`step-line ${step >= 3 ? "active" : ""}`}></div>
+              <div className={`step ${step >= 3 ? "active" : ""}`}>
                 <div className="step-number">3</div>
                 <span>Reset</span>
               </div>
@@ -416,11 +415,13 @@ const handleResendOTP = async () => {
                       value={email}
                       onChange={(e) => {
                         setEmail(e.target.value);
-                        setStep1Error('');
+                        setStep1Error("");
                       }}
-                      className={errors.email ? 'error' : ''}
+                      className={errors.email ? "error" : ""}
                     />
-                    {errors.email && <span className="error-message">{errors.email}</span>}
+                    {errors.email && (
+                      <span className="error-message">{errors.email}</span>
+                    )}
                   </div>
 
                   <div className="form-group">
@@ -430,14 +431,14 @@ const handleResendOTP = async () => {
                     </label>
                     <div className="password-input-wrapper">
                       <input
-                        type={showSecretKey ? 'text' : 'password'}
+                        type={showSecretKey ? "text" : "password"}
                         placeholder="Enter admin secret key"
                         value={secretKey}
                         onChange={(e) => {
                           setSecretKey(e.target.value);
-                          setStep1Error('');
+                          setStep1Error("");
                         }}
-                        className={errors.secretKey ? 'error' : ''}
+                        className={errors.secretKey ? "error" : ""}
                       />
                       <button
                         type="button"
@@ -447,26 +448,28 @@ const handleResendOTP = async () => {
                         {showSecretKey ? <FiEyeOff /> : <FiEye />}
                       </button>
                     </div>
-                    {errors.secretKey && <span className="error-message">{errors.secretKey}</span>}
+                    {errors.secretKey && (
+                      <span className="error-message">{errors.secretKey}</span>
+                    )}
                     <span className="field-hint">Use: Admin@1234</span>
                   </div>
 
                   {/* Step 1 Error Display */}
                   {step1Error && (
-                    <motion.div 
+                    <motion.div
                       className="error-box"
                       initial={{ opacity: 0, y: -10 }}
                       animate={{ opacity: 1, y: 0 }}
                       style={{
-                        backgroundColor: '#ffebee',
-                        color: '#c62828',
-                        padding: '12px',
-                        borderRadius: '8px',
-                        fontSize: '14px',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '8px',
-                        border: '1px solid #ef9a9a'
+                        backgroundColor: "#ffebee",
+                        color: "#c62828",
+                        padding: "12px",
+                        borderRadius: "8px",
+                        fontSize: "14px",
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "8px",
+                        border: "1px solid #ef9a9a",
                       }}
                     >
                       <FiAlertCircle size={18} />
@@ -479,7 +482,7 @@ const handleResendOTP = async () => {
                     className="auth-button login-button"
                     disabled={loading}
                   >
-                    {loading ? <div className="loader"></div> : 'Send OTP'}
+                    {loading ? <div className="loader"></div> : "Send OTP"}
                   </button>
                 </motion.form>
               )}
@@ -504,28 +507,28 @@ const handleResendOTP = async () => {
                         onChange={(e) => handleOtpChange(index, e.target.value)}
                         onKeyDown={(e) => handleOtpKeyDown(index, e)}
                         className="otp-input"
-                        style={step2Error ? { borderColor: '#c62828' } : {}}
+                        style={step2Error ? { borderColor: "#c62828" } : {}}
                       />
                     ))}
                   </div>
 
                   {/* Step 2 Error Display */}
                   {step2Error && (
-                    <motion.div 
+                    <motion.div
                       className="error-box"
                       initial={{ opacity: 0, y: -10 }}
                       animate={{ opacity: 1, y: 0 }}
                       style={{
-                        backgroundColor: '#ffebee',
-                        color: '#c62828',
-                        padding: '12px',
-                        borderRadius: '8px',
-                        fontSize: '14px',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '8px',
-                        border: '1px solid #ef9a9a',
-                        marginBottom: '15px'
+                        backgroundColor: "#ffebee",
+                        color: "#c62828",
+                        padding: "12px",
+                        borderRadius: "8px",
+                        fontSize: "14px",
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "8px",
+                        border: "1px solid #ef9a9a",
+                        marginBottom: "15px",
                       }}
                     >
                       <FiAlertCircle size={18} />
@@ -535,7 +538,9 @@ const handleResendOTP = async () => {
 
                   <div className="timer-container">
                     {timer > 0 ? (
-                      <p className="timer-text">Resend OTP in {timer} seconds</p>
+                      <p className="timer-text">
+                        Resend OTP in {timer} seconds
+                      </p>
                     ) : (
                       <button
                         type="button"
@@ -553,7 +558,7 @@ const handleResendOTP = async () => {
                     className="auth-button login-button"
                     disabled={loading}
                   >
-                    {loading ? <div className="loader"></div> : 'Verify OTP'}
+                    {loading ? <div className="loader"></div> : "Verify OTP"}
                   </button>
                 </motion.form>
               )}
@@ -574,12 +579,12 @@ const handleResendOTP = async () => {
                     </label>
                     <div className="password-input-wrapper">
                       <input
-                        type={showPassword ? 'text' : 'password'}
+                        type={showPassword ? "text" : "password"}
                         name="newPassword"
                         placeholder="••••••••"
                         value={formData.newPassword}
                         onChange={handleChange}
-                        className={errors.newPassword ? 'error' : ''}
+                        className={errors.newPassword ? "error" : ""}
                       />
                       <button
                         type="button"
@@ -589,7 +594,11 @@ const handleResendOTP = async () => {
                         {showPassword ? <FiEyeOff /> : <FiEye />}
                       </button>
                     </div>
-                    {errors.newPassword && <span className="error-message">{errors.newPassword}</span>}
+                    {errors.newPassword && (
+                      <span className="error-message">
+                        {errors.newPassword}
+                      </span>
+                    )}
                   </div>
 
                   <div className="form-group">
@@ -599,40 +608,46 @@ const handleResendOTP = async () => {
                     </label>
                     <div className="password-input-wrapper">
                       <input
-                        type={showConfirmPassword ? 'text' : 'password'}
+                        type={showConfirmPassword ? "text" : "password"}
                         name="confirmPassword"
                         placeholder="••••••••"
                         value={formData.confirmPassword}
                         onChange={handleChange}
-                        className={errors.confirmPassword ? 'error' : ''}
+                        className={errors.confirmPassword ? "error" : ""}
                       />
                       <button
                         type="button"
                         className="password-toggle"
-                        onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                        onClick={() =>
+                          setShowConfirmPassword(!showConfirmPassword)
+                        }
                       >
                         {showConfirmPassword ? <FiEyeOff /> : <FiEye />}
                       </button>
                     </div>
-                    {errors.confirmPassword && <span className="error-message">{errors.confirmPassword}</span>}
+                    {errors.confirmPassword && (
+                      <span className="error-message">
+                        {errors.confirmPassword}
+                      </span>
+                    )}
                   </div>
 
                   {/* Step 3 Error Display */}
                   {step3Error && (
-                    <motion.div 
+                    <motion.div
                       className="error-box"
                       initial={{ opacity: 0, y: -10 }}
                       animate={{ opacity: 1, y: 0 }}
                       style={{
-                        backgroundColor: '#ffebee',
-                        color: '#c62828',
-                        padding: '12px',
-                        borderRadius: '8px',
-                        fontSize: '14px',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '8px',
-                        border: '1px solid #ef9a9a'
+                        backgroundColor: "#ffebee",
+                        color: "#c62828",
+                        padding: "12px",
+                        borderRadius: "8px",
+                        fontSize: "14px",
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "8px",
+                        border: "1px solid #ef9a9a",
                       }}
                     >
                       <FiAlertCircle size={18} />
@@ -645,7 +660,11 @@ const handleResendOTP = async () => {
                     className="auth-button login-button"
                     disabled={loading}
                   >
-                    {loading ? <div className="loader"></div> : 'Reset Password'}
+                    {loading ? (
+                      <div className="loader"></div>
+                    ) : (
+                      "Reset Password"
+                    )}
                   </button>
                 </motion.form>
               )}

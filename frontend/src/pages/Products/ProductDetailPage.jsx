@@ -206,15 +206,13 @@ const ProductDetailPage = () => {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const res = await fetch(`http://localhost:5000/api/products/${id}`);
+        const res = await fetch(`/api/products/${id}`);
         const data = await res.json();
 
         setProduct(data);
 
         // Fetch related products
-        const allRes = await fetch(
-          "http://localhost:5000/api/products/all-products",
-        );
+        const allRes = await fetch("/api/products/all-products");
         const allProducts = await allRes.json();
 
         const related = allProducts
@@ -287,7 +285,7 @@ const ProductDetailPage = () => {
     setFormSubmitting(true);
 
     try {
-      const res = await fetch("http://localhost:5000/api/inquiry", {
+      const res = await fetch("/api/inquiry", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

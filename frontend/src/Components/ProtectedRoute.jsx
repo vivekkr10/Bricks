@@ -15,7 +15,7 @@ const ProtectedRoute = ({ children }) => {
       }
 
       try {
-        const res = await axios.get("http://localhost:5000/api/auth/me", {
+        const res = await axios.get("/api/auth/me", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -33,7 +33,6 @@ const ProtectedRoute = ({ children }) => {
           localStorage.removeItem("token");
           setAuthState("unauthorized");
         }
-
       } catch (err) {
         console.error("Auth check failed:", err.response?.data || err.message);
         setAuthState("unauthorized");
@@ -45,7 +44,14 @@ const ProtectedRoute = ({ children }) => {
 
   if (authState === "loading") {
     return (
-      <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
         <p>Verifying access...</p>
       </div>
     );

@@ -24,13 +24,49 @@ const BrickWall = ({ opacity = 0.06, color = "#8B4513" }) => {
 
   return (
     <svg
-      style={{ position: "absolute", inset: 0, width: "100%", height: "100%", pointerEvents: "none" }}
+      style={{
+        position: "absolute",
+        inset: 0,
+        width: "100%",
+        height: "100%",
+        pointerEvents: "none",
+      }}
     >
       <defs>
         <pattern id={id} width="88" height="44" patternUnits="userSpaceOnUse">
-          <rect x="2" y="2" width="84" height="20" fill="none" stroke={color} strokeWidth="1" rx="2" opacity={opacity * 15} />
-          <rect x="46" y="24" width="42" height="18" fill="none" stroke={color} strokeWidth="1" rx="2" opacity={opacity * 15} />
-          <rect x="2" y="24" width="42" height="18" fill="none" stroke={color} strokeWidth="1" rx="2" opacity={opacity * 15} />
+          <rect
+            x="2"
+            y="2"
+            width="84"
+            height="20"
+            fill="none"
+            stroke={color}
+            strokeWidth="1"
+            rx="2"
+            opacity={opacity * 15}
+          />
+          <rect
+            x="46"
+            y="24"
+            width="42"
+            height="18"
+            fill="none"
+            stroke={color}
+            strokeWidth="1"
+            rx="2"
+            opacity={opacity * 15}
+          />
+          <rect
+            x="2"
+            y="24"
+            width="42"
+            height="18"
+            fill="none"
+            stroke={color}
+            strokeWidth="1"
+            rx="2"
+            opacity={opacity * 15}
+          />
         </pattern>
       </defs>
       <rect width="100%" height="100%" fill={`url(#${id})`} opacity={opacity} />
@@ -91,60 +127,58 @@ export default function ContactSection() {
   ];
 
   const [openIndex, setOpenIndex] = React.useState(null);
-const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-
- const [formData, setFormData] = useState({ 
-    productName: '',
-    fullName: '',
-    mobile: '',
-    email: '',
-    quantity: '',
-    location: '',
-    message: ''
+  const [formData, setFormData] = useState({
+    productName: "",
+    fullName: "",
+    mobile: "",
+    email: "",
+    quantity: "",
+    location: "",
+    message: "",
   });
 
-const navigate = useNavigate();
+  const navigate = useNavigate();
 
-
- const handleChange = (e) => {
+  const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-const handleSubmit = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     setLoading(true);
     try {
-      const BACKEND_URL = "http://localhost:5000/api/inquiry/";
-      
+      const BACKEND_URL = "/api/inquiry/";
+
       const response = await fetch(BACKEND_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        name: formData.fullName,
-        email: formData.email,
-        phone: formData.mobile,
-        message: formData.message,
-        productName: formData.productName,
-        requiredQty: formData.quantity,
-        deliveryLoc: formData.location
-      })
-    });
-    const result = await response.json();
-     
-     if (result.success) {
-      navigate("/thankyou");
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: formData.fullName,
+          email: formData.email,
+          phone: formData.mobile,
+          message: formData.message,
+          productName: formData.productName,
+          requiredQty: formData.quantity,
+          deliveryLoc: formData.location,
+        }),
+      });
+      const result = await response.json();
+
+      if (result.success) {
+        navigate("/thankyou");
       } else {
-      throw new Error(result.error);
-    }
+        throw new Error(result.error);
+      }
     } catch (error) {
       alert("Submission failed. Please try again.");
     } finally {
       setLoading(false);
     }
   };
-//////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////
 
   return (
     <div className="bg-stone-50 min-h-screen flex flex-col">
@@ -160,7 +194,7 @@ const handleSubmit = async (e) => {
           />
           <div className="absolute inset-0 bg-stone-900/60" />
 
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
@@ -168,7 +202,8 @@ const handleSubmit = async (e) => {
           >
             <ShieldCheck className="mx-auto mb-4 text-red-600" />
             <h1 className="text-5xl md:text-7xl font-serif mb-6">
-              Let’s Build Something <span className="italic text-stone-200">Timeless</span>
+              Let’s Build Something{" "}
+              <span className="italic text-stone-200">Timeless</span>
             </h1>
             <p className="text-stone-300 mb-8">
               Reach out to Gujarat’s trusted architectural clay experts.
@@ -192,14 +227,17 @@ const handleSubmit = async (e) => {
             {/* TRUST STATS */}
             <div className="py-24 px-6">
               <div className="max-w-6xl mx-auto">
-                <motion.div 
+                <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   className="text-center mb-16"
                 >
                   <h2 className="text-4xl font-serif text-stone-900">
-                    Built on <span className="italic text-red-700">Trust & Craftsmanship</span>
+                    Built on{" "}
+                    <span className="italic text-red-700">
+                      Trust & Craftsmanship
+                    </span>
                   </h2>
                   <div className="w-20 h-[2px] bg-red-700 mx-auto mt-6"></div>
                 </motion.div>
@@ -207,9 +245,21 @@ const handleSubmit = async (e) => {
                 <div className="grid md:grid-cols-4 gap-8">
                   {[
                     { icon: Award, number: "40+", label: "Years Experience" },
-                    { icon: Truck, number: "All India", label: "Supply Network" },
-                    { icon: ClipboardCheck, number: "312+", label: "Projects Delivered" },
-                    { icon: ShieldCheck, number: "100%", label: "Quality Assured" },
+                    {
+                      icon: Truck,
+                      number: "All India",
+                      label: "Supply Network",
+                    },
+                    {
+                      icon: ClipboardCheck,
+                      number: "312+",
+                      label: "Projects Delivered",
+                    },
+                    {
+                      icon: ShieldCheck,
+                      number: "100%",
+                      label: "Quality Assured",
+                    },
                   ].map((item, i) => (
                     <motion.div
                       key={i}
@@ -222,8 +272,12 @@ const handleSubmit = async (e) => {
                       <div className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-stone-100 flex items-center justify-center group-hover:bg-red-700 transition">
                         <item.icon className="w-7 h-7 text-red-700 group-hover:text-white transition" />
                       </div>
-                      <h3 className="text-3xl font-sans text-stone-900 mb-2">{item.number}</h3>
-                      <p className="text-stone-500 text-sm tracking-wide uppercase">{item.label}</p>
+                      <h3 className="text-3xl font-sans text-stone-900 mb-2">
+                        {item.number}
+                      </h3>
+                      <p className="text-stone-500 text-sm tracking-wide uppercase">
+                        {item.label}
+                      </p>
                     </motion.div>
                   ))}
                 </div>
@@ -233,7 +287,7 @@ const handleSubmit = async (e) => {
             {/* CONTACT SECTION */}
             <div className="py-24 px-6 bg-[#f1ede7]">
               <div className="max-w-6xl mx-auto">
-                <motion.div 
+                <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
@@ -244,8 +298,8 @@ const handleSubmit = async (e) => {
                   </h2>
                   <div className="w-20 h-[2px] bg-red-700 mx-auto mt-6"></div>
                   <p className="mt-6 text-stone-600 max-w-2xl mx-auto text-sm md:text-base">
-                    Connect with our architectural clay specialists for project discussions,
-                    technical support, or site visits.
+                    Connect with our architectural clay specialists for project
+                    discussions, technical support, or site visits.
                   </p>
                 </motion.div>
 
@@ -268,9 +322,15 @@ const handleSubmit = async (e) => {
                         <div className="w-14 h-14 md:w-16 md:h-16 mx-auto mb-6 rounded-2xl bg-stone-100 flex items-center justify-center group-hover:bg-red-700 transition">
                           <Icon className="w-6 h-6 md:w-7 md:h-7 text-red-700 group-hover:text-white transition" />
                         </div>
-                        <h3 className="text-xs uppercase tracking-widest text-stone-400 mb-3">{item.title}</h3>
-                        <p className="text-lg md:text-xl font-sans text-stone-900 break-words leading-snug">{item.detail}</p>
-                        <p className="text-sm text-stone-500 mt-2 break-all">{item.subDetail}</p>
+                        <h3 className="text-xs uppercase tracking-widest text-stone-400 mb-3">
+                          {item.title}
+                        </h3>
+                        <p className="text-lg md:text-xl font-sans text-stone-900 break-words leading-snug">
+                          {item.detail}
+                        </p>
+                        <p className="text-sm text-stone-500 mt-2 break-all">
+                          {item.subDetail}
+                        </p>
                       </motion.a>
                     );
                   })}
@@ -281,7 +341,7 @@ const handleSubmit = async (e) => {
             {/* MAP + FORM SECTION */}
             <div className="py-10 pt-20 px-6">
               <div className="max-w-6xl mx-auto">
-                <motion.h2 
+                <motion.h2
                   initial={{ opacity: 0 }}
                   whileInView={{ opacity: 1 }}
                   viewport={{ once: true }}
@@ -292,14 +352,16 @@ const handleSubmit = async (e) => {
 
                 <div className="grid md:grid-cols-2 gap-12 items-start">
                   {/* LEFT SIDE — MAP */}
-                  <motion.div 
+                  <motion.div
                     initial={{ opacity: 0, x: -30 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.6 }}
                     className="space-y-6"
                   >
-                    <h3 className="text-xl font-serif text-stone-800">Our Manufacturing Hub</h3>
+                    <h3 className="text-xl font-serif text-stone-800">
+                      Our Manufacturing Hub
+                    </h3>
                     <div className="rounded-2xl overflow-hidden shadow-lg border border-stone-200 h-[280px] md:h-[320px]">
                       <iframe
                         title="VR & Sons Location - Kamrej, Gujarat"
@@ -313,114 +375,130 @@ const handleSubmit = async (e) => {
                   </motion.div>
 
                   {/* RIGHT SIDE — FORM */}
-                  <motion.div 
+                  <motion.div
                     initial={{ opacity: 0, x: 30 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.6 }}
                     className="bg-white p-10 rounded-3xl shadow-xl border border-stone-100"
                   >
-                    <h3 className="text-2xl font-serif mb-8 text-stone-900">Quick Inquiry</h3>
-     <form onSubmit={handleSubmit} className="space-y-6">
-  <div className="grid md:grid-cols-2 gap-6">
-    <input
-      name="fullName"
-      className="border border-stone-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
-      placeholder="Your Name"
-      onChange={handleChange}
-      required
-    />
+                    <h3 className="text-2xl font-serif mb-8 text-stone-900">
+                      Quick Inquiry
+                    </h3>
+                    <form onSubmit={handleSubmit} className="space-y-6">
+                      <div className="grid md:grid-cols-2 gap-6">
+                        <input
+                          name="fullName"
+                          className="border border-stone-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
+                          placeholder="Your Name"
+                          onChange={handleChange}
+                          required
+                        />
 
-    <input
-      type="email"
-      name="email"
-      className="border border-stone-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
-      placeholder="Email Address"
-       onChange={handleChange}
-      required
-    />
-  </div>
+                        <input
+                          type="email"
+                          name="email"
+                          className="border border-stone-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
+                          placeholder="Email Address"
+                          onChange={handleChange}
+                          required
+                        />
+                      </div>
 
-  <div className="grid md:grid-cols-2 gap-6">
-    <input
-      name="mobile"
-      className="border border-stone-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
-      placeholder="Phone Number"
-       onChange={handleChange}
-      required
-    />
+                      <div className="grid md:grid-cols-2 gap-6">
+                        <input
+                          name="mobile"
+                          className="border border-stone-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
+                          placeholder="Phone Number"
+                          onChange={handleChange}
+                          required
+                        />
 
-    <input
-      name="location"
-      className="border border-stone-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
-      placeholder="Project Location"
-       onChange={handleChange}
-      required
-    />
-  </div>
+                        <input
+                          name="location"
+                          className="border border-stone-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
+                          placeholder="Project Location"
+                          onChange={handleChange}
+                          required
+                        />
+                      </div>
 
-  <div className="grid md:grid-cols-2 gap-6">
-     <input
-      type="text"
-      name="productName"
-      className="border border-stone-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
-      placeholder="Product Name"
-       onChange={handleChange}
-      required
-    />
+                      <div className="grid md:grid-cols-2 gap-6">
+                        <input
+                          type="text"
+                          name="productName"
+                          className="border border-stone-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
+                          placeholder="Product Name"
+                          onChange={handleChange}
+                          required
+                        />
 
-    <input
-      type="number"
-      name="quantity"
-      className="border border-stone-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
-      placeholder="Quantity (in units)"
-       onChange={handleChange}
-      required
-    />
-  </div>
+                        <input
+                          type="number"
+                          name="quantity"
+                          className="border border-stone-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
+                          placeholder="Quantity (in units)"
+                          onChange={handleChange}
+                          required
+                        />
+                      </div>
 
-  <textarea
-    name="message"
-    rows="3"
-    className="border border-stone-300 p-3 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-red-600"
-    placeholder="Additional Requirements"
-     onChange={handleChange}
-  />
+                      <textarea
+                        name="message"
+                        rows="3"
+                        className="border border-stone-300 p-3 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-red-600"
+                        placeholder="Additional Requirements"
+                        onChange={handleChange}
+                      />
 
- 
-
-  <button
-    type="submit"
-    className="w-full cursor-pointer bg-red-700 text-white py-3 rounded-xl uppercase tracking-widest text-sm hover:bg-red-800 hover:shadow-lg transition-all duration-300"
-  >
-    Submit Inquiry
-  </button>
-</form>
+                      <button
+                        type="submit"
+                        className="w-full cursor-pointer bg-red-700 text-white py-3 rounded-xl uppercase tracking-widest text-sm hover:bg-red-800 hover:shadow-lg transition-all duration-300"
+                      >
+                        Submit Inquiry
+                      </button>
+                    </form>
                   </motion.div>
                 </div>
               </div>
             </div>
 
             {/* FAQ */}
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               className="py-20 px-6 relative z-10"
             >
               <div className="max-w-4xl mx-auto bg-white/90 border-stone-100 backdrop-blur-sm p-12 rounded-3xl shadow-xl">
-                <h2 className="text-3xl font-serif mb-8 text-center">Frequently Asked Questions</h2>
+                <h2 className="text-3xl font-serif mb-8 text-center">
+                  Frequently Asked Questions
+                </h2>
                 {[
-                  { question: "Do you supply outside Gujarat?", answer: "Yes, we supply across India with site-direct logistics support." },
-                  { question: "What is the minimum order quantity?", answer: "Minimum order depends on brick type. Contact our team for details." },
-                  { question: "Do you provide samples?", answer: "Yes, sample bricks can be dispatched upon request." },
+                  {
+                    question: "Do you supply outside Gujarat?",
+                    answer:
+                      "Yes, we supply across India with site-direct logistics support.",
+                  },
+                  {
+                    question: "What is the minimum order quantity?",
+                    answer:
+                      "Minimum order depends on brick type. Contact our team for details.",
+                  },
+                  {
+                    question: "Do you provide samples?",
+                    answer:
+                      "Yes, sample bricks can be dispatched upon request.",
+                  },
                 ].map((faq, index) => (
                   <FAQItem
                     key={index}
                     question={faq.question}
                     answer={faq.answer}
                     isOpen={openIndex === index}
-                    onClick={() => setOpenIndex(openIndex === index ? null : index)}
+                    onClick={() =>
+                      setOpenIndex(openIndex === index ? null : index)
+                    }
                   />
                 ))}
               </div>

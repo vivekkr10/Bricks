@@ -93,9 +93,7 @@ const ProductsPage = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await fetch(
-          "http://localhost:5000/api/products/all-products",
-        );
+        const res = await fetch("/api/products/all-products");
         const data = await res.json();
 
         const activeProducts = data.filter((p) => p.status === "Active");
