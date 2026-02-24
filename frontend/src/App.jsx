@@ -8,9 +8,9 @@ import Terms from "./pages/terms.jsx";
 import Privacy from "./pages/privacy.jsx";
 import Home from "./Home/home.jsx";
 import Dashboard from "./pages/AdminDashboard/DashboardMain.jsx";
-import ProductForm from "./pages/AdminDashboard/ProductForm.jsx"
-import Profile from "./pages/AdminDashboard/profile.jsx"
-import BlogDetail from "./pages/blog/blogDetail.jsx"
+import ProductForm from "./pages/AdminDashboard/ProductForm.jsx";
+import Profile from "./pages/AdminDashboard/profile.jsx";
+import BlogDetail from "./pages/blog/blogDetail.jsx";
 import ProtectedRoute from "./Components/ProtectedRoute.jsx";
 
 // 3. The Temporary Fix
@@ -28,7 +28,7 @@ import ForgotPasswordOTP from "./pages/auth/ForgotPasswordOTP";
 import InquiryPage from "./Inquiry/InquiryForm.jsx";
 import ThankYouPage from "./Inquiry/ThankYou.jsx";
 
-
+import Layout from "./Layout";
 
 function App() {
   return (
@@ -39,9 +39,30 @@ function App() {
         <Route path="/" element={<Home />} />
 
         {/* Admin Auth Routes */}
-        <Route path="/dashboard" element={<ProtectedRoute><Dashboard/></ProtectedRoute>} /> 
-         <Route path="/profile" element={<ProtectedRoute><Profile/></ProtectedRoute>} /> 
-        <Route path="/ProductForm" element={<ProtectedRoute><ProductForm/></ProtectedRoute>} />
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <Profile />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/ProductForm"
+          element={
+            <ProtectedRoute>
+              <ProductForm />
+            </ProtectedRoute>
+          }
+        />
         <Route path="/admin-login" element={<AdminLogin />} />
         <Route path="/admin-register" element={<AdminRegister />} />
         <Route path="/forgot-password" element={<ForgotPasswordOTP />} />
@@ -52,7 +73,14 @@ function App() {
         <Route path="/products" element={<ProductsPage />} />
         <Route path="/products/:id" element={<ProductDetails />} />
         <Route path="/blog" element={<FeaturedArticle />} />
-        <Route path="/blog/:id" element={<BlogDetail />} />
+        <Route
+          path="/blog/:id"
+          element={
+            <Layout>
+              <BlogDetail />
+            </Layout>
+          }
+        />
         <Route path="/contact" element={<Contact />} />
         {/* <Route path="/inquiry" element={<Inquiry />} /> */}
         <Route path="/terms" element={<Terms />} />
@@ -62,9 +90,8 @@ function App() {
         <Route path="/projects/:id" element={<ProjectDetailsPage />} />
         <Route path="/contact" element={<ContactSection />} />
 
-
-       <Route path="/inquiry" element={<InquiryPage />} />
-      <Route path="/thankyou" element={<ThankYouPage />} />
+        <Route path="/inquiry" element={<InquiryPage />} />
+        <Route path="/thankyou" element={<ThankYouPage />} />
         {/* 404 Fallback - Keep this at the end */}
         <Route path="*" element={<ComingSoon />} />
       </Routes>
