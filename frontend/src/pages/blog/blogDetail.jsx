@@ -19,7 +19,7 @@ import {
   Clock,
   Eye
 } from 'lucide-react';
-import Header from '../../Components/Header';
+import Header from '../../Components/Header.jsx';
 import Footer from '../../Components/Footer';
 import { blogPosts } from './blogData';
 
