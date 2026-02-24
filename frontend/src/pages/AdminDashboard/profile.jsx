@@ -203,7 +203,7 @@ const ProfileSettings = ({ onCancel }) => {
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white/70 backdrop-blur-md p-6 rounded-[1.5rem] top-16 z-40 border border-white shadow-sm">
           <div className="flex items-center gap-4">
             <button
-              className="w-10 h-10 rounded-full hover:bg-orange-600 border border-orange-600 text-orange-600 hover:text-white flex items-center justify-center hover:scale-110 transition-transform"
+              className="w-10 h-10 cursor-pointer rounded-full hover:bg-orange-600 border border-orange-600 text-orange-600 hover:text-white flex items-center justify-center hover:scale-110 transition-transform"
               onClick={handleBack}
             >
               <ArrowLeft size={18} />

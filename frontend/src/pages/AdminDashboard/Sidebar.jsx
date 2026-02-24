@@ -92,7 +92,7 @@ const Sidebar = ({ activePage, setActivePage, handleLogout, isCollapsed, setIsCo
         <div className="p-4 mt-auto border-t border-[#292524]">
           <button 
             onClick={handleLogout}
-            className={`flex items-center gap-4 w-full p-3 rounded-xl transition-all duration-300 group hover:bg-red-500/10 ${isCollapsed ? 'justify-center' : ''}`}
+            className={`flex items-center cursor-pointer gap-4 w-full p-3 rounded-xl transition-all duration-300 group hover:bg-red-500/10 ${isCollapsed ? 'justify-center' : ''}`}
           >
             <div className="p-2 group-hover:bg-[#EA580C] rounded-lg  text-white group-hover:text-white transition-colors duration-300 shrink-0">
               <LogOut size={20} />

@@ -1,6 +1,5 @@
 const { google } = require("googleapis");
 
-
 const auth = new google.auth.GoogleAuth({
   credentials: {
     client_email: process.env.GOOGLE_SERVICE_EMAIL,

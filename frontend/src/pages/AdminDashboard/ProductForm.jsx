@@ -116,7 +116,7 @@ const ProductForm = ({ editId, onCancel }) => {
             className="flex items-center gap-2 text-[#EA580C] transition-all font-bold text-sm group"
           >
             <div className="p-2 bg-white rounded-full border border-orange-200">
-                <ArrowLeft size={18} />
+                <ArrowLeft size={18} className="cursor-pointer" />
             </div>
             Back to Dashboard
           </button>
@@ -164,7 +164,7 @@ const ProductForm = ({ editId, onCancel }) => {
                       </div>
                     </div>
                 </div>
-                <button type="submit" className="w-full text-white py-3 rounded-[1rem] font-black bg-[#EA580C] transition-all shadow-xl shadow-orange-900/10 flex items-center justify-center gap-3 group hover:scale-105">
+                <button type="submit" className="w-full text-white py-3 rounded-[1rem] font-black bg-[#c10007] transition-all shadow-xl shadow-red-700/10 flex items-center justify-center gap-3 group hover:scale-105">
                     <Save size={20} className="group-hover:rotate-12 transition-transform" />
                     {isEditMode ? "UPDATE PRODUCT" : "ADD PRODUCT"}
                 </button>
