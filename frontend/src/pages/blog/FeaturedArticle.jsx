@@ -74,29 +74,15 @@ const BrickWall = ({ opacity = 0.1, color = "#8B4513" }) => (
 );
 
 /* ================= BUTTON COMPONENTS ================= */
-const PrimaryButton = ({ children, onClick, className = "" }) => (
-  <motion.button
-    whileHover={{ scale: 1.05 }}
-    whileTap={{ scale: 0.95 }}
-    onClick={onClick}
-    className={`relative overflow-hidden group bg-gradient-to-r from-red-600 via-red-600 to-orange-600 
-    hover:from-red-700 hover:to-orange-700 text-white font-semibold tracking-wide 
-    px-6 py-3 md:px-8 md:py-4 rounded-xl md:rounded-2xl shadow-xl transition-all duration-300 ${className}`}
-  >
-    <span className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/30 to-white/0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></span>
-    <span className="relative flex items-center justify-center gap-2 text-sm md:text-base">
-      {children}
-    </span>
-  </motion.button>
-);
+
 
 const SecondaryButton = ({ children, onClick, className = "" }) => (
   <motion.button
     whileHover={{ scale: 1.05 }}
     whileTap={{ scale: 0.95 }}
     onClick={onClick}
-    className={`relative group text-red-600 hover:text-red-700 px-4 py-2 md:px-6 md:py-3 rounded-lg md:rounded-xl 
-      font-medium transition-all duration-300 inline-flex items-center gap-2 border-2 border-red-200 hover:border-red-600 text-sm md:text-base ${className}`}
+    className={`relative group text-red-700 hover:text-red-700 px-6 py-3 md:px-6 md:py-3 rounded-xl md:rounded-xl 
+      font-medium transition-all duration-300 inline-flex items-center gap-2 border-2 border-red-200 hover:border-red-700 text-sm md:text-base ${className}`}
   >
     {children}
   </motion.button>
@@ -144,7 +130,7 @@ const CategoryDropdown = ({ categories, selectedCategory, onSelect }) => {
                 }}
                 className={`w-full text-left px-4 py-3 text-sm transition-colors hover:bg-red-50 ${
                   selectedCategory === category 
-                    ? 'bg-red-50 text-red-600 font-medium' 
+                    ? 'bg-red-50 text-red-700 font-medium' 
                     : 'text-gray-700'
                 }`}
               >
@@ -252,7 +238,7 @@ sm:from-black/70 sm:via-black/40
                 className="max-w-xl md:max-w-2xl"
               >
                 <div className="flex flex-wrap items-center gap-2 mb-3 md:mb-4">
-                  <span className="inline-flex items-center gap-1 md:gap-2 bg-red-600 text-white px-3 py-1 md:px-4 md:py-2 rounded-full text-xs md:text-sm font-medium shadow-lg">
+                  <span className="inline-flex items-center gap-1 md:gap-2 bg-red-700 text-white px-3 py-1 md:px-4 md:py-2 rounded-full text-xs md:text-sm font-medium shadow-lg">
                     <Sparkles size={12} className="md:w-4 md:h-4" /> Featured Story
                   </span>
                   <span className="bg-white/20 backdrop-blur-md text-white px-3 py-1 md:px-4 md:py-2 rounded-full text-xs md:text-sm border border-white/30">
@@ -260,7 +246,7 @@ sm:from-black/70 sm:via-black/40
                   </span>
                 </div>
 
-                <h2 className="text-xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-white mb-2 md:mb-4 leading-tight line-clamp-2 md:line-clamp-3">
+                <h2 className="text-xl md:text-3xl lg:text-4xl font-serif xl:text-5xl font-bold text-white mb-2 md:mb-4 leading-tight line-clamp-2 md:line-clamp-3">
                   {featuredPosts[currentIndex].title}
                 </h2>
 
@@ -287,7 +273,7 @@ sm:from-black/70 sm:via-black/40
 
                 <button
                   onClick={() => onPostClick(featuredPosts[currentIndex].id)}
-                  className="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 
+                  className="bg-gradient-to-r from-red-700 to-red-700 hover:from-red-700 hover:to-red-800 
                     text-white font-semibold tracking-wide px-4 py-2 md:px-8 md:py-4 rounded-xl md:rounded-2xl shadow-xl 
                     hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 inline-flex items-center gap-2 text-sm md:text-base"
                 >
@@ -376,12 +362,12 @@ const BlogCard = ({ post, index }) => {
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
 
-        <span className="absolute top-3 left-3 bg-red-600 text-white text-[10px] md:text-xs px-2 py-1 md:px-3 md:py-1.5 rounded-full font-medium shadow-lg z-10">
+        <span className="absolute top-3 left-3 bg-red-700 text-white text-[10px] md:text-xs px-2 py-1 md:px-3 md:py-1.5 rounded-full font-medium shadow-lg z-10">
           {post.category}
         </span>
 
         {post.trending && (
-          <span className="absolute top-3 right-3 bg-orange-500 text-white text-[10px] md:text-xs px-2 py-1 md:px-3 md:py-1.5 rounded-full font-medium shadow-lg flex items-center gap-1 z-10">
+          <span className="absolute top-3 right-3 bg-red-700 text-white text-[10px] md:text-xs px-2 py-1 md:px-3 md:py-1.5 rounded-full font-medium shadow-lg flex items-center gap-1 z-10">
             <Flame size={10} className="md:w-3 md:h-3" /> Trending
           </span>
         )}
@@ -397,7 +383,7 @@ const BlogCard = ({ post, index }) => {
           </span>
         </div>
 
-        <h3 className="text-sm md:text-lg font-semibold mb-1 md:mb-2 group-hover:text-red-600 transition-colors line-clamp-2">
+        <h3 className="text-sm md:text-lg font-serif font-semibold mb-1 md:mb-2 group-hover:text-red-700 transition-colors line-clamp-2">
           {post.title}
         </h3>
 
@@ -443,7 +429,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
       <button
         onClick={() => handlePageClick(currentPage - 1)}
         disabled={currentPage === 1}
-        className="p-1.5 md:p-2 rounded-lg bg-white border border-gray-200 text-gray-600 hover:bg-red-600 hover:text-white disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:text-gray-600 transition-all"
+        className="p-1.5 md:p-2 rounded-lg bg-white border border-gray-200 text-gray-600 hover:bg-red-700 hover:text-white disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:text-gray-600 transition-all"
       >
         <ChevronsLeft size={16} className="md:w-5 md:h-5" />
       </button>
@@ -455,10 +441,10 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
           disabled={page === '...'}
           className={`w-8 h-8 md:w-10 md:h-10 rounded-lg text-xs md:text-sm font-medium transition-all ${
             currentPage === page
-              ? 'bg-red-600 text-white shadow-lg shadow-red-600/30'
+              ? 'bg-red-700 text-white shadow-lg shadow-red-600/30'
               : page === '...'
               ? 'cursor-default bg-transparent text-gray-600'
-              : 'bg-white border border-gray-200 text-gray-600 hover:bg-red-600 hover:text-white'
+              : 'bg-white border border-gray-200 text-gray-600 hover:bg-red-700 hover:text-white'
           }`}
         >
           {page}
@@ -468,7 +454,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
       <button
         onClick={() => handlePageClick(currentPage + 1)}
         disabled={currentPage === totalPages}
-        className="p-1.5 md:p-2 rounded-lg bg-white border border-gray-200 text-gray-600 hover:bg-red-600 hover:text-white disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:text-gray-600 transition-all"
+        className="p-1.5 md:p-2 rounded-lg bg-white border border-gray-200 text-gray-600 hover:bg-red-700 hover:text-white disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:text-gray-600 transition-all"
       >
         <ChevronsRight size={16} className="md:w-5 md:h-5" />
       </button>
@@ -596,6 +582,8 @@ export default function Blog() {
           />
           
           <div className="absolute inset-0 bg-black/40 md:bg-black/30"></div>
+            <div className="absolute inset-0 bg-gradient-to-r from-stone-950/50 via-stone-950/40 via-20% to-transparent to-60%"></div>
+        <div className="absolute inset-0 opacity-[0.03] pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/stardust.png')]"></div>
 
           <div className="absolute inset-0 opacity-10 pointer-events-none"
             style={{
@@ -616,13 +604,13 @@ export default function Blog() {
                 transition={{ delay: 0.3, type: "spring" }}
                 className="inline-flex items-center gap-2 bg-white/90 backdrop-blur-md rounded-full px-4 py-2 md:px-6 md:py-3 shadow-lg mb-4 md:mb-8"
               >
-                <Sparkles className="w-4 h-4 md:w-5 md:h-5 text-red-600" />
-                <span className="text-gray-800 text-xs md:text-sm font-medium tracking-wide">VR & SONS KNOWLEDGE HUB</span>
+                <Sparkles className="w-4 h-4 md:w-5 md:h-5 text-red-700" />
+                <span className="text-gray-800 text-xs md:text-sm font-medium font-serif tracking-wide">VR & SONS KNOWLEDGE HUB</span>
               </motion.div>
 
-              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white mb-3 md:mb-6 drop-shadow-lg">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl font-serif lg:text-6xl xl:text-7xl font-bold text-white mb-3 md:mb-6 drop-shadow-lg">
                 Insights That Shape
-                <span className="block text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-orange-500 to-yellow-500 mt-1 md:mt-2">
+                <span className="block text-transparent bg-clip-text bg-gradient-to-r from-red-600 via-orange-500 to-yellow-500 mt-1 md:mt-2">
                   Modern Construction
                 </span>
               </h1>
@@ -633,14 +621,14 @@ export default function Blog() {
               </p>
 
               <div className="flex flex-col sm:flex-row items-center justify-center gap-3 md:gap-4 mt-4 md:mt-8">
-                <PrimaryButton
+                <button
                   onClick={() =>
                     window.scrollTo({ top: window.innerHeight, behavior: "smooth" })
                   }
-                  className="text-sm md:text-lg px-6 py-3 md:px-10 md:py-4 w-full sm:w-auto"
+                  className="inline-flex items-center cursor-pointer px-6 py-3 bg-red-700 text-white font-bold font-sans text-xs uppercase tracking-wide rounded-xl hover:bg-red-800 transition-all duration-300  hover:-translate-y-1"
                 >
-                  Explore Articles <ArrowRight size={16} className="md:w-5 md:h-5 ml-1 md:ml-2" />
-                </PrimaryButton>
+                  Explore Articles <ArrowRight size={16}  />
+                </button>
               </div>
             </motion.div>
           </div>
@@ -655,8 +643,8 @@ export default function Blog() {
   {/* Heading Container */}
   <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-6 md:mb-10">
     <div>
-      <div className="inline-flex items-center gap-2 bg-red-100 text-red-600 px-3 py-1 md:px-4 md:py-2 rounded-full mb-2 md:mb-3">
-        <Star className="w-3 h-3 md:w-4 md:h-4 fill-red-600" />
+      <div className="inline-flex items-center gap-2 bg-red-100 text-red-700 px-3 py-1 md:px-4 md:py-2 rounded-full mb-2 md:mb-3">
+        <Star className="w-3 h-3 md:w-4 md:h-4 fill-red-700" />
         <span className="text-xs md:text-sm font-medium">
           Editor's Choice
         </span>
@@ -664,7 +652,7 @@ export default function Blog() {
 
       <h2 className="text-xl md:text-3xl lg:text-4xl font-bold text-gray-800">
         Featured{" "}
-        <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-600 to-orange-600">
+        <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-700 to-red-600">
           Stories
         </span>
       </h2>
@@ -693,7 +681,7 @@ export default function Blog() {
           <div className="bg-white rounded-2xl md:rounded-3xl shadow-xl md:shadow-2xl p-4 md:p-8 lg:p-10 border border-gray-100">
             <div className="flex flex-col lg:flex-row gap-4 md:gap-8 items-start lg:items-center justify-between mb-4 md:mb-8">
               <div>
-                <h3 className="text-xl md:text-2xl lg:text-3xl font-bold text-gray-800 mb-1 md:mb-2">All Articles</h3>
+                <h3 className="text-xl md:text-2xl lg:text-3xl font-bold font-serif text-gray-800 mb-1 md:mb-2">All Articles</h3>
                 <p className="text-xs md:text-sm text-gray-500">Browse our complete collection of construction insights</p>
               </div>
 

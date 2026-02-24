@@ -53,20 +53,20 @@ const Sidebar = ({ activePage, setActivePage, handleLogout, isCollapsed, setIsCo
         {/* TOP SECTION */}
         <div className={`p-6 flex ${isCollapsed ? 'flex-col gap-4' : 'flex-row justify-between'} items-center overflow-hidden`}>
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-[#EA580C] rounded-xl flex items-center justify-center shadow-lg shadow-orange-900/20 shrink-0">
+            <div className="w-10 h-10 bg-red-700 rounded-xl flex items-center justify-center shadow-lg shadow-orange-900/20 shrink-0">
               <BrickWall size={24} className="text-white" />
             </div>
             
             {!isCollapsed && (
               <div className="whitespace-nowrap">
                 <h1 className="font-black text-lg tracking-tight leading-none text-[#F5F5F4]">VR & SONS</h1>
-                <p className="text-[12px] text-[#EA580C] font-bold tracking-[1.5px] uppercase mt-1">Bricks Industry</p>
+                <p className="text-[12px] text-red-600 font-bold tracking-[1.5px] uppercase mt-1">Bricks Industry</p>
               </div>
             )}
           </div>
         </div>
 
-        <div><div className="h-[1px] bg-[#EA580C]" /></div>
+        <div><div className="h-[1px] bg-red-700" /></div>
 
         {/* MIDDLE: Navigation */}
         <nav className="flex-1 mt-6 px-3 space-y-2 overflow-y-auto overflow-x-hidden">
@@ -86,7 +86,7 @@ const Sidebar = ({ activePage, setActivePage, handleLogout, isCollapsed, setIsCo
           />
         </nav>
 
-        <div><div className="h-[1.5px] bg-[#EA580C]" /></div>
+        <div><div className="h-[1.5px] bg-red-700" /></div>
 
         {/* BOTTOM: Logout Section */}
         <div className="p-4 mt-auto border-t border-[#292524]">
@@ -94,11 +94,11 @@ const Sidebar = ({ activePage, setActivePage, handleLogout, isCollapsed, setIsCo
             onClick={handleLogout}
             className={`flex items-center gap-4 w-full p-3 rounded-xl transition-all duration-300 group hover:bg-red-500/10 ${isCollapsed ? 'justify-center' : ''}`}
           >
-            <div className="p-2 group-hover:bg-[#EA580C] rounded-lg  text-white group-hover:text-white transition-colors duration-300 shrink-0">
+            <div className="p-2 group-hover:bg-red-700 rounded-lg  text-white group-hover:text-white transition-colors duration-300 shrink-0">
               <LogOut size={20} />
             </div>
             {!isCollapsed && (
-              <span className="font-bold text-sm group-hover:text-[#EA580C] uppercase tracking-widest text-white whitespace-nowrap">Logout</span>
+              <span className="font-bold text-sm group-hover:text-red-700 uppercase tracking-widest text-white whitespace-nowrap">Logout</span>
             )}
           </button>
         </div>

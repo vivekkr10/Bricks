@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import Navbar from "../../Components/header.jsx";
 import Footer from "../../Components/Footer.jsx";
+import { Link } from "react-router-dom";
 import {
   FaTrophy,
   FaCertificate,
@@ -188,42 +189,16 @@ const StatCard = ({ value, suffix, label, icon, inView, delay }) => {
   );
 };
 
-/* ── Value Card ── */
-// const ValueCard = ({ icon, title, desc, delay, inView }) => (
-//   <div
-//     className="bg-white border border-orange-100 rounded-2xl p-5 sm:p-6 group hover:-translate-y-2 hover:shadow-xl hover:border-orange-300 hover:shadow-orange-100/50 transition-all duration-500 cursor-default"
-//     style={{
-//       opacity: inView ? 1 : 0,
-//       transform: inView ? "translateY(0)" : "translateY(30px)",
-//       transition: `all 0.7s cubic-bezier(0.22,1,0.36,1) ${delay}`,
-//     }}
-//   >
-//     <div className="w-10 h-10 sm:w-12 sm:h-12 bg-orange-50 border border-orange-100 rounded-xl flex items-center justify-center text-orange-600 mb-4 group-hover:bg-orange-600 group-hover:text-white group-hover:border-orange-600 transition-all duration-300">
-//       {icon}
-//     </div>
-//     <h3 className="font-serif text-base sm:text-lg font-bold text-stone-900 mb-2 group-hover:text-orange-700 transition-colors">
-//       {title}
-//     </h3>
-//     <p className="text-stone-500 text-xs sm:text-sm leading-relaxed font-light">
-//       {desc}
-//     </p>
-//   </div>
-// );
-
 export default function AboutPage() {
-  const [activeTab, setActiveTab] = useState(0);
   const [hoveredCity, setHoveredCity] = useState(null);
-  const [hoveredBrick, setHoveredBrick] = useState(null);
 
   const [heroRef, heroInView] = useInView(0.05);
   const [statsRef, statsInView] = useInView(0.1);
   const [storyRef, storyInView] = useInView(0.1);
   const [missionRef, missionInView] = useInView(0.1);
-  const [valuesRef, valuesInView] = useInView(0.08);
-  const [productRef, productInView] = useInView(0.05);
-  const [histRef, histInView] = useInView(0.05);
+
   const [coverageRef, coverageInView] = useInView(0.08);
-  const [ctaRef, ctaInView] = useInView(0.1);
+
   const trackRef = useRef(null);
 
   const [activeIndex, setActiveIndex] = useState(0);
@@ -234,6 +209,7 @@ export default function AboutPage() {
 
   const ITEM_WIDTH = 520;
 
+  // timeLine smooth scroll section
   const handleMouseDown = (e) => {
     setIsDragging(true);
     setStartX(e.pageX - trackRef.current.offsetLeft);
@@ -251,25 +227,63 @@ export default function AboutPage() {
   const handleMouseUp = () => setIsDragging(false);
 
   useEffect(() => {
-    const container = trackRef.current;
-    const item = itemRefs.current[activeIndex];
+    if (itemRefs.current[activeIndex] && trackRef.current) {
+      const container = trackRef.current;
+      const element = itemRefs.current[activeIndex];
 
-    if (!container || !item) return;
+      const containerWidth = container.offsetWidth;
+      const elementLeft = element.offsetLeft;
+      const elementWidth = element.offsetWidth;
 
-    const containerWidth = container.offsetWidth;
-    const itemWidth = item.offsetWidth;
-    const itemLeft = item.offsetLeft;
+      const scrollPosition =
+        elementLeft - containerWidth / 2 + elementWidth / 2;
 
-    const scrollPosition = itemLeft - containerWidth / 2 + itemWidth / 2;
-
-    container.scrollTo({
-      left: scrollPosition,
-      behavior: "smooth",
-    });
+      container.scrollTo({
+        left: scrollPosition,
+        behavior: "smooth",
+      });
+    }
   }, [activeIndex]);
 
   const scrollTo = (index) => {
     setActiveIndex(index);
+
+    if (itemRefs.current[index] && trackRef.current) {
+      const container = trackRef.current;
+      const element = itemRefs.current[index];
+
+      // Calculate the scroll position to center the element
+      const containerWidth = container.offsetWidth;
+      const elementLeft = element.offsetLeft;
+      const elementWidth = element.offsetWidth;
+
+      // Center the element in the container
+      const scrollPosition =
+        elementLeft - containerWidth / 2 + elementWidth / 2;
+
+      container.scrollTo({
+        left: scrollPosition,
+        behavior: "smooth",
+      });
+    }
+  };
+
+  // added prev and next scroll implementation to the timeLine section
+
+  const scrollToPrevious = () => {
+    if (activeIndex > 0) {
+      const newIndex = activeIndex - 1;
+      setActiveIndex(newIndex);
+      // The useEffect will handle the scrolling
+    }
+  };
+
+  const scrollToNext = () => {
+    if (activeIndex < milestones.length - 1) {
+      const newIndex = activeIndex + 1;
+      setActiveIndex(newIndex);
+      // The useEffect will handle the scrolling
+    }
   };
 
   const stats = [
@@ -370,39 +384,6 @@ export default function AboutPage() {
     },
   ];
 
-  const values = [
-    {
-      icon: <FaCheckCircle className="w-4 h-4 sm:w-5 sm:h-5" />,
-      title: "Consistent Quality",
-      desc: "Every brick meets stringent standards. Rigorous quality control ensures reliability on every project, every time.",
-    },
-    {
-      icon: <MdOutlineEco className="w-4 h-4 sm:w-5 sm:h-5" />,
-      title: "Eco-Friendly Process",
-      desc: "Solar drying, water conservation, and recycled clay waste — sustainability built into every stage of production.",
-    },
-    {
-      icon: <FaTruck className="w-4 h-4 sm:w-5 sm:h-5" />,
-      title: "Timely Supply",
-      desc: "Construction timelines are critical. Our logistics network ensures materials arrive precisely when needed.",
-    },
-    {
-      icon: <FaHandshake className="w-4 h-4 sm:w-5 sm:h-5" />,
-      title: "Customer First",
-      desc: "Customer satisfaction drives everything — from product consultation to delivery and long-term support.",
-    },
-    {
-      icon: <MdPrecisionManufacturing className="w-4 h-4 sm:w-5 sm:h-5" />,
-      title: "Modern Technology",
-      desc: "Traditional craftsmanship elevated by modern manufacturing — combining the best of both for superior results.",
-    },
-    {
-      icon: <FaShieldAlt className="w-4 h-4 sm:w-5 sm:h-5" />,
-      title: "Industry Standards",
-      desc: "All products comply with IS codes and benchmarks, certified for safety and performance.",
-    },
-  ];
-
   const cities = [
     "Ahmedabad",
     "Surat",
@@ -478,6 +459,22 @@ export default function AboutPage() {
           .d4{transition-delay:0.4s} .d5{transition-delay:0.5s}
           .brick-cell { transition: all 0.2s ease; }
           .brick-cell:hover { transform:scale(1.12) translateY(-3px); box-shadow: 0 6px 16px rgba(180,60,20,0.25); z-index:10; position:relative; }
+
+          @media (max-width: 640px) {
+            .scrollable-track > div:first-child,
+            .scrollable-track > div:last-child {
+              min-width: calc(50vw - 60px) !important;
+              width: calc(50vw - 60px) !important
+            }  
+          }
+
+          @media (min-width: 641px) and (max-width: 1024px) {
+            .scrollable-track > div:first-child,
+            .scrollable-track > div:last-child {
+              min-width: calc(50vw - 70px) !important;
+              width: calc(50vw - 70px) !important;
+            }
+          }
         `}</style>
 
         {/* ── HERO ── */}
@@ -566,13 +563,14 @@ export default function AboutPage() {
                 </motion.p>
 
                 {/* Buttons with hover effects - SMALLER BUTTONS */}
+                
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={heroInView ? { opacity: 1, y: 0 } : {}}
                   transition={{ duration: 0.6, delay: 1.2 }}
                   className="flex flex-col sm:flex-row gap-2 sm:gap-3 mb-5 sm:mb-8"
                 >
-                  <motion.button
+                 {/* <Link to="/about"> <motion.button
                     whileHover={{ scale: 1.03 }}
                     whileTap={{ scale: 0.97 }}
                     className="
@@ -583,7 +581,7 @@ export default function AboutPage() {
               tracking-wide
               px-5 py-2.5
               rounded-xl
-              shadow-md
+              shadow-md cursor-pointer
               hover:shadow-xl
               hover:-translate-y-1
               transition-all duration-300
@@ -592,19 +590,21 @@ export default function AboutPage() {
                   >
                     Discover Our Story
                   </motion.button>
+                  </Link> */}
 
+                <Link to="/products">
                   <motion.button
-                    whileHover={{ scale: 1.03, y: -2 }}
+                   
                     whileTap={{ scale: 0.98 }}
-                    className="group w-full sm:w-auto cursor-pointer px-5 py-2.5 border-2 border-stone-300 text-stone-600 font-semibold text-sm tracking-wide rounded-xl hover:border-red-400 hover:text-red-600 hover:bg-red-50/50 transition-all duration-300 flex items-center justify-center gap-2"
+                    className="group w-full sm:w-auto cursor-pointer px-6 py-3 border-2  text-white/95 font-semibold text-sm tracking-wide rounded-xl hover:bg-red-800 bg-red-700 transition-all hover:-translate-y-1 duration-300 flex items-center justify-center gap-2"
                   >
                     <GiBrickWall className="w-3.5 h-3.5 group-hover:rotate-12 transition-transform" />
                     <span>Our Products</span>
-                  </motion.button>
+                  </motion.button></Link>
                 </motion.div>
 
                 {/* Trust indicators with stagger - SMALLER TEXT */}
-                <motion.div
+                {/* <motion.div
                   initial={{ opacity: 0 }}
                   animate={heroInView ? { opacity: 1 } : {}}
                   transition={{ duration: 0.6, delay: 1.4 }}
@@ -647,7 +647,7 @@ export default function AboutPage() {
                       </span>
                     </motion.div>
                   ))}
-                </motion.div>
+                </motion.div> */}
               </div>
 
               {/* Right Side - Image Gallery - SMALLER IMAGE */}
@@ -953,8 +953,8 @@ export default function AboutPage() {
                 <div
                   className={`inline-flex items-center gap-2.5 bg-red-50 border border-red-200 rounded-full px-4 py-2 reveal-left ${storyInView ? "visible" : ""}`}
                 >
-                  <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
-                  <span className="text-[11px] sm:text-xs font-bold tracking-[0.2em] uppercase text-red-600">
+                  <span className="w-2 h-2 rounded-full bg-red-700 animate-pulse" />
+                  <span className="text-[11px] sm:text-xs font-bold tracking-[0.2em] uppercase text-red-700">
                     Established 1986
                   </span>
                 </div>
@@ -967,7 +967,7 @@ export default function AboutPage() {
                   <br />
                   in{" "}
                   <span className="relative">
-                    <span className="text-red-600 relative z-10">Clay</span>
+                    <span className="text-red-700 relative z-10">Clay</span>
                     <span className="absolute bottom-2 left-0 w-full h-3 bg-red-200/50 -z-0 rounded-full" />
                   </span>
                   <br />
@@ -1005,7 +1005,7 @@ export default function AboutPage() {
                     ["100%", "Quality Assured"],
                   ].map(([value, label]) => (
                     <div key={value} className="relative">
-                      <div className="font-serif text-3xl sm:text-4xl font-bold text-stone-900 mb-1">
+                      <div className=" text-2xl sm:text-3xl font-semibold text-stone-900 mb-1">
                         {value}
                       </div>
                       <div className="text-[11px] sm:text-xs font-medium tracking-wide uppercase text-stone-400">
@@ -1290,99 +1290,207 @@ export default function AboutPage() {
         >
           {/* Top horizontal rule with diamond */}
           <BrickWall opacity={0.05} color="#8B4513" />
-          <div className="relative mx-16 mb-0">
+          <div className="relative mx-4 sm:mx-8 md:mx-16 mb-0">
             <div className="w-full h-px bg-stone-400"></div>
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 bg-stone-800 rotate-45"></div>
           </div>
 
-          {/* Scrollable year track */}
-          <div
-            ref={trackRef}
-            onMouseDown={handleMouseDown}
-            onMouseMove={handleMouseMove}
-            onMouseUp={handleMouseUp}
-            onMouseLeave={handleMouseUp}
-            className="flex overflow-x-auto cursor-grab active:cursor-grabbing scroll-smooth"
-            style={{
-              scrollbarWidth: "none",
-              msOverflowStyle: "none",
-              WebkitOverflowScrolling: "touch",
-            }}
-          >
-            <style>{`div::-webkit-scrollbar { display: none; }`}</style>
-
-            {/* Padding spacer left */}
-            <div style={{ minWidth: "calc(50vw - 130px)" }}></div>
-
-            {milestones.map((m, i) => (
-              <div
-                key={i}
-                ref={(el) => (itemRefs.current[i] = el)}
-                onClick={() => scrollTo(i)}
-                style={{ minWidth: `${ITEM_WIDTH}px` }}
-                className="relative flex flex-col cursor-pointer"
+          {/* Scrollable year track with navigation arrows */}
+          <div className="relative px-4 sm:px-8 md:px-16">
+            {/* Left Arrow - Visible on all devices */}
+            <button
+              onClick={scrollToPrevious}
+              className="absolute cursor-pointer left-2 sm:left-4 md:left-8 top-1/2 -translate-y-1/2 z-20 
+                 w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 
+                 bg-white/80 backdrop-blur-sm rounded-full 
+                 flex items-center justify-center
+                 shadow-lg hover:shadow-xl 
+                 transition-all duration-300 
+                 hover:scale-110 active:scale-95
+                 border border-stone-300
+                 disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:scale-100"
+              style={{
+                boxShadow: "0 4px 15px rgba(0,0,0,0.1)",
+                display: activeIndex === 0 ? "none" : "flex", // Hide when at start
+              }}
+              aria-label="Previous year"
+            >
+              <svg
+                className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-stone-700"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
               >
-                {/* Year display */}
-                <div
-                  className="transition-all duration-500 leading-none py-6"
-                  style={{
-                    fontFamily: "'Arial Black', 'Helvetica Neue', sans-serif",
-                    fontSize:
-                      i === activeIndex
-                        ? "clamp(80px, 12vw, 160px)"
-                        : "clamp(50px, 8vw, 100px)",
-                    fontWeight: 900,
-                    color: i === activeIndex ? "#1c1917" : "#c7bfb5",
-                    letterSpacing: "-0.03em",
-                    transition: "all 0.4s ease",
-                    userSelect: "none",
-                  }}
-                >
-                  {m.year}
-                </div>
-              </div>
-            ))}
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2.5}
+                  d="M15 19l-7-7 7-7"
+                />
+              </svg>
+            </button>
 
-            {/* Padding spacer right */}
-            <div style={{ minWidth: "calc(50vw - 130px)" }}></div>
+            {/* Right Arrow - Visible on all devices */}
+            <button
+              onClick={scrollToNext}
+              className="cursor-pointer absolute right-2 sm:right-4 md:right-8 top-1/2 -translate-y-1/2 z-20
+                 w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12
+                 bg-white/80 backdrop-blur-sm rounded-full 
+                 flex items-center justify-center
+                 shadow-lg hover:shadow-xl 
+                 transition-all duration-300 
+                 hover:scale-110 active:scale-95
+                 border border-stone-300
+                 disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:scale-100"
+              style={{
+                boxShadow: "0 4px 15px rgba(0,0,0,0.1)",
+                display:
+                  activeIndex === milestones.length - 1 ? "none" : "flex", // Hide when at end
+              }}
+              aria-label="Next year"
+            >
+              <svg
+                className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-stone-700"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2.5}
+                  d="M9 5l7 7-7 7"
+                />
+              </svg>
+            </button>
+
+            {/* Scrollable year track */}
+            <div
+              ref={trackRef}
+              onMouseDown={handleMouseDown}
+              onMouseMove={handleMouseMove}
+              onMouseUp={handleMouseUp}
+              onMouseLeave={handleMouseUp}
+              className="flex overflow-x-auto cursor-grab active:cursor-grabbing scroll-smooth no-scrollbar"
+              style={{
+                scrollbarWidth: "none",
+                msOverflowStyle: "none",
+                WebkitOverflowScrolling: "touch",
+                scrollSnapType: "x mandatory", // Add snap scrolling
+              }}
+            >
+              <style>{`div::-webkit-scrollbar { display: none; } .no-scrollbar::-webkit-scrollbar { display: none; }`}</style>
+
+              {/* Left spacer - dynamic to push first item to center */}
+              <div
+                className="flex-shrink-0"
+                style={{
+                  minWidth: "calc(50vw - 80px)", // Desktop
+                  width: "calc(50vw - 80px)",
+                }}
+              />
+
+              {milestones.map((m, i) => (
+                <div
+                  key={i}
+                  ref={(el) => (itemRefs.current[i] = el)}
+                  onClick={() => scrollTo(i)}
+                  style={{
+                    minWidth: `${ITEM_WIDTH}px`,
+                    scrollSnapAlign: "center", // Snap to center when scrolling
+                  }}
+                  className="relative flex flex-col cursor-pointer px-2 sm:px-4 flex-shrink-0"
+                >
+                  {/* Year display */}
+                  <div
+                    className="transition-all duration-1000 leading-none py-4 sm:py-6 text-center"
+                    style={{
+                      fontFamily: "'Arial Black', 'Helvetica Neue', sans-serif",
+                      fontSize:
+                        i === activeIndex
+                          ? "clamp(60px, 10vw, 160px)"
+                          : "clamp(40px, 6vw, 100px)",
+                      fontWeight: 900,
+                      color: i === activeIndex ? "#1c1917" : "#c7bfb5",
+                      letterSpacing: "-0.03em",
+                      transition: "all 0.4s ease",
+                      userSelect: "none",
+                      textShadow:
+                        i === activeIndex
+                          ? "2px 2px 4px rgba(0,0,0,0.1)"
+                          : "none",
+                    }}
+                  >
+                    {m.year}
+
+                    {/* Active indicator dot - visible on mobile */}
+                    {i === activeIndex && (
+                      <div
+                        className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 
+                       w-1.5 h-1.5 bg-stone-800 rounded-full sm:hidden"
+                      ></div>
+                    )}
+                  </div>
+                </div>
+              ))}
+
+              {/* Right spacer - dynamic to push last item to center */}
+              <div
+                className="flex-shrink-0"
+                style={{
+                  minWidth: "calc(50vw - 80px)", // Desktop
+                  width: "calc(50vw - 80px)",
+                }}
+              />
+            </div>
           </div>
 
           {/* Bottom horizontal rule */}
-          <div className="mx-16 -mt-2">
+          <div className="mx-4 sm:mx-8 md:mx-16 -mt-2">
             <div className="w-full h-px bg-stone-400"></div>
           </div>
 
           {/* Content panel */}
-          <div className="mx-16 mt-10 grid grid-cols-12 gap-8 min-h-[200px]">
+          <div className="mx-4 sm:mx-8 md:mx-16 mt-6 sm:mt-8 md:mt-10">
             {milestones.map((m, i) => (
               <div
                 key={i}
-                className="col-span-12 transition-all duration-500"
+                className="transition-all duration-500"
                 style={{
                   display: i === activeIndex ? "block" : "none",
                 }}
               >
-                <div className="grid grid-cols-12 gap-8 items-start">
-                  {/* Left: Icon + Category */}
-                  <div className="col-span-3 lg:col-span-2 flex flex-col items-start gap-2">
+                <div className="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-8 items-start">
+                  {/* Left: Icon + Category - Responsive layout */}
+                  <div className="md:col-span-3 lg:col-span-2 flex flex-row md:flex-col items-center md:items-start gap-4 md:gap-2">
                     <div
-                      className="w-12 h-12 border border-stone-400 flex items-center justify-center text-xl"
-                      style={{ background: "rgba(255,255,255,0.5)" }}
+                      className="w-10 h-10 sm:w-12 sm:h-12 md:w-12 md:h-12 
+                         border border-stone-400 flex items-center justify-center 
+                         text-lg sm:text-xl
+                         bg-white/50 backdrop-blur-sm
+                         rounded-lg md:rounded-none
+                         shadow-md md:shadow-none"
                     >
                       {m.icon}
                     </div>
-                    <p
-                      className="text-stone-600 font-bold tracking-widest text-xs mt-1"
-                      style={{ fontFamily: "sans-serif" }}
-                    >
-                      {m.category}
-                    </p>
+                    <div>
+                      <p
+                        className="text-stone-600 font-bold tracking-widest text-xs sm:text-sm mt-0 md:mt-1"
+                        style={{ fontFamily: "sans-serif" }}
+                      >
+                        {m.category}
+                      </p>
+                      {/* Mobile year indicator */}
+                      <p className="text-stone-400 text-xs md:hidden">
+                        {m.year}
+                      </p>
+                    </div>
                   </div>
 
                   {/* Right: Description + Tags */}
-                  <div className="col-span-9 lg:col-span-7">
+                  <div className="md:col-span-9 lg:col-span-7">
                     <p
-                      className="text-stone-600 text-sm leading-relaxed mb-5 max-w-xl"
+                      className="text-stone-600 text-sm sm:text-base leading-relaxed mb-4 sm:mb-5 max-w-xl"
                       style={{ fontFamily: "sans-serif" }}
                     >
                       {m.description}
@@ -1391,7 +1499,9 @@ export default function AboutPage() {
                       {m.tags.map((tag, t) => (
                         <span
                           key={t}
-                          className="text-xs border border-stone-400 text-stone-600 px-3 py-1 rounded-full"
+                          className="text-xs border border-stone-400 text-stone-600 
+                           px-2 sm:px-3 py-1 rounded-full
+                           bg-white/30 backdrop-blur-sm"
                           style={{ fontFamily: "sans-serif" }}
                         >
                           {tag}
@@ -1399,7 +1509,9 @@ export default function AboutPage() {
                       ))}
                       {m.isFuture && (
                         <span
-                          className="text-xs border border-orange-400 text-orange-600 px-3 py-1 rounded-full"
+                          className="text-xs border border-orange-400 text-orange-600 
+                           px-2 sm:px-3 py-1 rounded-full
+                           bg-orange-50/50 backdrop-blur-sm"
                           style={{ fontFamily: "sans-serif" }}
                         >
                           ◆ Future Goal
@@ -1412,23 +1524,79 @@ export default function AboutPage() {
             ))}
           </div>
 
-          {/* Navigation dots */}
-          <div className="flex justify-center gap-2 mt-10">
-            {milestones.map((_, i) => (
-              <button
-                key={i}
-                onClick={() => scrollTo(i)}
-                className="transition-all duration-300"
-                style={{
-                  width: i === activeIndex ? "24px" : "8px",
-                  height: "8px",
-                  borderRadius: i === activeIndex ? "4px" : "50%",
-                  background: i === activeIndex ? "#1c1917" : "#c7bfb5",
-                  border: "none",
-                  cursor: "pointer",
-                }}
-              />
-            ))}
+          {/* Navigation controls - Dots and Arrows for mobile */}
+          <div className="flex items-center justify-center gap-4 mt-8 sm:mt-10">
+            {/* Previous dot arrow - visible on mobile only */}
+            <button
+              onClick={scrollToPrevious}
+              className={`sm:hidden w-8 h-8 rounded-full bg-white/80 
+                 flex items-center justify-center
+                 shadow-md transition-all duration-300
+                 ${activeIndex === 0 ? "opacity-30 cursor-not-allowed" : "hover:scale-110"}`}
+              disabled={activeIndex === 0}
+              aria-label="Previous"
+            >
+              <svg
+                className="w-4 h-4 text-stone-700"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M15 19l-7-7 7-7"
+                />
+              </svg>
+            </button>
+
+            {/* Dots */}
+            <div className="flex justify-center gap-2">
+              {milestones.map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => scrollTo(i)}
+                  className="transition-all duration-300"
+                  style={{
+                    width: i === activeIndex ? "24px" : "8px",
+                    height: "8px",
+                    borderRadius: i === activeIndex ? "4px" : "50%",
+                    background: i === activeIndex ? "#1c1917" : "#c7bfb5",
+                    border: "none",
+                    cursor: "pointer",
+                    boxShadow:
+                      i === activeIndex ? "0 2px 4px rgba(0,0,0,0.2)" : "none",
+                  }}
+                  aria-label={`Go to year ${milestones[i].year}`}
+                />
+              ))}
+            </div>
+
+            {/* Next dot arrow - visible on mobile only */}
+            <button
+              onClick={scrollToNext}
+              className={`sm:hidden w-8 h-8 rounded-full bg-white/80 
+                 flex items-center justify-center
+                 shadow-md transition-all duration-300
+                 ${activeIndex === milestones.length - 1 ? "opacity-30 cursor-not-allowed" : "hover:scale-110"}`}
+              disabled={activeIndex === milestones.length - 1}
+              aria-label="Next"
+            >
+              <svg
+                className="w-4 h-4 text-stone-700"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 5l7 7-7 7"
+                />
+              </svg>
+            </button>
           </div>
         </section>
 
@@ -1487,10 +1655,12 @@ export default function AboutPage() {
                 <div
                   className={`reveal-left d4 ${coverageInView ? "visible" : ""}`}
                 >
+                  <Link to="/inquiry">
                   <button className="w-full cursor-pointer sm:w-auto px-6 sm:px-8 py-3 sm:py-4 bg-red-700 text-white font-bold text-xs tracking-widest uppercase rounded-xl shadow-xl  hover:bg-red-800 hover:-translate-y-1 transition-all duration-300 flex items-center justify-center gap-2">
                     <FaTruck className="w-4 h-4" />
                     <span>Get a Quote</span>
                   </button>
+                  </Link>
                 </div>
               </div>
 
@@ -1513,8 +1683,8 @@ export default function AboutPage() {
                   </div>
                   <div className="border-t border-red-100 pt-4 sm:pt-5">
                     <div className="text-[10px] sm:text-xs font-bold tracking-widest uppercase text-stone-400 mb-3 flex items-center gap-2">
-                      <FaTruck className="text-red-500 flex-shrink-0" />{" "}
-                      Active Service Cities
+                      <FaTruck className="text-red-500 flex-shrink-0" /> Active
+                      Service Cities
                     </div>
                     <div className="flex flex-wrap gap-1.5 sm:gap-2">
                       {cities.map((city) => (
@@ -1531,9 +1701,7 @@ export default function AboutPage() {
                         </div>
                       ))}
                     </div>
-                    <p className="text-[10px] sm:text-xs text-stone-400 mt-2 sm:mt-3 font-medium">
-                      + More cities on request
-                    </p>
+
                   </div>
                 </div>
               </div>
