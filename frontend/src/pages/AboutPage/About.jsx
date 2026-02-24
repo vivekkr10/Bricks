@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import Navbar from "../../Components/header.jsx";
-import Footer from "../../Components/Footer.jsx";
+import Footer from "../../Components/footer.jsx";
 import { Link } from "react-router-dom";
 import {
   FaTrophy,
