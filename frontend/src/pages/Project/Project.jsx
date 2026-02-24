@@ -6,11 +6,12 @@ import { motion, AnimatePresence } from "framer-motion";
 
 export default function ProjectPage() {
   const [activeFilter, setActiveFilter] = useState("All");
-  const [selectedProject, setSelectedProject] = useState(null);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [heroTextIndex, setHeroTextIndex] = useState(0);
   const [isHoveringCard, setIsHoveringCard] = useState(null);
-  const heroRef = useRef(null);
+  const [hoveredFilter, setHoveredFilter] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(8);
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
   const navigate = useNavigate();
 
   const filters = ["All", "Industrial", "Commercial", "Residential"];
@@ -29,25 +30,12 @@ export default function ProjectPage() {
     return () => clearInterval(interval);
   }, []);
 
+  // Reset to first page when filter changes
   useEffect(() => {
-    const handleMouseMove = (e) => {
-      if (heroRef.current) {
-        const rect = heroRef.current.getBoundingClientRect();
-        setMousePosition({
-          x: ((e.clientX - rect.left) / rect.width - 0.5) * 20,
-          y: ((e.clientY - rect.top) / rect.height - 0.5) * 20,
-        });
-      }
-    };
+    setCurrentPage(1);
+  }, [activeFilter]);
 
-    const heroElement = heroRef.current;
-    if (heroElement) {
-      heroElement.addEventListener("mousemove", handleMouseMove);
-      return () =>
-        heroElement.removeEventListener("mousemove", handleMouseMove);
-    }
-  }, []);
-
+  // BrickWall pattern
   const BrickWall = ({ opacity = 0.06, color = "#8B4513" }) => (
     <svg
       style={{
@@ -379,6 +367,18 @@ export default function ProjectPage() {
       ? projects
       : projects.filter((project) => project.category === activeFilter);
 
+  // Pagination calculations
+  const totalPages = Math.ceil(filteredProjects.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const paginatedProjects = filteredProjects.slice(startIndex, endIndex);
+
+  // Handle page change
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+    document.getElementById('projects-grid').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+
   // Animation variants
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -398,503 +398,787 @@ export default function ProjectPage() {
       transition: {
         type: "spring",
         stiffness: 100,
-        damping: 12,
       },
     },
   };
 
-  const heroVariants = {
-    initial: { scale: 1.1, opacity: 0 },
-    animate: {
-      scale: 1,
-      opacity: 1,
-      transition: {
-        duration: 1.5,
-        ease: "easeOut",
-      },
-    },
-  };
+  const heroEase = [0.22, 1, 0.36, 1];
 
-  const textVariants = {
-    initial: { y: 50, opacity: 0 },
-    animate: {
-      y: 0,
-      opacity: 1,
-      transition: {
-        type: "spring",
-        stiffness: 50,
-        damping: 20,
-      },
-    },
-  };
+  // Floating shapes for hero animation
+  const floatingShapes = [
+    { icon: "◈", delay: 0, duration: 6, x: 10, y: 20 },
+    { icon: "⬟", delay: 1, duration: 7, x: 70, y: 30 },
+    { icon: "◉", delay: 2, duration: 8, x: 85, y: 60 },
+    { icon: "◈", delay: 0.5, duration: 5.5, x: 40, y: 70 },
+    { icon: "⬡", delay: 1.5, duration: 6.5, x: 20, y: 80 },
+    { icon: "◉", delay: 2.5, duration: 7.5, x: 90, y: 40 },
+  ];
 
   return (
-    <div className="overflow-x-hidden">
+    <>
       <Header />
-      <div className="mt-16 min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50">
-        <BrickWall opacity={0.07} color="#8B4513" />
+      <div className="min-h-screen bg-stone-50 text-stone-800" style={{ fontFamily: "'Jost', sans-serif" }}>
+        <style>{`
+          @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600;1,700&family=Jost:wght@300;400;500;600;700&display=swap');
+          .font-serif { font-family: 'Cormorant Garamond', serif; }
+          .font-sans { font-family: 'Jost', sans-serif; }
+          
+          @keyframes float {
+            0%, 100% { transform: translateY(0) translateX(0) rotate(0deg); }
+            25% { transform: translateY(-15px) translateX(10px) rotate(5deg); }
+            50% { transform: translateY(-25px) translateX(-5px) rotate(0deg); }
+            75% { transform: translateY(-10px) translateX(-15px) rotate(-5deg); }
+          }
+          
+          @keyframes glowPulse {
+            0%, 100% { opacity: 0.3; filter: blur(20px); }
+            50% { opacity: 0.6; filter: blur(30px); }
+          }
+          
+          @keyframes textShimmer {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+          }
+          
+          @keyframes borderRotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+          }
+          
+          @keyframes filterSlide {
+            0% { transform: translateX(-10px); opacity: 0; }
+            100% { transform: translateX(0); opacity: 1; }
+          }
+          
+          @keyframes ripple {
+            0% { transform: scale(1); opacity: 0.4; }
+            100% { transform: scale(2); opacity: 0; }
+          }
+          
+          .floating-shape {
+            animation: float var(--duration) ease-in-out infinite;
+            animation-delay: var(--delay);
+          }
+          
+          .glow-background {
+            background: radial-gradient(circle at 30% 50%, rgba(239,68,68,0.15) 0%, transparent 50%);
+            animation: glowPulse 4s ease-in-out infinite;
+          }
+          
+          .hero-text-shimmer {
+            background: linear-gradient(90deg, #fef2f2, #fee2e2, #fecaca, #fee2e2, #fef2f2);
+            background-size: 200% 200%;
+            animation: textShimmer 6s ease-in-out infinite;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+          }
+          
+          .rotating-border {
+            position: relative;
+            overflow: hidden;
+          }
+          
+          .rotating-border::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(from 0deg, transparent, #ef4444, transparent 70%);
+            animation: borderRotate 8s linear infinite;
+            opacity: 0.3;
+          }
+          
+          .filter-chip {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+          }
+          
+          .filter-chip:hover {
+            transform: translateY(-2px);
+          }
+          
+          .filter-chip::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, transparent 70%);
+            transform: translate(-50%, -50%) scale(0);
+            opacity: 0;
+            transition: transform 0.4s ease-out, opacity 0.3s ease;
+            pointer-events: none;
+            border-radius: inherit;
+          }
+          
+          .filter-chip:active::after {
+            transform: translate(-50%, -50%) scale(2);
+            opacity: 0.3;
+            transition: transform 0.2s ease-out, opacity 0.1s ease;
+          }
+          
+          .filter-chip.active {
+            box-shadow: 0 10px 25px -5px rgba(239,68,68,0.4);
+          }
+          
+          .ripple-effect {
+            position: relative;
+            overflow: hidden;
+          }
+          
+          .ripple-effect::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 5px;
+            height: 5px;
+            background: rgba(255,255,255,0.5);
+            opacity: 0;
+            border-radius: 100%;
+            transform: scale(1, 1) translate(-50%, -50%);
+            transform-origin: 50% 50%;
+          }
+          
+          .ripple-effect:focus:not(:active)::after {
+            animation: ripple 0.6s ease-out;
+          }
+          
+          .filter-container {
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            background: linear-gradient(to right, rgba(255,255,255,0.95), rgba(255,255,255,0.98));
+            border-bottom: 1px solid rgba(239,68,68,0.1);
+          }
 
-        {/* Main Hero Section */}
-        <div ref={heroRef} className="relative h-[80vh] overflow-hidden">
-          {/* Parallax Background */}
-          <motion.div
-            className="absolute inset-0 bg-cover bg-center"
-            style={{
-              backgroundImage:
-                "url(https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1600&q=80)",
-              // x: mousePosition.x,
-              // y: mousePosition.y,
-            }}
-            animate={heroVariants}
-            initial="initial"
-          >
-            <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/70"></div>
-          </motion.div>
+          /* Remove cursor from stats */
+          .stats-container {
+            cursor: default;
+          }
+          
+          .stats-container div {
+            cursor: default;
+          }
+          
+          /* Ensure buttons have proper cursor */
+          button:not(:disabled) {
+            cursor: pointer;
+          }
+          
+          button:disabled {
+            cursor: not-allowed;
+          }
+          
+          .filter-chip, .pagination-item, .group, .group\\/btn {
+            cursor: pointer;
+          }
+        `}</style>
 
-          {/* Animated Particles */}
-          {[...Array(20)].map((_, i) => (
+        {/* Unique Centered Hero Section */}
+        <section className="relative min-h-[90vh] overflow-hidden flex items-center justify-center" style={{
+          backgroundImage: 'url(https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1600&q=80)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundAttachment: 'fixed'
+        }}>
+          {/* Animated gradient overlay */}
+          <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/80" />
+          
+          {/* Animated glow background */}
+          <div className="absolute inset-0 glow-background" />
+          
+          <BrickWall opacity={0.15} color="#8B4513" />
+          
+          {/* Floating decorative shapes */}
+          {floatingShapes.map((shape, index) => (
             <motion.div
-              key={i}
-              className="absolute w-1 h-1 bg-white rounded-full opacity-20"
+              key={index}
+              className="absolute text-white/10 text-6xl md:text-7xl font-serif floating-shape"
               style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
+                left: `${shape.x}%`,
+                top: `${shape.y}%`,
+                '--duration': `${shape.duration}s`,
+                '--delay': `${shape.delay}s`,
               }}
-              animate={{
-                y: [0, -30, 0],
-                opacity: [0.2, 0.5, 0.2],
-                scale: [1, 1.5, 1],
-              }}
-              transition={{
-                duration: 3 + Math.random() * 2,
-                repeat: Infinity,
-                delay: Math.random() * 2,
-              }}
-            />
+              initial={{ opacity: 0, scale: 0 }}
+              animate={{ opacity: 0.15, scale: 1 }}
+              transition={{ delay: shape.delay, duration: 1 }}
+            >
+              {shape.icon}
+            </motion.div>
           ))}
 
-          {/* Hero Content */}
-          <div className="relative h-full flex items-center justify-center">
-            <div className="text-center text-white px-4 max-w-5xl mx-auto">
-              <motion.h1
-                className="text-7xl md:text-8xl font-bold mb-6 tracking-tight"
-                initial={{ opacity: 0, y: -50 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.2 }}
-              >
-                <span className="bg-clip-text font-serif text-transparent bg-gradient-to-r from-white via-orange-200 to-white">
-                  Our Projects
-                </span>
-              </motion.h1>
+          {/* Main Hero Content - Centered */}
+          <div className="relative z-10 max-w-5xl mx-auto px-6 text-center">
+            {/* Animated badge */}
+            <motion.div
+              initial={{ opacity: 0, y: 30, scale: 0.9 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ duration: 0.8, ease: heroEase }}
+              className="inline-block mb-8"
+            >
+              <div className="rotating-border rounded-full p-[2px]">
+                <div className="bg-black/40 backdrop-blur-xl rounded-full px-8 py-3">
+                  <div className="flex items-center gap-3">
+                    <span className="relative flex h-3 w-3">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+                    </span>
+                    <span className="text-xs font-bold tracking-[0.2em] text-white/90 uppercase">
+                      EST. 1984 • FOUR DECADES OF EXCELLENCE
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
 
+            {/* Main Title with gradient */}
+            <motion.h1
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2, duration: 0.9, ease: heroEase }}
+              className="font-serif text-6xl md:text-8xl lg:text-9xl font-bold text-white mb-6 leading-[1.1]"
+            >
+              <span className="block">Architecture</span>
+              <span className="hero-text-shimmer block">That Inspires</span>
+            </motion.h1>
+
+            {/* Rotating tagline */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.4, duration: 0.8 }}
+              className="mb-10"
+            >
               <AnimatePresence mode="wait">
                 <motion.p
                   key={heroTextIndex}
-                  className="text-2xl md:text-3xl text-white/90 max-w-3xl mx-auto mb-8 font-light"
-                  variants={textVariants}
-                  initial="initial"
-                  animate="animate"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -20 }}
                   transition={{ duration: 0.5 }}
+                  className="text-xl md:text-2xl text-white/80 max-w-2xl mx-auto font-light tracking-wide"
                 >
                   {heroTexts[heroTextIndex]}
                 </motion.p>
               </AnimatePresence>
+            </motion.div>
 
-              {/* Animated Stats */}
-              <motion.div
-                className="flex justify-center gap-12 mt-12"
-                initial={{ opacity: 0, y: 50 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.6 }}
+            {/* CTA Buttons - Centered */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6, duration: 0.8 }}
+              className="flex flex-wrap justify-center gap-4"
+            >
+              <button 
+                onClick={() => document.getElementById('projects-grid').scrollIntoView({ behavior: 'smooth' })}
+                className="group relative px-8 py-4 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-full font-semibold hover:from-red-700 hover:to-red-800 hover:scale-105 active:scale-95 transition-all duration-300 shadow-lg shadow-red-600/30 overflow-hidden"
               >
-                {[
-                  { label: "Projects", value: "312+" },
-                  { label: "Cities", value: "50+" },
-                  { label: "Happy Clients", value: "300+" },
-                ].map((stat, index) => (
-                  <motion.div
-                    key={index}
-                    className="text-center"
-                    whileHover={{ scale: 1.1 }}
-                    transition={{ type: "spring", stiffness: 300 }}
-                  >
-                    <div className="text-4xl font-bold text-red-500">
-                      {stat.value}
-                    </div>
-                    <div className="text-sm text-white/70 mt-1">
-                      {stat.label}
-                    </div>
-                  </motion.div>
-                ))}
-              </motion.div>
+                <span className="relative z-10 flex items-center gap-2">
+                  Explore Portfolio
+                  <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                  </svg>
+                </span>
+                <motion.div
+                  className="absolute inset-0 bg-white/20"
+                  initial={{ x: '-100%' }}
+                  whileHover={{ x: 0 }}
+                  transition={{ duration: 0.3 }}
+                />
+              </button>
+              
+              <button 
+                onClick={() => navigate('/contact')}
+                className="group px-8 py-4 bg-white/10 backdrop-blur-md text-white rounded-full font-semibold border border-white/20 hover:bg-white/20 hover:scale-105 active:scale-95 transition-all duration-300 flex items-center gap-2"
+              >
+                Let's Talk
+                <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                </svg>
+              </button>
+            </motion.div>
 
-              {/* Scroll Indicator */}
-              <motion.div
-                className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
-                animate={{ y: [0, 10, 0] }}
-                transition={{ duration: 1.5, repeat: Infinity }}
+            {/* Stats Row - Centered with default cursor */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.8, duration: 0.8 }}
+              className="stats-container flex justify-center gap-12 mt-16"
+            >
+              {[
+                { value: "300+", label: "Projects Delivered" },
+                { value: "50+", label: "Cities" },
+                { value: "25", label: "Awards Won" },
+                { value: "40+", label: "Years Legacy" }
+              ].map((stat, i) => (
+                <motion.div
+                  key={stat.label}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.9 + i * 0.1, duration: 0.5 }}
+                  className="text-center"
+                >
+                  <div className="text-3xl md:text-4xl font-bold text-white mb-1">{stat.value}</div>
+                  <div className="text-xs md:text-sm text-white/60 tracking-wide">{stat.label}</div>
+                </motion.div>
+              ))}
+            </motion.div>
+
+            {/* Scroll Indicator */}
+            <motion.div
+              animate={{ y: [0, 10, 0] }}
+              transition={{ duration: 2, repeat: Infinity }}
+              className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
+            >
+              <div className="w-7 h-12 border-2 border-white/30 rounded-full flex justify-center">
+                <motion.div
+                  className="w-1.5 h-3 bg-red-500 rounded-full mt-2"
+                  animate={{ opacity: [0.3, 1, 0.3] }}
+                  transition={{ duration: 2, repeat: Infinity }}
+                />
+              </div>
+            </motion.div>
+          </div>
+        </section>
+
+        {/* Redesigned Modern Filter Section */}
+        <section className="sticky top-16 z-40 filter-container shadow-xl">
+          <div className="max-w-[1500px] mx-auto px-4 sm:px-6 lg:px-8 py-4">
+            {/* Mobile Filter Toggle */}
+            <div className="lg:hidden flex items-center justify-between">
+              <button
+                onClick={() => setIsFilterOpen(!isFilterOpen)}
+                className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-red-50 to-red-100 rounded-xl text-red-700 font-medium hover:scale-105 active:scale-95 transition-all duration-300"
               >
-                <div className="w-6 h-10 border-2 border-white/30 rounded-full flex justify-center">
-                  <motion.div
-                    className="w-1 h-2 bg-white rounded-full mt-2"
-                    animate={{ opacity: [0.3, 1, 0.3] }}
-                    transition={{ duration: 1.5, repeat: Infinity }}
-                  />
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+                </svg>
+                <span>Filter Projects</span>
+              </button>
+              
+              {/* Mobile Results */}
+              <div className="flex items-center gap-2">
+                <span className="text-2xl font-bold text-red-600">{filteredProjects.length}</span>
+                <span className="text-sm text-stone-600">projects</span>
+              </div>
+            </div>
+
+            {/* Desktop Filter Bar */}
+            <div className="hidden lg:flex items-center justify-between">
+              {/* Left Section - Filter Label */}
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                className="flex items-center gap-3"
+              >
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-red-500 to-red-600 flex items-center justify-center shadow-lg shadow-red-200">
+                  <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+                  </svg>
+                </div>
+                <div>
+                  <span className="text-sm font-medium text-stone-500">Browse by</span>
+                  <h3 className="font-serif text-lg font-bold text-stone-800">Project Category</h3>
                 </div>
               </motion.div>
-            </div>
-          </div>
-        </div>
 
-        {/* Filter Section */}
-        <motion.div
-          className="sticky top-16 z-40 bg-red/800 backdrop-blur-xl border-b border-slate-200 shadow-lg"
-          initial={{ y: -100 }}
-          animate={{ y: 0 }}
-          transition={{ duration: 0.5 }}
-        >
-        <BrickWall opacity={0.02} color="#8B4513" />
-          <div className="container mx-auto px-6 lg:px-8 py-6">
-            <div className="flex flex-wrap justify-center gap-3">
-              {filters.map((filter) => {
-                const isActive = activeFilter === filter;
+              {/* Center - Filter Chips */}
+              <div className="flex items-center gap-2 bg-stone-100/80 p-1.5 rounded-2xl backdrop-blur-sm">
+                {filters.map((filter, index) => {
+                  const isActive = activeFilter === filter;
+                  const count = filter === 'All' 
+                    ? projects.length 
+                    : projects.filter(p => p.category === filter).length;
 
-                return (
-                  <motion.button
-                    key={filter}
-                    onClick={() => setActiveFilter(filter)}
-                    className={`
-                      relative px-8 py-3 rounded-full text-sm font-medium
-                      transition-all duration-300 cursor-pointer overflow-hidden
-                      ${isActive ? "text-red-700" : "text-stone-700 hover:text-red-600"}
-                    `}
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    {/* Background with gradient */}
-                    <motion.div
-                      className={`absolute inset-0 rounded-full ${
-                        isActive
-                          ? "bg-gradient-to-r from-red-400 to-red-500"
-                          : "bg-gradient-to-r from-slate-100 to-slate-200"
-                      }`}
-                      animate={isActive ? { scale: 1 } : { scale: 0.95 }}
-                      transition={{ duration: 0.3 }}
-                    />
-
-                    {/* Glow effect */}
-                    {isActive && (
-                      <motion.div
-                        className="absolute inset-0 rounded-full bg-orange-400 blur-md"
-                        animate={{ opacity: [0.5, 0.8, 0.5] }}
-                        transition={{ duration: 2, repeat: Infinity }}
-                      />
-                    )}
-
-                    <span className="relative z-10">{filter}</span>
-                  </motion.button>
-                );
-              })}
-            </div>
-          </div>
-        </motion.div>
-
-        {/* Enhanced Projects Grid with Padding */}
-        <div className="container mx-auto px-15 py-16 relative">
-          {/* Card Section Background */}
-          <BrickWall opacity={0.04} color="#8B4513" />
-          {/* <AnimatePresence mode="wait"> */}
-          <motion.div
-            key={activeFilter}
-            className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 lg:gap-8"
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
-            exit={{ opacity: 0, y: 20 }}
-          >
-            {filteredProjects.map((project, index) => (
-              <motion.div
-                key={project.id}
-                variants={itemVariants}
-                whileHover={{
-                  y: -8,
-                  transition: { type: "spring", stiffness: 300 },
-                }}
-                onHoverStart={() => setIsHoveringCard(project.id)}
-                onHoverEnd={() => setIsHoveringCard(null)}
-                className="group relative bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer"
-                onClick={() =>
-                  navigate(`/projects/${project.id}`, { state: project })
-                }
-              >
-                {/* Image Container with 3D Effect */}
-                <div className="relative h-80 overflow-hidden">
-                  <motion.img
-                    src={project.image}
-                    alt={project.title}
-                    className="w-full h-full object-cover"
-                    animate={{
-                      scale: isHoveringCard === project.id ? 1.1 : 1,
-                    }}
-                    transition={{ duration: 0.6 }}
-                  />
-
-                  {/* Gradient Overlay */}
-                  <motion.div
-                    className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"
-                    initial={{ opacity: 0 }}
-                    animate={{
-                      opacity: isHoveringCard === project.id ? 1 : 0,
-                    }}
-                    transition={{ duration: 0.3 }}
-                  />
-
-                  {/* Category Badge with Animation */}
-                  <motion.div
-                    className="absolute top-4 left-4"
-                    initial={{ x: -20, opacity: 0 }}
-                    animate={{ x: 0, opacity: 1 }}
-                    transition={{ delay: index * 0.1 }}
-                  >
-                    <motion.span
-                      className="px-4 py-2 bg-white/95 backdrop-blur-sm text-stone-800 rounded-full text-sm font-semibold shadow-lg flex items-center gap-2"
-                      whileHover={{ scale: 1.05 }}
+                  return (
+                    <motion.button
+                      key={filter}
+                      onClick={() => setActiveFilter(filter)}
+                      onHoverStart={() => setHoveredFilter(filter)}
+                      onHoverEnd={() => setHoveredFilter(null)}
+                      className="relative outline-none"
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: index * 0.1 }}
                     >
-                      <span className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
-                      {project.category}
-                    </motion.span>
-                  </motion.div>
-
-                  {/* Floating Elements */}
-                  <motion.div
-                    className="absolute top-4 right-4 flex gap-2"
-                    initial={{ x: 20, opacity: 0 }}
-                    animate={{ x: 0, opacity: 1 }}
-                    transition={{ delay: index * 0.1 + 0.1 }}
-                  >
-                    {project.details.year && (
-                      <span className="px-3 py-1 bg-white text-stone-900 rounded-full text-xs font-semibold shadow-lg">
-                        {project.details.year}
-                      </span>
-                    )}
-                  </motion.div>
-
-                  {/* Hover Content with Slide-up Animation */}
-                  <motion.div
-                    className="absolute bottom-0 left-0 right-0 p-6"
-                    initial={{ y: 100 }}
-                    animate={{ y: isHoveringCard === project.id ? 0 : 100 }}
-                    transition={{
-                      type: "spring",
-                      stiffness: 200,
-                      damping: 20,
-                    }}
-                  >
-                    <div className="text-white space-y-3">
                       <motion.div
-                        className="flex items-center gap-2"
-                        initial={{ opacity: 0 }}
-                        animate={{
-                          opacity: isHoveringCard === project.id ? 1 : 0,
-                        }}
-                        transition={{ delay: 0.1 }}
-                      >
-                        <svg
-                          className="w-4 h-4"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-                          />
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-                          />
-                        </svg>
-                        <span className="text-sm">{project.location}</span>
-                      </motion.div>
-
-                      <motion.div
-                        className="flex items-center gap-2"
-                        initial={{ opacity: 0 }}
-                        animate={{
-                          opacity: isHoveringCard === project.id ? 1 : 0,
-                        }}
-                        transition={{ delay: 0.2 }}
-                      >
-                        <svg
-                          className="w-4 h-4"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                          />
-                        </svg>
-                        <span className="text-sm">
-                          {project.architect.split(" ").slice(0, 2).join(" ")}
-                        </span>
-                      </motion.div>
-
-                      {/* Quick View Button */}
-                      <motion.button
-                        className="mt-4 px-4 cursor-pointer py-2 bg-white text-slate-900 rounded-lg text-sm font-semibold flex items-center gap-2 hover:bg-orange-500 hover:text-white transition-colors"
-                        initial={{ opacity: 0, scale: 0.8 }}
-                        animate={{
-                          opacity: isHoveringCard === project.id ? 1 : 0,
-                          scale: isHoveringCard === project.id ? 1 : 0.8,
-                        }}
-                        transition={{ delay: 0.3 }}
-                        whileHover={{ scale: 1.05 }}
+                        className={`filter-chip relative px-5 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 ${
+                          isActive 
+                            ? 'bg-gradient-to-r from-red-500 to-red-600 text-white shadow-lg shadow-red-200 active' 
+                            : 'bg-white text-stone-700 hover:bg-red-50 hover:text-red-600'
+                        }`}
+                        whileHover={{ y: -2 }}
                         whileTap={{ scale: 0.95 }}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          navigate(`/projects/${project.id}`, {
-                            state: project,
-                          });
-                        }}
                       >
-                        Quick View
-                        <svg
-                          className="w-4 h-4"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                          />
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                          />
-                        </svg>
-                      </motion.button>
-                    </div>
-                  </motion.div>
+                        {/* Icon for active filter */}
+                        {isActive && (
+                          <motion.div
+                            initial={{ scale: 0 }}
+                            animate={{ scale: 1 }}
+                            className="absolute -top-1 -right-1 w-4 h-4 bg-white rounded-full flex items-center justify-center shadow-md"
+                          >
+                            <svg className="w-3 h-3 text-red-600" fill="currentColor" viewBox="0 0 20 20">
+                              <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                            </svg>
+                          </motion.div>
+                        )}
 
-                  {/* Shine Effect */}
-                  <motion.div
-                    className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
-                    initial={{ x: "-100%" }}
-                    whileHover={{ x: "100%" }}
-                    transition={{ duration: 0.8 }}
-                  />
-                </div>
+                        <div className="flex items-center gap-2">
+                          <span>{filter}</span>
+                          <motion.span
+                            className={`px-2 py-0.5 rounded-lg text-xs font-semibold ${
+                              isActive 
+                                ? 'bg-white/30 text-white' 
+                                : 'bg-stone-200 text-stone-600 group-hover:bg-red-100'
+                            }`}
+                            animate={{ 
+                              scale: hoveredFilter === filter ? 1.1 : 1,
+                              backgroundColor: hoveredFilter === filter && !isActive ? '#fee2e2' : ''
+                            }}
+                          >
+                            {count}
+                          </motion.span>
+                        </div>
 
-                {/* Content */}
-                <div className="p-6">
-                  <motion.h3
-                    className="text-2xl font-bold text-slate-900 mb-2 flex items-center justify-between"
-                    animate={{
-                      color:
-                        isHoveringCard === project.id ? "#f97316" : "#0f172a",
-                    }}
-                  >
-                    {project.title}
-                  </motion.h3>
+                        {/* Ripple effect on click */}
+                        <span className="ripple-effect" />
+                      </motion.div>
+                    </motion.button>
+                  );
+                })}
+              </div>
 
-                  <p className="text-stone-400 text-sm line-clamp-2 mb-4">
-                    {project.description}
-                  </p>
-
-                  <div className="flex items-center justify-between pt-4 border-t border-slate-100">
-                    <div className="flex items-center gap-2 text-stone-500 text-sm">
-                      <svg
-                        className="w-4 h-4"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
-                        />
-                      </svg>
-                      <span>{project.details.area}</span>
-                    </div>
-
-                    <motion.div
-                      className="flex items-center gap-1"
-                      animate={{ x: isHoveringCard === project.id ? 5 : 0 }}
-                    >
-                      <span className="text-red-700 font-semibold text-sm">
-                        Details
-                      </span>
-                      <motion.svg
-                        className="w-4 h-4 text-red-700"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                        animate={{ x: isHoveringCard === project.id ? 3 : 0 }}
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M9 5l7 7-7 7"
-                        />
-                      </motion.svg>
-                    </motion.div>
+              {/* Right Section - Results Only */}
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+              >
+                {/* Results Counter */}
+                <div className="flex items-center gap-3 px-4 py-2 bg-gradient-to-r from-red-50 to-red-100 rounded-xl">
+                  <div className="flex items-baseline gap-1">
+                    <span className="text-2xl font-bold text-red-600">{filteredProjects.length}</span>
+                    <span className="text-sm text-red-700/70">projects</span>
+                  </div>
+                  <div className="w-px h-6 bg-red-200" />
+                  <div className="flex items-center gap-1">
+                    <svg className="w-4 h-4 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span className="text-sm text-red-700">{totalPages} pages</span>
                   </div>
                 </div>
               </motion.div>
-            ))}
-          </motion.div>
-          {/* </AnimatePresence> */}
-        </div>
+            </div>
 
-        <style>{`
-          @keyframes fadeInUp {
-            from {
-              opacity: 0;
-              transform: translateY(30px);
-            }
-            to {
-              opacity: 1;
-              transform: translateY(0);
-            }
-          }
+            {/* Mobile Filter Menu */}
+            <AnimatePresence>
+              {isFilterOpen && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: 'auto' }}
+                  exit={{ opacity: 0, height: 0 }}
+                  className="lg:hidden mt-4 overflow-hidden"
+                >
+                  <div className="grid grid-cols-2 gap-2 p-2 bg-stone-100 rounded-2xl">
+                    {filters.map((filter) => {
+                      const isActive = activeFilter === filter;
+                      const count = filter === 'All' 
+                        ? projects.length 
+                        : projects.filter(p => p.category === filter).length;
 
-          @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-          }
+                      return (
+                        <motion.button
+                          key={filter}
+                          onClick={() => {
+                            setActiveFilter(filter);
+                            setIsFilterOpen(false);
+                          }}
+                          className={`relative p-4 rounded-xl text-center transition-all ${
+                            isActive 
+                              ? 'bg-gradient-to-r from-red-500 to-red-600 text-white shadow-lg' 
+                              : 'bg-white text-stone-700 hover:bg-red-50 hover:scale-105 active:scale-95'
+                          }`}
+                          whileTap={{ scale: 0.95 }}
+                        >
+                          <div className="font-medium">{filter}</div>
+                          <div className={`text-sm mt-1 ${isActive ? 'text-white/80' : 'text-stone-500'}`}>
+                            {count} projects
+                          </div>
+                        </motion.button>
+                      );
+                    })}
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        </section>
 
-          @keyframes pulse {
-            0%, 100% { opacity: 0.5; }
-            50% { opacity: 1; }
-          }
+        {/* Projects Grid Section */}
+        <section id="projects-grid" className="py-16 relative">
+          <BrickWall opacity={0.05} color="#8B4513" />
+          
+          <div className="max-w-[1500px] mx-auto px-6 sm:px-8 lg:px-10 xl:px-12 relative z-10">
+            {/* Section Header */}
+            <motion.div
+              className="text-center mb-12"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+            >
+              <h2 className="font-serif text-4xl md:text-5xl font-bold text-stone-900 mb-4">
+                {activeFilter === "All" ? "All Projects" : `${activeFilter} Projects`}
+              </h2>
+              <div className="w-24 h-1 bg-gradient-to-r from-red-500 to-red-600 mx-auto rounded-full mb-6" />
+              <p className="text-stone-600 max-w-2xl mx-auto">
+                Discover our finest work across {activeFilter === "All" ? "all sectors" : `the ${activeFilter.toLowerCase()} sector`}
+              </p>
+            </motion.div>
 
-          .animate-float {
-            animation: float 3s ease-in-out infinite;
-          }
+            {/* Projects Grid */}
+            <AnimatePresence mode="wait">
+              {paginatedProjects.length > 0 ? (
+                <motion.div
+                  key={activeFilter + currentPage}
+                  variants={containerVariants}
+                  initial="hidden"
+                  animate="visible"
+                  exit={{ opacity: 0, y: 20 }}
+                  className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+                >
+                  {paginatedProjects.map((project) => (
+                    <motion.div
+                      key={project.id}
+                      variants={itemVariants}
+                      whileHover={{ y: -8 }}
+                      onHoverStart={() => setIsHoveringCard(project.id)}
+                      onHoverEnd={() => setIsHoveringCard(null)}
+                      className="group relative bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer"
+                      onClick={() => navigate(`/projects/${project.id}`, { state: project })}
+                    >
+                      {/* Image Container */}
+                      <div className="relative h-64 overflow-hidden">
+                        <motion.img
+                          src={project.image}
+                          alt={project.title}
+                          className="w-full h-full object-cover"
+                          animate={{
+                            scale: isHoveringCard === project.id ? 1.1 : 1,
+                          }}
+                          transition={{ duration: 0.6 }}
+                        />
 
-          .animate-pulse-slow {
-            animation: pulse 2s ease-in-out infinite;
-          }
-        `}</style>
+                        {/* Gradient Overlay */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+
+                        {/* Category Badge */}
+                        <div className="absolute top-4 left-4">
+                          <span className="px-4 py-2 bg-white/90 backdrop-blur-sm text-stone-800 rounded-full text-sm font-semibold shadow-lg">
+                            {project.category}
+                          </span>
+                        </div>
+
+                        {/* Year Badge */}
+                        <div className="absolute top-4 right-4">
+                          <span className="px-4 py-2 bg-red-600 text-white rounded-full text-sm font-semibold shadow-lg">
+                            {project.details.year}
+                          </span>
+                        </div>
+
+                        {/* Location Badge */}
+                        <div className="absolute bottom-4 left-4 flex items-center gap-2 text-white">
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                          </svg>
+                          <span className="text-sm font-medium">{project.location}</span>
+                        </div>
+                      </div>
+
+                      {/* Content */}
+                      <div className="p-6">
+                        <h3 className="font-serif text-xl font-bold text-stone-900 mb-2 group-hover:text-red-600 transition-colors line-clamp-1">
+                          {project.title}
+                        </h3>
+                        
+                        <p className="text-stone-600 text-sm line-clamp-2 mb-4">
+                          {project.description}
+                        </p>
+
+                        {/* Architect */}
+                        <div className="flex items-center gap-2 mb-4 text-sm text-stone-500">
+                          <svg className="w-4 h-4 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                          </svg>
+                          <span className="truncate">{project.architect}</span>
+                        </div>
+
+                        {/* Project Stats */}
+                        <div className="grid grid-cols-2 gap-3 mb-4">
+                          <div className="bg-gradient-to-br from-red-50 to-amber-50 p-3 rounded-xl">
+                            <div className="text-xs text-stone-500 mb-1">Area</div>
+                            <div className="font-bold text-stone-900 text-sm">{project.details.area}</div>
+                          </div>
+                          <div className="bg-gradient-to-br from-blue-50 to-indigo-50 p-3 rounded-xl">
+                            <div className="text-xs text-stone-500 mb-1">Client</div>
+                            <div className="font-bold text-stone-900 text-sm truncate">
+                              {project.details.client}
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Button with consistent keyword for all cards */}
+                        <motion.button
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
+                          className="w-full px-4 py-3 bg-gradient-to-r from-red-500 to-red-600 text-white rounded-xl text-sm font-semibold flex items-center justify-center gap-2 hover:from-red-600 hover:to-red-700 hover:scale-105 active:scale-95 transition-all duration-300 group/btn"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            navigate(`/projects/${project.id}`, { state: project });
+                          }}
+                        >
+                          <span>View Details</span>
+                          <svg className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                          </svg>
+                        </motion.button>
+                      </div>
+                    </motion.div>
+                  ))}
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="no-results"
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.9 }}
+                  className="text-center py-20"
+                >
+                  <div className="relative inline-block">
+                    <div className="absolute inset-0 bg-red-100 rounded-full blur-3xl opacity-20"></div>
+                    <svg className="w-32 h-32 mx-auto text-stone-400 relative" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                    </svg>
+                  </div>
+                  <h3 className="font-serif text-3xl font-bold text-stone-900 mt-6">No Projects Found</h3>
+                  <p className="text-stone-600 mt-2 max-w-md mx-auto">
+                    Try adjusting your filters or explore our other categories.
+                  </p>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            {/* Pagination */}
+            {filteredProjects.length > 0 && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+                className="mt-12 flex flex-col items-center gap-4"
+              >
+                {/* Pagination Controls */}
+                <div className="flex items-center gap-2">
+                  {/* Previous Button */}
+                  <motion.button
+                    whileHover={{ scale: 1.05, x: -2 }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={() => handlePageChange(currentPage - 1)}
+                    disabled={currentPage === 1}
+                    className={`pagination-item px-4 py-2 rounded-xl text-sm font-medium flex items-center gap-1 transition-all ${
+                      currentPage === 1
+                        ? 'bg-stone-100 text-stone-400 cursor-not-allowed'
+                        : 'bg-white text-stone-700 hover:bg-red-50 hover:text-red-600 hover:scale-105 shadow-sm'
+                    }`}
+                  >
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                    </svg>
+                    <span>Prev</span>
+                  </motion.button>
+
+                  {/* Page Numbers */}
+                  <div className="flex items-center gap-1">
+                    {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => {
+                      if (
+                        pageNum === 1 ||
+                        pageNum === totalPages ||
+                        (pageNum >= currentPage - 1 && pageNum <= currentPage + 1)
+                      ) {
+                        return (
+                          <motion.button
+                            key={pageNum}
+                            whileHover={{ scale: 1.1, y: -2 }}
+                            whileTap={{ scale: 0.95 }}
+                            onClick={() => handlePageChange(pageNum)}
+                            className={`pagination-item w-10 h-10 rounded-xl text-sm font-semibold transition-all ${
+                              currentPage === pageNum
+                                ? 'bg-gradient-to-r from-red-500 to-red-600 text-white shadow-lg shadow-red-200'
+                                : 'bg-white text-stone-700 hover:bg-red-50 hover:text-red-600 hover:scale-110 shadow-sm'
+                            }`}
+                          >
+                            {pageNum}
+                          </motion.button>
+                        );
+                      } else if (
+                        pageNum === currentPage - 2 ||
+                        pageNum === currentPage + 2
+                      ) {
+                        return (
+                          <span key={pageNum} className="w-4 text-center text-stone-400">
+                            ...
+                          </span>
+                        );
+                      }
+                      return null;
+                    })}
+                  </div>
+
+                  {/* Next Button */}
+                  <motion.button
+                    whileHover={{ scale: 1.05, x: 2 }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={() => handlePageChange(currentPage + 1)}
+                    disabled={currentPage === totalPages}
+                    className={`pagination-item px-4 py-2 rounded-xl text-sm font-medium flex items-center gap-1 transition-all ${
+                      currentPage === totalPages
+                        ? 'bg-stone-100 text-stone-400 cursor-not-allowed'
+                        : 'bg-white text-stone-700 hover:bg-red-50 hover:text-red-600 hover:scale-105 shadow-sm'
+                    }`}
+                  >
+                    <span>Next</span>
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </motion.button>
+                </div>
+
+                {/* Quick jump to top */}
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                  className="mt-4 text-sm text-stone-500 hover:text-red-600 hover:scale-105 active:scale-95 transition-all duration-300 flex items-center gap-1"
+                >
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18" />
+                  </svg>
+                  <span>Back to top</span>
+                </motion.button>
+              </motion.div>
+            )}
+          </div>
+        </section>
+
+        <Footer />
       </div>
-      <Footer />
-    </div>
+    </>
   );
 }

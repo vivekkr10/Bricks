@@ -36,10 +36,8 @@ import {
   Trees,
   Shovel
 } from 'lucide-react';
-import productsData from './productsData';
 import Header from '../../Components/header';
 import Footer from '../../Components/footer';
-// BrickWall pattern
 const BrickWall = ({ opacity = 0.06, color = "#8B4513" }) => (
   <svg style={{ position: "absolute", inset: 0, width: "100%", height: "100%", pointerEvents: "none" }}>
     <defs>
@@ -149,27 +147,38 @@ const ProductDetailPage = () => {
 
   // Mock images array (in real app, these would come from product data)
   const productImages = [
-    product?.image || '/images/default-brick.jpg',
-    '/images/brick-angle.jpg',
-    '/images/brick-closeup.jpg',
-    '/images/brick-application.jpg',
+    product?.images?.[0] || '/images/default-brick.jpg',
+    product?.images?.[1] || '/images/brick-angle.jpg',
+    product?.images?.[2] || '/images/brick-closeup.jpg',
+    product?.images?.[3] || '/images/brick-application.jpg',
   ];
 
   useEffect(() => {
-    // Simulate API fetch
-    setTimeout(() => {
-      const foundProduct = productsData.find(p => p.id === parseInt(id));
-      if (foundProduct && foundProduct.active) {
-        setProduct(foundProduct);
+    const fetchProduct = async () => {
+      try {
+        const res = await fetch(`http://localhost:5000/api/products/${id}`);
+        const data = await res.json();
 
-        // Get related products (same category)
-        const related = productsData
-          .filter(p => p.category === foundProduct.category && p.id !== foundProduct.id && p.active)
+        setProduct(data);
+
+        // Fetch related products
+        const allRes = await fetch("http://localhost:5000/api/products/all-products");
+        const allProducts = await allRes.json();
+
+        const related = allProducts
+          .filter(p => p.productType === data.productType && p._id !== data._id)
           .slice(0, 4);
+
         setRelatedProducts(related);
+
+      } catch (error) {
+        console.error("Error fetching product:", error);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
-    }, 800);
+    };
+
+    fetchProduct();
   }, [id]);
 
   // Form validation
@@ -223,20 +232,27 @@ const ProductDetailPage = () => {
     setFormSubmitting(true);
 
     try {
-      // Simulate API call - in real app, send to backend
-      await new Promise(resolve => setTimeout(resolve, 1500));
-
-      // Log form data (in real app, would send to backend)
-      console.log('Inquiry Submitted:', {
-        product: product.name,
-        productId: product.id,
-        quantity,
-        ...inquiryForm,
-        timestamp: new Date().toISOString()
+      const res = await fetch("http://localhost:5000/api/inquiry", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          name: inquiryForm.fullName,
+          email: inquiryForm.emailAddress,
+          phone: inquiryForm.mobileNumber,
+          message: inquiryForm.message,
+          productName: product.productName,
+          requiredQty: quantity,
+          deliveryLoc: inquiryForm.deliveryLocation
+        })
       });
 
-      // Success state
-      setFormSuccess(true);
+      const data = await res.json();
+
+      if (data.success) {
+        setFormSuccess(true);
+      }
 
       // Reset form
       setInquiryForm({
@@ -343,9 +359,9 @@ const ProductDetailPage = () => {
       `}</style>
 
         <Helmet>
-          <title>{product?.name || 'Product'} | Premium Construction Bricks</title>
-          <meta name="description" content={product?.fullDescription?.substring(0, 160) || ''} />
-          <meta name="keywords" content={`${product?.name}, ${product?.category}, bricks, construction materials`} />
+          <title>{product?.productName || 'Product'} | Premium Construction Bricks</title>
+          <meta name="description" content={product?.detailedDescription?.substring(0, 160) || ''} />
+          <meta name="keywords" content={`${product?.productName}, ${product?.productType}, bricks, construction materials`} />
         </Helmet>
 
 
@@ -361,7 +377,7 @@ const ProductDetailPage = () => {
               <span className="text-stone-400">›</span>
               <Link to="/products" className="text-stone-500 hover:text-red-600 transition-colors font-medium">Products</Link>
               <span className="text-stone-400">›</span>
-              <span className="text-stone-900 font-semibold">{product?.name}</span>
+              <span className="text-stone-900 font-semibold">{product?.productName}</span>
             </div>
           </div>
         </motion.div>
@@ -399,14 +415,14 @@ const ProductDetailPage = () => {
                 <div className="relative rounded-2xl overflow-hidden bg-white shadow-2xl shadow-red-200/50 mb-6 group brick-hover">
                   <img
                     src={productImages[selectedImage]}
-                    alt={product.name}
+                    alt={product.productName}
                     className="w-full h-[550px] object-cover transition-transform duration-700 group-hover:scale-110"
                   />
 
                   {/* Category Badge */}
                   <div className="absolute top-6 left-6">
                     <span className="px-4 py-2 bg-red-600 text-white font-bold text-xs tracking-widest rounded-full shadow-lg">
-                      {product.category}
+                      {product.productType}
                     </span>
                   </div>
 
@@ -449,7 +465,7 @@ const ProductDetailPage = () => {
             >
               <div className="bg-white rounded-2xl shadow-2xl shadow-red-200/50 p-10">
                 {/* Title */}
-                <h1 className="text-5xl font-serif font-bold text-stone-900 mb-2">{product.name}</h1>
+                <h1 className="text-5xl font-serif font-bold text-stone-900 mb-2">{product.productName}</h1>
 
                 <div className="flex items-center gap-4 mb-8 pb-8 border-b border-red-100">
                   <span className={`font-semibold tracking-wide ${product.inStock ? 'text-emerald-600' : 'text-red-600'}`}>
@@ -623,7 +639,7 @@ const ProductDetailPage = () => {
                     {activeTab === 'description' && (
                       <div>
                         <h3 className="text-3xl font-serif font-bold text-stone-900 mb-6">Product Description</h3>
-                        <p className="text-stone-700 leading-relaxed mb-8 text-lg">{product.fullDescription}</p>
+                        <p className="text-stone-700 leading-relaxed mb-8 text-lg">{product.detailedDescription}</p>
 
                         <h4 className="text-xl font-serif font-bold text-stone-900 mb-5">Benefits</h4>
                         <ul className="grid grid-cols-2 gap-4">
