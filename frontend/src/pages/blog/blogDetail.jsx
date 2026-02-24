@@ -19,8 +19,8 @@ import {
   Clock,
   Eye
 } from 'lucide-react';
-import Header from '../../components/header.jsx';
-import Footer from '../../components/footer.jsx';
+import Header from '../../Components/Header';
+import Footer from '../../Components/Footer';
 import { blogPosts } from './blogData';
 
 const PrimaryButton = ({ children, onClick, className = "" }) => (
