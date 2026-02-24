@@ -34,7 +34,6 @@ function App() {
   return (
     <>
       <ScrollToTop />
-      <Route path="/" element={<Home />} />
 
       <Routes>
         {/* ================= ADMIN ROUTES (NO LAYOUT) ================= */}
@@ -73,7 +72,9 @@ function App() {
         {/* ================= PUBLIC ROUTES (WITH LAYOUT) ================= */}
 
         <Route element={<Layout />}>
+          {/* Default Home Page */}
           <Route path="/" element={<Home />} />
+
           <Route path="/services" element={<Services />} />
           <Route path="/products" element={<ProductsPage />} />
           <Route path="/products/:id" element={<ProductDetails />} />
