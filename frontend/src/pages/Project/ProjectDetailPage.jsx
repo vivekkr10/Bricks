@@ -1,7 +1,8 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import Navbar from "../../components/header";
+import Header from "../../Components/header.jsx";
 import { useState, useEffect, useRef } from "react";
-import Footer from "../../Components/footer";
+import Footer from "../../Components/footer.jsx";
+import { motion, AnimatePresence } from "framer-motion";
 
 // hooks fires when element view
 function useInView(threshold = 0.15) {
@@ -21,7 +22,6 @@ function useInView(threshold = 0.15) {
 }
 
 // animated counter
-
 function AnimatedNumber({ target, duration = 1200 }) {
   const [val, setVal] = useState(0);
   const num = parseInt(target) || 0;
@@ -41,17 +41,77 @@ function AnimatedNumber({ target, duration = 1200 }) {
   return <span>{num ? val : target}</span>;
 }
 
+// BrickWall pattern background (matching ProductsPage)
+const BrickWall = ({ opacity = 0.06, color = "#8B4513" }) => (
+  <svg
+    style={{
+      position: "absolute",
+      inset: 0,
+      width: "100%",
+      height: "100%",
+      pointerEvents: "none",
+    }}
+  >
+    <defs>
+      <pattern
+        id={`bwall-${color.replace("#", "")}`}
+        x="0"
+        y="0"
+        width="88"
+        height="44"
+        patternUnits="userSpaceOnUse"
+      >
+        <rect
+          x="2"
+          y="2"
+          width="84"
+          height="20"
+          fill="none"
+          stroke={color}
+          strokeWidth="1"
+          rx="2"
+          opacity={opacity * 12}
+        />
+        <rect
+          x="46"
+          y="24"
+          width="42"
+          height="18"
+          fill="none"
+          stroke={color}
+          strokeWidth="1"
+          rx="2"
+          opacity={opacity * 12}
+        />
+        <rect
+          x="2"
+          y="24"
+          width="42"
+          height="18"
+          fill="none"
+          stroke={color}
+          strokeWidth="1"
+          rx="2"
+          opacity={opacity * 12}
+        />
+      </pattern>
+    </defs>
+    <rect
+      width="100%"
+      height="100%"
+      fill={`url(#bwall-${color.replace("#", "")})`}
+      opacity={opacity}
+    />
+  </svg>
+);
+
 // main section or content
 export default function ProjectDetails() {
   const { state: project } = useLocation();
   const navigate = useNavigate();
   const [scrollY, setScrollY] = useState(0);
-  const [activeTab, setActiveTab] = useState("overview");
   const [imgLoaded, setImgLoaded] = useState(false);
   const [aboutRef, aboutVisible] = useInView();
-  const [statsRef, statsVisible] = useInView(0.1);
-
-  // console.log(project.category);
 
   useEffect(() => {
     const onScroll = () => setScrollY(window.scrollY);
@@ -61,197 +121,198 @@ export default function ProjectDetails() {
 
   if (!project) return null;
 
-  const tabs = [{ id: "overview", label: "Overview", icon: "◈" }];
+  const heroEase = [0.22, 1, 0.36, 1];
 
   return (
     <>
-      <Navbar />
+      <Header />
       <div
-        className="min-h-screen overflow-x-hidden"
-        style={{ background: "#faf9f7", fontFamily: "'DM Sans', sans-serif" }}
+        className="min-h-screen bg-stone-50 text-stone-800"
+        style={{ fontFamily: "'Jost', sans-serif" }}
       >
-        {/* ── INJECTED STYLES ── */}
         <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap');
+          @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Jost:wght@300;400;500;600;700&display=swap');
+          .font-serif { font-family: 'Cormorant Garamond', serif !important; }
+          .font-sans { font-family: 'Jost', sans-serif !important; }
 
-        .font-display { font-family: 'Cormorant Garamond', serif !important; }
+          @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to   { opacity: 1; transform: translateY(0); }
+          }
+          @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+          @keyframes pulseRing {
+            0%   { transform: scale(1);   opacity: 0.6; }
+            100% { transform: scale(2.4); opacity: 0; }
+          }
+          @keyframes floatY {
+            0%,100% { transform: translateY(0); }
+            50%      { transform: translateY(-8px); }
+          }
+          @keyframes slideIn {
+            from { width: 0; }
+            to   { width: 100%; }
+          }
+          @keyframes heroGradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+          }
 
-        @keyframes fadeUp {
-          from { opacity: 0; transform: translateY(26px); }
-          to   { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
-        @keyframes pulseRing {
-          0%   { transform: scale(1);   opacity: 0.6; }
-          100% { transform: scale(2.4); opacity: 0; }
-        }
-        @keyframes floatY {
-          0%,100% { transform: translateY(0); }
-          50%      { transform: translateY(-8px); }
-        }
-        @keyframes slideIn {
-          from { width: 0; }
-          to   { width: 100%; }
-        }
+          .anim-fade-up { animation: fadeUp 0.72s cubic-bezier(.22,.68,0,1.15) forwards; }
+          .anim-float   { animation: floatY 5s ease-in-out infinite; }
 
-        .anim-fade-up { animation: fadeUp 0.72s cubic-bezier(.22,.68,0,1.15) forwards; }
-        .anim-float   { animation: floatY 5s ease-in-out infinite; }
+          .pulse-dot {
+            position: relative;
+            display: inline-flex;
+            width: 8px; height: 8px;
+            border-radius: 50%;
+            background: #ef4444;
+            flex-shrink: 0;
+          }
+          .pulse-dot::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            background: #ef4444;
+            animation: pulseRing 2s ease-out infinite;
+          }
 
-        .pulse-dot {
-          position: relative;
-          display: inline-flex;
-          width: 8px; height: 8px;
-          border-radius: 50%;
-          background: #f07030;
-          flex-shrink: 0;
-        }
-        .pulse-dot::before {
-          content: '';
-          position: absolute;
-          inset: 0;
-          border-radius: 50%;
-          background: #f07030;
-          animation: pulseRing 2s ease-out infinite;
-        }
+          .red-btn {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: #fff;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+            box-shadow: 0 4px 18px rgba(239,68,68,0.3);
+          }
+          .red-btn:hover {
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 8px 28px rgba(239,68,68,0.38);
+            filter: brightness(1.06);
+          }
 
-        .orange-btn {
-          background: linear-gradient(135deg, #f07030, #f58c50);
-          color: #fff;
-          transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
-          box-shadow: 0 4px 18px rgba(240,112,48,0.3);
-        }
-        .orange-btn:hover {
-          transform: translateY(-2px) scale(1.02);
-          box-shadow: 0 8px 28px rgba(240,112,48,0.38);
-          filter: brightness(1.06);
-        }
+          .back-btn {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+          }
+          .back-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+          }
 
-        .back-btn {
-          transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-        .back-btn:hover {
-          transform: translateY(-1px);
-          box-shadow: 0 6px 20px rgba(0,0,0,0.12);
-        }
+          .tab-indicator {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 2.5px;
+            background: linear-gradient(90deg, #ef4444, #dc2626);
+            border-radius: 2px;
+            animation: slideIn 0.28s ease forwards;
+          }
 
-        .tab-indicator {
-          position: absolute;
-          bottom: 0; left: 0; right: 0;
-          height: 2.5px;
-          background: linear-gradient(90deg, #f07030, #f58c50);
-          border-radius: 2px;
-          animation: slideIn 0.28s ease forwards;
-        }
+          .spec-card {
+            background: #fff;
+            border: 1px solid rgba(0,0,0,0.06);
+            transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+          }
+          .spec-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 36px rgba(239,68,68,0.13);
+            border-color: rgba(239,68,68,0.25);
+          }
 
-        .spec-card {
-          background: #fff;
-          border: 1px solid rgba(0,0,0,0.06);
-          transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
-        }
-        .spec-card:hover {
-          transform: translateY(-5px);
-          box-shadow: 0 12px 36px rgba(240,112,48,0.13);
-          border-color: rgba(240,112,48,0.25);
-        }
+          .detail-row {
+            transition: background 0.2s;
+          }
+          .detail-row:hover {
+            background: rgba(239,68,68,0.04);
+            border-radius: 10px;
+          }
 
-        .detail-row {
-          transition: background 0.2s;
-        }
-        .detail-row:hover {
-          background: rgba(240,112,48,0.04);
-          border-radius: 10px;
-        }
+          .progress-fill {
+            background: linear-gradient(90deg, #ef4444, #f87171);
+            border-radius: 999px;
+            transition: width 1.5s cubic-bezier(.22,.68,0,1.15);
+          }
 
-        .progress-fill {
-          background: linear-gradient(90deg, #f07030, #f7a878);
-          border-radius: 999px;
-          transition: width 1.5s cubic-bezier(.22,.68,0,1.15);
-        }
+          .hero-gradient-shimmer {
+            background-image: linear-gradient(90deg, #f87171, #ef4444, #b91c1c, #ef4444, #f87171);
+            background-size: 220% 220%;
+            animation: heroGradientShift 8s ease-in-out infinite;
+          }
+        `}</style>
 
-        input, textarea {
-          background: #fff;
-          border: 1.5px solid #e8e4df;
-          transition: border-color 0.2s, box-shadow 0.2s;
-          outline: none;
-        }
-        input:focus, textarea:focus {
-          border-color: #f07030;
-          box-shadow: 0 0 0 3px rgba(240,112,48,0.1);
-        }
-
-        .hero-overlay-bottom {
-          background: linear-gradient(to top, #faf9f7 0%, rgba(250,249,247,0.5) 35%, transparent 70%);
-        }
-        .hero-overlay-left {
-          background: linear-gradient(to right, rgba(250,249,247,0.55) 0%, transparent 60%);
-        }
-      `}</style>
+        <BrickWall opacity={0.05} color="#8B4513" />
 
         {/* Hero section */}
         <section className="relative h-[90vh] overflow-hidden">
           {/* Parallax image */}
-          <div
+          <motion.div
             className="absolute inset-0"
             style={{
               background:
-                "linear-gradient(to top, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.25) 40%, rgba(0,0,0,0.1) 70%, transparent 100%)",
+                "linear-gradient(to top, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.35) 40%, rgba(0,0,0,0.15) 70%, transparent 100%)",
+              y: scrollY * 0.3,
             }}
           >
             <img
               src={project.image}
               alt={project.title}
-              className={` w-full h-full object-cover transition-opacity duration-700 contrast-[1.08] saturate-[1.05] ${imgLoaded ? "opacity-100" : "opacity-0"}`}
+              className={`w-full h-full object-cover transition-opacity duration-700 contrast-[1.08] saturate-[1.05] ${imgLoaded ? "opacity-100" : "opacity-0"}`}
               onLoad={() => setImgLoaded(true)}
             />
-          </div>
+          </motion.div>
 
-          {/* Subtle warm tint */}
+          {/* Warm tint overlay */}
           <div
             className="absolute inset-0"
-            style={{ background: "rgba(250,240,230,0.08)" }}
+            style={{ background: "rgba(239,68,68,0.03)" }}
           />
 
           {/* Back button */}
-          <button
+          <motion.button
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5 }}
             onClick={() => navigate(-1)}
             className="cursor-pointer back-btn absolute top-24 left-6 z-20 flex items-center gap-2.5 px-5 py-2.5 rounded-full text-sm font-medium tracking-wide"
             style={{
-              background: "rgba(255,255,255,0.88)",
+              background: "rgba(255,255,255,0.9)",
               backdropFilter: "blur(14px)",
               color: "#3d3530",
               boxShadow: "0 4px 16px rgba(0,0,0,0.1)",
             }}
           >
-            <span style={{ color: "#f07030" }}>←</span>
-            Projects
-          </button>
+            <svg className="w-4 h-4" style={{ color: "#ef4444" }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+            Back to Projects
+          </motion.button>
 
           {/* Hero content */}
           <div className="absolute bottom-0 left-0 right-0 px-8 md:px-14 pb-14 z-10">
             {/* Category badge */}
-            <div
-              className="inline-flex items-center gap-2.5 px-5 py-2 rounded-full mb-6 text-xs font-semibold tracking-[0.18em] uppercase anim-fade-up"
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1, duration: 0.6 }}
+              className="inline-flex items-center gap-2.5 px-5 py-2 rounded-full mb-6 text-xs font-semibold tracking-[0.18em] uppercase"
               style={{
-                opacity: 0,
-                animationDelay: "0.05s",
-                background: "rgba(255,255,255,0.85)",
+                background: "rgba(255,255,255,0.9)",
                 backdropFilter: "blur(12px)",
-                WebkitBackdropFilter: "blur(12px)",
-                border: "1px solid rgba(255,255,255,0.6)",
-                color: "#c6541a",
+                border: "1px solid rgba(239,68,68,0.3)",
+                color: "#dc2626",
                 boxShadow: "0 8px 28px rgba(0,0,0,0.12)",
               }}
             >
               <span className="pulse-dot" />
               {project.category}
-            </div>
+            </motion.div>
 
             {/* Title */}
-            <h1
-              className="font-display anim-fade-up"
+            <motion.h1
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2, duration: 0.7 }}
+              className="font-serif"
               style={{
-                opacity: 0,
-                animationDelay: "0.17s",
                 fontSize: "clamp(3rem, 8vw, 6.5rem)",
                 fontWeight: 700,
                 lineHeight: 0.95,
@@ -262,301 +323,282 @@ export default function ProjectDetails() {
               }}
             >
               {project.title}
-            </h1>
+            </motion.h1>
 
-            {/* Location */}
-            <p
-              className="flex items-center gap-2 text-base tracking-wider anim-fade-up"
+            {/* Location with professional icon */}
+            <motion.p
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3, duration: 0.6 }}
+              className="flex items-center gap-2 text-base tracking-wider"
               style={{
-                opacity: 0,
-                animationDelay: "0.3s",
                 color: "rgba(255,255,255,0.9)",
                 marginBottom: "1.8rem",
                 textShadow: "0 2px 14px rgba(0,0,0,0.4)",
               }}
             >
-              <span style={{ color: "#f07030" }}>⊕</span>
+              <svg className="w-5 h-5" style={{ color: "#ef4444" }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
               {project.location}
-            </p>
+            </motion.p>
 
             {/* Stat pills */}
-            <div
-              className="flex flex-wrap gap-3 anim-fade-up"
-              style={{ opacity: 0, animationDelay: "0.42s" }}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4, duration: 0.6 }}
+              className="flex flex-wrap gap-3"
             >
               {[
-                { label: "Area", val: project.details?.area },
-                { label: "Year", val: project.details?.year },
-                { label: "Client", val: project.details?.client },
+                { label: "Area", val: project.details?.area, icon: "square" },
+                { label: "Year", val: project.details?.year, icon: "calendar" },
+                { label: "Client", val: project.details?.client, icon: "building" },
               ]
                 .filter((s) => s.val)
-                .map((s) => (
-                  <div
+                .map((s, index) => (
+                  <motion.div
                     key={s.label}
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ delay: 0.5 + index * 0.1 }}
                     className="flex items-center gap-2 px-5 py-2 rounded-full text-sm"
                     style={{
-                      background: "rgba(255,255,255,0.85)",
+                      background: "rgba(255,255,255,0.9)",
                       backdropFilter: "blur(12px)",
                       boxShadow: "0 2px 12px rgba(0,0,0,0.08)",
                       color: "#0e0b0a",
                     }}
                   >
-                    <span style={{ color: "#f07030", fontWeight: 600 }}>
-                      {s.val}
-                    </span>
-                    <span style={{ color: "#ccc" }}>·</span>
-                    <span style={{ color: "#a09080" }}>{s.label}</span>
-                  </div>
+                    {s.icon === "square" && (
+                      <svg className="w-4 h-4" style={{ color: "#ef4444" }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 5a1 1 0 011-1h14a1 1 0 011 1v14a1 1 0 01-1 1H5a1 1 0 01-1-1V5z" />
+                      </svg>
+                    )}
+                    {s.icon === "calendar" && (
+                      <svg className="w-4 h-4" style={{ color: "#ef4444" }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                      </svg>
+                    )}
+                    {s.icon === "building" && (
+                      <svg className="w-4 h-4" style={{ color: "#ef4444" }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                      </svg>
+                    )}
+                    <span style={{ color: "#ef4444", fontWeight: 600 }}>{s.val}</span>
+                    <span style={{ color: "#d4d4d4" }}>·</span>
+                    <span style={{ color: "#78716c" }}>{s.label}</span>
+                  </motion.div>
                 ))}
-            </div>
+            </motion.div>
           </div>
 
-          {/* Vertical scroll hint */}
-          <div
-            className="absolute right-8 top-1/2 -translate-y-1/2 z-10 flex flex-col items-center gap-3"
-            style={{ opacity: 0.25 }}
+          {/* Scroll indicator */}
+          <motion.div
+            animate={{ y: [0, 10, 0] }}
+            transition={{ duration: 2, repeat: Infinity }}
+            className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10"
           >
-            <div
-              className="h-14 w-px"
-              style={{
-                background:
-                  "linear-gradient(to bottom, transparent, #f07030, transparent)",
-              }}
-            />
-            <p
-              className="text-[9px] tracking-[0.35em] uppercase rotate-90 my-2"
-              style={{ color: "#a09080" }}
-            >
-              Scroll
-            </p>
-            <div
-              className="h-14 w-px"
-              style={{
-                background:
-                  "linear-gradient(to bottom, transparent, #f07030, transparent)",
-              }}
-            />
-          </div>
+            <div className="w-7 h-12 border-2 border-white/30 rounded-full flex justify-center">
+              <motion.div
+                className="w-1.5 h-3 bg-red-500 rounded-full mt-2"
+                animate={{ opacity: [0.3, 1, 0.3] }}
+                transition={{ duration: 2, repeat: Infinity }}
+              />
+            </div>
+          </motion.div>
         </section>
 
-        {/* main content */}
-
-        <main className="max-w-6xl mx-auto px-6 py-16">
-          {/* ── OVERVIEW ── */}
-          <div className="grid md:grid-cols-5 gap-12">
-            {/* Left */}
+        {/* Main Content */}
+        <main className="max-w-7xl mx-auto px-6 py-20 relative">
+          <BrickWall opacity={0.03} color="#8B4513" />
+          
+          <div className="grid md:grid-cols-5 gap-12 lg:gap-16">
+            {/* Left Column - About */}
             <div
               ref={aboutRef}
               className="md:col-span-3 space-y-12"
-              style={{
-                opacity: aboutVisible ? 1 : 0,
-                transform: aboutVisible ? "none" : "translateY(28px)",
-                transition: "opacity 0.65s ease, transform 0.65s ease",
-              }}
             >
-              {/* Section label row */}
-              <div className="flex items-center gap-4">
-                <div
-                  className="h-px flex-1"
-                  style={{
-                    background:
-                      "linear-gradient(to right, #f07030aa, transparent)",
-                  }}
-                />
-                <span
-                  className="text-[10px] tracking-[0.35em] uppercase font-semibold"
-                  style={{ color: "#f07030" }}
-                >
-                  About the Project
-                </span>
-              </div>
-
-              {/* Heading + body */}
-              <div>
-                <h2
-                  className="font-display mb-5"
-                  style={{
-                    fontSize: "clamp(2.2rem,5vw,3.5rem)",
-                    fontWeight: 700,
-                    color: "#1c1410",
-                    lineHeight: 1.1,
-                  }}
-                >
-                  Project{" "}
-                  <span className="italic" style={{ color: "#f07030" }}>
-                    Overview
-                  </span>
-                </h2>
-                <p
-                  className="text-lg leading-relaxed font-light"
-                  style={{ color: "#6b5e54" }}
-                >
-                  {project.description}
-                </p>
-              </div>
-
-              {/* Pull quote */}
-              <div
-                className="py-1 pl-7"
-                style={{ borderLeft: "3px solid #f07030" }}
+              {/* VR & SONS Header */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={aboutVisible ? { opacity: 1 } : {}}
+                transition={{ duration: 0.6 }}
               >
-                <p
-                  className="font-display text-2xl italic leading-relaxed"
-                  style={{ color: "#5c4d44" }}
-                >
-                  "Architecture is the thoughtful making of space — every line,
-                  a decision."
-                </p>
-              </div>
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="h-px flex-1 bg-gradient-to-r from-red-500 to-transparent" />
+                  <span className="text-xs tracking-[0.3em] uppercase font-semibold text-red-600">
+                    VR & SONS
+                  </span>
+                </div>
+                <p className="text-sm text-stone-500 mb-8">SINCE 1986</p>
+              </motion.div>
 
-              {/* Progress bars */}
-              <div className="space-y-6">
-                <p
-                  className="text-[10px] tracking-[0.3em] uppercase font-semibold"
-                  style={{ color: "#c0afa4" }}
-                >
-                  Project Scores
+              {/* Pull Quote */}
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                animate={aboutVisible ? { opacity: 1, x: 0 } : {}}
+                transition={{ delay: 0.1, duration: 0.6 }}
+                className="py-4 pl-8 border-l-4 border-red-500 bg-gradient-to-r from-red-50/50 to-transparent rounded-r-2xl"
+              >
+                <p className="font-serif text-2xl italic text-stone-700">
+                  "Architecture is the thoughtful making of space — every line, a decision."
                 </p>
+              </motion.div>
+
+              {/* Project Scores */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={aboutVisible ? { opacity: 1 } : {}}
+                transition={{ delay: 0.2, duration: 0.6 }}
+                className="space-y-6"
+              >
+                <span className="text-xs tracking-[0.3em] uppercase font-semibold text-stone-400">
+                  PROJECT SCORES
+                </span>
+                
                 {[
                   { label: "Design Innovation", pct: 92 },
                   { label: "Sustainability", pct: 78 },
                   { label: "Client Satisfaction", pct: 97 },
                   { label: "Build Quality", pct: 88 },
                 ].map((p, i) => (
-                  <div key={p.label}>
+                  <motion.div
+                    key={p.label}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={aboutVisible ? { opacity: 1, y: 0 } : {}}
+                    transition={{ delay: 0.3 + i * 0.1, duration: 0.5 }}
+                  >
                     <div className="flex justify-between text-sm mb-2">
-                      <span style={{ color: "#8a7a6e" }}>{p.label}</span>
-                      <span
-                        className="font-semibold"
-                        style={{ color: "#f07030" }}
-                      >
+                      <span className="text-stone-600">{p.label}</span>
+                      <span className="font-semibold text-red-600">
                         {p.pct}%
                       </span>
                     </div>
-                    <div
-                      className="h-1.5 rounded-full overflow-hidden"
-                      style={{ background: "#ede9e5" }}
-                    >
-                      <div
-                        className="progress-fill h-full"
-                        style={{
-                          width: aboutVisible ? `${p.pct}%` : "0%",
-                          transitionDelay: `${0.1 + i * 0.13}s`,
-                        }}
+                    <div className="h-2 bg-stone-200 rounded-full overflow-hidden">
+                      <motion.div
+                        initial={{ width: 0 }}
+                        animate={aboutVisible ? { width: `${p.pct}%` } : {}}
+                        transition={{ delay: 0.4 + i * 0.1, duration: 1.2, ease: "easeOut" }}
+                        className="h-full bg-gradient-to-r from-red-500 to-orange-400 rounded-full"
                       />
                     </div>
-                  </div>
+                  </motion.div>
                 ))}
-              </div>
+              </motion.div>
             </div>
 
-            {/* Right */}
-            <div className="md:col-span-2 space-y-5">
-              {/* Detail card */}
-              <div
-                className="rounded-3xl p-7"
-                style={{
-                  background: "#fff",
-                  boxShadow: "0 8px 40px rgba(0,0,0,0.07)",
-                  border: "1px solid rgba(240,112,48,0.1)",
-                  opacity: aboutVisible ? 1 : 0,
-                  transform: aboutVisible ? "none" : "translateY(28px)",
-                  transition:
-                    "opacity 0.65s ease 0.18s, transform 0.65s ease 0.18s",
-                }}
+            {/* Right Column - Details */}
+            <div className="md:col-span-2 space-y-6">
+              {/* Project Details Card */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={aboutVisible ? { opacity: 1, y: 0 } : {}}
+                transition={{ delay: 0.2, duration: 0.6 }}
+                className="bg-white rounded-3xl p-8 shadow-xl border border-stone-100"
               >
-                <p
-                  className="text-[10px] tracking-[0.3em] uppercase font-semibold mb-6"
-                  style={{ color: "#f07030" }}
-                >
-                  Project Details
-                </p>
-
-                {[
-                  { label: "Location", val: project.location, icon: "⊕" },
-                  { label: "Category", val: project.category, icon: "⬟" },
-                  { label: "Architect", val: project.architect, icon: "◈" },
-                  {
-                    label: "Client",
-                    val: project.details?.client,
-                    icon: "◉",
-                  },
-                  { label: "Area", val: project.details?.area, icon: "⬡" },
-                  { label: "Year", val: project.details?.year, icon: "◷" },
-                ].map((item, i) => (
-                  <div
-                    key={item.label}
-                    className="detail-row flex items-start gap-4 py-3.5 px-2 -mx-2"
-                    style={{
-                      borderBottom: i < 5 ? "1px solid #f0ece8" : "none",
-                      opacity: aboutVisible ? 1 : 0,
-                      transform: aboutVisible ? "none" : "translateY(10px)",
-                      transition: `opacity 0.45s ease ${0.22 + i * 0.07}s, transform 0.45s ease ${0.22 + i * 0.07}s`,
-                    }}
-                  >
-                    <span
-                      className="w-5 text-center flex-shrink-0 mt-0.5 text-sm"
-                      style={{ color: "#f07030" }}
-                    >
-                      {item.icon}
+                <div className="space-y-6">
+                  {/* Category */}
+                  <div className="flex items-start gap-4">
+                    <span className="text-red-600 w-6 h-6 flex-shrink-0">
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                      </svg>
                     </span>
-                    <div>
-                      <p
-                        className="text-[10px] tracking-widest uppercase mb-0.5"
-                        style={{ color: "#c0afa4" }}
-                      >
-                        {item.label}
-                      </p>
-                      <p
-                        className="font-medium text-sm"
-                        style={{ color: "#2c2420" }}
-                      >
-                        {item.val || "—"}
-                      </p>
+                    <div className="flex-1">
+                      <p className="text-xs tracking-wider uppercase text-stone-400 mb-1">CATEGORY</p>
+                      <p className="font-medium text-stone-800">{project.category}</p>
                     </div>
                   </div>
-                ))}
-              </div>
 
-              {/* Floating architect card */}
-              <div
-                className="anim-float rounded-3xl p-6 flex items-center gap-4"
-                style={{
-                  background: "#fff",
-                  boxShadow: "0 4px 24px rgba(240,112,48,0.1)",
-                  border: "1px solid rgba(240,112,48,0.12)",
-                  opacity: aboutVisible ? 1 : 0,
-                  transition: "opacity 0.65s ease 0.48s",
-                }}
+                  {/* Architect */}
+                  <div className="flex items-start gap-4">
+                    <span className="text-red-600 w-6 h-6 flex-shrink-0">
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                      </svg>
+                    </span>
+                    <div className="flex-1">
+                      <p className="text-xs tracking-wider uppercase text-stone-400 mb-1">ARCHITECT</p>
+                      <p className="font-medium text-stone-800">{project.architect}</p>
+                    </div>
+                  </div>
+
+                  {/* Client */}
+                  <div className="flex items-start gap-4">
+                    <span className="text-red-600 w-6 h-6 flex-shrink-0">
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                      </svg>
+                    </span>
+                    <div className="flex-1">
+                      <p className="text-xs tracking-wider uppercase text-stone-400 mb-1">CLIENT</p>
+                      <p className="font-medium text-stone-800">{project.details?.client}</p>
+                    </div>
+                  </div>
+
+                  {/* Area */}
+                  <div className="flex items-start gap-4">
+                    <span className="text-red-600 w-6 h-6 flex-shrink-0">
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 5a1 1 0 011-1h14a1 1 0 011 1v14a1 1 0 01-1 1H5a1 1 0 01-1-1V5z" />
+                      </svg>
+                    </span>
+                    <div className="flex-1">
+                      <p className="text-xs tracking-wider uppercase text-stone-400 mb-1">AREA</p>
+                      <p className="font-medium text-stone-800">{project.details?.area}</p>
+                    </div>
+                  </div>
+
+                  {/* Year */}
+                  <div className="flex items-start gap-4">
+                    <span className="text-red-600 w-6 h-6 flex-shrink-0">
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                      </svg>
+                    </span>
+                    <div className="flex-1">
+                      <p className="text-xs tracking-wider uppercase text-stone-400 mb-1">YEAR</p>
+                      <p className="font-medium text-stone-800">{project.details?.year}</p>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+
+              {/* Architect Card */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={aboutVisible ? { opacity: 1, y: 0 } : {}}
+                transition={{ delay: 0.4, duration: 0.6 }}
+                whileHover={{ y: -5 }}
+                className="bg-gradient-to-br from-red-500 to-orange-500 rounded-3xl p-8 text-white shadow-xl"
               >
-                <div
-                  className="w-12 h-12 rounded-2xl flex items-center justify-center text-xl flex-shrink-0 text-white"
-                  style={{
-                    background: "linear-gradient(135deg, #f07030, #f7a060)",
-                  }}
-                >
-                  ◈
+                <div className="flex items-start gap-4">
+                  <div className="w-14 h-14 bg-white/20 backdrop-blur rounded-2xl flex items-center justify-center flex-shrink-0">
+                    <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <p className="text-xs tracking-wider uppercase text-white/70 mb-1">
+                      LEAD ARCHITECT
+                    </p>
+                    <p className="font-serif text-xl font-semibold mb-2">
+                      {project.architect || "Studio Architect"}
+                    </p>
+                    <p className="text-white/80 text-sm flex items-center gap-2">
+                      <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                      <span>Principal Architect • 20+ years experience</span>
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <p
-                    className="text-[10px] tracking-widest uppercase mb-0.5"
-                    style={{ color: "#c0afa4" }}
-                  >
-                    Lead Architect
-                  </p>
-                  <p
-                    className="font-semibold text-sm"
-                    style={{ color: "#2c2420" }}
-                  >
-                    {project.architect || "Studio Architect"}
-                  </p>
-                </div>
-              </div>
+              </motion.div>
             </div>
           </div>
         </main>
-
-        {/* footer Stripe */}
       </div>
       <Footer />
     </>

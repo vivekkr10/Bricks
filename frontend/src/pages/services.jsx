@@ -6,7 +6,7 @@ import Header from '../Components/header';
 import Footer from '../Components/footer';
 
 // ─── BRICK WALL SVG BACKGROUND ───────────────────────────────────────────────
-const BrickWallBg = ({ opacity = 0.06, color = '#8B4513' }) => (
+const BrickWallBg = ({ opacity = 0.05, color = '#8B4513' }) => (
   <svg style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', pointerEvents: 'none' }}>
     <defs>
       <pattern id={`bwall-services-${color.replace('#', '')}`} x="0" y="0" width="88" height="44" patternUnits="userSpaceOnUse">
@@ -21,7 +21,7 @@ const BrickWallBg = ({ opacity = 0.06, color = '#8B4513' }) => (
 
 // ─── HERO ────────────────────────────────────────────────────────────────────
 const ServiceHero = () => (
-  <div className="relative h-[55vh] min-h-[420px] w-full flex items-center justify-center overflow-hidden bg-stone-950">
+  <div className="relative h-[55vh] min-h-[620px] w-full flex items-center justify-center overflow-hidden bg-stone-950">
     <motion.div
       initial={{ scale: 1.15 }}
       animate={{ scale: 1 }}
@@ -32,11 +32,11 @@ const ServiceHero = () => (
     <div className="absolute inset-0 bg-gradient-to-b from-stone-950/70 via-stone-950/50 to-stone-950/80" />
     <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
       <motion.div initial={{ y: 30, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.8, delay: 0.2 }}>
-        <span className="inline-block py-1 px-4 border border-red-500/40 rounded-full text-xs font-bold text-red-300 uppercase tracking-[0.2em] mb-6 backdrop-blur-md font-sans">
+        <span className="inline-block py-1 px-4 border bg-stone-300 border-red-700 rounded-full text-xs font-bold text-red-700 uppercase tracking-[0.2em] mb-6 backdrop-blur-md font-sans">
           Our Capabilities
         </span>
         <h1 className="text-4xl sm:text-5xl md:text-7xl font-serif font-semibold text-white mb-6 leading-tight drop-shadow-2xl">
-          Expertise Beyond <br className="hidden sm:block" /> Manufacturing
+          Expertise <span className=" text-transparent bg-clip-text bg-gradient-to-r from-red-600 via-red-500 to-red-500 ">Beyond </span> <br className="hidden sm:block" /> Manufacturing
         </h1>
         <p className="text-base md:text-xl text-stone-300 font-light max-w-2xl mx-auto leading-relaxed font-sans">
           From restoration to custom creation, we engineer solutions that exceed material limitations.
@@ -48,11 +48,11 @@ const ServiceHero = () => (
 
 // ─── SERVICE SECTION ─────────────────────────────────────────────────────────
 const ServiceSection = ({ id, title, content, image, icon: Icon }) => (
-  <div id={id} className="scroll-mt-24 mb-16 md:mb-24 border-b border-stone-200 pb-12 md:pb-16 last:border-0 last:mb-0 last:pb-0">
+  <div id={id} className="scroll-mt-24 mt-6 mb-16 md:mb-24 border-b border-stone-200 pb-12 md:pb-16 last:border-0 last:mb-0 last:pb-0">
     <div className="max-w-3xl mb-8">
       <div className="flex items-center gap-3 mb-5">
         <div className="p-2.5 bg-red-50 rounded-lg border border-red-200 shadow-sm flex-shrink-0">
-          <Icon className="w-5 h-5 text-red-600" />
+          <Icon className="w-5 h-5 text-red-700" />
         </div>
         <h2 className="text-2xl sm:text-3xl md:text-4xl font-serif font-medium text-stone-900">{title}</h2>
       </div>
@@ -71,7 +71,7 @@ const ServiceSection = ({ id, title, content, image, icon: Icon }) => (
     >
       <img src={image} alt={title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 ease-out" />
       <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-500" />
-      <div className="absolute bottom-0 left-0 right-0 h-1 bg-red-600 scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
+      <div className="absolute bottom-0 left-0 right-0 h-1 bg-red-700 scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
     </motion.div>
   </div>
 );
@@ -155,7 +155,7 @@ export default function Services() {
       {/* ── BRICKWALL BACKGROUND WRAPPER ── */}
       <div className="relative w-full">
         <div className="absolute inset-0 z-0 pointer-events-none">
-          <BrickWallBg opacity={0.1} color="#8B4513" />
+          <BrickWallBg opacity={0.08} color="#8B4513" />
         </div>
 
         <div className="relative z-10">

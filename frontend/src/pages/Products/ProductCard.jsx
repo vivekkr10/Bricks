@@ -6,7 +6,7 @@ const ProductCard = ({ product, viewMode }) => {
   const navigate = useNavigate();
   const [isHovered, setIsHovered] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
-  const productDetailPath = `/products/${product.id}`;
+  const productDetailPath = `/products/${product._id}`;
 
   const handleCardNavigate = (e) => {
     // Allow inner buttons/links to handle their own actions.
@@ -45,7 +45,7 @@ const ProductCard = ({ product, viewMode }) => {
             )}
             <img
               src={product.image || '/images/default-brick.jpg'}
-              alt={product.name}
+              alt={product.productName}
               className={`w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 ${
                 imageLoaded ? 'opacity-100' : 'opacity-0'
               }`}
@@ -80,7 +80,7 @@ const ProductCard = ({ product, viewMode }) => {
             <div className="overflow-y-auto">
               <Link to={productDetailPath}>
                 <h3 className="font-serif text-lg font-bold text-stone-900 mb-1 group-hover:text-red-700 transition-colors line-clamp-2">
-                  {product.name}
+                  {product.productName}
                 </h3>
               </Link>
               
@@ -123,7 +123,7 @@ const ProductCard = ({ product, viewMode }) => {
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                onClick={() => navigate('/inquiry', { state: { productId: product.id, productName: product.name } })}
+                onClick={() => navigate('/inquiry', { state: { productId: product._id, productName: product.productName } })}
                 className="flex-1 px-3 py-2 border-2 border-red-700 text-red-700 rounded-lg hover:bg-red-50 transition-colors font-bold text-xs whitespace-nowrap"
               >
                 Inquire
@@ -151,7 +151,7 @@ const ProductCard = ({ product, viewMode }) => {
         )}
         <img
           src={product.image || '/images/default-brick.jpg'}
-          alt={product.name}
+          alt={product.productName}
           className={`w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 ${
             imageLoaded ? 'opacity-100' : 'opacity-0'
           }`}
@@ -186,7 +186,7 @@ const ProductCard = ({ product, viewMode }) => {
         <div className="overflow-y-auto">
           <Link to={productDetailPath}>
             <h3 className="font-serif text-xl font-bold text-stone-900 mb-1 group-hover:text-red-700 transition-colors line-clamp-2">
-              {product.name}
+              {product.productName}
             </h3>
           </Link>
           
@@ -220,7 +220,7 @@ const ProductCard = ({ product, viewMode }) => {
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            onClick={() => navigate('/inquiry', { state: { productId: product.id, productName: product.name } })}
+            onClick={() => navigate('/inquiry', { state: { productId: product._id, productName: product.productName } })}
             className="flex-1 px-3 py-2.5 border-2 border-red-700 text-red-700 rounded-lg hover:bg-red-50 transition-colors font-bold text-xs whitespace-nowrap"
           >
             Inquire

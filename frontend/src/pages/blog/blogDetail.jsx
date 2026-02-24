@@ -26,7 +26,7 @@ import { blogPosts } from './blogData';
 const PrimaryButton = ({ children, onClick, className = "" }) => (
   <button
     onClick={onClick}
-    className={`bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 
+    className={`bg-gradient-to-r from-red-700 to-red-700 hover:from-red-700 hover:to-red-800 
       text-white font-semibold tracking-wide px-6 py-3 rounded-lg shadow-lg 
       hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 ${className}`}
   >
@@ -56,31 +56,31 @@ export default function BlogDetail() {
     window.scrollTo(0, 0);
   }, [id]);
 
-  const handleShare = (platform) => {
-    const url = window.location.href;
-    const text = `Check out this article: ${post?.title}`;
+  // const handleShare = (platform) => {
+  //   const url = window.location.href;
+  //   const text = `Check out this article: ${post?.title}`;
     
-    let shareUrl = '';
-    switch(platform) {
-      case 'facebook':
-        shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
-        break;
-      case 'twitter':
-        shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`;
-        break;
-      case 'linkedin':
-        shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`;
-        break;
-      case 'email':
-        shareUrl = `mailto:?subject=${encodeURIComponent(post?.title)}&body=${encodeURIComponent(text + '\n\n' + url)}`;
-        break;
-    }
+  //   let shareUrl = '';
+  //   switch(platform) {
+  //     case 'facebook':
+  //       shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
+  //       break;
+  //     case 'twitter':
+  //       shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`;
+  //       break;
+  //     case 'linkedin':
+  //       shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`;
+  //       break;
+  //     case 'email':
+  //       shareUrl = `mailto:?subject=${encodeURIComponent(post?.title)}&body=${encodeURIComponent(text + '\n\n' + url)}`;
+  //       break;
+  //   }
     
-    if (shareUrl) {
-      window.open(shareUrl, '_blank');
-    }
-    setShowShareMenu(false);
-  };
+  //   if (shareUrl) {
+  //     window.open(shareUrl, '_blank');
+  //   }
+  //   setShowShareMenu(false);
+  // };
 
   if (!post) {
     return (
@@ -108,9 +108,9 @@ export default function BlogDetail() {
         <div className="bg-white border-b border-gray-200">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
             <div className="flex items-center gap-2 text-sm">
-              <Link to="/" className="text-gray-500 hover:text-red-600">Home</Link>
+              <Link to="/" className="text-gray-500 hover:text-red-700">Home</Link>
               <ChevronRight size={14} className="text-gray-400" />
-              <Link to="/blog" className="text-gray-500 hover:text-red-600">Blog</Link>
+              <Link to="/blog" className="text-gray-500 hover:text-red-700">Blog</Link>
               <ChevronRight size={14} className="text-gray-400" />
               <span className="text-gray-800 font-medium line-clamp-1">{post.title}</span>
             </div>
@@ -135,13 +135,13 @@ export default function BlogDetail() {
               <Sparkles size={14} /> {post.category}
             </span>
             {post.featured && (
-              <span className="bg-orange-500 text-white text-sm px-4 py-1.5 rounded-full">
+              <span className="bg-red-500 text-white text-sm px-4 py-1.5 rounded-full">
                 Featured
               </span>
             )}
           </div>
           
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-800 mb-4 leading-tight">
+          <h1 className="text-4xl font-serif md:text-5xl lg:text-6xl font-bold text-gray-800 mb-4 leading-tight">
             {post.title}
           </h1>
           
@@ -166,7 +166,7 @@ export default function BlogDetail() {
 
         {/* Featured Image - Separate Section */}
         <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
-          <div className="relative rounded-2xl overflow-hidden shadow-2xl">
+          <div className="relative  rounded-2xl overflow-hidden shadow-2xl">
             <img
               src={post.image}
               alt={post.title}
@@ -179,28 +179,9 @@ export default function BlogDetail() {
         {/* Article Content - No Card, Just Text */}
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           {/* Engagement Bar */}
-          <div className="flex items-center justify-between mb-10 pb-8 border-b border-gray-200">
-            <div className="flex items-center gap-4">
-              <button 
-                onClick={() => setLiked(!liked)}
-                className={`flex items-center gap-2 px-5 py-2.5 rounded-lg transition-all ${
-                  liked ? 'bg-red-600 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                }`}
-              >
-                <Heart size={18} fill={liked ? 'currentColor' : 'none'} />
-                <span>{liked ? 'Liked' : 'Like'}</span>
-              </button>
-              <button className="flex items-center gap-2 px-5 py-2.5 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors text-gray-700">
-                <MessageCircle size={18} />
-                <span>Comment</span>
-              </button>
-              <button className="flex items-center gap-2 px-5 py-2.5 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors text-gray-700">
-                <BookOpen size={18} />
-                <span>Save</span>
-              </button>
-            </div>
+          {/* <div className="flex items-center justify-between mb-10 pb-8 border-b border-gray-200"> */}
             
-            <div className="relative">
+            {/* <div className="relative">
               <button
                 onClick={() => setShowShareMenu(!showShareMenu)}
                 className="flex items-center gap-2 px-5 py-2.5 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors text-gray-700"
@@ -228,8 +209,8 @@ export default function BlogDetail() {
                   </button>
                 </motion.div>
               )}
-            </div>
-          </div>
+            </div> */}
+          {/* </div> */}
 
           {/* Article Content - Clean Text */}
           <article className="prose prose-lg max-w-none">
@@ -249,7 +230,7 @@ export default function BlogDetail() {
 
               <div className="bg-gradient-to-r from-gray-50 to-white p-6 rounded-xl border border-gray-200 my-8">
                 <h4 className="font-bold text-gray-800 mb-3 flex items-center gap-2">
-                  <Sparkles size={20} className="text-red-600" /> Key Takeaway
+                  <Sparkles size={20} className="text-red-700" /> Key Takeaway
                 </h4>
                 <p className="text-gray-700">
                   Quality bricks can last for centuries when properly manufactured and maintained. Always source from reputable manufacturers with proven track records.
@@ -259,15 +240,15 @@ export default function BlogDetail() {
               <h3 className="text-2xl font-bold text-gray-800 mt-8 mb-4">Key Considerations</h3>
               <ul className="space-y-3">
                 <li className="flex items-start gap-3">
-                  <span className="w-1.5 h-1.5 bg-red-600 rounded-full mt-2.5"></span>
+                  <span className="w-1.5 h-1.5 bg-red-700 rounded-full mt-2.5"></span>
                   <span><strong className="text-gray-800">Strength:</strong> Ensure bricks meet the required compressive strength for your project's structural needs.</span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <span className="w-1.5 h-1.5 bg-red-600 rounded-full mt-2.5"></span>
+                  <span className="w-1.5 h-1.5 bg-red-700 rounded-full mt-2.5"></span>
                   <span><strong className="text-gray-800">Durability:</strong> Consider factors like frost resistance and efflorescence potential.</span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <span className="w-1.5 h-1.5 bg-red-600 rounded-full mt-2.5"></span>
+                  <span className="w-1.5 h-1.5 bg-red-700 rounded-full mt-2.5"></span>
                   <span><strong className="text-gray-800">Aesthetics:</strong> Color consistency and texture can significantly impact your building's appearance.</span>
                 </li>
               </ul>
@@ -282,18 +263,18 @@ export default function BlogDetail() {
           <div className="mt-12 pt-8 border-t border-gray-200">
             <div className="flex items-center gap-3">
               <Tag size={18} className="text-gray-400" />
-              <span className="text-sm font-medium text-gray-700">Topics:</span>
+              <span className="text-sm font-medium text-gray-700">Tags:</span>
               <div className="flex flex-wrap gap-2">
-                <span className="px-4 py-1.5 bg-gray-100 rounded-full text-sm text-gray-700 hover:bg-red-100 hover:text-red-600 transition-colors cursor-pointer">
+                <span className="px-4 py-1.5 bg-gray-100 rounded-full text-sm text-gray-700 hover:bg-red-100 hover:text-red-700 transition-colors cursor-pointer">
                   {post.category}
                 </span>
-                <span className="px-4 py-1.5 bg-gray-100 rounded-full text-sm text-gray-700 hover:bg-red-100 hover:text-red-600 transition-colors cursor-pointer">
+                <span className="px-4 py-1.5 bg-gray-100 rounded-full text-sm text-gray-700 hover:bg-red-100 hover:text-red-700 transition-colors cursor-pointer">
                   Construction
                 </span>
-                <span className="px-4 py-1.5 bg-gray-100 rounded-full text-sm text-gray-700 hover:bg-red-100 hover:text-red-600 transition-colors cursor-pointer">
+                <span className="px-4 py-1.5 bg-gray-100 rounded-full text-sm text-gray-700 hover:bg-red-100 hover:text-red-700 transition-colors cursor-pointer">
                   Building Materials
                 </span>
-                <span className="px-4 py-1.5 bg-gray-100 rounded-full text-sm text-gray-700 hover:bg-red-100 hover:text-red-600 transition-colors cursor-pointer">
+                <span className="px-4 py-1.5 bg-gray-100 rounded-full text-sm text-gray-700 hover:bg-red-100 hover:text-red-700 transition-colors cursor-pointer">
                   Brick Quality
                 </span>
               </div>
@@ -303,7 +284,7 @@ export default function BlogDetail() {
           {/* Author Bio */}
           <div className="mt-12 p-8 bg-gray-50 rounded-2xl border border-gray-200">
             <div className="flex items-start gap-4">
-              <div className="w-16 h-16 rounded-full bg-gradient-to-br from-red-600 to-orange-600 flex items-center justify-center text-white text-2xl font-bold">
+              <div className="w-16 h-16 rounded-full bg-gradient-to-br from-red-700 to-red-600 flex items-center justify-center text-white text-2xl font-bold">
                 {post.author.charAt(0)}
               </div>
               <div>
@@ -318,7 +299,7 @@ export default function BlogDetail() {
 
         {/* Related Posts - Clean Cards (Separate Section) */}
         {relatedPosts.length > 0 && (
-          <section className="bg-gray-100 py-16 mt-12">
+          <section className="bg-gray-100 py-16 mt-6">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="text-center mb-10">
                 <h2 className="text-3xl font-bold text-gray-800 mb-2">You Might Also Like</h2>
@@ -342,10 +323,10 @@ export default function BlogDetail() {
                       <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
                     </div>
                     <div className="p-5">
-                      <span className="inline-block bg-red-100 text-red-600 text-xs px-3 py-1 rounded-full mb-3">
+                      <span className="inline-block bg-red-100 text-red-700 text-xs px-3 py-1 rounded-full mb-3">
                         {related.category}
                       </span>
-                      <h3 className="font-bold text-gray-800 mb-2 line-clamp-2 group-hover:text-red-600 transition-colors">
+                      <h3 className="font-bold text-gray-800 mb-2 line-clamp-2 group-hover:text-red-700 transition-colors">
                         {related.title}
                       </h3>
                       <p className="text-sm text-gray-600 mb-3 line-clamp-2">
@@ -353,7 +334,7 @@ export default function BlogDetail() {
                       </p>
                       <div className="flex items-center justify-between">
                         <span className="text-xs text-gray-500">{related.date}</span>
-                        <span className="text-red-600 text-sm font-medium hover:underline">
+                        <span className="text-red-700 text-sm font-medium hover:underline">
                           Read More →
                         </span>
                       </div>

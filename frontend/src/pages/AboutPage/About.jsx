@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import Navbar from "../../Components/header.jsx";
 import Footer from "../../Components/Footer.jsx";
+import { Link } from "react-router-dom";
 import {
   FaTrophy,
   FaCertificate,
@@ -562,13 +563,14 @@ export default function AboutPage() {
                 </motion.p>
 
                 {/* Buttons with hover effects - SMALLER BUTTONS */}
+                
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={heroInView ? { opacity: 1, y: 0 } : {}}
                   transition={{ duration: 0.6, delay: 1.2 }}
                   className="flex flex-col sm:flex-row gap-2 sm:gap-3 mb-5 sm:mb-8"
                 >
-                  <motion.button
+                 {/* <Link to="/about"> <motion.button
                     whileHover={{ scale: 1.03 }}
                     whileTap={{ scale: 0.97 }}
                     className="
@@ -579,7 +581,7 @@ export default function AboutPage() {
               tracking-wide
               px-5 py-2.5
               rounded-xl
-              shadow-md
+              shadow-md cursor-pointer
               hover:shadow-xl
               hover:-translate-y-1
               transition-all duration-300
@@ -588,19 +590,21 @@ export default function AboutPage() {
                   >
                     Discover Our Story
                   </motion.button>
+                  </Link> */}
 
+                <Link to="/products">
                   <motion.button
-                    whileHover={{ scale: 1.03, y: -2 }}
+                   
                     whileTap={{ scale: 0.98 }}
-                    className="group w-full sm:w-auto cursor-pointer px-5 py-2.5 border-2 border-stone-300 text-stone-600 font-semibold text-sm tracking-wide rounded-xl hover:border-red-400 hover:text-red-600 hover:bg-red-50/50 transition-all duration-300 flex items-center justify-center gap-2"
+                    className="group w-full sm:w-auto cursor-pointer px-6 py-3 border-2  text-white/95 font-semibold text-sm tracking-wide rounded-xl hover:bg-red-800 bg-red-700 transition-all hover:-translate-y-1 duration-300 flex items-center justify-center gap-2"
                   >
                     <GiBrickWall className="w-3.5 h-3.5 group-hover:rotate-12 transition-transform" />
                     <span>Our Products</span>
-                  </motion.button>
+                  </motion.button></Link>
                 </motion.div>
 
                 {/* Trust indicators with stagger - SMALLER TEXT */}
-                <motion.div
+                {/* <motion.div
                   initial={{ opacity: 0 }}
                   animate={heroInView ? { opacity: 1 } : {}}
                   transition={{ duration: 0.6, delay: 1.4 }}
@@ -643,7 +647,7 @@ export default function AboutPage() {
                       </span>
                     </motion.div>
                   ))}
-                </motion.div>
+                </motion.div> */}
               </div>
 
               {/* Right Side - Image Gallery - SMALLER IMAGE */}
@@ -949,8 +953,8 @@ export default function AboutPage() {
                 <div
                   className={`inline-flex items-center gap-2.5 bg-red-50 border border-red-200 rounded-full px-4 py-2 reveal-left ${storyInView ? "visible" : ""}`}
                 >
-                  <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
-                  <span className="text-[11px] sm:text-xs font-bold tracking-[0.2em] uppercase text-red-600">
+                  <span className="w-2 h-2 rounded-full bg-red-700 animate-pulse" />
+                  <span className="text-[11px] sm:text-xs font-bold tracking-[0.2em] uppercase text-red-700">
                     Established 1986
                   </span>
                 </div>
@@ -963,7 +967,7 @@ export default function AboutPage() {
                   <br />
                   in{" "}
                   <span className="relative">
-                    <span className="text-red-600 relative z-10">Clay</span>
+                    <span className="text-red-700 relative z-10">Clay</span>
                     <span className="absolute bottom-2 left-0 w-full h-3 bg-red-200/50 -z-0 rounded-full" />
                   </span>
                   <br />
@@ -1001,7 +1005,7 @@ export default function AboutPage() {
                     ["100%", "Quality Assured"],
                   ].map(([value, label]) => (
                     <div key={value} className="relative">
-                      <div className="font-serif text-3xl sm:text-4xl font-bold text-stone-900 mb-1">
+                      <div className=" text-2xl sm:text-3xl font-semibold text-stone-900 mb-1">
                         {value}
                       </div>
                       <div className="text-[11px] sm:text-xs font-medium tracking-wide uppercase text-stone-400">
@@ -1651,10 +1655,12 @@ export default function AboutPage() {
                 <div
                   className={`reveal-left d4 ${coverageInView ? "visible" : ""}`}
                 >
+                  <Link to="/inquiry">
                   <button className="w-full cursor-pointer sm:w-auto px-6 sm:px-8 py-3 sm:py-4 bg-red-700 text-white font-bold text-xs tracking-widest uppercase rounded-xl shadow-xl  hover:bg-red-800 hover:-translate-y-1 transition-all duration-300 flex items-center justify-center gap-2">
                     <FaTruck className="w-4 h-4" />
                     <span>Get a Quote</span>
                   </button>
+                  </Link>
                 </div>
               </div>
 
@@ -1695,9 +1701,7 @@ export default function AboutPage() {
                         </div>
                       ))}
                     </div>
-                    <p className="text-[10px] sm:text-xs text-stone-400 mt-2 sm:mt-3 font-medium">
-                      + More cities on request
-                    </p>
+
                   </div>
                 </div>
               </div>

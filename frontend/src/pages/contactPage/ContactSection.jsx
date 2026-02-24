@@ -158,7 +158,7 @@ const handleSubmit = async (e) => {
             alt="Architectural Building"
             className="absolute inset-0 w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-stone-900/70" />
+          <div className="absolute inset-0 bg-stone-900/60" />
 
           <motion.div 
             initial={{ opacity: 0, y: 30 }}
@@ -168,7 +168,7 @@ const handleSubmit = async (e) => {
           >
             <ShieldCheck className="mx-auto mb-4 text-red-600" />
             <h1 className="text-5xl md:text-7xl font-serif mb-6">
-              Let’s Build Something <span className="italic text-stone-300">Timeless</span>
+              Let’s Build Something <span className="italic text-stone-200">Timeless</span>
             </h1>
             <p className="text-stone-300 mb-8">
               Reach out to Gujarat’s trusted architectural clay experts.
