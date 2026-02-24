@@ -182,8 +182,6 @@ export default function ContactSection() {
 
   return (
     <div className="bg-stone-50 min-h-screen flex flex-col">
-      {/* <Header /> */}
-
       <main className="flex-grow">
         {/* HERO */}
         <section className="relative h-[600px] flex items-center justify-center text-center text-white">
@@ -506,8 +504,6 @@ export default function ContactSection() {
           </div>
         </section>
       </main>
-
-      {/* <Footer /> */}
     </div>
   );
 }

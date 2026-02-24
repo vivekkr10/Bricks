@@ -122,7 +122,6 @@ export default function Privacy() {
           animation: float 6s ease-in-out infinite;
         }
       `}</style>
-      {/* <Header /> */}
 
       {/* MAIN CONTENT - No padding top since header is fixed */}
       <main className="flex-grow relative">
@@ -548,7 +547,6 @@ export default function Privacy() {
           </div>
         </div>
       </main>
-      {/* <Footer /> */}
     </div>
   );
 }

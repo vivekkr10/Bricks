@@ -155,8 +155,6 @@ const InquiryPage = () => {
 
   return (
     <div className="bg-stone-50 min-h-screen flex flex-col font-sans selection:bg-red-100">
-      {/* <Header /> */}
-
       <main className="relative flex-grow flex flex-col items-center pt-24 pb-24 px-6 overflow-hidden">
         <div className="absolute inset-0 z-0">
           <BrickWall opacity={0.08} />
@@ -378,7 +376,6 @@ const InquiryPage = () => {
           </div>
         </div>
       </main>
-      {/* <Footer /> */}
     </div>
   );
 };

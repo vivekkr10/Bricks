@@ -73,8 +73,6 @@ const ThankYouPage = () => {
 
   return (
     <div className="bg-stone-100 min-h-screen flex flex-col font-sans selection:bg-red-500/30 overflow-x-hidden">
-      {/* <Header /> */}
-
       <main className="relative flex-grow flex items-center justify-center px-4 pt-28 pb-20">
         {/* 1. PAGE BACKGROUND */}
         <div className="absolute inset-0 z-0">
@@ -182,8 +180,6 @@ const ThankYouPage = () => {
           </p>
         </div>
       </main>
-
-      {/* <Footer /> */}
     </div>
   );
 };

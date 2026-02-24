@@ -120,7 +120,6 @@ export default function Terms() {
       `}</style>
 
       {/* Header - Your exact header component */}
-      {/* <Header /> */}
 
       {/* MAIN CONTENT - No padding top since header is fixed */}
       <main className="flex-grow relative">
@@ -545,8 +544,6 @@ export default function Terms() {
           </div>
         </div>
       </main>
-
-      {/* <Footer /> */}
     </div>
   );
 }

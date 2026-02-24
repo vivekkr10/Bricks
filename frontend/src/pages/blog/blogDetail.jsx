@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { useParams, Link, useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { 
-  Calendar, 
-  User, 
-  Tag, 
+import React, { useEffect, useState } from "react";
+import { useParams, Link, useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
+import {
+  Calendar,
+  User,
+  Tag,
   ArrowLeft,
   Share2,
   Facebook,
@@ -17,11 +17,11 @@ import {
   MessageCircle,
   BookOpen,
   Clock,
-  Eye
-} from 'lucide-react';
+  Eye,
+} from "lucide-react";
 // import Header from '../../components/Header.jsx';
 // import Footer from '../../components/Footer.jsx';
-import { blogPosts } from './blogData';
+import { blogPosts } from "./blogData";
 
 const PrimaryButton = ({ children, onClick, className = "" }) => (
   <button
@@ -43,23 +43,23 @@ export default function BlogDetail() {
   const [liked, setLiked] = useState(false);
 
   useEffect(() => {
-    const found = blogPosts.find(p => p.id === parseInt(id));
+    const found = blogPosts.find((p) => p.id === parseInt(id));
     setPost(found);
-    
+
     if (found) {
       const related = blogPosts
-        .filter(p => p.category === found.category && p.id !== found.id)
+        .filter((p) => p.category === found.category && p.id !== found.id)
         .slice(0, 3);
       setRelatedPosts(related);
     }
-    
+
     window.scrollTo(0, 0);
   }, [id]);
 
   // const handleShare = (platform) => {
   //   const url = window.location.href;
   //   const text = `Check out this article: ${post?.title}`;
-    
+
   //   let shareUrl = '';
   //   switch(platform) {
   //     case 'facebook':
@@ -75,7 +75,7 @@ export default function BlogDetail() {
   //       shareUrl = `mailto:?subject=${encodeURIComponent(post?.title)}&body=${encodeURIComponent(text + '\n\n' + url)}`;
   //       break;
   //   }
-    
+
   //   if (shareUrl) {
   //     window.open(shareUrl, '_blank');
   //   }
@@ -85,34 +85,38 @@ export default function BlogDetail() {
   if (!post) {
     return (
       <div className="min-h-screen bg-gray-50 flex flex-col">
-        {/* <Header /> */}
         <main className="flex-grow flex items-center justify-center">
           <div className="text-center">
-            <h1 className="text-3xl font-bold text-gray-800 mb-4">Article Not Found</h1>
-            <PrimaryButton onClick={() => navigate('/blog')}>
+            <h1 className="text-3xl font-bold text-gray-800 mb-4">
+              Article Not Found
+            </h1>
+            <PrimaryButton onClick={() => navigate("/blog")}>
               Back to Blog
             </PrimaryButton>
           </div>
         </main>
-        {/* <Footer /> */}
       </div>
     );
   }
 
   return (
     <div className="min-h-screen bg-gray-50 text-gray-800 flex flex-col">
-      {/* <Header /> */}
-
       <main className="flex-grow">
         {/* Breadcrumb */}
         <div className="bg-white border-b border-gray-200">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
             <div className="flex items-center gap-2 text-sm">
-              <Link to="/" className="text-gray-500 hover:text-red-700">Home</Link>
+              <Link to="/" className="text-gray-500 hover:text-red-700">
+                Home
+              </Link>
               <ChevronRight size={14} className="text-gray-400" />
-              <Link to="/blog" className="text-gray-500 hover:text-red-700">Blog</Link>
+              <Link to="/blog" className="text-gray-500 hover:text-red-700">
+                Blog
+              </Link>
               <ChevronRight size={14} className="text-gray-400" />
-              <span className="text-gray-800 font-medium line-clamp-1">{post.title}</span>
+              <span className="text-gray-800 font-medium line-clamp-1">
+                {post.title}
+              </span>
             </div>
           </div>
         </div>
@@ -120,7 +124,7 @@ export default function BlogDetail() {
         {/* Back Button */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <button
-            onClick={() => navigate('/blog')}
+            onClick={() => navigate("/blog")}
             className="inline-flex items-center gap-2 text-gray-600 hover:text-red-600 transition-colors"
           >
             <ArrowLeft size={18} />
@@ -140,11 +144,11 @@ export default function BlogDetail() {
               </span>
             )}
           </div>
-          
+
           <h1 className="text-4xl font-serif md:text-5xl lg:text-6xl font-bold text-gray-800 mb-4 leading-tight">
             {post.title}
           </h1>
-          
+
           <div className="flex flex-wrap items-center gap-4 text-gray-500">
             <span className="flex items-center gap-2">
               <User size={16} /> {post.author}
@@ -180,8 +184,8 @@ export default function BlogDetail() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           {/* Engagement Bar */}
           {/* <div className="flex items-center justify-between mb-10 pb-8 border-b border-gray-200"> */}
-            
-            {/* <div className="relative">
+
+          {/* <div className="relative">
               <button
                 onClick={() => setShowShareMenu(!showShareMenu)}
                 className="flex items-center gap-2 px-5 py-2.5 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors text-gray-700"
@@ -220,12 +224,22 @@ export default function BlogDetail() {
 
             <div className="space-y-6 text-gray-600">
               <p>
-                In the ever-evolving world of construction, staying informed about the latest materials, techniques, and industry standards is crucial for success. At VR & SONS, we've been at the forefront of brick manufacturing for nearly four decades, and we're excited to share our expertise with you.
+                In the ever-evolving world of construction, staying informed
+                about the latest materials, techniques, and industry standards
+                is crucial for success. At VR & SONS, we've been at the
+                forefront of brick manufacturing for nearly four decades, and
+                we're excited to share our expertise with you.
               </p>
 
-              <h3 className="text-2xl font-bold text-gray-800 mt-8 mb-4">The Importance of Quality Materials</h3>
+              <h3 className="text-2xl font-bold text-gray-800 mt-8 mb-4">
+                The Importance of Quality Materials
+              </h3>
               <p>
-                The foundation of any great structure lies in the quality of its materials. When it comes to bricks, several factors determine their performance and longevity. From compressive strength to water absorption rates, each characteristic plays a vital role in how your building will stand the test of time.
+                The foundation of any great structure lies in the quality of its
+                materials. When it comes to bricks, several factors determine
+                their performance and longevity. From compressive strength to
+                water absorption rates, each characteristic plays a vital role
+                in how your building will stand the test of time.
               </p>
 
               <div className="bg-gradient-to-r from-gray-50 to-white p-6 rounded-xl border border-gray-200 my-8">
@@ -233,28 +247,48 @@ export default function BlogDetail() {
                   <Sparkles size={20} className="text-red-700" /> Key Takeaway
                 </h4>
                 <p className="text-gray-700">
-                  Quality bricks can last for centuries when properly manufactured and maintained. Always source from reputable manufacturers with proven track records.
+                  Quality bricks can last for centuries when properly
+                  manufactured and maintained. Always source from reputable
+                  manufacturers with proven track records.
                 </p>
               </div>
 
-              <h3 className="text-2xl font-bold text-gray-800 mt-8 mb-4">Key Considerations</h3>
+              <h3 className="text-2xl font-bold text-gray-800 mt-8 mb-4">
+                Key Considerations
+              </h3>
               <ul className="space-y-3">
                 <li className="flex items-start gap-3">
                   <span className="w-1.5 h-1.5 bg-red-700 rounded-full mt-2.5"></span>
-                  <span><strong className="text-gray-800">Strength:</strong> Ensure bricks meet the required compressive strength for your project's structural needs.</span>
+                  <span>
+                    <strong className="text-gray-800">Strength:</strong> Ensure
+                    bricks meet the required compressive strength for your
+                    project's structural needs.
+                  </span>
                 </li>
                 <li className="flex items-start gap-3">
                   <span className="w-1.5 h-1.5 bg-red-700 rounded-full mt-2.5"></span>
-                  <span><strong className="text-gray-800">Durability:</strong> Consider factors like frost resistance and efflorescence potential.</span>
+                  <span>
+                    <strong className="text-gray-800">Durability:</strong>{" "}
+                    Consider factors like frost resistance and efflorescence
+                    potential.
+                  </span>
                 </li>
                 <li className="flex items-start gap-3">
                   <span className="w-1.5 h-1.5 bg-red-700 rounded-full mt-2.5"></span>
-                  <span><strong className="text-gray-800">Aesthetics:</strong> Color consistency and texture can significantly impact your building's appearance.</span>
+                  <span>
+                    <strong className="text-gray-800">Aesthetics:</strong> Color
+                    consistency and texture can significantly impact your
+                    building's appearance.
+                  </span>
                 </li>
               </ul>
 
               <p className="mt-8">
-                Whether you're a contractor, architect, or homeowner planning a construction project, understanding these fundamentals will help you make informed decisions. At VR & SONS, we're committed to providing not just premium bricks, but also the knowledge to help you build better.
+                Whether you're a contractor, architect, or homeowner planning a
+                construction project, understanding these fundamentals will help
+                you make informed decisions. At VR & SONS, we're committed to
+                providing not just premium bricks, but also the knowledge to
+                help you build better.
               </p>
             </div>
           </article>
@@ -288,9 +322,13 @@ export default function BlogDetail() {
                 {post.author.charAt(0)}
               </div>
               <div>
-                <h4 className="text-lg font-bold text-gray-800 mb-1">About {post.author}</h4>
+                <h4 className="text-lg font-bold text-gray-800 mb-1">
+                  About {post.author}
+                </h4>
                 <p className="text-gray-600 text-sm">
-                  Senior construction expert with over 15 years of experience in brick manufacturing and quality control. Regular contributor to industry publications and speaker at construction forums.
+                  Senior construction expert with over 15 years of experience in
+                  brick manufacturing and quality control. Regular contributor
+                  to industry publications and speaker at construction forums.
                 </p>
               </div>
             </div>
@@ -302,12 +340,16 @@ export default function BlogDetail() {
           <section className="bg-gray-100 py-16 mt-6">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="text-center mb-10">
-                <h2 className="text-3xl font-bold text-gray-800 mb-2">You Might Also Like</h2>
-                <p className="text-gray-600">Explore more articles from our blog</p>
+                <h2 className="text-3xl font-bold text-gray-800 mb-2">
+                  You Might Also Like
+                </h2>
+                <p className="text-gray-600">
+                  Explore more articles from our blog
+                </p>
               </div>
 
               <div className="grid md:grid-cols-3 gap-6">
-                {relatedPosts.map(related => (
+                {relatedPosts.map((related) => (
                   <motion.div
                     key={related.id}
                     whileHover={{ y: -5 }}
@@ -333,7 +375,9 @@ export default function BlogDetail() {
                         {related.excerpt}
                       </p>
                       <div className="flex items-center justify-between">
-                        <span className="text-xs text-gray-500">{related.date}</span>
+                        <span className="text-xs text-gray-500">
+                          {related.date}
+                        </span>
                         <span className="text-red-700 text-sm font-medium hover:underline">
                           Read More →
                         </span>
@@ -346,8 +390,6 @@ export default function BlogDetail() {
           </section>
         )}
       </main>
-
-      {/* <Footer /> */}
     </div>
   );
 }

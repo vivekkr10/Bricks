@@ -910,8 +910,6 @@ export default function Home() {
         .font-sans { font-family: 'Jost', sans-serif; }
       `}</style>
 
-      {/* <Header /> */}
-
       <Hero />
 
       <div className="relative w-full">
@@ -940,8 +938,6 @@ export default function Home() {
           <CtaSection />
         </div>
       </div>
-
-      {/* <Footer /> */}
     </div>
   );
 }

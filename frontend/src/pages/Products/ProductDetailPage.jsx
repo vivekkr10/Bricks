@@ -400,7 +400,6 @@ const ProductDetailPage = () => {
 
   return (
     <>
-      {/* <Header /> */}
       <div
         className="min-h-screen bg-stone-50 text-stone-800"
         style={{ fontFamily: "'Jost', sans-serif" }}
@@ -1278,7 +1277,6 @@ const ProductDetailPage = () => {
           </AnimatePresence>
         </div>
       </div>
-      {/* <Footer /> */}
     </>
   );
 };

@@ -202,8 +202,6 @@ export default function Services() {
         .font-sans { font-family: 'Jost', sans-serif; }
       `}</style>
 
-      {/* <Header /> */}
-
       <ServiceHero />
 
       {/* ── MOBILE INDEX BAR ── */}
@@ -362,7 +360,6 @@ export default function Services() {
           </div>
         </div>
       </div>
-      {/* <Footer /> */}
     </div>
   );
 }

@@ -37,7 +37,7 @@ import {
   Home,
   BookMarked,
   Newspaper,
-  FolderOpen
+  FolderOpen,
 } from "lucide-react";
 
 // import Header from "../../components/Header";
@@ -64,17 +64,51 @@ const BrickWall = ({ opacity = 0.1, color = "#8B4513" }) => (
         height="70"
         patternUnits="userSpaceOnUse"
       >
-        <rect x="4" y="4" width="132" height="28" fill="none" stroke={color} strokeWidth="1.5" rx="4" opacity={opacity * 12} />
-        <rect x="72" y="36" width="66" height="26" fill="none" stroke={color} strokeWidth="1.5" rx="4" opacity={opacity * 12} />
-        <rect x="4" y="36" width="66" height="26" fill="none" stroke={color} strokeWidth="1.5" rx="4" opacity={opacity * 12} />
+        <rect
+          x="4"
+          y="4"
+          width="132"
+          height="28"
+          fill="none"
+          stroke={color}
+          strokeWidth="1.5"
+          rx="4"
+          opacity={opacity * 12}
+        />
+        <rect
+          x="72"
+          y="36"
+          width="66"
+          height="26"
+          fill="none"
+          stroke={color}
+          strokeWidth="1.5"
+          rx="4"
+          opacity={opacity * 12}
+        />
+        <rect
+          x="4"
+          y="36"
+          width="66"
+          height="26"
+          fill="none"
+          stroke={color}
+          strokeWidth="1.5"
+          rx="4"
+          opacity={opacity * 12}
+        />
       </pattern>
     </defs>
-    <rect width="100%" height="100%" fill={`url(#bwall-${color.replace("#", "")})`} opacity={opacity} />
+    <rect
+      width="100%"
+      height="100%"
+      fill={`url(#bwall-${color.replace("#", "")})`}
+      opacity={opacity}
+    />
   </svg>
 );
 
 /* ================= BUTTON COMPONENTS ================= */
-
 
 const SecondaryButton = ({ children, onClick, className = "" }) => (
   <motion.button
@@ -99,8 +133,8 @@ const CategoryDropdown = ({ categories, selectedCategory, onSelect }) => {
         setIsOpen(false);
       }
     };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   return (
@@ -110,7 +144,10 @@ const CategoryDropdown = ({ categories, selectedCategory, onSelect }) => {
         className="w-full flex items-center justify-between gap-2 px-4 py-3 bg-gray-100 rounded-xl hover:bg-gray-200 transition-colors text-gray-700 text-sm md:text-base"
       >
         <span>{selectedCategory}</span>
-        <ChevronDown size={18} className={`transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+        <ChevronDown
+          size={18}
+          className={`transition-transform ${isOpen ? "rotate-180" : ""}`}
+        />
       </button>
 
       <AnimatePresence>
@@ -121,7 +158,7 @@ const CategoryDropdown = ({ categories, selectedCategory, onSelect }) => {
             exit={{ opacity: 0, y: -10 }}
             className="absolute top-full left-0 right-0 mt-1 bg-white rounded-xl shadow-xl border border-gray-200 overflow-hidden z-50 max-h-64 overflow-y-auto"
           >
-            {categories.map(category => (
+            {categories.map((category) => (
               <button
                 key={category}
                 onClick={() => {
@@ -129,9 +166,9 @@ const CategoryDropdown = ({ categories, selectedCategory, onSelect }) => {
                   setIsOpen(false);
                 }}
                 className={`w-full text-left px-4 py-3 text-sm transition-colors hover:bg-red-50 ${
-                  selectedCategory === category 
-                    ? 'bg-red-50 text-red-700 font-medium' 
-                    : 'text-gray-700'
+                  selectedCategory === category
+                    ? "bg-red-50 text-red-700 font-medium"
+                    : "text-gray-700"
                 }`}
               >
                 {category}
@@ -149,7 +186,7 @@ const FeaturedSlider = ({ posts, onPostClick }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(0);
   const [autoplay, setAutoplay] = useState(true);
-  const featuredPosts = posts.filter(p => p.featured).slice(0, 5);
+  const featuredPosts = posts.filter((p) => p.featured).slice(0, 5);
 
   useEffect(() => {
     if (!autoplay || featuredPosts.length === 0) return;
@@ -163,7 +200,9 @@ const FeaturedSlider = ({ posts, onPostClick }) => {
   const handlePrevious = () => {
     setAutoplay(false);
     setDirection(-1);
-    setCurrentIndex((prev) => (prev - 1 + featuredPosts.length) % featuredPosts.length);
+    setCurrentIndex(
+      (prev) => (prev - 1 + featuredPosts.length) % featuredPosts.length,
+    );
   };
 
   const handleNext = () => {
@@ -180,7 +219,7 @@ const FeaturedSlider = ({ posts, onPostClick }) => {
 
   const slideVariants = {
     enter: (direction) => ({
-      x: direction > 0 ? '100%' : '-100%',
+      x: direction > 0 ? "100%" : "-100%",
       opacity: 0,
     }),
     center: {
@@ -188,21 +227,23 @@ const FeaturedSlider = ({ posts, onPostClick }) => {
       opacity: 1,
     },
     exit: (direction) => ({
-      x: direction < 0 ? '100%' : '-100%',
+      x: direction < 0 ? "100%" : "-100%",
       opacity: 0,
-    })
+    }),
   };
 
   if (featuredPosts.length === 0) return null;
 
   return (
-    <div className="
+    <div
+      className="
 relative w-full 
 h-[380px] sm:h-[420px] md:h-[500px] lg:h-[620px] 
 overflow-hidden 
 shadow-2xl 
 group
-">
+"
+    >
       <AnimatePresence initial={false} custom={direction} mode="wait">
         <motion.div
           key={currentIndex}
@@ -221,12 +262,14 @@ group
           />
 
           {/* Gradient overlay */}
-         <div className="
+          <div
+            className="
 absolute inset-0 
 bg-gradient-to-r 
 from-black/80 via-black/50 to-transparent 
 sm:from-black/70 sm:via-black/40
-"></div> 
+"
+          ></div>
 
           {/* Content */}
           <div className="absolute inset-0 flex items-center">
@@ -239,7 +282,8 @@ sm:from-black/70 sm:via-black/40
               >
                 <div className="flex flex-wrap items-center gap-2 mb-3 md:mb-4">
                   <span className="inline-flex items-center gap-1 md:gap-2 bg-red-700 text-white px-3 py-1 md:px-4 md:py-2 rounded-full text-xs md:text-sm font-medium shadow-lg">
-                    <Sparkles size={12} className="md:w-4 md:h-4" /> Featured Story
+                    <Sparkles size={12} className="md:w-4 md:h-4" /> Featured
+                    Story
                   </span>
                   <span className="bg-white/20 backdrop-blur-md text-white px-3 py-1 md:px-4 md:py-2 rounded-full text-xs md:text-sm border border-white/30">
                     #{currentIndex + 1} of {featuredPosts.length}
@@ -266,8 +310,7 @@ sm:from-black/70 sm:via-black/40
                   </span>
                   <span className="w-1 h-1 bg-white/40 rounded-full"></span>
                   <span className="flex items-center gap-1 md:gap-2">
-                    <Clock size={12} className="md:w-4 md:h-4" />
-                    5 min read
+                    <Clock size={12} className="md:w-4 md:h-4" />5 min read
                   </span>
                 </div>
 
@@ -277,7 +320,8 @@ sm:from-black/70 sm:via-black/40
                     text-white font-semibold tracking-wide px-4 py-2 md:px-8 md:py-4 rounded-xl md:rounded-2xl shadow-xl 
                     hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 inline-flex items-center gap-2 text-sm md:text-base"
                 >
-                  Read Full Article <ArrowRight size={16} className="md:w-5 md:h-5" />
+                  Read Full Article{" "}
+                  <ArrowRight size={16} className="md:w-5 md:h-5" />
                 </button>
               </motion.div>
             </div>
@@ -286,36 +330,37 @@ sm:from-black/70 sm:via-black/40
           {/* Category Tag */}
           <div className="absolute top-3 right-3 md:top-6 md:right-6 bg-black/40 backdrop-blur-md text-white px-3 py-1 md:px-4 md:py-2 rounded-full border border-white/30">
             <span className="flex items-center gap-1 md:gap-2 text-xs md:text-sm">
-              <Tag size={12} className="md:w-4 md:h-4" /> {featuredPosts[currentIndex].category}
+              <Tag size={12} className="md:w-4 md:h-4" />{" "}
+              {featuredPosts[currentIndex].category}
             </span>
           </div>
         </motion.div>
       </AnimatePresence>
 
       {/* Navigation Arrows - Always visible */}
-     {/* Left Arrow */}
-<button
-  onClick={handlePrevious}
-  className="absolute left-4 sm:left-6 md:left-8 lg:left-10 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white w-9 h-9 sm:w-11 sm:h-11 lg:w-14 lg:h-14 rounded-full backdrop-blur-sm transition-all hover:scale-110 z-20 flex items-center justify-center"
->
-  <ChevronLeft size={18} className="sm:w-5 sm:h-5 lg:w-6 lg:h-6" />
-</button>
+      {/* Left Arrow */}
+      <button
+        onClick={handlePrevious}
+        className="absolute left-4 sm:left-6 md:left-8 lg:left-10 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white w-9 h-9 sm:w-11 sm:h-11 lg:w-14 lg:h-14 rounded-full backdrop-blur-sm transition-all hover:scale-110 z-20 flex items-center justify-center"
+      >
+        <ChevronLeft size={18} className="sm:w-5 sm:h-5 lg:w-6 lg:h-6" />
+      </button>
 
-{/* Right Arrow */}
-<button
-  onClick={handleNext}
-  className="absolute right-4 sm:right-6 md:right-8 lg:right-10 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white w-9 h-9 sm:w-11 sm:h-11 lg:w-14 lg:h-14 rounded-full backdrop-blur-sm transition-all hover:scale-110 z-20 flex items-center justify-center"
->
-  <ChevronRight size={18} className="sm:w-5 sm:h-5 lg:w-6 lg:h-6" />
-</button>
+      {/* Right Arrow */}
+      <button
+        onClick={handleNext}
+        className="absolute right-4 sm:right-6 md:right-8 lg:right-10 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white w-9 h-9 sm:w-11 sm:h-11 lg:w-14 lg:h-14 rounded-full backdrop-blur-sm transition-all hover:scale-110 z-20 flex items-center justify-center"
+      >
+        <ChevronRight size={18} className="sm:w-5 sm:h-5 lg:w-6 lg:h-6" />
+      </button>
 
       {/* Progress Bar */}
       <div className="absolute bottom-0 left-0 right-0 h-1 bg-white/20">
         <motion.div
           key={currentIndex}
           initial={{ width: 0 }}
-          animate={{ width: '100%' }}
-          transition={{ duration: 5, ease: 'linear' }}
+          animate={{ width: "100%" }}
+          transition={{ duration: 5, ease: "linear" }}
           className="h-full bg-gradient-to-r from-red-500 via-orange-500 to-yellow-500"
         />
       </div>
@@ -327,9 +372,9 @@ sm:from-black/70 sm:via-black/40
             key={index}
             onClick={() => handleDotClick(index)}
             className={`transition-all duration-300 ${
-              index === currentIndex 
-                ? 'w-6 h-1.5 md:w-10 md:h-2 bg-red-600' 
-                : 'w-1.5 h-1.5 md:w-2 md:h-2 bg-white/50 hover:bg-white/80'
+              index === currentIndex
+                ? "w-6 h-1.5 md:w-10 md:h-2 bg-red-600"
+                : "w-1.5 h-1.5 md:w-2 md:h-2 bg-white/50 hover:bg-white/80"
             } rounded-full`}
           />
         ))}
@@ -399,28 +444,28 @@ const BlogCard = ({ post, index }) => {
 const Pagination = ({ currentPage, totalPages, onPageChange }) => {
   const getPageNumbers = () => {
     const pages = [];
-    
+
     if (totalPages <= 3) {
       for (let i = 1; i <= totalPages; i++) {
         pages.push(i);
       }
     } else {
       if (currentPage === 1) {
-        pages.push(1, 2, '...', totalPages);
+        pages.push(1, 2, "...", totalPages);
       } else if (currentPage === totalPages) {
-        pages.push(1, '...', totalPages - 1, totalPages);
+        pages.push(1, "...", totalPages - 1, totalPages);
       } else {
-        pages.push(1, '...', currentPage, '...', totalPages);
+        pages.push(1, "...", currentPage, "...", totalPages);
       }
     }
     return pages;
   };
 
   const handlePageClick = (page) => {
-    if (typeof page === 'number') {
+    if (typeof page === "number") {
       onPageChange(page);
       // Scroll to blog section
-      window.scrollTo({ top: 800, behavior: 'smooth' });
+      window.scrollTo({ top: 800, behavior: "smooth" });
     }
   };
 
@@ -433,24 +478,24 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
       >
         <ChevronsLeft size={16} className="md:w-5 md:h-5" />
       </button>
-      
+
       {getPageNumbers().map((page, index) => (
         <button
           key={index}
           onClick={() => handlePageClick(page)}
-          disabled={page === '...'}
+          disabled={page === "..."}
           className={`w-8 h-8 md:w-10 md:h-10 rounded-lg text-xs md:text-sm font-medium transition-all ${
             currentPage === page
-              ? 'bg-red-700 text-white shadow-lg shadow-red-600/30'
-              : page === '...'
-              ? 'cursor-default bg-transparent text-gray-600'
-              : 'bg-white border border-gray-200 text-gray-600 hover:bg-red-700 hover:text-white'
+              ? "bg-red-700 text-white shadow-lg shadow-red-600/30"
+              : page === "..."
+                ? "cursor-default bg-transparent text-gray-600"
+                : "bg-white border border-gray-200 text-gray-600 hover:bg-red-700 hover:text-white"
           }`}
         >
           {page}
         </button>
       ))}
-      
+
       <button
         onClick={() => handlePageClick(currentPage + 1)}
         disabled={currentPage === totalPages}
@@ -466,11 +511,11 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
 export default function Blog() {
   const navigate = useNavigate();
   const location = useLocation();
-  
+
   // Get page from URL or default to 1
   const queryParams = new URLSearchParams(location.search);
-  const pageFromUrl = parseInt(queryParams.get('page')) || 1;
-  
+  const pageFromUrl = parseInt(queryParams.get("page")) || 1;
+
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(pageFromUrl);
@@ -480,20 +525,28 @@ export default function Blog() {
   const searchRef = useRef(null);
 
   const postsPerPage = 6;
-  const categories = ["All", "Materials", "Brick Quality", "Sustainability", "Industry", "Eco-Friendly", "Construction Tips"];
+  const categories = [
+    "All",
+    "Materials",
+    "Brick Quality",
+    "Sustainability",
+    "Industry",
+    "Eco-Friendly",
+    "Construction Tips",
+  ];
 
   // Calculate category counts
   const categoryCounts = categories.reduce((acc, category) => {
     if (category === "All") {
       acc[category] = blogPosts.length;
     } else {
-      acc[category] = blogPosts.filter(p => p.category === category).length;
+      acc[category] = blogPosts.filter((p) => p.category === category).length;
     }
     return acc;
   }, {});
 
   // Filter posts
-  const filteredPosts = blogPosts.filter(post => {
+  const filteredPosts = blogPosts.filter((post) => {
     const matchesCategory =
       selectedCategory === "All" || post.category === selectedCategory;
     const matchesSearch =
@@ -503,7 +556,7 @@ export default function Blog() {
     return matchesCategory && matchesSearch;
   });
 
-  const regularPosts = filteredPosts.filter(p => !p.featured);
+  const regularPosts = filteredPosts.filter((p) => !p.featured);
   const totalRegularPosts = regularPosts.length;
   const totalPages = Math.ceil(totalRegularPosts / postsPerPage);
 
@@ -516,12 +569,12 @@ export default function Blog() {
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     if (currentPage > 1) {
-      params.set('page', currentPage);
+      params.set("page", currentPage);
     } else {
-      params.delete('page');
+      params.delete("page");
     }
-    const newUrl = `${location.pathname}${params.toString() ? '?' + params.toString() : ''}`;
-    window.history.replaceState({}, '', newUrl);
+    const newUrl = `${location.pathname}${params.toString() ? "?" + params.toString() : ""}`;
+    window.history.replaceState({}, "", newUrl);
   }, [currentPage, location.pathname]);
 
   // Reset to page 1 when filter changes
@@ -571,8 +624,6 @@ export default function Blog() {
           style={{ width: `${scrollProgress}%` }}
         />
 
-        {/* <Header /> */}
-
         {/* ================= HERO SECTION ================= */}
         <section className="relative min-h-[70vh] md:min-h-[80vh] lg:h-screen flex items-center justify-center overflow-hidden pt-16 md:pt-20">
           <img
@@ -580,15 +631,16 @@ export default function Blog() {
             alt="Construction Site with Bricks"
             className="absolute inset-0 w-full h-full object-cover"
           />
-          
-          <div className="absolute inset-0 bg-black/40 md:bg-black/30"></div>
-            <div className="absolute inset-0 bg-gradient-to-r from-stone-950/50 via-stone-950/40 via-20% to-transparent to-60%"></div>
-        <div className="absolute inset-0 opacity-[0.03] pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/stardust.png')]"></div>
 
-          <div className="absolute inset-0 opacity-10 pointer-events-none"
+          <div className="absolute inset-0 bg-black/40 md:bg-black/30"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-stone-950/50 via-stone-950/40 via-20% to-transparent to-60%"></div>
+          <div className="absolute inset-0 opacity-[0.03] pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/stardust.png')]"></div>
+
+          <div
+            className="absolute inset-0 opacity-10 pointer-events-none"
             style={{
               backgroundImage: `repeating-linear-gradient(45deg, #8B4513 0px, #8B4513 2px, transparent 2px, transparent 12px)`,
-              backgroundSize: '60px 60px'
+              backgroundSize: "60px 60px",
             }}
           ></div>
 
@@ -605,7 +657,9 @@ export default function Blog() {
                 className="inline-flex items-center gap-2 bg-white/90 backdrop-blur-md rounded-full px-4 py-2 md:px-6 md:py-3 shadow-lg mb-4 md:mb-8"
               >
                 <Sparkles className="w-4 h-4 md:w-5 md:h-5 text-red-700" />
-                <span className="text-gray-800 text-xs md:text-sm font-medium font-serif tracking-wide">VR & SONS KNOWLEDGE HUB</span>
+                <span className="text-gray-800 text-xs md:text-sm font-medium font-serif tracking-wide">
+                  VR & SONS KNOWLEDGE HUB
+                </span>
               </motion.div>
 
               <h1 className="text-3xl sm:text-4xl md:text-5xl font-serif lg:text-6xl xl:text-7xl font-bold text-white mb-3 md:mb-6 drop-shadow-lg">
@@ -616,18 +670,22 @@ export default function Blog() {
               </h1>
 
               <p className="text-sm sm:text-base md:text-lg lg:text-xl text-white/90 max-w-3xl mx-auto leading-relaxed px-4 mb-4 md:mb-6">
-                Discover expert construction insights, material knowledge, sustainability trends, 
-                and industry best practices from four decades of hands-on experience in the brick industry.
+                Discover expert construction insights, material knowledge,
+                sustainability trends, and industry best practices from four
+                decades of hands-on experience in the brick industry.
               </p>
 
               <div className="flex flex-col sm:flex-row items-center justify-center gap-3 md:gap-4 mt-4 md:mt-8">
                 <button
                   onClick={() =>
-                    window.scrollTo({ top: window.innerHeight, behavior: "smooth" })
+                    window.scrollTo({
+                      top: window.innerHeight,
+                      behavior: "smooth",
+                    })
                   }
                   className="inline-flex items-center cursor-pointer px-6 py-3 bg-red-700 text-white font-bold font-sans text-xs uppercase tracking-wide rounded-xl hover:bg-red-800 transition-all duration-300  hover:-translate-y-1"
                 >
-                  Explore Articles <ArrowRight size={16}  />
+                  Explore Articles <ArrowRight size={16} />
                 </button>
               </div>
             </motion.div>
@@ -637,68 +695,76 @@ export default function Blog() {
         <div className="h-8 md:h-16"></div>
 
         {/* ================= FEATURED SECTION ================= */}
-{/* ================= FEATURED SECTION ================= */}
-<section className="relative w-full py-10 sm:py-12 md:py-16">
+        {/* ================= FEATURED SECTION ================= */}
+        <section className="relative w-full py-10 sm:py-12 md:py-16">
+          {/* Heading Container */}
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-6 md:mb-10">
+            <div>
+              <div className="inline-flex items-center gap-2 bg-red-100 text-red-700 px-3 py-1 md:px-4 md:py-2 rounded-full mb-2 md:mb-3">
+                <Star className="w-3 h-3 md:w-4 md:h-4 fill-red-700" />
+                <span className="text-xs md:text-sm font-medium">
+                  Editor's Choice
+                </span>
+              </div>
 
-  {/* Heading Container */}
-  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-6 md:mb-10">
-    <div>
-      <div className="inline-flex items-center gap-2 bg-red-100 text-red-700 px-3 py-1 md:px-4 md:py-2 rounded-full mb-2 md:mb-3">
-        <Star className="w-3 h-3 md:w-4 md:h-4 fill-red-700" />
-        <span className="text-xs md:text-sm font-medium">
-          Editor's Choice
-        </span>
-      </div>
+              <h2 className="text-xl md:text-3xl lg:text-4xl font-bold text-gray-800">
+                Featured{" "}
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-700 to-red-600">
+                  Stories
+                </span>
+              </h2>
 
-      <h2 className="text-xl md:text-3xl lg:text-4xl font-bold text-gray-800">
-        Featured{" "}
-        <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-700 to-red-600">
-          Stories
-        </span>
-      </h2>
+              <p className="text-sm md:text-base text-gray-500 mt-1 md:mt-2">
+                Hand-picked articles from our construction experts
+              </p>
+            </div>
+          </div>
 
-      <p className="text-sm md:text-base text-gray-500 mt-1 md:mt-2">
-        Hand-picked articles from our construction experts
-      </p>
-    </div>
-  </div>
-
-  {/* Slider With Side Spacing */}
-  <div className="w-full px-4 sm:px-6 md:px-10 lg:px-16 xl:px-24">
-    <FeaturedSlider
-      posts={blogPosts}
-      onPostClick={(id) => navigate(`/blog/${id}`)}
-    />
-  </div>
-
-</section>
+          {/* Slider With Side Spacing */}
+          <div className="w-full px-4 sm:px-6 md:px-10 lg:px-16 xl:px-24">
+            <FeaturedSlider
+              posts={blogPosts}
+              onPostClick={(id) => navigate(`/blog/${id}`)}
+            />
+          </div>
+        </section>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="border-t border-gray-200"></div>
         </div>
 
         {/* ================= SEARCH + FILTER SECTION ================= */}
-      <section className="max-w-[1400px] mx-auto px-4 sm:px-6 md:px-10 lg:px-16 xl:px-20 py-10 sm:py-12 md:py-16">
+        <section className="max-w-[1400px] mx-auto px-4 sm:px-6 md:px-10 lg:px-16 xl:px-20 py-10 sm:py-12 md:py-16">
           <div className="bg-white rounded-2xl md:rounded-3xl shadow-xl md:shadow-2xl p-4 md:p-8 lg:p-10 border border-gray-100">
             <div className="flex flex-col lg:flex-row gap-4 md:gap-8 items-start lg:items-center justify-between mb-4 md:mb-8">
               <div>
-                <h3 className="text-xl md:text-2xl lg:text-3xl font-bold font-serif text-gray-800 mb-1 md:mb-2">All Articles</h3>
-                <p className="text-xs md:text-sm text-gray-500">Browse our complete collection of construction insights</p>
+                <h3 className="text-xl md:text-2xl lg:text-3xl font-bold font-serif text-gray-800 mb-1 md:mb-2">
+                  All Articles
+                </h3>
+                <p className="text-xs md:text-sm text-gray-500">
+                  Browse our complete collection of construction insights
+                </p>
               </div>
 
               {/* Search Bar - No color change on focus */}
-             <div className="w-full lg:w-[500px] xl:w-[600px]">
+              <div className="w-full lg:w-[500px] xl:w-[600px]">
                 <div className="relative flex items-center bg-gray-100 rounded-xl md:rounded-2xl border border-gray-200 transition-all">
-                  <Search size={18} className="absolute left-3 md:left-4 text-gray-400" />
+                  <Search
+                    size={18}
+                    className="absolute left-3 md:left-4 text-gray-400"
+                  />
                   <input
                     ref={searchRef}
                     type="text"
                     placeholder="Search articles..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                   className="w-full pl-10 sm:pl-12 pr-10 sm:pr-12 py-3 sm:py-4 bg-transparent rounded-xl md:rounded-2xl outline-none text-gray-700 text-sm md:text-base"
+                    className="w-full pl-10 sm:pl-12 pr-10 sm:pr-12 py-3 sm:py-4 bg-transparent rounded-xl md:rounded-2xl outline-none text-gray-700 text-sm md:text-base"
                   />
                   {searchQuery && (
-                    <button onClick={() => setSearchQuery('')} className="absolute right-3 md:right-4 text-gray-400 hover:text-gray-600">
+                    <button
+                      onClick={() => setSearchQuery("")}
+                      className="absolute right-3 md:right-4 text-gray-400 hover:text-gray-600"
+                    >
                       <X size={16} className="md:w-5 md:h-5" />
                     </button>
                   )}
@@ -709,7 +775,8 @@ export default function Blog() {
             {/* Categories - Dropdown for all devices */}
             <div className="border-t border-gray-200 pt-4 md:pt-6">
               <h4 className="text-xs md:text-sm font-medium text-gray-500 mb-3 md:mb-4 flex items-center gap-2">
-                <Filter size={14} className="md:w-4 md:h-4" /> Filter by Category
+                <Filter size={14} className="md:w-4 md:h-4" /> Filter by
+                Category
               </h4>
               <CategoryDropdown
                 categories={categories}
@@ -719,36 +786,38 @@ export default function Blog() {
             </div>
 
             {/* Active Filters */}
-            {(selectedCategory !== 'All' || searchQuery) && (
-              <motion.div 
+            {(selectedCategory !== "All" || searchQuery) && (
+              <motion.div
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 className="flex items-center gap-2 md:gap-3 mt-4 md:mt-6 pt-4 md:pt-6 border-t border-gray-200"
               >
-                <span className="text-xs md:text-sm text-gray-500">Active:</span>
+                <span className="text-xs md:text-sm text-gray-500">
+                  Active:
+                </span>
                 <div className="flex flex-wrap gap-1 md:gap-2">
-                  {selectedCategory !== 'All' && (
+                  {selectedCategory !== "All" && (
                     <span className="inline-flex items-center gap-1 px-2 py-1 md:px-4 md:py-2 bg-red-50 rounded-full text-red-600 text-xs md:text-sm border border-red-200">
                       {selectedCategory}
-                      <X 
-                        size={12} 
-                        className="cursor-pointer hover:text-red-800" 
-                        onClick={() => setSelectedCategory('All')} 
+                      <X
+                        size={12}
+                        className="cursor-pointer hover:text-red-800"
+                        onClick={() => setSelectedCategory("All")}
                       />
                     </span>
                   )}
                   {searchQuery && (
                     <span className="inline-flex items-center gap-1 px-2 py-1 md:px-4 md:py-2 bg-red-50 rounded-full text-red-600 text-xs md:text-sm border border-red-200">
                       "{searchQuery}"
-                      <X 
-                        size={12} 
-                        className="cursor-pointer hover:text-red-800" 
-                        onClick={() => setSearchQuery('')} 
+                      <X
+                        size={12}
+                        className="cursor-pointer hover:text-red-800"
+                        onClick={() => setSearchQuery("")}
                       />
                     </span>
                   )}
-                  <button 
-                    onClick={clearFilters} 
+                  <button
+                    onClick={clearFilters}
                     className="text-xs md:text-sm text-gray-500 hover:text-gray-700 underline"
                   >
                     Clear all
@@ -766,8 +835,12 @@ export default function Blog() {
               <div className="w-16 h-16 md:w-20 md:h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Search size={24} className="md:w-8 md:h-8 text-gray-400" />
               </div>
-              <h3 className="text-lg md:text-2xl font-bold text-gray-800 mb-2">No articles found</h3>
-              <p className="text-sm md:text-base text-gray-500 mb-4 md:mb-6">Try adjusting your search or filter criteria</p>
+              <h3 className="text-lg md:text-2xl font-bold text-gray-800 mb-2">
+                No articles found
+              </h3>
+              <p className="text-sm md:text-base text-gray-500 mb-4 md:mb-6">
+                Try adjusting your search or filter criteria
+              </p>
               <SecondaryButton onClick={clearFilters}>
                 Clear Filters
               </SecondaryButton>
@@ -780,7 +853,9 @@ export default function Blog() {
                 </p>
               </div>
 
-              <div className={`grid ${viewMode === 'grid' ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3' : 'grid-cols-1'} gap-4 md:gap-6 lg:gap-8`}>
+              <div
+                className={`grid ${viewMode === "grid" ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3" : "grid-cols-1"} gap-4 md:gap-6 lg:gap-8`}
+              >
                 {currentPosts.map((post, index) => (
                   <BlogCard key={post.id} post={post} index={index} />
                 ))}
@@ -797,10 +872,7 @@ export default function Blog() {
             </>
           )}
         </section>
-        {/* <Footer /> */}
       </div>
-
-    
     </div>
   );
 }
