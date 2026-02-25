@@ -436,6 +436,7 @@ export default function ContactSection() {
                         <input
                           type="number"
                           name="quantity"
+                            min="0" 
                           className="border border-stone-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
                           placeholder="Quantity (in units)"
                           onChange={handleChange}

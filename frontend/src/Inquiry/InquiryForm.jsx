@@ -86,13 +86,13 @@ const InquiryPage = () => {
 
   // Logic: Get product from navigation state, or leave empty for manual typing
   const initialProduct = location.state?.productName || "";
-
+  const iniquantity = location.state?.quantity || "";
   const [formData, setFormData] = useState({
     productName: initialProduct,
     fullName: "",
     mobile: "",
     email: "",
-    quantity: "",
+    quantity: iniquantity,
     location: "",
     message: "",
   });
@@ -332,6 +332,9 @@ const InquiryPage = () => {
                   name="quantity"
                   required
                   onChange={handleChange}
+                  value={formData.quantity}
+                   readOnly={!!iniquantity}
+                     min="0" 
                   type="number"
                   className="w-full bg-transparent border-b border-stone-200 py-3 outline-none focus:border-red-600 transition-all text-stone-900"
                   placeholder="5,000"

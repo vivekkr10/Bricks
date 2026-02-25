@@ -367,50 +367,75 @@ const FloatingStatsBar = () => {
   const { count: exp, ref: expRef } = useCounter(40, 1500);
 
   return (
-    // Increased max-w-5xl to max-w-6xl so it perfectly matches the grid width below it
-    <div className="relative z-30  mx-36 px-4 -mt-14 mb-10">
-      <div className="bg-white/95 backdrop-blur-xl border border-stone-200 shadow-2xl rounded-2xl py-6  flex flex-col md:flex-row items-center justify-around gap-8">
+    <div className="relative z-30 w-full px-4 sm:px-6 lg:px-8 
+                    mt-8 md:-mt-14 mb-10">
+      <div className="max-w-7xl mx-auto 
+                      bg-white/95 backdrop-blur-xl 
+                      border border-stone-200 shadow-2xl 
+                      rounded-2xl py-6 
+                      flex flex-col md:flex-row 
+                      items-center justify-between 
+                      gap-8 md:gap-6">
+
+        {/* Projects */}
         <div
           ref={projRef}
-          className="group flex flex-col items-center text-center w-full md:w-1/3 cursor-default"
+          className="group flex flex-col items-center text-center 
+                     w-full md:w-1/3 cursor-default"
         >
-          <Building2 className="w-8 -ml-4 h-8  text-red-700 mb-3 opacity-90 transition-transform duration-700 ease-in-out group-hover:rotate-[360deg]" />
-          <div className="text-4xl md:text-4xl font-sans font-semibold text-stone-900 mb-2">
+          <Building2 className="w-8 h-8 text-red-700 mb-3 opacity-90 
+                                transition-transform duration-700 
+                                ease-in-out group-hover:rotate-[360deg]" />
+          <div className="text-3xl md:text-4xl font-semibold text-stone-900 mb-2">
             {projects}+
           </div>
-          <div className="text-sm font-serif font-bold uppercase tracking-widest text-stone-600">
+          <div className="text-xs sm:text-sm font-serif font-bold uppercase tracking-widest text-stone-600">
             Projects Served
           </div>
         </div>
 
+        {/* Divider */}
         <div className="hidden md:block w-px h-16 bg-stone-200"></div>
         <div className="md:hidden h-px w-full bg-stone-200"></div>
 
+        {/* Satisfaction */}
         <div
           ref={satRef}
-          className="group flex flex-col items-center text-center w-full md:w-1/3 cursor-default"
+          className="group flex flex-col items-center text-center 
+                     w-full md:w-1/3 cursor-default"
         >
-          <Star className="w-8 -ml-4 h-8 text-red-700 mb-3 opacity-90 transition-transform duration-700 ease-in-out group-hover:rotate-[360deg]" />
-          <div className="text-4xl md:text-4xl font-sans font-semibold text-stone-900 mb-2">
+          <Star className="w-8 h-8 text-red-700 mb-3 opacity-90 
+                           transition-transform duration-700 
+                           ease-in-out group-hover:rotate-[360deg]" />
+          <div className="text-3xl md:text-4xl font-semibold text-stone-900 mb-2">
             {sat}%
           </div>
-          <div className="text-sm font-serif font-bold uppercase tracking-widest text-stone-600">
+          <div className="text-xs sm:text-sm font-serif font-bold uppercase tracking-widest text-stone-600">
             Satisfaction Rate
           </div>
         </div>
 
+        {/* Divider */}
+        <div className="hidden md:block w-px h-16 bg-stone-200"></div>
+        <div className="md:hidden h-px w-full bg-stone-200"></div>
+
+        {/* Experience */}
         <div
           ref={expRef}
-          className="group flex flex-col items-center text-center w-full md:w-1/3 cursor-default"
+          className="group flex flex-col items-center text-center 
+                     w-full md:w-1/3 cursor-default"
         >
-          <ShieldCheck className="w-8 -ml-3 h-8 text-red-700 mb-3 opacity-90 transition-transform duration-700 ease-in-out group-hover:rotate-[360deg]" />
-          <div className="text-4xl font-sans font-semibold text-stone-900 mb-2">
+          <ShieldCheck className="w-8 h-8 text-red-700 mb-3 opacity-90 
+                                  transition-transform duration-700 
+                                  ease-in-out group-hover:rotate-[360deg]" />
+          <div className="text-3xl md:text-4xl font-semibold text-stone-900 mb-2">
             {exp}+
           </div>
-          <div className="text-sm font-serif font-bold uppercase tracking-widest text-stone-600">
+          <div className="text-xs sm:text-sm font-serif font-bold uppercase tracking-widest text-stone-600">
             Years Experience
           </div>
         </div>
+
       </div>
     </div>
   );
@@ -538,7 +563,7 @@ const AboutShort = () => {
               </p>
             </motion.p>
 
-            <div className="text-center lg:right-left">
+            <div className="">
               <Link
                 to="/about"
                 className="inline-flex items-center px-6 py-3  bg-red-700 text-white font-bold font-sans text-xs uppercase tracking-widest rounded-xl hover:bg-red-800   hover:-translate-y-1 transition-all duration-300"
@@ -818,11 +843,23 @@ const Projects = () => {
   }, []);
 
   return (
-    <section className="py-24 bg-transparent">
+    <section className="py-20 bg-transparent">
       <div className="container mx-auto px-6 max-w-4xl text-center">
-        <h2 className="text-4xl md:text-5xl font-serif font-medium text-stone-900 mb-16">
-          Featured Projects
+        <div className="container mx-auto px-6 mb-10 relative z-10 flex flex-col items-center text-center">
+        <div className="inline-flex items-center gap-2 mb-3">
+          <span className="w-8 h-[2px] bg-red-600"></span>
+          <span className="text-red-700 font-bold uppercase tracking-widest text-xs font-sans">
+            Featured Projects
+          </span>
+          <span className="w-8 h-[2px] bg-red-600"></span>
+        </div>
+        <h2 className="text-4xl md:text-5xl font-serif font-medium text-stone-900 mb-4">
+         Built to Inspire
         </h2>
+        <p className="text-stone-600 font-sans font-light text-lg">
+          Showcasing excellence in every structure we deliver.
+        </p>
+      </div>
 
         <div className="relative h-[500px] rounded-3xl overflow-hidden shadow-2xl">
           <AnimatePresence mode="sync">
@@ -851,7 +888,18 @@ const Projects = () => {
             </p>
           </div>
         </div>
+              <div className="container mx-auto px-6 mt-4 flex justify-center relative z-10">
+        <Link
+          to="/projects"
+          className=" hover:scale-105 
+ inline-flex items-end text-red-700 font-bold font-sans uppercase  text-xs hover:text-red-800 mt-8 transition-colors group border-b-2 border-red-200  hover:border-red-700"
+        >
+          View All Projects
+          <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+        </Link>
       </div>
+      </div>
+      
     </section>
   );
 };
@@ -862,7 +910,7 @@ const CtaSection = () => {
   return (
     <section
       ref={ref}
-      className={`py-16 md:py-20 relative z-10 transition-all duration-1000 ${
+      className={`pb-16 md:py-20 relative z-10 transition-all duration-1000 ${
         isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
       }`}
     >
