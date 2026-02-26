@@ -73,7 +73,7 @@ const ProductForm = ({ editId, onCancel }) => {
       const fetchProductDetails = async () => {
         const token = localStorage.getItem("token"); // Get the token
         try {
-          const response = await fetch(`http://localhost:5000/api/products/${actualId}`, {
+          const response = await fetch(`/api/products/${actualId}`, {
             method: "GET",
             headers: {
               "Authorization": `Bearer ${token}`, 
@@ -157,8 +157,8 @@ const ProductForm = ({ editId, onCancel }) => {
 
     try {
       const url = isEditMode
-        ? `http://localhost:5000/api/products/edit-product/${actualId}`
-        : "http://localhost:5000/api/products/add-product";
+        ? `/api/products/edit-product/${actualId}`
+        : "/api/products/add-product";
 
       const method = isEditMode ? "PUT" : "POST";
 

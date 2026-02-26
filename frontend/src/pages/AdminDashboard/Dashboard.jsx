@@ -33,7 +33,7 @@ const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/products/all-categories");
+        const response = await fetch("/api/products/all-categories");
         const data = await response.json();
 
         const backendCats = Array.isArray(data) ? data : (data.categories || []);
@@ -52,7 +52,7 @@ const [isLoading, setIsLoading] = useState(true);
   const fetchProducts = async () => {
     setIsLoading(true);
     try {
-      const response = await fetch("http://localhost:5000/api/products/all-products");
+      const response = await fetch("/api/products/all-products");
       const data = await response.json();
       setProducts(data);
     } catch (err) {
@@ -114,7 +114,7 @@ const [isLoading, setIsLoading] = useState(true);
     try {
       const token = localStorage.getItem("token");
 
-      const response = await fetch(`http://localhost:5000/api/products/toggle-status/${id}`, {
+      const response = await fetch(`/api/products/toggle-status/${id}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -144,7 +144,7 @@ const [isLoading, setIsLoading] = useState(true);
       try {
         const token = localStorage.getItem("token");
 
-        const response = await fetch(`http://localhost:5000/api/products/delete-product/${id}`, {
+        const response = await fetch(`/api/products/delete-product/${id}`, {
           method: "DELETE",
           headers: {
             // 2. Add the Authorization header
