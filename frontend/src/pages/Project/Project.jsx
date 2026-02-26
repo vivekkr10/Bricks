@@ -614,138 +614,163 @@ export default function ProjectPage() {
           ))}
 
           {/* Main Hero Content - Centered */}
-          <div className="relative z-10 max-w-5xl mx-auto px-6 text-center">
-            {/* Animated badge */}
-            <motion.div
-              initial={{ opacity: 0, y: 30, scale: 0.9 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              transition={{ duration: 0.8, ease: heroEase }}
-              className="inline-block mb-8"
-            >
-              <div className="rotating-border rounded-full p-[2px]">
-                <div className="bg-black/40 backdrop-blur-xl rounded-full px-8 py-3">
-                  <div className="flex items-center gap-3">
-                    <span className="relative flex h-3 w-3">
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                      <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
-                    </span>
-                    <span className="text-xs font-bold tracking-[0.2em] text-white/90 uppercase">
-                      EST. 1984 • FOUR DECADES OF EXCELLENCE
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
+<div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
 
-            {/* Main Title with gradient */}
-            <motion.h1
-              initial={{ opacity: 0, y: 40 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2, duration: 0.9, ease: heroEase }}
-              className="font-serif text-6xl md:text-8xl lg:text-9xl font-bold text-white mb-6 leading-[1.1]"
-            >
-              <span className="block">Architecture</span>
-              <span className="hero-text-shimmer block">That Inspires</span>
-            </motion.h1>
+  {/* Animated badge */}
+  <motion.div
+    initial={{ opacity: 0, y: 30, scale: 0.9 }}
+    animate={{ opacity: 1, y: 0, scale: 1 }}
+    transition={{ duration: 0.8, ease: heroEase }}
+    className="inline-block mb-6 sm:mb-8"
+  >
+    <div className="rotating-border rounded-full p-[2px]">
+      <div className="bg-black/40 backdrop-blur-xl rounded-full px-4 sm:px-6 md:px-8 py-2 sm:py-3">
+        <div className="flex items-center gap-2 sm:gap-3">
+          <span className="relative flex h-2.5 w-2.5 sm:h-3 sm:w-3">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-full w-full bg-red-500"></span>
+          </span>
+          <span className="text-[10px] sm:text-xs font-bold tracking-[0.15em] sm:tracking-[0.2em] text-white/90 uppercase">
+            EST. 1984 • FOUR DECADES OF EXCELLENCE
+          </span>
+        </div>
+      </div>
+    </div>
+  </motion.div>
 
-            {/* Rotating tagline */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.4, duration: 0.8 }}
-              className="mb-10"
-            >
-              <AnimatePresence mode="wait">
-                <motion.p
-                  key={heroTextIndex}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  transition={{ duration: 0.5 }}
-                  className="text-xl md:text-2xl text-white/80 max-w-2xl mx-auto font-light tracking-wide"
-                >
-                  {heroTexts[heroTextIndex]}
-                </motion.p>
-              </AnimatePresence>
-            </motion.div>
+  {/* Main Title */}
+  <motion.h1
+    initial={{ opacity: 0, y: 40 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ delay: 0.2, duration: 0.9, ease: heroEase }}
+    className="font-serif font-bold text-white mb-4 sm:mb-6 leading-[1.1]
+               text-4xl sm:text-5xl md:text-6xl lg:text-8xl xl:text-9xl"
+  >
+    <span className="block">Architecture</span>
+    <span className="hero-text-shimmer block">That Inspires</span>
+  </motion.h1>
 
-            {/* CTA Buttons - Centered */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6, duration: 0.8 }}
-              className="flex flex-wrap justify-center gap-4"
-            >
-              <button 
-                onClick={() => document.getElementById('projects-grid').scrollIntoView({ behavior: 'smooth' })}
-                className="group relative px-8 py-4 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-full font-semibold hover:from-red-700 hover:to-red-800 hover:scale-105 active:scale-95 transition-all duration-300 shadow-lg shadow-red-600/30 overflow-hidden"
-              >
-                <span className="relative z-10 flex items-center gap-2">
-                  Explore Portfolio
-                  <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                  </svg>
-                </span>
-                <motion.div
-                  className="absolute inset-0 bg-white/20"
-                  initial={{ x: '-100%' }}
-                  whileHover={{ x: 0 }}
-                  transition={{ duration: 0.3 }}
-                />
-              </button>
-              
-              <button 
-                onClick={() => navigate('/contact')}
-                className="group px-8 py-4 bg-white/10 backdrop-blur-md text-white rounded-full font-semibold border border-white/20 hover:bg-white/20 hover:scale-105 active:scale-95 transition-all duration-300 flex items-center gap-2"
-              >
-                Let's Talk
-                <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                </svg>
-              </button>
-            </motion.div>
+  {/* Rotating tagline */}
+  <motion.div
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    transition={{ delay: 0.4, duration: 0.8 }}
+    className="mb-8 sm:mb-10 px-2"
+  >
+    <AnimatePresence mode="wait">
+      <motion.p
+        key={heroTextIndex}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -20 }}
+        transition={{ duration: 0.5 }}
+        className="text-base sm:text-lg md:text-xl lg:text-2xl 
+                   text-white/80 max-w-xl md:max-w-2xl mx-auto 
+                   font-light tracking-wide"
+      >
+        {heroTexts[heroTextIndex]}
+      </motion.p>
+    </AnimatePresence>
+  </motion.div>
 
-            {/* Stats Row - Centered with default cursor */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.8, duration: 0.8 }}
-              className="stats-container flex justify-center gap-12 mt-16"
-            >
-              {[
-                { value: "300+", label: "Projects Delivered" },
-                { value: "50+", label: "Cities" },
-                { value: "25", label: "Awards Won" },
-                { value: "40+", label: "Years Legacy" }
-              ].map((stat, i) => (
-                <motion.div
-                  key={stat.label}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.9 + i * 0.1, duration: 0.5 }}
-                  className="text-center"
-                >
-                  <div className="text-3xl md:text-4xl font-bold text-white mb-1">{stat.value}</div>
-                  <div className="text-xs md:text-sm text-white/60 tracking-wide">{stat.label}</div>
-                </motion.div>
-              ))}
-            </motion.div>
+  {/* CTA Buttons */}
+  <motion.div
+    initial={{ opacity: 0, y: 30 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ delay: 0.6, duration: 0.8 }}
+    className="flex flex-col sm:flex-row justify-center items-center gap-4"
+  >
+    <button 
+      onClick={() =>
+        document.getElementById('projects-grid')
+        ?.scrollIntoView({ behavior: 'smooth' })
+      }
+      className="group relative w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4
+                 bg-gradient-to-r from-red-700 to-red-700 text-white 
+                 rounded-full font-semibold text-sm sm:text-base
+                 hover:from-red-700 hover:to-red-800 
+                 hover:scale-105 active:scale-95 
+                 transition-all duration-300 
+                 shadow-lg shadow-red-600/30 overflow-hidden"
+    >
+      <span className="relative z-10 flex items-center justify-center gap-2">
+        Explore Portfolio
+        <svg className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform"
+          fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+            d="M13 7l5 5m0 0l-5 5m5-5H6" />
+        </svg>
+      </span>
+    </button>
 
-            {/* Scroll Indicator */}
-            <motion.div
-              animate={{ y: [0, 10, 0] }}
-              transition={{ duration: 2, repeat: Infinity }}
-              className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
-            >
-              <div className="w-7 h-12 border-2 border-white/30 rounded-full flex justify-center">
-                <motion.div
-                  className="w-1.5 h-3 bg-red-500 rounded-full mt-2"
-                  animate={{ opacity: [0.3, 1, 0.3] }}
-                  transition={{ duration: 2, repeat: Infinity }}
-                />
-              </div>
-            </motion.div>
-          </div>
+    <button 
+      onClick={() => navigate('/contact')}
+      className="group w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4
+                 bg-white/10 backdrop-blur-md text-white 
+                 rounded-full font-semibold text-sm sm:text-base
+                 border border-white/20 
+                 hover:bg-white/20 hover:scale-105 active:scale-95 
+                 transition-all duration-300 
+                 flex items-center justify-center gap-2"
+    >
+      Let's Talk
+      <svg className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform"
+        fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+          d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8
+          a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72
+          C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8
+          9-8s9 3.582 9 8z" />
+      </svg>
+    </button>
+  </motion.div>
+
+  {/* Stats Section */}
+  <motion.div
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    transition={{ delay: 0.8, duration: 0.8 }}
+    className="flex flex-wrap justify-center gap-8 sm:gap-12 mt-12 sm:mt-16"
+  >
+    {[
+      { value: "300+", label: "Projects Delivered" },
+      { value: "50+", label: "Cities" },
+      { value: "25", label: "Awards Won" },
+      { value: "40+", label: "Years Legacy" }
+    ].map((stat, i) => (
+      <motion.div
+        key={stat.label}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.9 + i * 0.1, duration: 0.5 }}
+        className="w-[45%] sm:w-auto text-center"
+      >
+        <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-1">
+          {stat.value}
+        </div>
+        <div className="text-[11px] sm:text-xs md:text-sm text-white/60 tracking-wide">
+          {stat.label}
+        </div>
+      </motion.div>
+    ))}
+  </motion.div>
+
+  {/* Scroll Indicator (hidden on small devices) */}
+  <motion.div
+    animate={{ y: [0, 10, 0] }}
+    transition={{ duration: 2, repeat: Infinity }}
+    className="hidden sm:flex absolute bottom-6 left-1/2 -translate-x-1/2"
+  >
+    <div className="w-6 h-10 border-2 border-white/30 rounded-full flex justify-center">
+      <motion.div
+        className="w-1.5 h-3 bg-red-700 rounded-full mt-2"
+        animate={{ opacity: [0.3, 1, 0.3] }}
+        transition={{ duration: 2, repeat: Infinity }}
+      />
+    </div>
+  </motion.div>
+
+</div>
         </section>
 
         {/* Redesigned Modern Filter Section */}
@@ -765,7 +790,7 @@ export default function ProjectPage() {
               
               {/* Mobile Results */}
               <div className="flex items-center gap-2">
-                <span className="text-2xl font-bold text-red-600">{filteredProjects.length}</span>
+                <span className="text-2xl font-bold text-red-700">{filteredProjects.length}</span>
                 <span className="text-sm text-stone-600">projects</span>
               </div>
             </div>
@@ -778,7 +803,7 @@ export default function ProjectPage() {
                 animate={{ opacity: 1, x: 0 }}
                 className="flex items-center gap-3"
               >
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-red-500 to-red-600 flex items-center justify-center shadow-lg shadow-red-200">
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-red-700 to-red-800 flex items-center justify-center shadow-lg shadow-red-200">
                   <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
                   </svg>
@@ -811,8 +836,8 @@ export default function ProjectPage() {
                       <motion.div
                         className={`filter-chip relative px-5 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 ${
                           isActive 
-                            ? 'bg-gradient-to-r from-red-500 to-red-600 text-white shadow-lg shadow-red-200 active' 
-                            : 'bg-white text-stone-700 hover:bg-red-50 hover:text-red-600'
+                            ? 'bg-gradient-to-r from-red-600 to-red-700 text-white shadow-lg shadow-red-200 active' 
+                            : 'bg-white text-stone-700 hover:bg-red-50 hover:text-red-700'
                         }`}
                         whileHover={{ y: -2 }}
                         whileTap={{ scale: 0.95 }}
@@ -824,7 +849,7 @@ export default function ProjectPage() {
                             animate={{ scale: 1 }}
                             className="absolute -top-1 -right-1 w-4 h-4 bg-white rounded-full flex items-center justify-center shadow-md"
                           >
-                            <svg className="w-3 h-3 text-red-600" fill="currentColor" viewBox="0 0 20 20">
+                            <svg className="w-3 h-3 text-red-700" fill="currentColor" viewBox="0 0 20 20">
                               <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                             </svg>
                           </motion.div>
@@ -861,14 +886,14 @@ export default function ProjectPage() {
                 animate={{ opacity: 1, x: 0 }}
               >
                 {/* Results Counter */}
-                <div className="flex items-center gap-3 px-4 py-2 bg-gradient-to-r from-red-50 to-red-100 rounded-xl">
+                <div className="flex items-center gap-3  px-4 py-2 bg-gradient-to-r from-red-50 to-red-100 rounded-xl">
                   <div className="flex items-baseline gap-1">
                     <span className="text-2xl font-bold text-red-600">{filteredProjects.length}</span>
                     <span className="text-sm text-red-700/70">projects</span>
                   </div>
                   <div className="w-px h-6 bg-red-200" />
                   <div className="flex items-center gap-1">
-                    <svg className="w-4 h-4 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-4 h-4 text-red-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                     <span className="text-sm text-red-700">{totalPages} pages</span>
@@ -902,7 +927,7 @@ export default function ProjectPage() {
                           }}
                           className={`relative p-4 rounded-xl text-center transition-all ${
                             isActive 
-                              ? 'bg-gradient-to-r from-red-500 to-red-600 text-white shadow-lg' 
+                              ? 'bg-gradient-to-r from-red-600 to-red-700 text-white shadow-lg' 
                               : 'bg-white text-stone-700 hover:bg-red-50 hover:scale-105 active:scale-95'
                           }`}
                           whileTap={{ scale: 0.95 }}
@@ -937,7 +962,7 @@ export default function ProjectPage() {
               <h2 className="font-serif text-4xl md:text-5xl font-bold text-stone-900 mb-4">
                 {activeFilter === "All" ? "All Projects" : `${activeFilter} Projects`}
               </h2>
-              <div className="w-24 h-1 bg-gradient-to-r from-red-500 to-red-600 mx-auto rounded-full mb-6" />
+              <div className="w-24 h-1 bg-gradient-to-r from-red-600 to-red-700 mx-auto rounded-full mb-6" />
               <p className="text-stone-600 max-w-2xl mx-auto">
                 Discover our finest work across {activeFilter === "All" ? "all sectors" : `the ${activeFilter.toLowerCase()} sector`}
               </p>
@@ -988,7 +1013,7 @@ export default function ProjectPage() {
 
                         {/* Year Badge */}
                         <div className="absolute top-4 right-4">
-                          <span className="px-4 py-2 bg-red-600 text-white rounded-full text-sm font-semibold shadow-lg">
+                          <span className="px-4 py-2 bg-red-700 text-white rounded-full text-sm font-semibold shadow-lg">
                             {project.details.year}
                           </span>
                         </div>
@@ -1005,7 +1030,7 @@ export default function ProjectPage() {
 
                       {/* Content */}
                       <div className="p-6">
-                        <h3 className="font-serif text-xl font-bold text-stone-900 mb-2 group-hover:text-red-600 transition-colors line-clamp-1">
+                        <h3 className="font-serif text-xl font-bold text-stone-900 mb-2 group-hover:text-red-700 transition-colors line-clamp-1">
                           {project.title}
                         </h3>
                         
@@ -1015,7 +1040,7 @@ export default function ProjectPage() {
 
                         {/* Architect */}
                         <div className="flex items-center gap-2 mb-4 text-sm text-stone-500">
-                          <svg className="w-4 h-4 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <svg className="w-4 h-4 text-red-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                           </svg>
                           <span className="truncate">{project.architect}</span>
@@ -1039,7 +1064,7 @@ export default function ProjectPage() {
                         <motion.button
                           whileHover={{ scale: 1.02 }}
                           whileTap={{ scale: 0.98 }}
-                          className="w-full px-4 py-3 bg-gradient-to-r from-red-500 to-red-600 text-white rounded-xl text-sm font-semibold flex items-center justify-center gap-2 hover:from-red-600 hover:to-red-700 hover:scale-105 active:scale-95 transition-all duration-300 group/btn"
+                          className="w-full px-4 py-3 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-xl text-sm font-semibold flex items-center justify-center gap-2 hover:from-red-600 hover:to-red-700 hover:scale-105 active:scale-95 transition-all duration-300 group/btn"
                           onClick={(e) => {
                             e.stopPropagation();
                             navigate(`/projects/${project.id}`, { state: project });
@@ -1095,7 +1120,7 @@ export default function ProjectPage() {
                     className={`pagination-item px-4 py-2 rounded-xl text-sm font-medium flex items-center gap-1 transition-all ${
                       currentPage === 1
                         ? 'bg-stone-100 text-stone-400 cursor-not-allowed'
-                        : 'bg-white text-stone-700 hover:bg-red-50 hover:text-red-600 hover:scale-105 shadow-sm'
+                        : 'bg-white text-stone-700 hover:bg-red-50 hover:text-red-700 hover:scale-105 shadow-sm'
                     }`}
                   >
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1120,8 +1145,8 @@ export default function ProjectPage() {
                             onClick={() => handlePageChange(pageNum)}
                             className={`pagination-item w-10 h-10 rounded-xl text-sm font-semibold transition-all ${
                               currentPage === pageNum
-                                ? 'bg-gradient-to-r from-red-500 to-red-600 text-white shadow-lg shadow-red-200'
-                                : 'bg-white text-stone-700 hover:bg-red-50 hover:text-red-600 hover:scale-110 shadow-sm'
+                                ? 'bg-gradient-to-r from-red-600 to-red-700 text-white shadow-lg shadow-red-200'
+                                : 'bg-white text-stone-700 hover:bg-red-50 hover:text-red-700 hover:scale-110 shadow-sm'
                             }`}
                           >
                             {pageNum}
@@ -1150,7 +1175,7 @@ export default function ProjectPage() {
                     className={`pagination-item px-4 py-2 rounded-xl text-sm font-medium flex items-center gap-1 transition-all ${
                       currentPage === totalPages
                         ? 'bg-stone-100 text-stone-400 cursor-not-allowed'
-                        : 'bg-white text-stone-700 hover:bg-red-50 hover:text-red-600 hover:scale-105 shadow-sm'
+                        : 'bg-white text-stone-700 hover:bg-red-50 hover:text-red-700 hover:scale-105 shadow-sm'
                     }`}
                   >
                     <span>Next</span>

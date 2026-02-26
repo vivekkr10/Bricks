@@ -21,7 +21,7 @@ const Sidebar = ({ activePage, setActivePage, handleLogout, isCollapsed, setIsCo
         </div>
         <button 
           onClick={() => setIsMobileOpen(!isMobileOpen)}
-          className="p-2 text-[#EA580C] hover:bg-[#EA580C]/10 rounded-lg transition-colors"
+          className="p-2 text-red-700 hover:bg-[#EA580C]/10 rounded-lg transition-colors"
         >
           {isMobileOpen ? <X size={28} /> : <Menu size={28} />}
         </button>
@@ -112,7 +112,7 @@ const NavItem = ({ icon, label, active, isCollapsed, onClick }) => (
     onClick={onClick}
     className={`flex items-center gap-4 p-3 rounded-xl cursor-pointer transition-all duration-300 group relative border-l-4 ${
       active 
-      ? 'bg-[#292524] border-[#EA580C] text-red-600' 
+      ? 'bg-[#292524] border-red-700 text-red-600' 
       : 'hover:bg-[#292524]/50 border-transparent hover:text-white text-white'
     } ${isCollapsed ? 'justify-center' : ''}`}
   >

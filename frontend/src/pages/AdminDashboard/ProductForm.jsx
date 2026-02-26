@@ -138,9 +138,9 @@ const ProductForm = ({ editId, onCancel }) => {
         <div className="bg-stone-50/50 px-8 py-5 border-b border-orange-200 flex justify-between items-center">
           <button
             onClick={onCancel}
-            className="flex items-center gap-2 text-[#EA580C] transition-all font-bold text-sm group"
+            className="flex items-center gap-2 text-red-700 transition-all font-bold text-sm group"
           >
-            <div className="p-2 bg-white rounded-full border border-orange-200">
+            <div className="p-2 bg-white rounded-full border border-red-700 hover:bg-red-700 hover:text-white/95">
               <ArrowLeft size={18} className="cursor-pointer" />
             </div>
             Back to Dashboard
@@ -152,11 +152,11 @@ const ProductForm = ({ editId, onCancel }) => {
             <h1 className="text-4xl font-black text-stone-900 ">
               {isEditMode ? (
                 <>
-                  Update <span className="text-orange-600">Product</span>
+                  Update <span className="text-red-700">Product</span>
                 </>
               ) : (
                 <>
-                  Add New <span className="text-orange-600">Product</span>
+                  Add New <span className="text-red-700">Product</span>
                 </>
               )}
             </h1>
@@ -177,8 +177,8 @@ const ProductForm = ({ editId, onCancel }) => {
                     Product Gallery
                   </label>
                   <div className="space-y-4">
-                    <label className="border-2 border-dashed border-stone-300 rounded-[1.5rem] p-6 bg-white transition-all hover:border-orange-300 flex flex-col items-center justify-center cursor-pointer group">
-                      <div className="p-3 bg-orange-50 text-[#EA580C] rounded-full mb-2 group-hover:scale-110 transition-transform">
+                    <label className="border-2 border-dashed border-stone-300 rounded-[1.5rem] p-6 bg-white transition-all hover:border-red-300 flex flex-col items-center justify-center cursor-pointer group">
+                      <div className="p-3 bg-orange-50 text-red-700 rounded-full mb-2 group-hover:scale-110 transition-transform">
                         <UploadCloud size={24} />
                       </div>
                       <span className="text-xs font-bold text-stone-600">
@@ -207,13 +207,13 @@ const ProductForm = ({ editId, onCancel }) => {
                             <button
                               type="button"
                               onClick={() => removeImage(index)}
-                              className="p-2 bg-red-500 text-white rounded-full hover:scale-110 transition-transform"
+                              className="p-2 bg-red-700 text-white rounded-full hover:scale-110 transition-transform"
                             >
                               <Trash2 size={16} />
                             </button>
                           </div>
                           {index === 0 && (
-                            <span className="absolute top-2 left-2 bg-orange-600 text-[8px] text-white px-2 py-0.5 rounded-full font-bold">
+                            <span className="absolute top-2 left-2 bg-red-700 text-[8px] text-white px-2 py-0.5 rounded-full font-bold">
                               COVER
                             </span>
                           )}
@@ -224,7 +224,7 @@ const ProductForm = ({ editId, onCancel }) => {
                 </div>
                 <button
                   type="submit"
-                  className="w-full text-white py-3 rounded-[1rem] font-black bg-[#c10007] transition-all shadow-xl shadow-red-700/10 flex items-center justify-center gap-3 group hover:scale-105"
+                  className="w-full cursor-pointer  text-white py-3 rounded-xl font-black bg-red-700 transition-all shadow-xl shadow-red-700/10 flex items-center justify-center gap-3 group hover:scale-105"
                 >
                   <Save
                     size={20}
@@ -240,7 +240,7 @@ const ProductForm = ({ editId, onCancel }) => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <FormInput
                   label="Product Name"
-                  icon={<Tag size={16} className="text-orange-600" />}
+                  icon={<Tag size={16} className="text-red-700" />}
                 >
                   <input
                     required
@@ -255,7 +255,7 @@ const ProductForm = ({ editId, onCancel }) => {
                 {/* --- DYNAMIC TYPE DROPDOWN --- */}
                 <FormInput
                   label="Category / Type"
-                  icon={<Layers size={16} className="text-orange-600" />}
+                  icon={<Layers size={16} className="text-red-700" />}
                 >
                   <select
                     required
@@ -277,7 +277,7 @@ const ProductForm = ({ editId, onCancel }) => {
 
                 <FormInput
                   label="Application Area"
-                  icon={<Settings size={16} className="text-orange-600" />}
+                  icon={<Settings size={16} className="text-red-700" />}
                 >
                   <select
                     required
@@ -295,7 +295,7 @@ const ProductForm = ({ editId, onCancel }) => {
 
                 <FormInput
                   label="Product Status"
-                  icon={<Info size={16} className="text-orange-600" />}
+                  icon={<Info size={16} className="text-red-700" />}
                 >
                   <select
                     name="status"
@@ -311,7 +311,7 @@ const ProductForm = ({ editId, onCancel }) => {
 
               <FormInput
                 label="Short Description"
-                icon={<Info size={16} className="text-orange-600" />}
+                icon={<Info size={16} className="text-red-700" />}
               >
                 <input
                   name="shortDesc"
@@ -324,13 +324,13 @@ const ProductForm = ({ editId, onCancel }) => {
 
               <div className="space-y-4">
                 <label className="text-xs font-black text-stone-500 uppercase tracking-widest flex items-center gap-2">
-                  <Cpu size={16} className="text-orange-600" /> Technical
+                  <Cpu size={16} className="text-red-700" /> Technical
                   Specifications
                 </label>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <FormInput
                     label="Strength"
-                    icon={<Zap size={16} className="text-orange-600" />}
+                    icon={<Zap size={16} className="text-red-700" />}
                   >
                     <input
                       name="strength"
@@ -342,7 +342,7 @@ const ProductForm = ({ editId, onCancel }) => {
                   </FormInput>
                   <FormInput
                     label="Size"
-                    icon={<Ruler size={16} className="text-orange-600" />}
+                    icon={<Ruler size={16} className="text-red-700" />}
                   >
                     <input
                       name="size"
@@ -354,7 +354,7 @@ const ProductForm = ({ editId, onCancel }) => {
                   </FormInput>
                   <FormInput
                     label="Weight"
-                    icon={<Weight size={16} className="text-orange-600" />}
+                    icon={<Weight size={16} className="text-red-700" />}
                   >
                     <input
                       name="weight"
@@ -366,7 +366,7 @@ const ProductForm = ({ editId, onCancel }) => {
                   </FormInput>
                   <FormInput
                     label="Water Absorption"
-                    icon={<Droplets size={16} className="text-orange-600" />}
+                    icon={<Droplets size={16} className="text-red-700" />}
                   >
                     <input
                       name="waterAbsorption"
@@ -381,7 +381,7 @@ const ProductForm = ({ editId, onCancel }) => {
 
               <FormInput
                 label="Usage Guidelines"
-                icon={<HelpCircle size={16} className="text-orange-600" />}
+                icon={<HelpCircle size={16} className="text-red-700" />}
               >
                 <textarea
                   name="usage"
@@ -395,7 +395,7 @@ const ProductForm = ({ editId, onCancel }) => {
 
               <FormInput
                 label="Detailed Description"
-                icon={<Info size={16} className="text-orange-600" />}
+                icon={<Info size={16} className="text-red-700" />}
               >
                 <textarea
                   name="detailedDesc"

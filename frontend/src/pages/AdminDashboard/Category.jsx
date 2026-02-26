@@ -133,18 +133,18 @@ const AddCategory = ({ onBack }) => {
         <div className="flex items-center gap-4 mb-4">
           <button
             onClick={onBack}
-            className="p-2 hover:bg-red-600 border border-red-600 group rounded-full transition-colors"
+            className="p-2 hover:bg-red-700 border cursor-pointer border-red-700 group rounded-full transition-colors"
           >
             <ArrowLeft
               size={24}
               className="text-stone-600 group-hover:text-white"
             />
           </button>
-          <p className="text-orange-600 font-bold">back to dashboard</p>
+          <p className="text-red-700 font-bold">back to dashboard</p>
         </div>
 
         <h1 className="text-3xl font-black text-[#1C1917] mb-4">
-          Manage <span className="text-orange-600">Categories</span>
+          Manage <span className="text-red-700">Categories</span>
         </h1>
 
         {/* Form Card */}
@@ -155,7 +155,7 @@ const AddCategory = ({ onBack }) => {
                 Category Thumbnail
               </label>
               <div
-                className={`relative h-56 rounded-[1.5rem] border-2 border-dashed flex flex-col items-center justify-center transition-all overflow-hidden ${image ? "border-orange-500" : "border-stone-200 hover:border-orange-300 bg-stone-50"}`}
+                className={`relative h-56 rounded-[1.5rem] border-2 border-dashed flex flex-col items-center justify-center transition-all overflow-hidden ${image ? "border-red-700" : "border-stone-200 hover:border-red-300 bg-stone-50"}`}
               >
                 {image ? (
                   <>
@@ -166,7 +166,7 @@ const AddCategory = ({ onBack }) => {
                     />
                     <button
                       onClick={() => setImage(null)}
-                      className="absolute top-2 right-2 bg-red-500 text-white p-1.5 rounded-full shadow-lg"
+                      className="absolute top-2 right-2 bg-red-700 text-white p-1.5 rounded-full shadow-lg"
                     >
                       <Trash2 size={16} />
                     </button>
@@ -174,7 +174,7 @@ const AddCategory = ({ onBack }) => {
                 ) : (
                   <label className="cursor-pointer flex flex-col items-center group">
                     <div className="p-4 bg-white rounded-full shadow-md group-hover:scale-110 transition-transform">
-                      <Upload className="text-orange-600" size={24} />
+                      <Upload className="text-red-700" size={24} />
                     </div>
                     <span className="mt-3 text-sm font-bold text-stone-500">
                       Click to upload photo
@@ -200,7 +200,7 @@ const AddCategory = ({ onBack }) => {
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                   placeholder="e.g. Classic Reds"
-                  className="w-full px-6 py-4 rounded-[1rem] bg-stone-50 border border-stone-200 focus:border-orange-500 focus:bg-white outline-none font-bold transition-all"
+                  className="w-full px-6 py-4 rounded-[1rem] bg-stone-50 border border-stone-200 focus:border-red-700 focus:bg-white outline-none font-bold transition-all"
                 />
               </div>
               <motion.button
@@ -208,7 +208,7 @@ const AddCategory = ({ onBack }) => {
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={handleAddCategory}
-                className="w-full bg-orange-600 text-white py-4 rounded-[1rem] font-black shadow-lg shadow-orange-100 flex items-center justify-center gap-2"
+                className="w-full bg-red-700 text-white py-4 cursor-pointer rounded-xl font-black shadow-lg shadow-orange-100 flex items-center justify-center gap-2"
               >
                 <Plus size={20} /> Add Category
               </motion.button>
@@ -236,13 +236,13 @@ const AddCategory = ({ onBack }) => {
               <div className="flex gap-2">
                 <button
                   onClick={() => scroll("left")}
-                  className="p-2 bg-white border border-stone-200 rounded-full hover:bg-orange-600 hover:text-white transition-all shadow-sm"
+                  className="p-2 bg-white border cursor-pointer border-stone-200 rounded-full hover:bg-red-700 hover:text-white transition-all shadow-sm"
                 >
                   <ChevronLeft size={20} />
                 </button>
                 <button
                   onClick={() => scroll("right")}
-                  className="p-2 bg-white border border-stone-200 rounded-full hover:bg-orange-600 hover:text-white transition-all shadow-sm"
+                  className="p-2 bg-white border cursor-pointer border-stone-200 rounded-full hover:bg-red-700 hover:text-white transition-all shadow-sm"
                 >
                   <ChevronRight size={20} />
                 </button>
@@ -280,7 +280,7 @@ const AddCategory = ({ onBack }) => {
                   </div>
                   <button
                     onClick={() => handleDelete(cat._id)}
-                    className="absolute top-0 -right-2 bg-red-500 text-white p-2 rounded-xl shadow-lg opacity-0 group-hover:opacity-100 transition-opacity"
+                    className="absolute top-0 -right-2 cursor-pointer bg-red-700 text-white p-2 rounded-xl shadow-lg opacity-0 group-hover:opacity-100 transition-opacity"
                   >
                     <Trash2 size={14} />
                   </button>
