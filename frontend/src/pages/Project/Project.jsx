@@ -617,7 +617,7 @@ export default function ProjectPage() {
 <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
 
   {/* Animated badge */}
-  <motion.div
+  {/* <motion.div
     initial={{ opacity: 0, y: 30, scale: 0.9 }}
     animate={{ opacity: 1, y: 0, scale: 1 }}
     transition={{ duration: 0.8, ease: heroEase }}
@@ -636,7 +636,7 @@ export default function ProjectPage() {
         </div>
       </div>
     </div>
-  </motion.div>
+  </motion.div> */}
 
   {/* Main Title */}
   <motion.h1
@@ -644,7 +644,7 @@ export default function ProjectPage() {
     animate={{ opacity: 1, y: 0 }}
     transition={{ delay: 0.2, duration: 0.9, ease: heroEase }}
     className="font-serif font-bold text-white mb-4 sm:mb-6 leading-[1.1]
-               text-4xl sm:text-5xl md:text-6xl lg:text-8xl xl:text-9xl"
+               text-3xl sm:text-4xl md:text-5xl lg:text-7xl xl:text-8xl"
   >
     <span className="block">Architecture</span>
     <span className="hero-text-shimmer block">That Inspires</span>
@@ -789,19 +789,19 @@ export default function ProjectPage() {
               </button>
               
               {/* Mobile Results */}
-              <div className="flex items-center gap-2">
+              {/* <div className="flex items-center gap-2">
                 <span className="text-2xl font-bold text-red-700">{filteredProjects.length}</span>
                 <span className="text-sm text-stone-600">projects</span>
-              </div>
+              </div> */}
             </div>
 
             {/* Desktop Filter Bar */}
-            <div className="hidden lg:flex items-center justify-between">
+            <div className="hidden lg:flex items-center ">
               {/* Left Section - Filter Label */}
               <motion.div
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
-                className="flex items-center gap-3"
+                className="flex items-center gap-3 mr-40 "
               >
                 <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-red-700 to-red-800 flex items-center justify-center shadow-lg shadow-red-200">
                   <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -815,7 +815,7 @@ export default function ProjectPage() {
               </motion.div>
 
               {/* Center - Filter Chips */}
-              <div className="flex items-center gap-2 bg-stone-100/80 p-1.5 rounded-2xl backdrop-blur-sm">
+              <div className="flex items-center gap-2 ml-30  bg-stone-100/80 p-1.5 rounded-2xl backdrop-blur-sm">
                 {filters.map((filter, index) => {
                   const isActive = activeFilter === filter;
                   const count = filter === 'All' 
@@ -881,12 +881,12 @@ export default function ProjectPage() {
               </div>
 
               {/* Right Section - Results Only */}
-              <motion.div
+              {/* <motion.div
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
-              >
+              > */}
                 {/* Results Counter */}
-                <div className="flex items-center gap-3  px-4 py-2 bg-gradient-to-r from-red-50 to-red-100 rounded-xl">
+                {/* <div className="flex items-center gap-3  px-4 py-2 bg-gradient-to-r from-red-50 to-red-100 rounded-xl">
                   <div className="flex items-baseline gap-1">
                     <span className="text-2xl font-bold text-red-600">{filteredProjects.length}</span>
                     <span className="text-sm text-red-700/70">projects</span>
@@ -899,7 +899,7 @@ export default function ProjectPage() {
                     <span className="text-sm text-red-700">{totalPages} pages</span>
                   </div>
                 </div>
-              </motion.div>
+              </motion.div> */}
             </div>
 
             {/* Mobile Filter Menu */}
