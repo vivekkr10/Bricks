@@ -305,7 +305,7 @@ const ProductsPage = () => {
       title: "Multis",
       subtitle: "Dynamic Blend",
       image:
-        "https://imgs.search.brave.com/Yw5epWUYQtzziGgnxX0Mbp5NAw6eEWHGj3IN7K1GldU/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jZG4t/aWxjYW5mai5uaXRy/b2Nkbi5jb20vTGxy/VW1DaENYc2xETmt0/cHNDcFNXaW1Kd1Rh/bFJ2TFQvYXNzZXRzL2ltYWdlcy9vcHRp/bWl6ZWQvcmV2LWY4/MTYxZDYvYnJpY2tt/eXdhbGxzLmNvbS93/cC1jb250ZW50L3Vw/bG9hZHMvMjAyMS8w/Ny9ibGVuZDF4LmpwZw",
+        "https://imgs.search.brave.com/Yw5epWUYQtzziGgnxX0Mbp5NAw6eEWHGj3IN7K1GldU/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jZG4t/aWxjYW5mai5uaXRy/b2Nkbi5jb20vTGxy/VW1DaENYc2xETmt0/cHNDcFNXaW1Kd1Rh/bFJ2TFQvYXNzZXRz/L2ltYWdlcy9vcHRp/bWl6ZWQvcmV2LWY4/MTYxZDYvYnJpY2tt/eXdhbGxzLmNvbS93/cC1jb250ZW50L3Vw/bG9hZHMvMjAyMS8w/Ny9ibGVuZDF4Lmpw/Zw",
       overlay: "bg-black/40",
       titleClass: "text-white",
       subtitleClass: "text-amber-100",
