@@ -23,9 +23,9 @@ app.use(
     origin: [
       "http://localhost:5173",
       "http://localhost:5174",
-      "bricks-one.vercel.app",
-      "bricks-git-main-vivek-kumars-projects-c1d529b0.vercel.app",
-      "bricks-57eppq6no-vivek-kumars-projects-c1d529b0.vercel.app",
+      "https://bricks-one.vercel.app",
+      "https://bricks-git-main-vivek-kumars-projects-c1d529b0.vercel.app",
+      "https://bricks-57eppq6no-vivek-kumars-projects-c1d529b0.vercel.app",
     ],
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
