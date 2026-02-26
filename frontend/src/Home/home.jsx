@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 import { motion, useTransform, useSpring, useMotionValue } from "framer-motion";
 import { AnimatePresence } from "framer-motion";
 import {
@@ -9,7 +10,7 @@ import {
   Building2,
   ChevronDown,
 } from "lucide-react";
-import { Helmet } from "react-helmet-async";
+import { Helmet } from "react-helmet";
 import Header from "../Components/header";
 import Footer from "../Components/footer";
 import {
@@ -367,25 +368,30 @@ const FloatingStatsBar = () => {
   const { count: exp, ref: expRef } = useCounter(40, 1500);
 
   return (
-    <div className="relative z-30 w-full px-4 sm:px-6 lg:px-8 
-                    mt-8 md:-mt-14 mb-10">
-      <div className="max-w-7xl mx-auto 
+    <div
+      className="relative z-30 w-full px-4 sm:px-6 lg:px-8 
+                    mt-8 md:-mt-14 mb-10"
+    >
+      <div
+        className="max-w-7xl mx-auto 
                       bg-white/95 backdrop-blur-xl 
                       border border-stone-200 shadow-2xl 
                       rounded-2xl py-6 
                       flex flex-col md:flex-row 
                       items-center justify-between 
-                      gap-8 md:gap-6">
-
+                      gap-8 md:gap-6"
+      >
         {/* Projects */}
         <div
           ref={projRef}
           className="group flex flex-col items-center text-center 
                      w-full md:w-1/3 cursor-default"
         >
-          <Building2 className="w-8 h-8 text-red-700 mb-3 opacity-90 
+          <Building2
+            className="w-8 h-8 text-red-700 mb-3 opacity-90 
                                 transition-transform duration-700 
-                                ease-in-out group-hover:rotate-[360deg]" />
+                                ease-in-out group-hover:rotate-[360deg]"
+          />
           <div className="text-3xl md:text-4xl font-semibold text-stone-900 mb-2">
             {projects}+
           </div>
@@ -404,9 +410,11 @@ const FloatingStatsBar = () => {
           className="group flex flex-col items-center text-center 
                      w-full md:w-1/3 cursor-default"
         >
-          <Star className="w-8 h-8 text-red-700 mb-3 opacity-90 
+          <Star
+            className="w-8 h-8 text-red-700 mb-3 opacity-90 
                            transition-transform duration-700 
-                           ease-in-out group-hover:rotate-[360deg]" />
+                           ease-in-out group-hover:rotate-[360deg]"
+          />
           <div className="text-3xl md:text-4xl font-semibold text-stone-900 mb-2">
             {sat}%
           </div>
@@ -425,9 +433,11 @@ const FloatingStatsBar = () => {
           className="group flex flex-col items-center text-center 
                      w-full md:w-1/3 cursor-default"
         >
-          <ShieldCheck className="w-8 h-8 text-red-700 mb-3 opacity-90 
+          <ShieldCheck
+            className="w-8 h-8 text-red-700 mb-3 opacity-90 
                                   transition-transform duration-700 
-                                  ease-in-out group-hover:rotate-[360deg]" />
+                                  ease-in-out group-hover:rotate-[360deg]"
+          />
           <div className="text-3xl md:text-4xl font-semibold text-stone-900 mb-2">
             {exp}+
           </div>
@@ -435,7 +445,6 @@ const FloatingStatsBar = () => {
             Years Experience
           </div>
         </div>
-
       </div>
     </div>
   );
@@ -522,7 +531,7 @@ const AboutShort = () => {
           </div>
 
           <div className="lg:col-span-7 flex flex-col justify-center h-full lg:pt-4 lg:mt-6 ">
-            <motion.div
+            <motion.p
               viewport={{ once: true, amount: 0.8 }}
               variants={paragraphVariant}
               initial="hidden"
@@ -538,9 +547,9 @@ const AboutShort = () => {
                 high-performance
               </strong>{" "}
               bricks.
-            </motion.div>
+            </motion.p>
 
-            <motion.div
+            <motion.p
               variants={paragraphVariant}
               initial="hidden"
               animate={isVisible ? "visible" : "hidden"}
@@ -561,7 +570,7 @@ const AboutShort = () => {
                 continue to build structures that shape skylines and
                 communities.
               </p>
-            </motion.div>
+            </motion.p>
 
             <div className="">
               <Link
@@ -580,42 +589,38 @@ const AboutShort = () => {
 
 const ProductOverview = () => {
   const { ref, isVisible } = useScrollReveal();
-  const products = [
-    { title: "Classic Reds", img: brick1 },
-    { title: "Yellows", img: brick5 },
-    { title: "Multies", img: brick2 },
-    { title: "Darks", img: brick3 },
-    { title: "Hamptons", img: brick4 },
-    { title: "Rumbled", img: brick6 },
-    { title: "Reclaimed", img: brick7 },
-  ];
-const [loading, setLoading] = useState(true); // Add a loading state
-  // const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
-//  useEffect(() => {
-//   const fetchCategories = async () => {
-//     try {
-//       const res = await fetch("http://localhost:5000/api/products/all-categories");
-//       const data = await res.json();
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const res = await axios.get("/api/products/all-categories");
 
-//       if (data.success && data.categories) {
-//         const formattedData = data.categories.map((cat) => ({
-//           title: cat.title,
-//           img: cat.image, // Using the Cloudinary URL from your JSON
-//         }));
+        if (res.data.success) {
+          setProducts(res.data.categories || []);
+        }
+      } catch (err) {
+        console.error("Error fetching categories:", err);
+        setError(true);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-//         setProducts(formattedData);
-//       }
-//     } catch (error) {
-//       console.error("Error fetching categories:", error);
-//     }
-//   };
+    fetchCategories();
+  }, []);
+  // if (loading) {
+  //   return (
+  //     <section className="py-16 text-center">
+  //       <p className="text-stone-500 font-sans">Loading categories...</p>
+  //     </section>
+  //   );
+  // }
 
-//   fetchCategories();
-// }, []);
+  // if (error || products.length === 0) return null;
 
-// if (loading) return <div className="py-20 text-center font-sans">Loading Collections...</div>;
-// if (products.length === 0) return null;
   return (
     <section
       ref={ref}
@@ -654,7 +659,7 @@ const [loading, setLoading] = useState(true); // Add a loading state
             >
               <div className="h-56 overflow-hidden rounded-2xl mb-4 shadow-sm border border-stone-300 bg-white group-hover:shadow-xl group-hover:border-orange-300 transition-all duration-500">
                 <img
-                  src={p.img}
+                  src={p.image}
                   alt={p.title}
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-800 grayscale-[10%] group-hover:grayscale-0"
                 />
@@ -857,20 +862,20 @@ const Projects = () => {
     <section className="py-20 bg-transparent">
       <div className="container mx-auto px-6 max-w-4xl text-center">
         <div className="container mx-auto px-6 mb-10 relative z-10 flex flex-col items-center text-center">
-        <div className="inline-flex items-center gap-2 mb-3">
-          <span className="w-8 h-[2px] bg-red-600"></span>
-          <span className="text-red-700 font-bold uppercase tracking-widest text-xs font-sans">
-            Featured Projects
-          </span>
-          <span className="w-8 h-[2px] bg-red-600"></span>
+          <div className="inline-flex items-center gap-2 mb-3">
+            <span className="w-8 h-[2px] bg-red-600"></span>
+            <span className="text-red-700 font-bold uppercase tracking-widest text-xs font-sans">
+              Featured Projects
+            </span>
+            <span className="w-8 h-[2px] bg-red-600"></span>
+          </div>
+          <h2 className="text-4xl md:text-5xl font-serif font-medium text-stone-900 mb-4">
+            Built to Inspire
+          </h2>
+          <p className="text-stone-600 font-sans font-light text-lg">
+            Showcasing excellence in every structure we deliver.
+          </p>
         </div>
-        <h2 className="text-4xl md:text-5xl font-serif font-medium text-stone-900 mb-4">
-         Built to Inspire
-        </h2>
-        <p className="text-stone-600 font-sans font-light text-lg">
-          Showcasing excellence in every structure we deliver.
-        </p>
-      </div>
 
         <div className="relative h-[500px] rounded-3xl overflow-hidden shadow-2xl">
           <AnimatePresence mode="sync">
@@ -899,18 +904,17 @@ const Projects = () => {
             </p>
           </div>
         </div>
-              <div className="container mx-auto px-6 mt-4 flex justify-center relative z-10">
-        <Link
-          to="/projects"
-          className=" hover:scale-105 
+        <div className="container mx-auto px-6 mt-4 flex justify-center relative z-10">
+          <Link
+            to="/projects"
+            className=" hover:scale-105 
  inline-flex items-end text-red-700 font-bold font-sans uppercase  text-xs hover:text-red-800 mt-8 transition-colors group border-b-2 border-red-200  hover:border-red-700"
-        >
-          View All Projects
-          <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-        </Link>
+          >
+            View All Projects
+            <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+          </Link>
+        </div>
       </div>
-      </div>
-      
     </section>
   );
 };

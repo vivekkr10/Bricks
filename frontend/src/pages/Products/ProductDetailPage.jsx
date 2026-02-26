@@ -738,23 +738,23 @@ const ProductDetailPage = () => {
                       </svg>
                     ),
                   },
-                  {
-                    id: "applications",
-                    label: "Applications",
-                    icon: (
-                      <svg
-                        className="w-5 h-5 inline mr-2"
-                        fill="currentColor"
-                        viewBox="0 0 20 20"
-                      >
-                        <path
-                          fillRule="evenodd"
-                          d="M4 4a2 2 0 00-2 2v4a1 1 0 001 1h12a1 1 0 001-1V6a2 2 0 00-2-2H4zm0 4v4a2 2 0 002 2h8a2 2 0 002-2V8H4z"
-                          clipRule="evenodd"
-                        />
-                      </svg>
-                    ),
-                  },
+                  // {
+                  //   id: "applications",
+                  //   label: "Applications",
+                  //   icon: (
+                  //     <svg
+                  //       className="w-5 h-5 inline mr-2"
+                  //       fill="currentColor"
+                  //       viewBox="0 0 20 20"
+                  //     >
+                  //       <path
+                  //         fillRule="evenodd"
+                  //         d="M4 4a2 2 0 00-2 2v4a1 1 0 001 1h12a1 1 0 001-1V6a2 2 0 00-2-2H4zm0 4v4a2 2 0 002 2h8a2 2 0 002-2V8H4z"
+                  //         clipRule="evenodd"
+                  //       />
+                  //     </svg>
+                  //   ),
+                  // },
                   {
                     id: "manufacturing",
                     label: "Manufacturing",
@@ -845,7 +845,7 @@ const ProductDetailPage = () => {
                       </div>
                     )}
 
-                    {activeTab === "applications" && (
+                    {/* {activeTab === "applications" && (
                       <div>
                         <h3 className="text-3xl font-serif font-bold text-stone-900 mb-8">
                           Ideal Applications
@@ -871,7 +871,7 @@ const ProductDetailPage = () => {
                           based on construction requirements
                         </p>
                       </div>
-                    )}
+                    )} */}
 
                     {activeTab === "manufacturing" && (
                       <div>
