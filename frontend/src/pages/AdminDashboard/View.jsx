@@ -86,7 +86,7 @@ const ProductDetails = ({ product, onBack }) => {
             animate={{ opacity: 1, x: 0 }}
             whileHover={{ scale: 1.05 }}
             transition={{ duration: 0.3 }}
-            className="absolute top-6 left-6 flex items-center gap-2 px-4 py-2 rounded-lg bg-orange-600 text-black text-xs font-bold uppercase tracking-widest"
+            className="absolute top-6 left-6 flex items-center gap-2 px-4 py-2 rounded-lg bg-red-700 text-white cursor-pointer text-xs font-bold uppercase tracking-widest"
           >
             <ArrowLeft size={14} /> Back
           </motion.button>
@@ -99,9 +99,9 @@ const ProductDetails = ({ product, onBack }) => {
                 whileHover={{ scale: 1.12 }}
                 whileTap={{ scale: 0.96 }}
                 onClick={() => setActiveImg(img)}
-                className={`w-14 h-14 rounded-lg overflow-hidden border-2 transition ${
+                className={`w-14 h-14 rounded-lg  overflow-hidden border-2 transition ${
                   activeImg === img
-                    ? "border-orange-500"
+                    ? "border-red-700"
                     : "border-stone-300 opacity-70"
                 }`}
               >
@@ -119,7 +119,7 @@ const ProductDetails = ({ product, onBack }) => {
           animate="visible"
         >
           <div className="max-w-6xl mx-auto space-y-2">
-            <motion.span variants={fadeUp} className="text-[10px] uppercase tracking-widest font-black text-orange-600">
+            <motion.span variants={fadeUp} className="text-[10px] uppercase tracking-widest font-black text-green-500">
               {product.status || "Active"}
             </motion.span>
 
@@ -202,7 +202,7 @@ const ProductDetails = ({ product, onBack }) => {
 
 const AnimatedSection = ({ title, icon, children }) => (
   <motion.div variants={fadeUp} className="space-y-6">
-    <h3 className="flex items-center gap-3 text-xs font-black uppercase tracking-[0.3em] text-orange-600 border-l-2 border-orange-600 pl-3">
+    <h3 className="flex items-center gap-3 text-xs font-black uppercase tracking-[0.3em] text-red-700 border-l-2 border-red-700 pl-3">
       {icon} {title}
     </h3>
     {children}
@@ -251,7 +251,7 @@ const ProductNotFound = ({ onBack }) => (
       </h2>
       <button
         onClick={onBack}
-        className="text-xs uppercase tracking-widest border-b border-orange-500 text-orange-500"
+        className="text-xs uppercase tracking-widest border-b border-red-700 text-red-700"
       >
         Go Back
       </button>

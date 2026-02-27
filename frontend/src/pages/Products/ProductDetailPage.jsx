@@ -582,77 +582,149 @@ useEffect(() => {
                 </div>
 
                 {/* Quick Specs */}
-                <div className="grid grid-cols-2 gap-6 mb-10">
-                  <div className="bg-gradient-to-br from-red-50 to-yellow-50 p-6 rounded-2xl border border-red-100">
-                    <p className="text-xs font-semibold text-red-600 mb-2 tracking-widest uppercase">
-                      Strength
-                    </p>
-                    <p className="text-xl font-bold text-stone-900">
-                      {product.specifications.strength}
-                    </p>
-                  </div>
-                  <div className="bg-gradient-to-br from-red-50 to-yellow-50 p-6 rounded-2xl border border-red-100">
-                    <p className="text-xs font-semibold text-red-600 mb-2 tracking-widest uppercase">
-                      Size
-                    </p>
-                    <p className="text-xl font-bold text-stone-900">
-                      {product.specifications.size}
-                    </p>
-                  </div>
-                  <div className="bg-gradient-to-br from-red-50 to-yellow-50 p-6 rounded-2xl border border-red-100">
-                    <p className="text-xs font-semibold text-red-600 mb-2 tracking-widest uppercase">
-                      Weight
-                    </p>
-                    <p className="text-xl font-bold text-stone-900">
-                      {product.specifications.weight}
-                    </p>
-                  </div>
-                  <div className="bg-gradient-to-br from-red-50 to-yellow-50 p-6 rounded-2xl border border-red-100">
-                    <p className="text-xs font-semibold text-red-600 mb-2 tracking-widest uppercase">
-                      Water Absorption
-                    </p>
-                    <p className="text-xl font-bold text-stone-900">
-                      {product.specifications.waterAbsorption}
-                    </p>
-                  </div>
-                </div>
+       <div className="grid 
+  grid-cols-1 
+  sm:grid-cols-2 
+  gap-4 sm:gap-6 
+  mb-10"
+>
+
+  {/* Strength */}
+  <div className="bg-gradient-to-br from-red-50 to-yellow-50 
+      p-4 sm:p-6 
+      rounded-xl sm:rounded-2xl 
+      border border-red-100 h-full">
+
+    <p className="text-[11px] sm:text-xs font-semibold text-red-600 mb-2 tracking-widest uppercase">
+      Strength
+    </p>
+
+    <p className="text-lg sm:text-xl font-bold text-stone-900 break-words">
+      {product.specifications.strength}
+    </p>
+  </div>
+
+  {/* Size */}
+  <div className="bg-gradient-to-br from-red-50 to-yellow-50 
+      p-4 sm:p-6 
+      rounded-xl sm:rounded-2xl 
+      border border-red-100 h-full">
+
+    <p className="text-[11px] sm:text-xs font-semibold text-red-600 mb-2 tracking-widest uppercase">
+      Size
+    </p>
+
+    <p className="text-lg sm:text-xl font-bold text-stone-900 break-words">
+      {product.specifications.size}
+    </p>
+  </div>
+
+  {/* Weight */}
+  <div className="bg-gradient-to-br from-red-50 to-yellow-50 
+      p-4 sm:p-6 
+      rounded-xl sm:rounded-2xl 
+      border border-red-100 h-full">
+
+    <p className="text-[11px] sm:text-xs font-semibold text-red-600 mb-2 tracking-widest uppercase">
+      Weight
+    </p>
+
+    <p className="text-lg sm:text-xl font-bold text-stone-900 break-words">
+      {product.specifications.weight}
+    </p>
+  </div>
+
+  {/* Water Absorption */}
+  <div className="bg-gradient-to-br from-red-50 to-yellow-50 
+      p-4 sm:p-6 
+      rounded-xl sm:rounded-2xl 
+      border border-red-100 h-full">
+
+    <p className="text-[11px] sm:text-xs font-semibold text-red-600 mb-2 tracking-widest uppercase">
+      Water Absorption
+    </p>
+
+    <p className="text-lg sm:text-xl font-bold text-stone-900 break-words">
+      {product.specifications.waterAbsorption}
+    </p>
+  </div>
+
+</div>
 
                 {/* Quantity Selector */}
-                <div className="mb-10">
-                  <label className="block text-sm font-semibold text-stone-900 mb-4 tracking-wide">
-                    Required Quantity (in pcs)
-                  </label>
-                  <div className="flex items-center gap-4">
-                    <motion.button
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      onClick={() => setQuantity(Math.max(100, quantity - 100))}
-                      className="w-12 h-12 rounded-xl border-2 border-red-200 flex items-center justify-center hover:bg-red-50 text-stone-900 font-bold hover:border-red-400 transition-all"
-                    >
-                      −
-                    </motion.button>
-                    <input
-                      type="number"
-                      value={quantity}
-                      onChange={(e) =>
-                        setQuantity(
-                          Math.max(100, parseInt(e.target.value) || 100),
-                        )
-                      }
-                      className="flex-1 px-6 py-3 border-2 border-red-200 rounded-xl text-center text-lg font-semibold text-stone-900 focus:ring-2 focus:ring-red-600 focus:border-transparent transition-all"
-                      min="100"
-                      step="100"
-                    />
-                    <motion.button
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      onClick={() => setQuantity(quantity + 100)}
-                      className="w-12 h-12 rounded-xl border-2 border-red-200 flex items-center justify-center hover:bg-red-50 text-stone-900 font-bold hover:border-red-400 transition-all"
-                    >
-                      +
-                    </motion.button>
-                  </div>
-                </div>
+<div className="mb-10">
+  <label className="block text-sm sm:text-base font-semibold text-stone-900 mb-4 tracking-wide">
+    Required Quantity (in pcs)
+  </label>
+
+  {/* Responsive Container */}
+  <div className="flex flex-col sm:flex-row items-center gap-4 w-full">
+
+    {/* Minus Button */}
+    <motion.button
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.95 }}
+      onClick={() => setQuantity(Math.max(100, quantity - 100))}
+      className="
+        w-full sm:w-12 
+        h-10 sm:h-12
+        rounded-xl border-2 border-red-200
+        flex items-center justify-center
+        hover:bg-red-50 text-stone-900 font-bold
+        hover:border-red-400 transition-all
+        text-lg
+      "
+    >
+      −
+    </motion.button>
+
+    {/* Input */}
+    <input
+      type="number"
+      value={quantity}
+      onChange={(e) =>
+        setQuantity(
+          Math.max(100, parseInt(e.target.value) || 100)
+        )
+      }
+      min="100"
+      step="100"
+      className="
+        w-full flex-1
+        px-4 sm:px-6
+        py-2.5 sm:py-3
+        border-2 border-red-200
+        rounded-xl
+        text-center
+        text-base sm:text-lg
+        font-semibold
+        text-stone-900
+        focus:ring-2 focus:ring-red-600
+        focus:border-transparent
+        transition-all
+      "
+    />
+
+    {/* Plus Button */}
+    <motion.button
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.95 }}
+      onClick={() => setQuantity(quantity + 100)}
+      className="
+        w-full sm:w-12
+        h-10 sm:h-12
+        rounded-xl border-2 border-red-200
+        flex items-center justify-center
+        hover:bg-red-50 text-stone-900 font-bold
+        hover:border-red-400 transition-all
+        text-lg
+      "
+    >
+      +
+    </motion.button>
+
+  </div>
+</div>
 
                 {/* Action Buttons */}
                 <div className="flex gap-5 mb-10">
@@ -676,41 +748,59 @@ useEffect(() => {
                 </div>
 
                 {/* Key Features */}
-                <div className="border-t-2 border-red-100 pt-8">
-                  <h3 className="font-serif text-2xl font-bold text-stone-900 mb-6">
-                    Key Features
-                  </h3>
-                  <div className="grid grid-cols-2 gap-4">
-                    {[
-                      "Premium Quality",
-                      "IS Standard Certified",
-                      "High Durability",
-                      "Eco-Friendly",
-                      "Perfect Finish",
-                      "Thermal Insulation",
-                    ].map((feature, index) => (
-                      <div
-                        key={index}
-                        className="flex items-center gap-3 p-3 bg-red-50 rounded-xl border border-red-100"
-                      >
-                        <svg
-                          className="w-6 h-6 text-emerald-600 flex-shrink-0"
-                          fill="currentColor"
-                          viewBox="0 0 20 20"
-                        >
-                          <path
-                            fillRule="evenodd"
-                            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                            clipRule="evenodd"
-                          />
-                        </svg>
-                        <span className="text-stone-800 font-medium">
-                          {feature}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
+<div className="border-t-2 border-red-100 pt-6 sm:pt-8">
+  
+  <h3 className="font-serif text-xl sm:text-2xl font-bold text-stone-900 mb-5 sm:mb-6">
+    Key Features
+  </h3>
+
+  <div className="grid 
+      grid-cols-1 
+      sm:grid-cols-2 
+      gap-3 sm:gap-4">
+
+    {[
+      "Premium Quality",
+      "IS Standard Certified",
+      "High Durability",
+      "Eco-Friendly",
+      "Perfect Finish",
+      "Thermal Insulation",
+    ].map((feature, index) => (
+      <div
+        key={index}
+        className="
+          flex items-center gap-3
+          p-3 sm:p-4
+          bg-red-50
+          rounded-lg sm:rounded-xl
+          border border-red-100
+          hover:shadow-md
+          transition-all duration-300
+        "
+      >
+        {/* Icon */}
+        <svg
+          className="w-5 h-5 sm:w-6 sm:h-6 text-emerald-600 flex-shrink-0"
+          fill="currentColor"
+          viewBox="0 0 20 20"
+        >
+          <path
+            fillRule="evenodd"
+            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+            clipRule="evenodd"
+          />
+        </svg>
+
+        {/* Text */}
+        <span className="text-sm sm:text-base text-stone-800 font-medium break-words">
+          {feature}
+        </span>
+      </div>
+    ))}
+
+  </div>
+</div>
               </div>
             </motion.div>
           </div>
@@ -806,45 +896,69 @@ useEffect(() => {
                   >
                     {activeTab === "description" && (
                       <div>
-                        <h3 className="text-3xl font-serif font-bold text-stone-900 mb-6">
-                          Product Description
-                        </h3>
-                        <p className="text-stone-700 leading-relaxed mb-8 text-lg">
-                          {product.detailedDescription}
-                        </p>
+  {/* Product Description */}
+  <h3 className="text-2xl sm:text-3xl font-serif font-bold text-stone-900 mb-4 sm:mb-6">
+    Product Description
+  </h3>
 
-                        <h4 className="text-xl font-serif font-bold text-stone-900 mb-5">
-                          Benefits
-                        </h4>
-                        <ul className="grid grid-cols-2 gap-4">
-                          {[
-                            "Superior strength and durability",
-                            "Excellent thermal insulation",
-                            "Low maintenance requirements",
-                            "Fire resistant properties",
-                            "Sound insulation capabilities",
-                            "Environmentally sustainable",
-                          ].map((benefit, index) => (
-                            <li
-                              key={index}
-                              className="flex items-center gap-3 text-stone-700 p-3 bg-red-50 rounded-xl border border-red-100"
-                            >
-                              <svg
-                                className="w-6 h-6 text-emerald-600 flex-shrink-0"
-                                fill="currentColor"
-                                viewBox="0 0 20 20"
-                              >
-                                <path
-                                  fillRule="evenodd"
-                                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                  clipRule="evenodd"
-                                />
-                              </svg>
-                              {benefit}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
+  <p className="text-stone-700 leading-relaxed mb-6 sm:mb-8 text-base sm:text-lg">
+    {product.detailedDescription}
+  </p>
+
+  {/* Benefits */}
+  <h4 className="text-lg sm:text-xl font-serif font-bold text-stone-900 mb-4 sm:mb-5">
+    Benefits
+  </h4>
+
+  <ul
+    className="
+      grid 
+      grid-cols-1 
+      sm:grid-cols-2 
+      gap-3 sm:gap-4
+    "
+  >
+    {[
+      "Superior strength and durability",
+      "Excellent thermal insulation",
+      "Low maintenance requirements",
+      "Fire resistant properties",
+      "Sound insulation capabilities",
+      "Environmentally sustainable",
+    ].map((benefit, index) => (
+      <li
+        key={index}
+        className="
+          flex items-start gap-3
+          text-stone-700
+          p-3 sm:p-4
+          bg-red-50
+          rounded-lg sm:rounded-xl
+          border border-red-100
+          hover:shadow-md
+          transition-all duration-300
+        "
+      >
+        {/* Icon */}
+        <svg
+          className="w-5 h-5 sm:w-6 sm:h-6 text-emerald-600 flex-shrink-0 mt-0.5"
+          fill="currentColor"
+          viewBox="0 0 20 20"
+        >
+          <path
+            fillRule="evenodd"
+            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+            clipRule="evenodd"
+          />
+        </svg>
+
+        <span className="text-sm sm:text-base leading-relaxed">
+          {benefit}
+        </span>
+      </li>
+    ))}
+  </ul>
+</div>
                     )}
 
                     {/* {activeTab === "applications" && (
