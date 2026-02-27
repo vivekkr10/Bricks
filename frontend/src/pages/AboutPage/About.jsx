@@ -295,7 +295,7 @@ export default function AboutPage() {
       delay: "0s",
     },
     {
-      value: 500,
+      value: 312,
       suffix: "+",
       label: "Projects Completed",
       icon: <FaBuilding className="w-6 h-6 sm:w-8 sm:h-8" />,
@@ -1000,7 +1000,7 @@ export default function AboutPage() {
                   className={`flex flex-wrap gap-8 sm:gap-12 pt-4 reveal-left d4 ${storyInView ? "visible" : ""}`}
                 >
                   {[
-                    ["500+", "Projects Completed"],
+                    ["312+", "Projects Completed"],
                     ["40+", "Years of Excellence"],
                     ["100%", "Quality Assured"],
                   ].map(([value, label]) => (
@@ -1116,7 +1116,7 @@ export default function AboutPage() {
                       Trusted Partner
                     </div>
                     <div className="text-sm text-stone-500 leading-relaxed">
-                      <span className="font-semibold text-stone-900">500+</span>{" "}
+                      <span className="font-semibold text-stone-900">300+</span>{" "}
                       satisfied clients across India
                     </div>
                     <div className="mt-3 flex -space-x-2">
