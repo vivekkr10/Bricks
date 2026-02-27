@@ -34,17 +34,26 @@ const Footer = () => {
             </p>
             
             {/* Social Icons */}
-            <div className="flex gap-4 pt-2">
-              {[Facebook, Twitter, Instagram, Linkedin].map((Icon, index) => (
-                <a 
-                  key={index} 
-                  href="#" 
-                  className="p-2.5 bg-white/5 border border-white/10 text-white/95 rounded-full hover:text-red-600 hover:border-red-600  transition-all duration-300 shadow-sm"
-                >
-                  <Icon className="w-4 h-4" />
-                </a>
-              ))}
-            </div>
+
+      <div className="flex gap-4 pt-2">
+  <a
+    href="https://www.facebook.com/share/1KsueME28r/"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="p-2.5 bg-white/5 border border-white/10 text-white/95 rounded-full hover:text-red-600 hover:border-red-600 transition-all duration-300 shadow-sm"
+  >
+    <Facebook className="w-4 h-4" />
+  </a>
+
+  <a
+    href="https://www.instagram.com/vrandsonsbricks?igsh=eDVmYWFqbGxremZx"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="p-2.5 bg-white/5 border border-white/10 text-white/95 rounded-full hover:text-red-600 hover:border-red-600 transition-all duration-300 shadow-sm"
+  >
+    <Instagram className="w-4 h-4" />
+  </a>
+</div>
           </div>
 
           {/* 2. Quick Links */}
