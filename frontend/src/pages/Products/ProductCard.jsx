@@ -54,7 +54,7 @@ const ProductCard = ({ product, viewMode }) => {
             {/* Badges */}
             <div className="absolute inset-0 p-4 flex flex-col justify-between">
               <div className="flex flex-col gap-2">
-                {product.inStock ? (
+                {product.status?.toString().trim().toLowerCase() === "active" ? (
                   <span className="px-4 py-1.5 bg-emerald-600 text-white text-xs font-semibold rounded-full shadow-lg w-fit">
                     In Stock
                   </span>
@@ -159,7 +159,7 @@ const ProductCard = ({ product, viewMode }) => {
         {/* Badges */}
         <div className="absolute inset-0 p-4 flex flex-col justify-between">
           <div className="flex flex-col gap-2">
-            {product.inStock ? (
+            {product.status?.toString().trim().toLowerCase() === "active" ? (
               <span className="px-3 py-1.5 bg-emerald-600 text-white text-xs font-semibold rounded-full shadow-lg w-fit">
                 In Stock
               </span>
