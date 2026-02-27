@@ -617,7 +617,7 @@ export default function ProjectPage() {
 <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
 
   {/* Animated badge */}
-  <motion.div
+  {/* <motion.div
     initial={{ opacity: 0, y: 30, scale: 0.9 }}
     animate={{ opacity: 1, y: 0, scale: 1 }}
     transition={{ duration: 0.8, ease: heroEase }}
@@ -636,7 +636,7 @@ export default function ProjectPage() {
         </div>
       </div>
     </div>
-  </motion.div>
+  </motion.div> */}
 
   {/* Main Title */}
   <motion.h1
@@ -644,7 +644,7 @@ export default function ProjectPage() {
     animate={{ opacity: 1, y: 0 }}
     transition={{ delay: 0.2, duration: 0.9, ease: heroEase }}
     className="font-serif font-bold text-white mb-4 sm:mb-6 leading-[1.1]
-               text-4xl sm:text-5xl md:text-6xl lg:text-8xl xl:text-9xl"
+               text-3xl sm:text-4xl md:text-5xl lg:text-7xl xl:text-8xl"
   >
     <span className="block">Architecture</span>
     <span className="hero-text-shimmer block">That Inspires</span>
