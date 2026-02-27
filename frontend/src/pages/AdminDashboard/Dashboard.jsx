@@ -437,13 +437,24 @@ const ListViewCard = ({ p, toggleStatus, onEdit, onDelete, onView }) => {
           </div>
 
           <div className="flex gap-2 w-full sm:w-auto">
-            <ActionButton
-              onClick={() => toggleStatus(p._id)}
-              icon={
-                p.status === "Active" ? <Eye size={18} /> : <EyeOff size={18} />
-              }
-              tooltip="Toggle Visibility"
-            />
+           <ActionButton
+  onClick={() => toggleStatus(p._id)}
+  icon={
+    p.status === "Active"
+      ? <Eye size={18} className="text-green-600" />
+      : <EyeOff size={18} className="text-red-500" />
+  }
+  className={
+    p.status === "Active"
+      ? "bg-green-50 hover:bg-green-100 border-green-200"
+      : "bg-red-50 hover:bg-red-100 border-red-200"
+  }
+  tooltip={
+    p.status === "Active"
+      ? "Product Visible"
+      : "Product Hidden"
+  }
+/>
             <ActionButton
               onClick={() => onEdit(p)}
               icon={<Edit size={18} />}
@@ -528,12 +539,23 @@ const GridViewCard = ({ p, toggleStatus, onEdit, onDelete, onView }) => {
 
         <div className="flex justify-between gap-2 pt-2">
           <ActionButton
-            onClick={() => toggleStatus(p._id)}
-            icon={
-              p.status === "Active" ? <Eye size={18} /> : <EyeOff size={18} />
-            }
-            tooltip="Toggle Visibility"
-          />
+  onClick={() => toggleStatus(p._id)}
+  icon={
+    p.status === "Active"
+      ? <Eye size={18} className="text-green-600" />
+      : <EyeOff size={18} className="text-red-500" />
+  }
+  className={
+    p.status === "Active"
+      ? "bg-green-50 hover:bg-green-100 border-green-200"
+      : "bg-red-50 hover:bg-red-100 border-red-200"
+  }
+  tooltip={
+    p.status === "Active"
+      ? "Product Visible"
+      : "Product Hidden"
+  }
+/>
           <ActionButton
             onClick={() => onEdit(p)}
             icon={<Edit size={18} />}

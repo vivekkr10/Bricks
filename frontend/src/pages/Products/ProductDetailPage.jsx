@@ -203,34 +203,36 @@ const ProductDetailPage = () => {
     product?.images?.[3] || "/images/brick-application.jpg",
   ];
 
-  useEffect(() => {
-    const fetchProduct = async () => {
-      try {
-        const res = await fetch(`/api/products/${id}`);
-        const data = await res.json();
+useEffect(() => {
+  const fetchProduct = async () => {
+    try {
+      const res = await fetch(`/api/products/${id}`);
+      const data = await res.json();
 
-        setProduct(data);
+      const actualProduct = data.product || data;
+      
+      setProduct(actualProduct);
 
-        // Fetch related products
-        const allRes = await fetch("/api/products/all-products");
-        const allProducts = await allRes.json();
+      const allRes = await fetch("/api/products/all-products");
+      const allProductsData = await allRes.json();
+      
+      const allProducts = Array.isArray(allProductsData) ? allProductsData : (allProductsData.products || []);
 
+      if (allProducts && actualProduct) {
         const related = allProducts
-          .filter(
-            (p) => p.productType === data.productType && p._id !== data._id,
-          )
+          .filter((p) => p.productType === actualProduct.productType && p._id !== actualProduct._id)
           .slice(0, 4);
-
         setRelatedProducts(related);
-      } catch (error) {
-        console.error("Error fetching product:", error);
-      } finally {
-        setLoading(false);
       }
-    };
+    } catch (error) {
+      console.error("Error fetching product:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    fetchProduct();
-  }, [id]);
+  fetchProduct();
+}, [id]);
 
   // Form validation
   const validateForm = () => {
@@ -573,9 +575,9 @@ const ProductDetailPage = () => {
 
                 <div className="flex items-center gap-4 mb-8 pb-8 border-b border-red-100">
                   <span
-                    className={`font-semibold tracking-wide ${product.inStock ? "text-emerald-600" : "text-red-600"}`}
+                    className={`font-semibold tracking-wide ${product.status?.toString().trim().toLowerCase() === "active" ? "text-emerald-600" : "text-red-600"}`}
                   >
-                    {product.inStock ? "In Stock" : "Out of Stock"}
+                    {product.status?.toString().trim().toLowerCase() === "active" ? "In Stock" : "Out of Stock"}
                   </span>
                 </div>
 
