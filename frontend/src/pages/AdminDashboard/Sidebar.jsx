@@ -69,7 +69,7 @@ const Sidebar = ({ activePage, setActivePage, handleLogout, isCollapsed, setIsCo
         <div><div className="h-[1px] bg-red-700" /></div>
 
         {/* MIDDLE: Navigation */}
-        <nav className="flex-1 mt-6 px-3 space-y-2 overflow-y-auto overflow-x-hidden">
+        <nav className="flex-1 mt-6 px-3 space-y-2 overflow-y-auto text-white overflow-x-hidden">
           <NavItem 
             icon={<LayoutDashboard size={22} />} 
             label="Dashboard" 

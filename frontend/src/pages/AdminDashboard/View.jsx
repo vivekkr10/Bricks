@@ -112,7 +112,7 @@ const ProductDetails = ({ product, onBack }) => {
             animate={{ opacity: 1, x: 0 }}
             whileHover={{ scale: 1.05 }}
             transition={{ duration: 0.3 }}
-            className="absolute top-6 left-6 flex items-center gap-2 px-4 py-2 rounded-lg bg-orange-600 text-black text-xs font-bold uppercase tracking-widest"
+            className="absolute top-6 left-6 flex items-center gap-2 px-4 py-2 rounded-lg bg-orange-600 text-white text-xs font-bold uppercase tracking-widest"
           >
             <ArrowLeft size={14} /> Back
           </motion.button>
