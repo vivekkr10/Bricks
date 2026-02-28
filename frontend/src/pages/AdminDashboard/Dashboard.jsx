@@ -24,11 +24,9 @@ import {
 import { motion, AnimatePresence } from "framer-motion";
 
 const Dashboard = ({ onAddClick, onEditClick, onViewClick, onCatClick }) => {
-
-
   const [dynamicCategories, setDynamicCategories] = useState(["All Bricks"]);
   const [products, setProducts] = useState([]);
-const [isLoading, setIsLoading] = useState(true); 
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -36,13 +34,18 @@ const [isLoading, setIsLoading] = useState(true);
         const response = await fetch("/api/products/all-categories");
         const data = await response.json();
 
-        const backendCats = Array.isArray(data) ? data : (data.categories || []);
+        const backendCats = Array.isArray(data) ? data : data.categories || [];
 
-        const titles = backendCats.map(cat => cat.title);
+        const titles = backendCats.map((cat) => cat.title);
         setDynamicCategories(["All Bricks", ...titles]);
       } catch (err) {
         console.error("Failed to fetch categories:", err);
-        setDynamicCategories(["All Bricks", "Classic Reds", "Yellows", "Multies"]);
+        setDynamicCategories([
+          "All Bricks",
+          "Classic Reds",
+          "Yellows",
+          "Multies",
+        ]);
       }
     };
 
@@ -57,13 +60,12 @@ const [isLoading, setIsLoading] = useState(true);
       setProducts(data);
     } catch (err) {
       console.error("Failed to fetch products:", err);
-    }finally {
-      setIsLoading(false); 
+    } finally {
+      setIsLoading(false);
     }
   };
 
   useEffect(() => {
-
     fetchProducts();
   }, []);
 
@@ -79,14 +81,17 @@ const [isLoading, setIsLoading] = useState(true);
     return products.filter((p) => {
       const s = (searchTerm || "").toLowerCase();
 
-      const nameMatch = (p.name || "").toLowerCase().includes(s);
-      const typeMatch = (p.type || "").toLowerCase().includes(s);
-      const appMatch = (p.application || "").toLowerCase().includes(s);
+      const nameMatch = (p.productName || "").toLowerCase().includes(s);
+
+      const typeMatch = (p.productType || "").toLowerCase().includes(s);
+
+      const appMatch = (p.usageArea || "").toLowerCase().includes(s);
 
       const matchesSearch = nameMatch || typeMatch || appMatch;
 
       const matchesCategory =
-        activeCategory === "All Bricks" || p.type === activeCategory;
+        activeCategory === "All Bricks" || p.productType === activeCategory;
+
       return matchesSearch && matchesCategory;
     });
   }, [products, searchTerm, activeCategory]);
@@ -118,7 +123,7 @@ const [isLoading, setIsLoading] = useState(true);
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`
+          Authorization: `Bearer ${token}`,
         },
       });
 
@@ -127,8 +132,8 @@ const [isLoading, setIsLoading] = useState(true);
           prevProducts.map((p) =>
             p._id === id
               ? { ...p, status: p.status === "Active" ? "Inactive" : "Active" }
-              : p
-          )
+              : p,
+          ),
         );
       } else {
         const errorData = await response.json();
@@ -148,16 +153,18 @@ const [isLoading, setIsLoading] = useState(true);
           method: "DELETE",
           headers: {
             // 2. Add the Authorization header
-            "Authorization": `Bearer ${token}`,
-            "Content-Type": "application/json"
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
           },
         });
         if (response.ok) {
-          setProducts((prevProducts) => prevProducts.filter((p) => p._id !== id));
-        }else {
-        const errorData = await response.json();
-        console.error("Server error:", errorData.message);
-      }
+          setProducts((prevProducts) =>
+            prevProducts.filter((p) => p._id !== id),
+          );
+        } else {
+          const errorData = await response.json();
+          console.error("Server error:", errorData.message);
+        }
       } catch (err) {
         console.error("Delete failed:", err);
       }
@@ -327,7 +334,7 @@ const [isLoading, setIsLoading] = useState(true);
                 <SkeletonListCard key={i} />
               ) : (
                 <SkeletonGridCard key={i} />
-              )
+              ),
             )}
           </div>
         ) : (
@@ -537,10 +544,11 @@ const ListViewCard = ({ p, toggleStatus, onEdit, onDelete, onView }) => {
                 {p.productName}
               </h3>
               <span
-                className={`px-3 py-1 rounded-xl text-[9px] font-black uppercase tracking-widest border ${p.status === "Active"
+                className={`px-3 py-1 rounded-xl text-[9px] font-black uppercase tracking-widest border ${
+                  p.status === "Active"
                     ? "bg-green-50 text-green-700 border-green-100"
                     : "bg-stone-50 text-stone-500 border-stone-200"
-                  }`}
+                }`}
               >
                 {p.status}
               </span>
@@ -551,24 +559,24 @@ const ListViewCard = ({ p, toggleStatus, onEdit, onDelete, onView }) => {
           </div>
 
           <div className="flex gap-2 w-full sm:w-auto">
-           <ActionButton
-  onClick={() => toggleStatus(p._id)}
-  icon={
-    p.status === "Active"
-      ? <Eye size={18} className="text-green-600" />
-      : <EyeOff size={18} className="text-red-500" />
-  }
-  className={
-    p.status === "Active"
-      ? "bg-green-50 hover:bg-green-100 border-green-200"
-      : "bg-red-50 hover:bg-red-100 border-red-200"
-  }
-  tooltip={
-    p.status === "Active"
-      ? "Product Visible"
-      : "Product Hidden"
-  }
-/>
+            <ActionButton
+              onClick={() => toggleStatus(p._id)}
+              icon={
+                p.status === "Active" ? (
+                  <Eye size={18} className="text-green-600" />
+                ) : (
+                  <EyeOff size={18} className="text-red-500" />
+                )
+              }
+              className={
+                p.status === "Active"
+                  ? "bg-green-50 hover:bg-green-100 border-green-200"
+                  : "bg-red-50 hover:bg-red-100 border-red-200"
+              }
+              tooltip={
+                p.status === "Active" ? "Product Visible" : "Product Hidden"
+              }
+            />
             <ActionButton
               onClick={() => onEdit(p)}
               icon={<Edit size={18} />}
@@ -605,18 +613,23 @@ const ListViewCard = ({ p, toggleStatus, onEdit, onDelete, onView }) => {
           </button>
         </div>
       </div>
-    </div>)
+    </div>
+  );
 };
 
 const GridViewCard = ({ p, toggleStatus, onEdit, onDelete, onView }) => {
-
-  const imageSrc = p.images && p.images.length > 0 ? p.images[0] : (p.image || null);
+  const imageSrc =
+    p.images && p.images.length > 0 ? p.images[0] : p.image || null;
 
   return (
     <div className="bg-white p-4 rounded-[1.5rem] border border-stone-200 hover:shadow-2xl transition-all group h-full flex flex-col">
       <div className="w-full h-48 bg-stone-50 rounded-[1.5rem] mb-4 overflow-hidden border border-stone-100 relative shadow-inner">
         {imageSrc ? (
-          <img src={imageSrc} alt={p.productName} className="w-full h-full object-cover" />
+          <img
+            src={imageSrc}
+            alt={p.productName}
+            className="w-full h-full object-cover"
+          />
         ) : (
           <ImageIcon
             size={48}
@@ -653,23 +666,23 @@ const GridViewCard = ({ p, toggleStatus, onEdit, onDelete, onView }) => {
 
         <div className="flex justify-between gap-2 pt-2">
           <ActionButton
-  onClick={() => toggleStatus(p._id)}
-  icon={
-    p.status === "Active"
-      ? <Eye size={18} className="text-green-600" />
-      : <EyeOff size={18} className="text-red-500" />
-  }
-  className={
-    p.status === "Active"
-      ? "bg-green-50 hover:bg-green-100 border-green-200"
-      : "bg-red-50 hover:bg-red-100 border-red-200"
-  }
-  tooltip={
-    p.status === "Active"
-      ? "Product Visible"
-      : "Product Hidden"
-  }
-/>
+            onClick={() => toggleStatus(p._id)}
+            icon={
+              p.status === "Active" ? (
+                <Eye size={18} className="text-green-600" />
+              ) : (
+                <EyeOff size={18} className="text-red-500" />
+              )
+            }
+            className={
+              p.status === "Active"
+                ? "bg-green-50 hover:bg-green-100 border-green-200"
+                : "bg-red-50 hover:bg-red-100 border-red-200"
+            }
+            tooltip={
+              p.status === "Active" ? "Product Visible" : "Product Hidden"
+            }
+          />
           <ActionButton
             onClick={() => onEdit(p)}
             icon={<Edit size={18} />}
@@ -689,16 +702,17 @@ const GridViewCard = ({ p, toggleStatus, onEdit, onDelete, onView }) => {
         </div>
       </div>
     </div>
-  )
+  );
 };
 
 const CategoryPill = ({ label, active, onClick }) => (
   <button
     onClick={onClick}
     className={`px-4 md:px-6 py-2 md:py-2.5 rounded-xl text-[9px] font-black uppercase tracking-widest transition-all border whitespace-nowrap
-      ${active
-        ? "bg-red-600 text-white border-red-600 shadow-lg shadow-red-100"
-        : "bg-white text-stone-500 border-stone-100 hover:border-red-600 hover:text-stone-600"
+      ${
+        active
+          ? "bg-red-600 text-white border-red-600 shadow-lg shadow-red-100"
+          : "bg-white text-stone-500 border-stone-100 hover:border-red-600 hover:text-stone-600"
       }`}
   >
     {label}
@@ -720,10 +734,11 @@ const ActionButton = ({ icon, onClick, variant = "default", tooltip }) => (
     whileTap={{ scale: 0.9 }}
     onClick={onClick}
     title={tooltip}
-    className={`flex-1 sm:flex-none p-3 rounded-xl border transition-all shadow-sm flex items-center justify-center ${variant === "danger"
+    className={`flex-1 sm:flex-none p-3 rounded-xl border transition-all shadow-sm flex items-center justify-center ${
+      variant === "danger"
         ? "bg-red-50 border-red-100 text-red-600 hover:bg-red-600 hover:text-white"
         : "bg-white border-stone-200 text-stone-500 hover:border-orange-600 hover:text-red-600"
-      }`}
+    }`}
   >
     {icon}
   </motion.button>
