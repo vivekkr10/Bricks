@@ -205,138 +205,178 @@ const [isLoading, setIsLoading] = useState(true);
 
         {/* --- STATS --- */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
-          <StatCard
-            label="Total Products"
-            value={stats.total}
-            icon={<Package />}
-            color="stone"
-          />
-          <StatCard
-            label="Active Products"
-            value={stats.active}
-            icon={<CheckCircle />}
-            color="green"
-          />
-          <StatCard
-            label="Inactive Products"
-            value={stats.inactive}
-            icon={<XCircle />}
-            color="orange"
-          />
+          {isLoading ? (
+            <>
+              <SkeletonStatCard />
+              <SkeletonStatCard />
+              <SkeletonStatCard />
+            </>
+          ) : (
+            <>
+              <StatCard
+                label="Total Products"
+                value={stats.total}
+                icon={<Package />}
+                color="stone"
+              />
+              <StatCard
+                label="Active Products"
+                value={stats.active}
+                icon={<CheckCircle />}
+                color="green"
+              />
+              <StatCard
+                label="Inactive Products"
+                value={stats.inactive}
+                icon={<XCircle />}
+                color="orange"
+              />
+            </>
+          )}
         </div>
 
         {/* --- SEARCH BAR --- */}
-        <div className="bg-stone-200 p-4 rounded-xl border border-stone-200 shadow-xl mb-8 space-y-4">
-          <div className="flex flex-col lg:flex-row gap-4 items-center">
-            <div className="relative flex-1 group w-full">
-              <Search
-                className="absolute left-5 top-1/2 -translate-y-1/2 text-stone-500 group-focus-within:text-red-500 transition-colors"
-                size={20}
-              />
-              <input
-                type="text"
-                placeholder="Search name, type or application..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-14 pr-6 py-4 rounded-xl bg-stone-50 outline-none border border-transparent focus:border-orange-200 focus:bg-white font-bold transition-all"
-              />
-            </div>
-
-            <div className="flex items-center gap-4 w-full lg:w-auto">
-              <div className="flex bg-stone-100 p-1.5 rounded-[1rem] border border-stone-200 flex-1 lg:flex-none">
-                <button
-                  onClick={() => setViewMode("grid")}
-                  className={`flex-1 cursor-pointer lg:flex-none p-3 rounded-xl transition-all flex justify-center ${viewMode === "grid" ? "bg-white text-red-700 shadow-md" : "text-stone-400"}`}
-                >
-                  <LayoutGrid size={20} />
-                </button>
-                <button
-                  onClick={() => setViewMode("list")}
-                  className={`flex-1 cursor-pointer lg:flex-none p-3 rounded-xl transition-all flex justify-center ${viewMode === "list" ? "bg-white text-red-700 shadow-md" : "text-stone-400"}`}
-                >
-                  <List size={20} />
-                </button>
+        {isLoading ? (
+          <div className="bg-stone-200 p-4 rounded-xl border border-stone-200 shadow-xl mb-8 space-y-4 animate-pulse">
+            <div className="flex flex-col lg:flex-row gap-4 items-center">
+              <div className="flex-1 w-full h-14 bg-stone-300 rounded-xl"></div>
+              <div className="flex items-center gap-4 w-full lg:w-auto">
+                <div className="flex bg-stone-300 p-1.5 rounded-[1rem] flex-1 lg:flex-none w-28 h-12"></div>
+                <div className="flex-1 lg:flex-none w-28 h-14 bg-stone-300 rounded-xl"></div>
               </div>
-
-              <button
-                onClick={() => setIsFilterOpen(!isFilterOpen)}
-                className={`flex-1 cursor-pointer lg:flex-none flex items-center justify-center gap-2 px-6 py-4 rounded-xl font-semibold text-sm transition-all border ${isFilterOpen ? "bg-red-700 text-white border-red-700" : "bg-white/90 text-stone-800 border-stone-300 hover:bg-stone-50"}`}
-              >
-                {isFilterOpen ? <X size={20} /> : <Filter size={20} />}
-                <span className="hidden sm:inline">Filter</span>
-              </button>
             </div>
           </div>
+        ) : (
+          <div className="bg-stone-200 p-4 rounded-xl border border-stone-200 shadow-xl mb-8 space-y-4">
+            <div className="flex flex-col lg:flex-row gap-4 items-center">
+              <div className="relative flex-1 group w-full">
+                <Search
+                  className="absolute left-5 top-1/2 -translate-y-1/2 text-stone-500 group-focus-within:text-red-500 transition-colors"
+                  size={20}
+                />
+                <input
+                  type="text"
+                  placeholder="Search name, type or application..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="w-full pl-14 pr-6 py-4 rounded-xl bg-stone-50 outline-none border border-transparent focus:border-orange-200 focus:bg-white font-bold transition-all"
+                />
+              </div>
 
-          <AnimatePresence>
-            {isFilterOpen && (
-              <motion.div
-                initial={{ height: 0, opacity: 0 }}
-                animate={{ height: "auto", opacity: 1 }}
-                exit={{ height: 0, opacity: 0 }}
-                className="overflow-hidden border-t pt-4"
-              >
-                <div className="flex flex-wrap gap-2 justify-center lg:justify-start">
-                  {dynamicCategories.map((cat) => (
-                    <CategoryPill
-                      key={cat}
-                      label={cat}
-                      active={activeCategory === cat}
-                      onClick={() => setActiveCategory(cat)}
-                    />
-                  ))}
+              <div className="flex items-center gap-4 w-full lg:w-auto">
+                <div className="flex bg-stone-100 p-1.5 rounded-[1rem] border border-stone-200 flex-1 lg:flex-none">
+                  <button
+                    onClick={() => setViewMode("grid")}
+                    className={`flex-1 cursor-pointer lg:flex-none p-3 rounded-xl transition-all flex justify-center ${viewMode === "grid" ? "bg-white text-red-700 shadow-md" : "text-stone-400"}`}
+                  >
+                    <LayoutGrid size={20} />
+                  </button>
+                  <button
+                    onClick={() => setViewMode("list")}
+                    className={`flex-1 cursor-pointer lg:flex-none p-3 rounded-xl transition-all flex justify-center ${viewMode === "list" ? "bg-white text-red-700 shadow-md" : "text-stone-400"}`}
+                  >
+                    <List size={20} />
+                  </button>
                 </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
+
+                <button
+                  onClick={() => setIsFilterOpen(!isFilterOpen)}
+                  className={`flex-1 cursor-pointer lg:flex-none flex items-center justify-center gap-2 px-6 py-4 rounded-xl font-semibold text-sm transition-all border ${isFilterOpen ? "bg-red-700 text-white border-red-700" : "bg-white/90 text-stone-800 border-stone-300 hover:bg-stone-50"}`}
+                >
+                  {isFilterOpen ? <X size={20} /> : <Filter size={20} />}
+                  <span className="hidden sm:inline">Filter</span>
+                </button>
+              </div>
+            </div>
+
+            <AnimatePresence>
+              {isFilterOpen && (
+                <motion.div
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: "auto", opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  className="overflow-hidden border-t pt-4"
+                >
+                  <div className="flex flex-wrap gap-2 justify-center lg:justify-start">
+                    {dynamicCategories.map((cat) => (
+                      <CategoryPill
+                        key={cat}
+                        label={cat}
+                        active={activeCategory === cat}
+                        onClick={() => setActiveCategory(cat)}
+                      />
+                    ))}
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        )}
 
         {/* --- PRODUCTS LIST --- */}
-        <div
-          className={
-            viewMode === "grid"
-              ? "grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6"
-              : "space-y-6"
-          }
-        >
-          <AnimatePresence mode="popLayout">
-            {currentItems.map((p) => (
-              <motion.div
-                layout
-                key={p._id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.9 }}
-              >
-                {viewMode === "list" ? (
-                  <ListViewCard
-                    p={p}
-                    toggleStatus={toggleStatus}
-                    onEdit={onEditClick}
-                    onDelete={deleteProduct}
-                    onView={onViewClick}
-                  />
-                ) : (
-                  <GridViewCard
-                    p={p}
-                    toggleStatus={toggleStatus}
-                    onEdit={onEditClick}
-                    onDelete={deleteProduct}
-                    onView={onViewClick}
-                  />
-                )}
-              </motion.div>
-            ))}
-          </AnimatePresence>
-          {filteredProducts.length === 0 && (
-            <div className="col-span-full py-20 text-center">
-              <Package size={48} className="mx-auto text-stone-200 mb-4" />
-              <p className="text-stone-400 font-bold uppercase tracking-widest text-sm">
-                No items found
-              </p>
-            </div>
-          )}
-        </div>
+        {isLoading ? (
+          <div
+            className={
+              viewMode === "grid"
+                ? "grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6"
+                : "space-y-6"
+            }
+          >
+            {[...Array(6)].map((_, i) =>
+              viewMode === "list" ? (
+                <SkeletonListCard key={i} />
+              ) : (
+                <SkeletonGridCard key={i} />
+              )
+            )}
+          </div>
+        ) : (
+          <div
+            className={
+              viewMode === "grid"
+                ? "grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6"
+                : "space-y-6"
+            }
+          >
+            <AnimatePresence mode="popLayout">
+              {currentItems.map((p) => (
+                <motion.div
+                  layout
+                  key={p._id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.9 }}
+                >
+                  {viewMode === "list" ? (
+                    <ListViewCard
+                      p={p}
+                      toggleStatus={toggleStatus}
+                      onEdit={onEditClick}
+                      onDelete={deleteProduct}
+                      onView={onViewClick}
+                    />
+                  ) : (
+                    <GridViewCard
+                      p={p}
+                      toggleStatus={toggleStatus}
+                      onEdit={onEditClick}
+                      onDelete={deleteProduct}
+                      onView={onViewClick}
+                    />
+                  )}
+                </motion.div>
+              ))}
+            </AnimatePresence>
+            {filteredProducts.length === 0 && (
+              <div className="col-span-full py-20 text-center">
+                <Package size={48} className="mx-auto text-stone-200 mb-4" />
+                <p className="text-stone-400 font-bold uppercase tracking-widest text-sm">
+                  No items found
+                </p>
+              </div>
+            )}
+          </div>
+        )}
 
         {/* --- PAGINATION --- */}
         {totalPages > 1 && (
@@ -372,6 +412,80 @@ const [isLoading, setIsLoading] = useState(true);
     </div>
   );
 };
+
+// --- SKELETON COMPONENTS ---
+
+const SkeletonStatCard = () => (
+  <div className="bg-white p-4 rounded-xl border border-stone-200 shadow-md flex items-center gap-4 animate-pulse">
+    <div className="p-3 rounded-xl bg-stone-200 border border-stone-100 shrink-0 w-11 h-11"></div>
+    <div className="flex flex-col gap-2 flex-1">
+      <div className="h-2.5 w-24 bg-stone-200 rounded"></div>
+      <div className="h-6 w-16 bg-stone-300 rounded"></div>
+    </div>
+  </div>
+);
+
+const SkeletonGridCard = () => (
+  <div className="bg-white p-4 rounded-[1.5rem] border border-stone-200 h-full flex flex-col animate-pulse">
+    <div className="w-full h-48 bg-stone-200 rounded-[1.5rem] mb-4"></div>
+    <div className="flex-1 space-y-3 mb-6 px-1">
+      <div className="h-5 w-3/4 bg-stone-300 rounded"></div>
+      <div className="h-3 w-full bg-stone-200 rounded"></div>
+      <div className="h-3 w-2/3 bg-stone-200 rounded"></div>
+    </div>
+    <div className="space-y-4 px-1 pb-1">
+      <div className="grid grid-cols-2 gap-2">
+        <div className="space-y-1.5">
+          <div className="h-2 w-16 bg-stone-200 rounded"></div>
+          <div className="h-3 w-20 bg-stone-300 rounded"></div>
+        </div>
+        <div className="space-y-1.5">
+          <div className="h-2 w-16 bg-stone-200 rounded"></div>
+          <div className="h-3 w-20 bg-stone-300 rounded"></div>
+        </div>
+      </div>
+      <div className="flex justify-between gap-2 pt-2">
+        <div className="flex-1 sm:flex-none p-3 rounded-xl bg-stone-200 h-11"></div>
+        <div className="flex-1 sm:flex-none p-3 rounded-xl bg-stone-200 h-11"></div>
+        <div className="flex-1 sm:flex-none p-3 rounded-xl bg-stone-200 h-11"></div>
+        <div className="flex-1 sm:flex-none p-3 rounded-xl bg-stone-200 h-11"></div>
+      </div>
+    </div>
+  </div>
+);
+
+const SkeletonListCard = () => (
+  <div className="bg-white p-5 md:p-6 rounded-[2rem] border border-stone-200 flex flex-col md:flex-row gap-6 md:gap-8 items-start md:items-center animate-pulse">
+    <div className="w-full md:w-32 h-40 md:h-32 bg-stone-200 rounded-[1.5rem] md:rounded-[2rem] shrink-0"></div>
+    <div className="flex-1 w-full space-y-4">
+      <div className="flex flex-col sm:flex-row justify-between items-start gap-4">
+        <div className="space-y-3 flex-1">
+          <div className="flex items-center gap-3">
+            <div className="h-6 w-48 bg-stone-300 rounded"></div>
+            <div className="h-5 w-16 bg-stone-200 rounded-xl"></div>
+          </div>
+          <div className="h-3 w-64 bg-stone-200 rounded"></div>
+        </div>
+        <div className="flex gap-2 w-full sm:w-auto">
+          <div className="flex-1 sm:flex-none p-3 rounded-xl bg-stone-200 h-11 w-11"></div>
+          <div className="flex-1 sm:flex-none p-3 rounded-xl bg-stone-200 h-11 w-11"></div>
+          <div className="flex-1 sm:flex-none p-3 rounded-xl bg-stone-200 h-11 w-11"></div>
+        </div>
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 pt-4 border-t border-stone-100 items-end">
+        <div className="space-y-1.5">
+          <div className="h-2 w-16 bg-stone-200 rounded"></div>
+          <div className="h-3 w-24 bg-stone-300 rounded"></div>
+        </div>
+        <div className="space-y-1.5">
+          <div className="h-2 w-16 bg-stone-200 rounded"></div>
+          <div className="h-3 w-24 bg-stone-300 rounded"></div>
+        </div>
+        <div className="sm:ml-auto h-8 w-24 bg-stone-200 rounded-xl"></div>
+      </div>
+    </div>
+  </div>
+);
 
 // ... Sub-components (StatCard, ListViewCard, GridViewCard, CategoryPill, InfoBlock, ActionButton) same as your original code
 

@@ -7,7 +7,7 @@ import {
   Settings,
   FileText,
   Truck,
-  Image as ImageIcon
+  Image as ImageIcon,
 } from "lucide-react";
 import { motion } from "framer-motion";
 
@@ -15,7 +15,7 @@ import { motion } from "framer-motion";
 
 const page = {
   hidden: { opacity: 0 },
-  visible: { opacity: 1 }
+  visible: { opacity: 1 },
 };
 
 const fadeUp = {
@@ -23,15 +23,15 @@ const fadeUp = {
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.5, ease: "easeOut" }
-  }
+    transition: { duration: 0.5, ease: "easeOut" },
+  },
 };
 
 const stagger = {
   hidden: {},
   visible: {
-    transition: { staggerChildren: 0.12 }
-  }
+    transition: { staggerChildren: 0.12 },
+  },
 };
 
 const imageZoom = {
@@ -39,13 +39,40 @@ const imageZoom = {
   visible: {
     scale: 1,
     opacity: 1,
-    transition: { duration: 0.6, ease: "easeOut" }
-  }
+    transition: { duration: 0.6, ease: "easeOut" },
+  },
 };
 
 /* ================= COMPONENT ================= */
 
 const ProductDetails = ({ product, onBack }) => {
+  const [detailedProduct, setDetailedProduct] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const productId = product?._id;
+
+  useEffect(() => {
+    const fetchFullDetails = async () => {
+      if (!productId) return;
+
+      try {
+        setLoading(true);
+        const response = await fetch(
+          `http://localhost:4000/api/products/${productId}`,
+        );
+        const data = await response.json();
+
+        if (data.success) {
+          setDetailedProduct(data.product);
+        }
+      } catch (error) {
+        console.error("Error fetching detailed data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchFullDetails();
+  }, [productId]);
 
   /* ✅ Always open page from TOP */
   useEffect(() => {
@@ -55,7 +82,7 @@ const ProductDetails = ({ product, onBack }) => {
   if (!product) return <ProductNotFound onBack={onBack} />;
 
   const [activeImg, setActiveImg] = useState(
-    product.images?.[0] || product.image
+    product.images?.[0] || product.image,
   );
 
   return (
@@ -67,7 +94,6 @@ const ProductDetails = ({ product, onBack }) => {
       transition={{ duration: 0.35 }}
     >
       <div className="rounded-xl overflow-hidden bg-white border border-stone-200">
-
         {/* ================= HERO IMAGE ================= */}
         <div className="relative h-[55vh] w-full overflow-hidden">
           <motion.img
@@ -86,7 +112,7 @@ const ProductDetails = ({ product, onBack }) => {
             animate={{ opacity: 1, x: 0 }}
             whileHover={{ scale: 1.05 }}
             transition={{ duration: 0.3 }}
-            className="absolute top-6 left-6 flex items-center gap-2 px-4 py-2 rounded-lg bg-red-700 text-white cursor-pointer text-xs font-bold uppercase tracking-widest"
+            className="absolute top-6 left-6 flex items-center gap-2 px-4 py-2 rounded-lg bg-orange-600 text-black text-xs font-bold uppercase tracking-widest"
           >
             <ArrowLeft size={14} /> Back
           </motion.button>
@@ -99,9 +125,9 @@ const ProductDetails = ({ product, onBack }) => {
                 whileHover={{ scale: 1.12 }}
                 whileTap={{ scale: 0.96 }}
                 onClick={() => setActiveImg(img)}
-                className={`w-14 h-14 rounded-lg  overflow-hidden border-2 transition ${
+                className={`w-14 h-14 rounded-lg overflow-hidden border-2 transition ${
                   activeImg === img
-                    ? "border-red-700"
+                    ? "border-orange-500"
                     : "border-stone-300 opacity-70"
                 }`}
               >
@@ -119,15 +145,24 @@ const ProductDetails = ({ product, onBack }) => {
           animate="visible"
         >
           <div className="max-w-6xl mx-auto space-y-2">
-            <motion.span variants={fadeUp} className="text-[10px] uppercase tracking-widest font-black text-green-500">
+            <motion.span
+              variants={fadeUp}
+              className="text-[10px] uppercase tracking-widest font-black text-orange-600"
+            >
               {product.status || "Active"}
             </motion.span>
 
-            <motion.h1 variants={fadeUp} className="text-3xl md:text-4xl font-black uppercase">
+            <motion.h1
+              variants={fadeUp}
+              className="text-3xl md:text-4xl font-black uppercase"
+            >
               {product.name}
             </motion.h1>
 
-            <motion.p variants={fadeUp} className="text-sm text-stone-600 max-w-3xl">
+            <motion.p
+              variants={fadeUp}
+              className="text-sm text-stone-600 max-w-3xl"
+            >
               {product.shortDesc || "High quality construction material"}
             </motion.p>
           </div>
@@ -140,21 +175,39 @@ const ProductDetails = ({ product, onBack }) => {
           initial="hidden"
           animate="visible"
         >
-
           {/* INFO GRID */}
           <motion.div
             className="grid grid-cols-2 md:grid-cols-4 gap-4"
             variants={stagger}
           >
-            <AnimatedCard ><InfoCard icon={<Layers />} label="Category" value={product.type} /></AnimatedCard>
-            <AnimatedCard><InfoCard icon={<HardHat />} label="Application" value={product.application} /></AnimatedCard>
-            <AnimatedCard><InfoCard icon={<Factory />} label="Manufacturer" value={product.brand || "In-House"} /></AnimatedCard>
+            <AnimatedCard>
+              <InfoCard
+                icon={<Layers />}
+                label="Category"
+                value={product.productType}
+              />
+            </AnimatedCard>
+            <AnimatedCard>
+              <InfoCard
+                icon={<HardHat />}
+                label="Application"
+                value={product.usageArea}
+              />
+            </AnimatedCard>
+            <AnimatedCard>
+              <InfoCard
+                icon={<Factory />}
+                label="Manufacturer"
+                value={product.brand || "In-House"}
+              />
+            </AnimatedCard>
           </motion.div>
 
           {/* DESCRIPTION */}
           <AnimatedSection title="Product Overview" icon={<FileText />}>
             <p className="text-sm leading-loose text-stone-700 max-w-4xl">
-              {product.detailedDesc || "Detailed description not available."}
+              {product.detailedDescription ||
+                "Detailed description not available."}
             </p>
           </AnimatedSection>
 
@@ -163,11 +216,14 @@ const ProductDetails = ({ product, onBack }) => {
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
               {[
                 ["Brick Type", product.brickType || "Fly Ash"],
-                ["Size", product.size || "190 × 90 × 90 mm"],
-                ["Strength", product.strength || "10 N/mm²"],
-                ["Water Absorption", product.waterAbsorption || "< 15%"],
+                ["Size", product.specifications.size || "190 × 90 × 90 mm"],
+                ["Strength", product.specifications.strength || "10 N/mm²"],
+                [
+                  "Water Absorption",
+                  product.specifications.waterAbsorption || "< 15%",
+                ],
                 ["Finish", product.finish || "Smooth"],
-                ["weight", product.weight || "NA"]
+                ["weight", product.specifications.weight || "NA"],
               ].map(([label, value], i) => (
                 <AnimatedCard key={i}>
                   <Spec label={label} value={value} />
@@ -183,7 +239,7 @@ const ProductDetails = ({ product, onBack }) => {
                 ["Packaging", product.packaging || "Palletized"],
                 ["Dispatch Time", product.dispatchTime || "2–3 Days"],
                 ["Transport", product.transport || "Truck / Container"],
-                ["Stock", product.stock || "Available"]
+                ["Stock", product.status || "Available"],
               ].map(([label, value], i) => (
                 <AnimatedCard key={i}>
                   <Spec label={label} value={value} />
@@ -191,7 +247,6 @@ const ProductDetails = ({ product, onBack }) => {
               ))}
             </div>
           </AnimatedSection>
-
         </motion.div>
       </div>
     </motion.div>
@@ -202,7 +257,7 @@ const ProductDetails = ({ product, onBack }) => {
 
 const AnimatedSection = ({ title, icon, children }) => (
   <motion.div variants={fadeUp} className="space-y-6">
-    <h3 className="flex items-center gap-3 text-xs font-black uppercase tracking-[0.3em] text-red-700 border-l-2 border-red-700 pl-3">
+    <h3 className="flex items-center gap-3 text-xs font-black uppercase tracking-[0.3em] text-orange-600 border-l-2 border-orange-600 pl-3">
       {icon} {title}
     </h3>
     {children}
@@ -251,7 +306,7 @@ const ProductNotFound = ({ onBack }) => (
       </h2>
       <button
         onClick={onBack}
-        className="text-xs uppercase tracking-widest border-b border-red-700 text-red-700"
+        className="text-xs uppercase tracking-widest border-b border-orange-500 text-orange-500"
       >
         Go Back
       </button>
