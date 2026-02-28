@@ -636,7 +636,6 @@ export default function Blog() {
 
         <div className="h-8 md:h-16"></div>
 
-        {/* ================= FEATURED SECTION ================= */}
 {/* ================= FEATURED SECTION ================= */}
 <section className="relative w-full py-10 sm:py-12 md:py-16">
 
@@ -677,88 +676,109 @@ export default function Blog() {
         </div>
 
         {/* ================= SEARCH + FILTER SECTION ================= */}
-      <section className="max-w-[1400px] mx-auto px-4 sm:px-6 md:px-10 lg:px-16 xl:px-20 py-10 sm:py-12 md:py-16">
-          <div className="bg-white rounded-2xl md:rounded-3xl shadow-xl md:shadow-2xl p-4 md:p-8 lg:p-10 border border-gray-100">
-            <div className="flex flex-col lg:flex-row gap-4 md:gap-8 items-start lg:items-center justify-between mb-4 md:mb-8">
-              <div>
-                <h3 className="text-xl md:text-2xl lg:text-3xl font-bold font-serif text-gray-800 mb-1 md:mb-2">All Articles</h3>
-                <p className="text-xs md:text-sm text-gray-500">Browse our complete collection of construction insights</p>
-              </div>
+<section className="w-full px-4 sm:px-6 md:px-10 lg:px-16 xl:px-24 py-8 sm:py-10">
+  <div className="max-w-7xl mx-auto">
+    <div className="bg-white rounded-xl md:rounded-2xl shadow-lg border border-gray-100">
+      {/* Header */}
+      <div className="bg-gradient-to-r from-red-700 to-red-600 px-4 md:px-6 py-3 rounded-t-xl md:rounded-t-2xl">
+        <h3 className="text-base md:text-lg font-semibold text-white flex items-center gap-2">
+          <Filter size={16} className="md:w-4 md:h-4" />
+          Find Articles
+        </h3>
+      </div>
 
-              {/* Search Bar - No color change on focus */}
-             <div className="w-full lg:w-[500px] xl:w-[600px]">
-                <div className="relative flex items-center bg-gray-100 rounded-xl md:rounded-2xl border border-gray-200 transition-all">
-                  <Search size={18} className="absolute left-3 md:left-4 text-gray-400" />
-                  <input
-                    ref={searchRef}
-                    type="text"
-                    placeholder="Search articles..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                   className="w-full pl-10 sm:pl-12 pr-10 sm:pr-12 py-3 sm:py-4 bg-transparent rounded-xl md:rounded-2xl outline-none text-gray-700 text-sm md:text-base"
-                  />
-                  {searchQuery && (
-                    <button onClick={() => setSearchQuery('')} className="absolute right-3 md:right-4 text-gray-400 hover:text-gray-600">
-                      <X size={16} className="md:w-5 md:h-5" />
-                    </button>
-                  )}
-                </div>
-              </div>
-            </div>
-
-            {/* Categories - Dropdown for all devices */}
-            <div className="border-t border-gray-200 pt-4 md:pt-6">
-              <h4 className="text-xs md:text-sm font-medium text-gray-500 mb-3 md:mb-4 flex items-center gap-2">
-                <Filter size={14} className="md:w-4 md:h-4" /> Filter by Category
-              </h4>
-              <CategoryDropdown
-                categories={categories}
-                selectedCategory={selectedCategory}
-                onSelect={setSelectedCategory}
-              />
-            </div>
-
-            {/* Active Filters */}
-            {(selectedCategory !== 'All' || searchQuery) && (
-              <motion.div 
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="flex items-center gap-2 md:gap-3 mt-4 md:mt-6 pt-4 md:pt-6 border-t border-gray-200"
-              >
-                <span className="text-xs md:text-sm text-gray-500">Active:</span>
-                <div className="flex flex-wrap gap-1 md:gap-2">
-                  {selectedCategory !== 'All' && (
-                    <span className="inline-flex items-center gap-1 px-2 py-1 md:px-4 md:py-2 bg-red-50 rounded-full text-red-600 text-xs md:text-sm border border-red-200">
-                      {selectedCategory}
-                      <X 
-                        size={12} 
-                        className="cursor-pointer hover:text-red-800" 
-                        onClick={() => setSelectedCategory('All')} 
-                      />
-                    </span>
-                  )}
-                  {searchQuery && (
-                    <span className="inline-flex items-center gap-1 px-2 py-1 md:px-4 md:py-2 bg-red-50 rounded-full text-red-600 text-xs md:text-sm border border-red-200">
-                      "{searchQuery}"
-                      <X 
-                        size={12} 
-                        className="cursor-pointer hover:text-red-800" 
-                        onClick={() => setSearchQuery('')} 
-                      />
-                    </span>
-                  )}
+      {/* 2-Line Filter Content */}
+      <div className="p-4 md:p-5">
+        <div className="flex flex-col md:flex-row gap-3">
+          {/* Line 1: Search + Quick Links (moved to left) */}
+          <div className="flex-1 flex flex-col sm:flex-row gap-3">
+            {/* Search - Compact */}
+            <div className="flex-1">
+              <div className="relative">
+                <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                <input
+                  type="text"
+                  placeholder="Search articles..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full pl-9 pr-8 py-2.5 bg-gray-50 border border-gray-200 rounded-lg text-sm outline-none focus:outline-none focus:ring-0 focus:ring-offset-0 focus-visible:outline-none focus-visible:ring-0"
+                />
+                {searchQuery && (
                   <button 
-                    onClick={clearFilters} 
-                    className="text-xs md:text-sm text-gray-500 hover:text-gray-700 underline"
+                    onClick={() => setSearchQuery('')} 
+                    className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 outline-none focus:outline-none focus:ring-0"
                   >
-                    Clear all
+                    <X size={14} />
                   </button>
-                </div>
-              </motion.div>
+                )}
+              </div>
+            </div>
+
+            {/* Quick Category Pills - Moved here from Line 2 */}
+            <div className="flex items-center gap-1.5">
+              <span className="text-xs text-gray-500 mr-1 whitespace-nowrap">Quick:</span>
+              {categories.slice(0, 4).map(cat => (
+                <button
+                  key={cat}
+                  onClick={() => setSelectedCategory(cat)}
+                  className={`px-2.5 py-1.5 rounded-md text-xs font-medium transition-all outline-none focus:outline-none focus:ring-0 whitespace-nowrap ${
+                    selectedCategory === cat
+                      ? 'bg-red-600 text-white'
+                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                  }`}
+                >
+                  {cat}
+                  {cat !== 'All' && ` (${categoryCounts[cat] || 0})`}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Line 2: Results Count Only (moved to right) */}
+          <div className="flex items-center justify-end gap-2">
+            <span className="text-xs text-gray-500">
+              <span className="font-semibold text-red-600">{filteredPosts.length}</span> articles
+            </span>
+            
+            {/* Active Filters (if any) */}
+            {(selectedCategory !== 'All' || searchQuery) && (
+              <div className="flex items-center gap-1">
+                {selectedCategory !== 'All' && (
+                  <span className="inline-flex items-center gap-1 px-2 py-1 bg-red-50 text-red-700 rounded-md text-xs border border-red-200">
+                    {selectedCategory}
+                    <button 
+                      onClick={() => setSelectedCategory('All')}
+                      className="outline-none focus:outline-none focus:ring-0"
+                    >
+                      <X size={12} />
+                    </button>
+                  </span>
+                )}
+                {searchQuery && (
+                  <span className="inline-flex items-center gap-1 px-2 py-1 bg-red-50 text-red-700 rounded-md text-xs border border-red-200">
+                    "{searchQuery}"
+                    <button 
+                      onClick={() => setSearchQuery('')}
+                      className="outline-none focus:outline-none focus:ring-0"
+                    >
+                      <X size={12} />
+                    </button>
+                  </span>
+                )}
+                <button 
+                  onClick={clearFilters}
+                  className="text-xs text-gray-500 hover:text-gray-700 underline outline-none focus:outline-none focus:ring-0"
+                >
+                  Clear
+                </button>
+              </div>
             )}
           </div>
-        </section>
-
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
         {/* ================= BLOG GRID WITH PAGINATION ================= */}
         <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12 md:pb-20">
           {filteredPosts.length === 0 ? (
