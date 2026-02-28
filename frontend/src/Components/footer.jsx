@@ -136,7 +136,7 @@ const Footer = () => {
       {/* Lower Footer: Copyright */}
       <div className="border-t border-white/5 bg-black/20">
         <div className="container mx-auto px-6 py-6 flex flex-col justify-center items-center text-[10px] text-stone-500 font-bold uppercase tracking-[0.15em]">
-          <p>&copy; {currentYear} VR & Sons Bricks. All rights reserved.</p>
+          <p>©️{currentYear} VR AND SONS | Design & Deploy by Graphura India Private Limited | All Rights Reserves</p>
         </div>
       </div>
     </footer>

@@ -183,7 +183,7 @@ const InquiryPage = () => {
             <motion.p
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              className="text-stone-500 font-light tracking-[0.3em] uppercase text-[10px] mt-6"
+              className="text-stone-500 font-black tracking-[0.3em] uppercase text-[14px] mt-6"
             >
               Consult with VR & Sons Architects of Clay
             </motion.p>
