@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import Sidebar from "./Sidebar";
 import Navbar from "./Nav";
 import Dashboard from "./Dashboard";
@@ -17,7 +17,7 @@ function MainDashboard() {
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const navigate = useNavigate();
 
-  const handleLogout = async () => {
+  const handleLogout = useCallback(async () => {
     try {
       // Call backend to clear the httpOnly cookie
       await axios.get("/api/auth/logout", {
@@ -36,7 +36,7 @@ function MainDashboard() {
       delete axios.defaults.headers.common["Authorization"];
       navigate("/admin-login");
     }
-  };
+  }, [navigate]);
 
   return (
     // ❌ BODY SCROLL OFF

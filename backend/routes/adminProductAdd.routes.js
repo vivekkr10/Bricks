@@ -9,9 +9,14 @@ const { protect } = require('../middleware/auth');
 const storage = multer.diskStorage({});
 const upload = multer({ storage });
 
+const cacheControl = (seconds) => (req, res, next) => {
+  res.set('Cache-Control', `public, max-age=${seconds}`);
+  next();
+};
+
 router.post("/add-product", upload.array("images", 10), protect, addProduct);
-router.get("/all-products", getProducts); 
-router.get('/all-categories', getAllCategories);
+router.get("/all-products", cacheControl(60), getProducts); 
+router.get('/all-categories', cacheControl(60), getAllCategories);
 router.post('/categories',protect, addCategory);
 
 router.delete('/categories/:id',protect, deleteCategory);

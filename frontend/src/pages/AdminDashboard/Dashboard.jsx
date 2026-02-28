@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useCallback } from "react";
 import {
   Plus,
   EyeOff,
@@ -52,7 +52,7 @@ const Dashboard = ({ onAddClick, onEditClick, onViewClick, onCatClick }) => {
     fetchCategories();
   }, []);
 
-  const fetchProducts = async () => {
+  const fetchProducts = useCallback(async () => {
     setIsLoading(true);
     try {
       const response = await fetch("/api/products/all-products");
@@ -63,7 +63,7 @@ const Dashboard = ({ onAddClick, onEditClick, onViewClick, onCatClick }) => {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
     fetchProducts();
@@ -115,7 +115,7 @@ const Dashboard = ({ onAddClick, onEditClick, onViewClick, onCatClick }) => {
     stock: products.reduce((acc, curr) => acc + (Number(curr.stock) || 0), 0),
   };
 
-  const toggleStatus = async (id) => {
+  const toggleStatus = useCallback(async (id) => {
     try {
       const token = localStorage.getItem("token");
 
@@ -142,9 +142,9 @@ const Dashboard = ({ onAddClick, onEditClick, onViewClick, onCatClick }) => {
     } catch (err) {
       console.error("Error toggling status:", err);
     }
-  };
+  }, []);
 
-  const deleteProduct = async (id) => {
+  const deleteProduct = useCallback(async (id) => {
     if (window.confirm("Permanent delete this asset from catalog?")) {
       try {
         const token = localStorage.getItem("token");
@@ -169,7 +169,7 @@ const Dashboard = ({ onAddClick, onEditClick, onViewClick, onCatClick }) => {
         console.error("Delete failed:", err);
       }
     }
-  };
+  }, []);
 
   return (
     <div className="min-h-screen text-[#44403C] font-sans">
@@ -498,7 +498,7 @@ const SkeletonListCard = () => (
 
 // ... (StatCard, ListViewCard, GridViewCard, etc. remains same as original)
 
-const StatCard = ({ label, value, icon, color }) => {
+const StatCard = React.memo(({ label, value, icon, color }) => {
   const themes = {
     orange: "text-red-600 bg-red-50 border-red-100",
     green: "text-green-600 bg-green-50 border-green-100",
@@ -519,9 +519,9 @@ const StatCard = ({ label, value, icon, color }) => {
       </div>
     </div>
   );
-};
+});
 
-const ListViewCard = ({ p, toggleStatus, onEdit, onDelete, onView }) => {
+const ListViewCard = React.memo(({ p, toggleStatus, onEdit, onDelete, onView }) => {
   const imageSrc = p.images && p.images.length > 0 ? p.images[0] : p.image;
   return (
     <div className="bg-white p-5 md:p-6 rounded-[2rem] border border-stone-200 flex flex-col md:flex-row gap-6 md:gap-8 items-start md:items-center hover:shadow-xl hover:border-orange-200 transition-all group relative">
@@ -615,9 +615,9 @@ const ListViewCard = ({ p, toggleStatus, onEdit, onDelete, onView }) => {
       </div>
     </div>
   );
-};
+});
 
-const GridViewCard = ({ p, toggleStatus, onEdit, onDelete, onView }) => {
+const GridViewCard = React.memo(({ p, toggleStatus, onEdit, onDelete, onView }) => {
   const imageSrc =
     p.images && p.images.length > 0 ? p.images[0] : p.image || null;
 
@@ -703,9 +703,9 @@ const GridViewCard = ({ p, toggleStatus, onEdit, onDelete, onView }) => {
       </div>
     </div>
   );
-};
+});
 
-const CategoryPill = ({ label, active, onClick }) => (
+const CategoryPill = React.memo(({ label, active, onClick }) => (
   <button
     onClick={onClick}
     className={`px-4 md:px-6 py-2 md:py-2.5 rounded-xl text-[9px] font-black uppercase tracking-widest transition-all border whitespace-nowrap
@@ -717,18 +717,18 @@ const CategoryPill = ({ label, active, onClick }) => (
   >
     {label}
   </button>
-);
+));
 
-const InfoBlock = ({ label, value, icon }) => (
+const InfoBlock = React.memo(({ label, value, icon }) => (
   <div className="space-y-1">
     <p className="text-[9px] font-black text-stone-400 uppercase tracking-widest flex items-center gap-1.5 leading-none">
       {icon} {label}
     </p>
     <p className="text-xs font-bold text-stone-800 line-clamp-1">{value}</p>
   </div>
-);
+));
 
-const ActionButton = ({ icon, onClick, variant = "default", tooltip }) => (
+const ActionButton = React.memo(({ icon, onClick, variant = "default", tooltip }) => (
   <motion.button
     whileHover={{ scale: 1.1 }}
     whileTap={{ scale: 0.9 }}
@@ -742,7 +742,7 @@ const ActionButton = ({ icon, onClick, variant = "default", tooltip }) => (
   >
     {icon}
   </motion.button>
-);
+));
 
 export default Dashboard;
 

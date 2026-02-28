@@ -54,7 +54,10 @@ exports.addProduct = async (req, res) => {
 exports.getProducts = async (req, res) => {
   try {
 
-    const products = await Product.find().sort({ createdAt: -1 });
+    const products = await Product.find()
+      .select('-detailedDescription')
+      .sort({ createdAt: -1 })
+      .lean();
     
     res.status(200).json(products);
   } catch (error) {
@@ -159,17 +162,17 @@ exports.toggleStatus = async (req, res) => {
   try {
     const { id } = req.params;
     
-    const product = await Product.findById(id);
+    const product = await Product.findById(id).select('status').lean();
     if (!product) {
       return res.status(404).json({ success: false, message: "Product not found" });
     }
 
-    product.status = product.status === "Active" ? "Inactive" : "Active";
-    await product.save();
+    const newStatus = product.status === "Active" ? "Inactive" : "Active";
+    await Product.findByIdAndUpdate(id, { $set: { status: newStatus } });
 
     res.status(200).json({ 
       success: true, 
-      newStatus: product.status 
+      newStatus 
     });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
@@ -179,7 +182,7 @@ exports.toggleStatus = async (req, res) => {
  exports.getProductById = async (req, res) => {
   try {
     const { id } = req.params;
-    const product = await Product.findById(id);
+    const product = await Product.findById(id).lean();
 
     if (!product) {
       return res.status(404).json({ message: "Product not found" });

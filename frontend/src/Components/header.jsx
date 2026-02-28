@@ -138,4 +138,4 @@ className="bg-red-700 hover:bg-red-800 text-white px-4 lg:px-6 py-2.5 lg:py-3 ro
   );
 };
 
-export default Header;
+export default React.memo(Header);

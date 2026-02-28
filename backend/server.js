@@ -1,8 +1,8 @@
 require("dotenv").config({ path: "./.env" });
 const express = require("express");
 const cors = require("cors");
+const compression = require("compression");
 const cookieParser = require("cookie-parser");
-require("dotenv").config({ path: "./.env" });
 
 const inquiryRoutes = require("./routes/inquiry.routes");
 const ProductRoutes = require("./routes/adminProductAdd.routes");
@@ -14,6 +14,7 @@ const profileRoutes = require("./routes/profileRoutes");
 const app = express();
 
 // Middleware
+app.use(compression());
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ extended: true, limit: "50mb" }));
 app.use(cookieParser());

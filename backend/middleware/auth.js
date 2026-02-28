@@ -25,7 +25,7 @@ exports.protect = async (req, res, next) => {
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-    req.admin = await Admin.findById(decoded.id);
+    req.admin = await Admin.findById(decoded.id).lean();
 
     if (!req.admin) {
       return res.status(401).json({

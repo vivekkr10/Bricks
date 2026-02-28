@@ -30,7 +30,7 @@ exports.addCategory = async (req, res) => {
 
 exports.getAllCategories = async (req, res) => {
     try {
-        const categories = await Category.find().sort({ title: 1 });
+        const categories = await Category.find().sort({ title: 1 }).lean();
         res.status(200).json({
             success: true,
             count: categories.length,

@@ -201,7 +201,7 @@ router.post('/forgot-password/send-otp', [
         message: 'Invalid secret key. Access denied.' 
       });
     }
-    const admin = await Admin.findOne({ email });
+    const admin = await Admin.findOne({ email }).lean();
 
     if (!admin) {
       return res.status(404).json({ 
@@ -267,7 +267,7 @@ router.post('/forgot-password/verify-otp', [
 
   try {
     // Find admin by email
-    const admin = await Admin.findOne({ email });
+    const admin = await Admin.findOne({ email }).lean();
 
     if (!admin) {
       return res.status(404).json({ 
@@ -401,7 +401,7 @@ router.get('/logout', protect, (req, res) => {
 // @access  Private
 router.get('/me', protect, async (req, res) => {
   try {
-    const admin = await Admin.findById(req.admin.id);
+    const admin = await Admin.findById(req.admin.id).lean();
     res.status(200).json({
       success: true,
       admin

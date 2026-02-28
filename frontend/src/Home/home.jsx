@@ -524,6 +524,7 @@ const AboutShort = () => {
               <img
                 src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&q=80"
                 alt="Craftsmanship"
+                loading="lazy"
                 className="w-full h-full object-cover grayscale-[30%] transition-all duration-700 group-hover:scale-110 group-hover:grayscale-0"
               />
             </motion.div>
@@ -661,6 +662,7 @@ const ProductOverview = () => {
                 <img
                   src={p.image}
                   alt={p.title}
+                  loading="lazy"
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-800 grayscale-[10%] group-hover:grayscale-0"
                 />
               </div>
