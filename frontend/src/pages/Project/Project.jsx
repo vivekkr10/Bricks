@@ -756,7 +756,7 @@ export default function ProjectPage() {
   </motion.div>
 
   {/* Scroll Indicator (hidden on small devices) */}
-  <motion.div
+  {/* <motion.div
     animate={{ y: [0, 10, 0] }}
     transition={{ duration: 2, repeat: Infinity }}
     className="hidden sm:flex absolute bottom-6 left-1/2 -translate-x-1/2"
@@ -768,7 +768,7 @@ export default function ProjectPage() {
         transition={{ duration: 2, repeat: Infinity }}
       />
     </div>
-  </motion.div>
+  </motion.div> */}
 
 </div>
         </section>
@@ -969,137 +969,182 @@ export default function ProjectPage() {
             </motion.div>
 
             {/* Projects Grid */}
-            <AnimatePresence mode="wait">
-              {paginatedProjects.length > 0 ? (
-                <motion.div
-                  key={activeFilter + currentPage}
-                  variants={containerVariants}
-                  initial="hidden"
-                  animate="visible"
-                  exit={{ opacity: 0, y: 20 }}
-                  className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
-                >
-                  {paginatedProjects.map((project) => (
-                    <motion.div
-                      key={project.id}
-                      variants={itemVariants}
-                      whileHover={{ y: -8 }}
-                      onHoverStart={() => setIsHoveringCard(project.id)}
-                      onHoverEnd={() => setIsHoveringCard(null)}
-                      className="group relative bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer"
-                      onClick={() => navigate(`/projects/${project.id}`, { state: project })}
-                    >
-                      {/* Image Container */}
-                      <div className="relative h-64 overflow-hidden">
-                        <motion.img
-                          src={project.image}
-                          alt={project.title}
-                          className="w-full h-full object-cover"
-                          animate={{
-                            scale: isHoveringCard === project.id ? 1.1 : 1,
-                          }}
-                          transition={{ duration: 0.6 }}
-                        />
+           <AnimatePresence mode="wait">
+  {paginatedProjects.length > 0 ? (
+    <motion.div
+      key={activeFilter + currentPage}
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
+      exit={{ opacity: 0, y: 20 }}
+      className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+    >
+      {paginatedProjects.map((project) => (
+        <motion.div
+          key={project.id}
+          variants={itemVariants}
+          whileHover={{ y: -8 }}
+          onHoverStart={() => setIsHoveringCard(project.id)}
+          onHoverEnd={() => setIsHoveringCard(null)}
+          onClick={() =>
+            navigate(`/projects/${project.id}`, { state: project })
+          }
+          className="group relative bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer flex flex-col"
+        >
+          {/* ================= IMAGE ================= */}
+          <div className="relative h-64 overflow-hidden">
+            <motion.img
+              src={project.image}
+              alt={project.title}
+              className="w-full h-full object-cover"
+              animate={{
+                scale: isHoveringCard === project.id ? 1.1 : 1,
+              }}
+              transition={{ duration: 0.6 }}
+            />
 
-                        {/* Gradient Overlay */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
 
-                        {/* Category Badge */}
-                        <div className="absolute top-4 left-4">
-                          <span className="px-4 py-2 bg-white/90 backdrop-blur-sm text-stone-800 rounded-full text-sm font-semibold shadow-lg">
-                            {project.category}
-                          </span>
-                        </div>
+            {/* Category */}
+            <div className="absolute top-4 left-4">
+              <span className="px-4 py-2 bg-white/90 backdrop-blur-sm text-stone-800 rounded-full text-sm font-semibold shadow-lg">
+                {project.category}
+              </span>
+            </div>
 
-                        {/* Year Badge */}
-                        <div className="absolute top-4 right-4">
-                          <span className="px-4 py-2 bg-red-700 text-white rounded-full text-sm font-semibold shadow-lg">
-                            {project.details.year}
-                          </span>
-                        </div>
+            {/* Year */}
+            <div className="absolute top-4 right-4">
+              <span className="px-4 py-2 bg-red-700 text-white rounded-full text-sm font-semibold shadow-lg">
+                {project.details.year}
+              </span>
+            </div>
 
-                        {/* Location Badge */}
-                        <div className="absolute bottom-4 left-4 flex items-center gap-2 text-white">
-                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                          </svg>
-                          <span className="text-sm font-medium">{project.location}</span>
-                        </div>
-                      </div>
+            {/* Location */}
+            <div className="absolute bottom-4 left-4 flex items-center gap-2 text-white">
+              <svg
+                className="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                />
+              </svg>
+              <span className="text-sm font-medium">
+                {project.location}
+              </span>
+            </div>
+          </div>
 
-                      {/* Content */}
-                      <div className="p-6">
-                        <h3 className="font-serif text-xl font-bold text-stone-900 mb-2 group-hover:text-red-700 transition-colors line-clamp-1">
-                          {project.title}
-                        </h3>
-                        
-                        <p className="text-stone-600 text-sm line-clamp-2 mb-4">
-                          {project.description}
-                        </p>
+          {/* ================= CONTENT ================= */}
+          <div className="p-6 flex flex-col flex-grow">
+            <h3 className="font-serif text-xl font-bold text-stone-900 mb-2 group-hover:text-red-700 transition-colors line-clamp-1">
+              {project.title}
+            </h3>
 
-                        {/* Architect */}
-                        <div className="flex items-center gap-2 mb-4 text-sm text-stone-500">
-                          <svg className="w-4 h-4 text-red-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                          </svg>
-                          <span className="truncate">{project.architect}</span>
-                        </div>
+            <p className="text-stone-600 text-sm line-clamp-2 mb-4">
+              {project.description}
+            </p>
 
-                        {/* Project Stats */}
-                        <div className="grid grid-cols-2 gap-3 mb-4">
-                          <div className="bg-gradient-to-br from-red-50 to-amber-50 p-3 rounded-xl">
-                            <div className="text-xs text-stone-500 mb-1">Area</div>
-                            <div className="font-bold text-stone-900 text-sm">{project.details.area}</div>
-                          </div>
-                          <div className="bg-gradient-to-br from-blue-50 to-indigo-50 p-3 rounded-xl">
-                            <div className="text-xs text-stone-500 mb-1">Client</div>
-                            <div className="font-bold text-stone-900 text-sm truncate">
-                              {project.details.client}
-                            </div>
-                          </div>
-                        </div>
+            {/* Architect */}
+            <div className="flex items-center gap-2 mb-4 text-sm text-stone-500">
+              <svg
+                className="w-4 h-4 text-red-700"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                />
+              </svg>
+              <span className="truncate">{project.architect}</span>
+            </div>
 
-                        {/* Button with consistent keyword for all cards */}
-                        <motion.button
-                          whileHover={{ scale: 1.02 }}
-                          whileTap={{ scale: 0.98 }}
-                          className="w-full px-4 py-3 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-xl text-sm font-semibold flex items-center justify-center gap-2 hover:from-red-600 hover:to-red-700 hover:scale-105 active:scale-95 transition-all duration-300 group/btn"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            navigate(`/projects/${project.id}`, { state: project });
-                          }}
-                        >
-                          <span>View Details</span>
-                          <svg className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                          </svg>
-                        </motion.button>
-                      </div>
-                    </motion.div>
-                  ))}
-                </motion.div>
-              ) : (
-                <motion.div
-                  key="no-results"
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.9 }}
-                  className="text-center py-20"
-                >
-                  <div className="relative inline-block">
-                    <div className="absolute inset-0 bg-red-100 rounded-full blur-3xl opacity-20"></div>
-                    <svg className="w-32 h-32 mx-auto text-stone-400 relative" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-                    </svg>
-                  </div>
-                  <h3 className="font-serif text-3xl font-bold text-stone-900 mt-6">No Projects Found</h3>
-                  <p className="text-stone-600 mt-2 max-w-md mx-auto">
-                    Try adjusting your filters or explore our other categories.
-                  </p>
-                </motion.div>
-              )}
-            </AnimatePresence>
+            {/* Stats */}
+            <div className="grid grid-cols-2 gap-3 mb-4">
+              <div className="bg-gradient-to-br from-red-50 to-amber-50 p-3 rounded-xl">
+                <div className="text-xs text-stone-500 mb-1">
+                  Area
+                </div>
+                <div className="font-bold text-stone-900 text-sm">
+                  {project.details.area}
+                </div>
+              </div>
+
+              <div className="bg-gradient-to-br from-blue-50 to-indigo-50 p-3 rounded-xl">
+                <div className="text-xs text-stone-500 mb-1">
+                  Client
+                </div>
+                <div className="font-bold text-stone-900 text-sm truncate">
+                  {project.details.client}
+                </div>
+              </div>
+            </div>
+
+            {/* ================= BUTTON ================= */}
+            <motion.button
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className="mt-auto w-full px-4 py-3 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-xl text-sm font-semibold flex items-center justify-center gap-2 transition-all duration-300 group/btn"
+              onClick={(e) => {
+                e.stopPropagation();
+                navigate(`/projects/${project.id}`, {
+                  state: project,
+                });
+              }}
+            >
+              <span>View Details</span>
+
+              <svg
+                className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M14 5l7 7m0 0l-7 7m7-7H3"
+                />
+              </svg>
+            </motion.button>
+          </div>
+        </motion.div>
+      ))}
+    </motion.div>
+  ) : (
+    <motion.div
+      key="no-results"
+      initial={{ opacity: 0, scale: 0.9 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.9 }}
+      className="text-center py-20"
+    >
+      <h3 className="font-serif text-3xl font-bold text-stone-900">
+        No Projects Found
+      </h3>
+
+      <p className="text-stone-600 mt-2 max-w-md mx-auto">
+        Try adjusting your filters or explore other categories.
+      </p>
+    </motion.div>
+  )}
+</AnimatePresence>
 
             {/* Pagination */}
             {filteredProjects.length > 0 && (

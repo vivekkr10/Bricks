@@ -272,7 +272,7 @@ export default function ContactSection() {
                       <div className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-stone-100 flex items-center justify-center group-hover:bg-red-700 transition">
                         <item.icon className="w-7 h-7 text-red-700 group-hover:text-white transition" />
                       </div>
-                      <h3 className="text-3xl font-sans text-stone-900 mb-2">
+                      <h3 className="text-2xl font-sans text-stone-900 mb-2">
                         {item.number}
                       </h3>
                       <p className="text-stone-500 text-sm tracking-wide uppercase">

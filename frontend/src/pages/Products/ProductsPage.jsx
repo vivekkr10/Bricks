@@ -531,7 +531,7 @@ const ProductsPage = () => {
                   transition={{ delay: 0.1, duration: 0.7, ease: "easeOut" }}
                   className="inline-block mb-8"
                 >
-                  <div className="flex items-center gap-3 bg-gradient-to-r from-red-50 to-transparent border border-red-200/60 rounded-full px-6 py-3">
+                  <div className="flex items-center gap-3 bg-gradient-to-r from-white/80 to-white/50 border border-red-200/60 rounded-full px-6 py-3">
                     <span className="w-2 h-2 rounded-full bg-gradient-to-r from-red-500 to-red-600 animate-pulse" />
                     <motion.span
                       className="text-xs font-bold tracking-widest text-red-700 uppercase inline-block"
