@@ -305,7 +305,7 @@ const ProductsPage = () => {
       title: "Multis",
       subtitle: "Dynamic Blend",
       image:
-        "https://imgs.search.brave.com/Yw5epWUYQtzziGgnxX0Mbp5NAw6eEWHGj3IN7K1GldU/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jZG4t/aWxjYW5mai5uaXRy/b2Nkbi5jb20vTGxy/VW1DaENYc2xETmt0/cHNDcFNXaW1Kd1Rh/bFJ2TFQvYXNzZXRzL2ltYWdlcy9vcHRp/bWl6ZWQvcmV2LWY4/MTYxZDYvYnJpY2tt/eXdhbGxzLmNvbS93/cC1jb250ZW50L3Vw/bG9hZHMvMjAyMS8w/Ny9ibGVuZDF4LmpwZw",
+        "https://i.pinimg.com/1200x/51/40/17/5140179d8737a8860fd8f40a5836ab4a.jpg",
       overlay: "bg-black/40",
       titleClass: "text-white",
       subtitleClass: "text-amber-100",
@@ -607,15 +607,15 @@ const ProductsPage = () => {
                       </svg>
                     </div>
                     <div>
-                      <div className="font-bold text-2xl text-white">1000+</div>
+                      <div className="font-bold text-2xl text-white">300+</div>
                       <div className="text-sm text-white/70">
                         Satisfied Customers
                       </div>
                     </div>
                   </div>
 
-                  <div className="flex items-start gap-3">
-                    <div className="w-12 h-12 rounded-lg bg-red-100 flex items-center justify-center flex-shrink-0">
+                  {/* <div className="flex items-start gap-3"> */}
+                    {/* <div className="w-12 h-12 rounded-lg bg-red-100 flex items-center justify-center flex-shrink-0">
                       <svg
                         className="w-6 h-6 text-red-600"
                         fill="currentColor"
@@ -627,16 +627,16 @@ const ProductsPage = () => {
                           clipRule="evenodd"
                         />
                       </svg>
-                    </div>
-                    <div>
+                    </div> */}
+                    {/* <div>
                       <div className="font-bold text-2xl text-white">
                         7 Types
                       </div>
                       <div className="text-sm text-white/70">
                         Distinctive Colors
                       </div>
-                    </div>
-                  </div>
+                    </div> */}
+                  {/* </div> */}
                 </motion.div>
 
                 {/* CTA Buttons with hover effects */}
@@ -655,7 +655,7 @@ const ProductsPage = () => {
                         });
                       }
                     }}
-                    className="group relative px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-red-600 to-red-700 text-white font-bold text-xs sm:text-sm tracking-wide rounded-xl shadow-lg shadow-red-600/30 hover:shadow-red-600/50 hover:scale-105 active:scale-95 transition-all duration-300 overflow-hidden whitespace-nowrap"
+                    className="group relative px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-red-700 to-red-700 text-white font-bold text-xs sm:text-sm tracking-wide rounded-xl shadow-lg shadow-red-600/30 hover:shadow-red-600/50 hover:scale-105 active:scale-95 transition-all duration-300 overflow-hidden whitespace-nowrap"
                   >
                     <span className="relative z-10 flex items-center justify-center gap-2">
                       Explore All Products
@@ -676,7 +676,7 @@ const ProductsPage = () => {
                   </button>
                   <button
                     onClick={() => navigate("/contact")}
-                    className="group w-full sm:w-auto px-6 py-4 bg-white text-red-700 font-bold text-sm tracking-wide rounded-xl shadow-xl shadow-black/20 hover:bg-red-600 hover:text-white hover:scale-105 active:scale-95 transition-all duration-300 flex items-center justify-center gap-2"
+                    className="group w-full sm:w-auto px-6 py-4 bg-white text-red-700 font-bold text-sm tracking-wide rounded-xl shadow-xl shadow-black/20 hover:bg-red-700 hover:text-white hover:scale-105 active:scale-95 transition-all duration-300 flex items-center justify-center gap-2"
                   >
                     Request Catalog
                     <svg
